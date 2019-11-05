@@ -15,6 +15,13 @@ import DetailPreviewWrapper from "../pages/detail/detailPreviewWrapper";
 
 export const routerConfig = [
   {
+    path: "/test",
+    exact: true,
+    title: "Buy Used Cell Phones | UpTradeit.com",
+    Component: BuyHome,
+    getInitialProps: ourHomeSsrRule
+  },
+  {
     path: "/buy",
     exact: true,
     title: "Buy Used Cell Phones | UpTradeit.com",
