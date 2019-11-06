@@ -8,24 +8,27 @@ import React from "react";
 import { OurHomeContextProvider } from "../pages/home/context";
 import { StoreCheckOrderContextProvider } from "../pages/checkOrder/context";
 import { TotalOrderInfoProvider } from "../pages/checkOrder/container/context";
+import { EntryPageContextProvider } from "../pages/entry/context";
 
 export function RenderWithOriginData(props: any) {
   return (
     <OriginDataContextProvider originData={props.originData}>
       <GlobalSettingContextProvider>
-        <TotalOrderInfoProvider>
-          <StoreCheckOrderContextProvider>
-            <OurHomeContextProvider>
-              <OrderInfoContextProvider>
-                <ProductDetailContextProvider>
-                  <ProductListContextProvider>
-                    {props.children}
-                  </ProductListContextProvider>
-                </ProductDetailContextProvider>
-              </OrderInfoContextProvider>
-            </OurHomeContextProvider>
-          </StoreCheckOrderContextProvider>
-        </TotalOrderInfoProvider>
+        <EntryPageContextProvider>
+          <TotalOrderInfoProvider>
+            <StoreCheckOrderContextProvider>
+              <OurHomeContextProvider>
+                <OrderInfoContextProvider>
+                  <ProductDetailContextProvider>
+                    <ProductListContextProvider>
+                      {props.children}
+                    </ProductListContextProvider>
+                  </ProductDetailContextProvider>
+                </OrderInfoContextProvider>
+              </OurHomeContextProvider>
+            </StoreCheckOrderContextProvider>
+          </TotalOrderInfoProvider>
+        </EntryPageContextProvider>
       </GlobalSettingContextProvider>
     </OriginDataContextProvider>
   );

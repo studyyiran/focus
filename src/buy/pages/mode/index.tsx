@@ -8,5 +8,5 @@ export default function Name() {
     storeTestNameContextValue
   } = storeTestNameContext as IStoreTestNameContext;
   const { testValue } = storeTestNameContextValue;
-  return <div>{testValue}</div>;
+  return <div className="test-page">{testValue}</div>;
 }

@@ -12,14 +12,14 @@ import { detailSsrRule } from "../pages/detail/ssr";
 import { ourHomeSsrRule } from "../pages/home/ssr";
 import BuyCheckOrder from "../pages/checkOrder/routers";
 import DetailPreviewWrapper from "../pages/detail/detailPreviewWrapper";
+import EntryPage from "../pages/entry";
 
 export const routerConfig = [
   {
     path: "/test",
     exact: true,
     title: "Buy Used Cell Phones | UpTradeit.com",
-    Component: BuyHome,
-    getInitialProps: ourHomeSsrRule
+    Component: EntryPage
   },
   {
     path: "/buy",
