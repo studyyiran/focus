@@ -1,9 +1,16 @@
-import React, { createContext, useReducer, useCallback, useRef } from "react";
+import React, {
+  createContext,
+  useReducer,
+  useCallback,
+  useRef,
+  useEffect
+} from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
 import { getTestAjaxResult } from "../server";
 import { promisify } from "buy/common/utils/util";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
 import { IContextValue } from "../../../common/interface/index.interface";
+import {callBackWhenPassAllFunc, useIsCurrentPage} from "../../detail/context/test";
 
 export const EntryPageContext = createContext({});
 // store name
@@ -14,9 +21,7 @@ interface IContextState {
 }
 
 // interface
-export interface IEntryPageContext
-  extends IEntryPageActions,
-    IContextValue {
+export interface IEntryPageContext extends IEntryPageActions, IContextValue {
   entryPageContextValue: IContextState;
   entryPageContextDispatch: (action: IReducerAction) => void;
 }
@@ -31,6 +36,15 @@ export function EntryPageContextProvider(props: any) {
     initState
   );
   const action: IEntryPageActions = useGetAction(state, dispatch);
+
+  const isPage = useIsCurrentPage("/test");
+
+  // @useEffect
+  useEffect(() => {
+    // 1 当前页面
+    // 2 d
+    callBackWhenPassAllFunc([() => isPage], action.getTestAjaxValue);
+  }, [action.getTestAjaxValue]);
 
   const propsValue: IEntryPageContext = {
     ...action,

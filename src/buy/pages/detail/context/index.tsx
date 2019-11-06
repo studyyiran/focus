@@ -125,7 +125,6 @@ function useGetAction(
 ): IContextActions {
   const actions: IContextActions = {
     getProductDetail: promisify(async function() {
-      debugger
       function redirect() {
         locationHref("/buy-phone");
       }
