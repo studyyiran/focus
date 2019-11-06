@@ -10,7 +10,11 @@ import { getTestAjaxResult } from "../server";
 import { promisify } from "buy/common/utils/util";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
 import { IContextValue } from "../../../common/interface/index.interface";
-import {callBackWhenPassAllFunc, useIsCurrentPage, useWhenUrlChange} from "../../detail/context/test";
+import {
+  callBackWhenPassAllFunc,
+  useIsCurrentPage,
+  useWhenUrlChange
+} from "../../detail/context/test";
 
 export const StoreTestNameContext = createContext({});
 // store name
@@ -39,14 +43,13 @@ export function StoreTestNameContextProvider(props: any) {
   );
   const action: IStoreTestNameActions = useGetAction(state, dispatch);
 
-
   const isPage = useIsCurrentPage("/test");
 
   // @useEffect
   useEffect(() => {
     // 1 当前页面
     // 2 d
-    callBackWhenPassAllFunc([], action.getTestAjaxValue);
+    callBackWhenPassAllFunc([() => isPage], action.getTestAjaxValue);
   }, [action.getTestAjaxValue]);
 
   const propsValue: IStoreTestNameContext = {
