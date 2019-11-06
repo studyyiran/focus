@@ -72,6 +72,8 @@ ajax.fetch = function(config) {
         // 接收到
         if (res && res.data) {
           const { code, data, success, resultMessage } = res.data;
+          // 简单处理
+          resolve(res.data);
           if (Number(code) === 200 || success || Number(code) === 0) {
             resolve(res.data.data);
           } else {

@@ -10,14 +10,17 @@ import { getTestAjaxResult } from "../server";
 import { promisify } from "buy/common/utils/util";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
 import { IContextValue } from "../../../common/interface/index.interface";
-import {callBackWhenPassAllFunc, useIsCurrentPage} from "../../detail/context/test";
+import {
+  callBackWhenPassAllFunc,
+  useIsCurrentPage
+} from "../../detail/context/test";
 
 export const EntryPageContext = createContext({});
 // store name
 export const EntryPage = "EntryPage";
 // store state
 interface IContextState {
-  testValue: number;
+  list: any[];
 }
 
 // interface
@@ -29,7 +32,7 @@ export interface IEntryPageContext extends IEntryPageActions, IContextValue {
 // store provider
 export function EntryPageContextProvider(props: any) {
   const initState: IContextState = {
-    testValue: 101
+    list: [] as any[]
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -73,7 +76,7 @@ function useGetAction(
     getTestAjaxValue: promisify(async function() {
       const res = await getTestAjaxResult();
       dispatch({
-        type: entryPageReducerTypes.setTestValue,
+        type: entryPageReducerTypes.setList,
         value: res
       });
     })
@@ -84,7 +87,7 @@ function useGetAction(
 
 // action types
 export const entryPageReducerTypes = {
-  setTestValue: "setTestValue"
+  setList: "setList"
 };
 
 // reducer
@@ -92,10 +95,10 @@ function reducer(state: IContextState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
-    case entryPageReducerTypes.setTestValue: {
+    case entryPageReducerTypes.setList: {
       newState = {
         ...newState,
-        testValue: value
+        list: value
       };
       break;
     }

@@ -3,8 +3,9 @@ import "./index.less";
 import { EntryPageContext, IEntryPageContext } from "./context";
 
 export default function EntryPage() {
-  const sntryPageContext = useContext(EntryPageContext);
-  const { entryPageContextValue } = sntryPageContext as IEntryPageContext;
-  const { testValue } = entryPageContextValue;
-  return <div className="test-page">{testValue}</div>;
+  const entryPageContext = useContext(EntryPageContext);
+  const { entryPageContextValue } = entryPageContext as IEntryPageContext;
+  const { list } = entryPageContextValue;
+  console.log(list);
+  return <div className="test-page">{123}</div>;
 }
