@@ -7,12 +7,12 @@ import { isServer } from "../../../common/utils/util";
  */
 export function useWhenUrlChange(paramKey: string) {
   try {
-    const params = useParams();
+    const params: any = useParams();
     return params[paramKey];
   } catch (e) {
     console.error(e);
   }
-  return null
+  return null;
 }
 
 export function useIsCurrentPage(pagePath: string) {
@@ -22,7 +22,7 @@ export function useIsCurrentPage(pagePath: string) {
   } catch (e) {
     console.error(e);
   }
-  return false
+  return false;
 }
 
 export async function callBackWhenPassAllFunc(arr: any[], callBack: any) {

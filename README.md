@@ -112,3 +112,10 @@ ssr part
     
 静态文件
     static: static
+    
+    
+useEffect
+    如果一个请求 在且只在当前页面发生  那么将它写在当前页面是很好的选择.
+    如果他需要复用,那么写在context里面更合适.
+    无论哪种写法,都应该使用
+    callBackWhenPassAllFunc.
