@@ -11,3 +11,7 @@ export interface ISsrFileStore {
   };
   storeList: IOriginData[];
 }
+
+export interface IContextValue {
+  useClientRepair?: any;
+}

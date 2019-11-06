@@ -1,7 +1,12 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import "./index.less";
+import { IStoreTestNameContext, StoreTestNameContext } from "./context";
 
 export default function Name() {
-  useContext()
-  return <div>123</div>
+  const storeTestNameContext = useContext(StoreTestNameContext);
+  const {
+    storeTestNameContextValue
+  } = storeTestNameContext as IStoreTestNameContext;
+  const { testValue } = storeTestNameContextValue;
+  return <div>{testValue}</div>;
 }

@@ -1,78 +1,76 @@
 import React, { createContext, useReducer, useCallback, useRef } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
-import { serverCheckOrderDetail } from "../server";
+import { getTestAjaxResult } from "../server";
 import { promisify } from "buy/common/utils/util";
-import useReducerMiddleware from "../../../../common/useHook/useReducerMiddleware";
+import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
+import { IContextValue } from "../../../common/interface/index.interface";
 
-export const StoreCheckOrderContext = createContext({});
+export const StoreTestNameContext = createContext({});
 // store name
-export const StoreCheckOrder = "StoreCheckOrder";
-
-interface ICheckOrderDetail {}
+export const StoreTestName = "StoreTestName";
 // store state
 interface IContextState {
-  checkOrderDetail: ICheckOrderDetail;
+  testValue: number;
 }
 
-// interface(其实还缺少actions)
-export interface IStoreCheckOrderContext
-  extends IStoreCheckOrderActions,
+// interface
+export interface IStoreTestNameContext
+  extends IStoreTestNameActions,
     IContextValue {
-  storeCheckOrderContextValue: IContextState;
-  storeCheckOrderContextDispatch: (action: IReducerAction) => void;
+  storeTestNameContextValue: IContextState;
+  storeTestNameContextDispatch: (action: IReducerAction) => void;
 }
 
 // store provider
-export function StoreCheckOrderContextProvider(props: any) {
-  console.log(props.value);
+export function StoreTestNameContextProvider(props: any) {
   const initState: IContextState = {
-    checkOrderDetail: {} as any
+    testValue: 101
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
     initState
   );
-  const action: IStoreCheckOrderActions = useGetAction(state, dispatch);
+  const action: IStoreTestNameActions = useGetAction(state, dispatch);
 
-  const propsValue: IStoreCheckOrderContext = {
+  const propsValue: IStoreTestNameContext = {
     ...action,
-    storeCheckOrderContextValue: state,
-    storeCheckOrderContextDispatch: dispatch
+    storeTestNameContextValue: state,
+    storeTestNameContextDispatch: dispatch
   };
-  return <StoreCheckOrderContext.Provider value={propsValue} {...props} />;
+  return <StoreTestNameContext.Provider value={propsValue} {...props} />;
 }
 
 // @actions
-export interface IStoreCheckOrderActions {
-  getCheckOrderDetail: (data: any) => void;
+export interface IStoreTestNameActions {
+  getTestAjaxValue: () => void;
 }
 
 // useCreateActions
 function useGetAction(
   state: IContextState,
   dispatch: (action: IReducerAction) => void
-): IStoreCheckOrderActions {
+): IStoreTestNameActions {
   // 新增promise ref
   const promiseStatus: any = useRef();
   if (!promiseStatus.current) {
     promiseStatus.current = {};
   }
-  const actions: IStoreCheckOrderActions = {
-    getCheckOrderDetail: promisify(async function(data: any) {
-      const res = await serverCheckOrderDetail(data);
+  const actions: IStoreTestNameActions = {
+    getTestAjaxValue: promisify(async function() {
+      const res = await getTestAjaxResult();
       dispatch({
-        type: storeCheckOrderReducerTypes.setCheckOrderDetail,
+        type: storeTestNameReducerTypes.setTestValue,
         value: res
       });
     })
   };
-  actions.getCheckOrderDetail = useCallback(actions.getCheckOrderDetail, []);
+  actions.getTestAjaxValue = useCallback(actions.getTestAjaxValue, []);
   return actions;
 }
 
 // action types
-export const storeCheckOrderReducerTypes = {
-  setCheckOrderDetail: "setCheckOrderDetail"
+export const storeTestNameReducerTypes = {
+  setTestValue: "setTestValue"
 };
 
 // reducer
@@ -80,10 +78,10 @@ function reducer(state: IContextState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
-    case storeCheckOrderReducerTypes.setCheckOrderDetail: {
+    case storeTestNameReducerTypes.setTestValue: {
       newState = {
         ...newState,
-        checkOrderDetail: value
+        testValue: value
       };
       break;
     }
