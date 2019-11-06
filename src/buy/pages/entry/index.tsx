@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import "./index.less";
 import { EntryPageContext, IEntryPageContext } from "./context";
 import { FormWrapper } from "./components/formWrapper";
-import { Input } from "antd";
+import { Input, Button } from "antd";
 
 export default function EntryPage() {
   const entryPageContext = useContext(EntryPageContext);
@@ -15,13 +15,13 @@ export default function EntryPage() {
       rules: [
         {
           type: "email",
-          error: "hehe"
+          message: "no you cant"
         }
       ],
       renderFormEle: () => <Input />
     },
     {
-      renderFormEle: () => <button>submit</button>
+      renderFormEle: () => <Button htmlType="submit">submit</Button>
     }
   ];
 
@@ -31,8 +31,7 @@ export default function EntryPage() {
 
   return (
     <div className="test-page">
-      // @ts-ignore
-      <FormWrapper formConfig={formConfig} onSubmit={onSubmitHandler} />;
+      <FormWrapper formConfig={formConfig} onSubmit={onSubmitHandler} />
     </div>
   );
 }
