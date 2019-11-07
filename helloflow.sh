@@ -2,9 +2,9 @@ git checkout dev # 更新
 git pull
 git checkout master
 git pull
-git flow hotfix start v0.6.6
+git flow hotfix start v0.1.1
 git cherry-pick feature
-git flow hotfix finish v0.6.6
+git flow hotfix finish v0.1.1
 git checkout dev  # 先搞dev
 git push
 git checkout master  # 再搞master
