@@ -14,13 +14,14 @@ import {
   callBackWhenPassAllFunc,
   useIsCurrentPage
 } from "../../detail/context/test";
+import { IListItem } from "./interface";
 
 export const EntryPageContext = createContext({});
 // store name
 export const EntryPage = "EntryPage";
 // store state
 interface IContextState {
-  list: any[];
+  list: IListItem[];
 }
 
 // interface
