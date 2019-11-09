@@ -6,7 +6,6 @@ import React, {
   useEffect
 } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
-import { getTestAjaxResult } from "../server";
 import { promisify } from "buy/common/utils/util";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
 import { IContextValue } from "../../../common/interface/index.interface";
@@ -15,6 +14,12 @@ import {
   useIsCurrentPage
 } from "../../detail/context/test";
 import { IListItem } from "./interface";
+import {
+  getTestAjaxResult,
+  postNewItem,
+  changeItemContent,
+  deleteItem
+} from "../server";
 
 export const EntryPageContext = createContext({});
 // store name
@@ -61,6 +66,9 @@ export function EntryPageContextProvider(props: any) {
 // @actions
 export interface IEntryPageActions {
   getTestAjaxValue: () => void;
+  postNewItem: ({ content, tag }: { content: string; tag: string }) => void;
+  changeItemContent: ({ id, content }: { id: string; content: string }) => void;
+  deleteItem: (id: string) => void;
 }
 
 // useCreateActions
@@ -76,6 +84,33 @@ function useGetAction(
   const actions: IEntryPageActions = {
     getTestAjaxValue: promisify(async function() {
       const res = await getTestAjaxResult();
+      dispatch({
+        type: entryPageReducerTypes.setList,
+        value: res
+      });
+    }),
+    postNewItem: promisify(async function(data: {
+      content: string;
+      tag: string;
+    }) {
+      const res = await postNewItem(data);
+      dispatch({
+        type: entryPageReducerTypes.setList,
+        value: res
+      });
+    }),
+    changeItemContent: promisify(async function(data: {
+      id: string;
+      content: string;
+    }) {
+      const res = await changeItemContent(data);
+      dispatch({
+        type: entryPageReducerTypes.setList,
+        value: res
+      });
+    }),
+    deleteItem: promisify(async function(id: string) {
+      const res = await deleteItem({ id });
       dispatch({
         type: entryPageReducerTypes.setList,
         value: res

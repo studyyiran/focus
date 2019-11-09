@@ -17,7 +17,13 @@ const transUrl = (url: string) => {
 
 // 下面是所有api提取
 const getRootApi = function(urlRoot: string) {
-  let apiRoot = "http://118.31.42.201";
+  let apiRoot = "http://localhost:4000";
+  switch (process.env.REACT_APP_SERVER_ENV) {
+    default:
+      if (process.env.REACT_APP_SERVER_ENV) {
+        apiRoot = "http://118.31.42.201";
+      }
+  }
   return apiRoot + urlRoot;
 };
 
