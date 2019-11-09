@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import "./index.less";
 import { EntryPageContext, IEntryPageContext } from "./context";
 import { FormWrapper } from "./components/formWrapper";
-import { Input, Button } from "antd";
+import { Input, Button, Select } from "antd";
 import { main } from "./eventLoop";
 import PostItemForm from "./components/postItemForm";
+const { Option } = Select;
 
 export default function EntryPage() {
   const [showForm, setShowForm] = useState(false);
@@ -25,6 +26,7 @@ export default function EntryPage() {
       id: "content",
       rules: [
         {
+          required: true,
           message: "not empty"
         }
       ],
@@ -32,12 +34,19 @@ export default function EntryPage() {
     },
     {
       id: "tag",
+      initialValue: "study",
       rules: [
         {
+          required: true,
           message: "not empty"
         }
       ],
-      renderFormEle: () => <Input />
+      renderFormEle: () => (
+        <Select>
+          <Option value="review">review</Option>
+          <Option value="study">review</Option>
+        </Select>
+      )
     },
     {
       renderFormEle: () => <Button htmlType="submit">submit</Button>
@@ -55,11 +64,18 @@ export default function EntryPage() {
               <span>{content}</span>
               <Button
                 onClick={() => {
+                  deleteItem(_id);
+                }}
+              >
+                delete
+              </Button>
+              <Button
+                onClick={() => {
                   setShowForm(true);
                   setCurrentId(_id);
                 }}
               >
-                delete
+                change
               </Button>
             </li>
           );

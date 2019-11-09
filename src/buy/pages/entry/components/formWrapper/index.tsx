@@ -29,15 +29,13 @@ function FormWrapperComponent(props: any) {
 
   const inner = formConfig.map((formConfig: IFormConfig) => {
     const { id, renderFormEle, ...otherConfig } = formConfig;
-    if (id) {
-      return (
-        <Form.Item>
-          {getFieldDecorator(id, otherConfig)(renderFormEle())}
-        </Form.Item>
-      );
-    } else {
-      return <Form.Item>{renderFormEle()}</Form.Item>;
-    }
+    return (
+      <Form.Item key={id}>
+        {id
+          ? getFieldDecorator(id, otherConfig)(renderFormEle())
+          : renderFormEle()}
+      </Form.Item>
+    );
   });
   return <Form onSubmit={onSubmitHandler}>{inner}</Form>;
 }
