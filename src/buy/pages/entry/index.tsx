@@ -44,7 +44,7 @@ export default function EntryPage() {
       renderFormEle: () => (
         <Select>
           <Option value="review">review</Option>
-          <Option value="study">review</Option>
+          <Option value="study">study</Option>
         </Select>
       )
     },
