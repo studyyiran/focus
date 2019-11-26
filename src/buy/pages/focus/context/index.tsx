@@ -18,22 +18,22 @@ import {
 import {IContextValue} from "../../../common/type";
 import {useIsCurrentPage} from "../../../common/useHook";
 
-export const EntryPageContext = createContext({});
+export const MyFocusContext = createContext({});
 // store name
-export const EntryPage = "EntryPage";
+export const MyFocus = "MyFocus";
 // store state
 interface IContextState {
   list: IListItem[];
 }
 
 // interface
-export interface IEntryPageContext extends IEntryPageActions, IContextValue {
-  entryPageContextValue: IContextState;
-  entryPageContextDispatch: (action: IReducerAction) => void;
+export interface IMyFocusContext extends IMyFocusActions, IContextValue {
+  myFocusContextValue: IContextState;
+  myFocusContextDispatch: (action: IReducerAction) => void;
 }
 
 // store provider
-export function EntryPageContextProvider(props: any) {
+export function MyFocusContextProvider(props: any) {
   const initState: IContextState = {
     list: [] as any[]
   };
@@ -41,7 +41,7 @@ export function EntryPageContextProvider(props: any) {
     useReducerMiddleware(reducer),
     initState
   );
-  const action: IEntryPageActions = useGetAction(state, dispatch);
+  const action: IMyFocusActions = useGetAction(state, dispatch);
 
   const isPage = useIsCurrentPage("/test");
 
@@ -52,16 +52,16 @@ export function EntryPageContextProvider(props: any) {
     callBackWhenPassAllFunc([() => isPage], action.getTodayTodo);
   }, [action.getTodayTodo]);
 
-  const propsValue: IEntryPageContext = {
+  const propsValue: IMyFocusContext = {
     ...action,
-    entryPageContextValue: state,
-    entryPageContextDispatch: dispatch
+    myFocusContextValue: state,
+    myFocusContextDispatch: dispatch
   };
-  return <EntryPageContext.Provider value={propsValue} {...props} />;
+  return <MyFocusContext.Provider value={propsValue} {...props} />;
 }
 
 // @actions
-export interface IEntryPageActions {
+export interface IMyFocusActions {
   getTodayTodo: () => void;
   postNewItem: ({ content, tag }: { content: string; tag: string }) => void;
   changeItemContent: ({ id, content }: { id: string; content: string }) => void;
@@ -72,17 +72,17 @@ export interface IEntryPageActions {
 function useGetAction(
   state: IContextState,
   dispatch: (action: IReducerAction) => void
-): IEntryPageActions {
+): IMyFocusActions {
   // 新增promise ref
   const promiseStatus: any = useRef();
   if (!promiseStatus.current) {
     promiseStatus.current = {};
   }
-  const actions: IEntryPageActions = {
+  const actions: IMyFocusActions = {
     getTodayTodo: promisify(async function() {
       const res = await getTodayTodo();
       dispatch({
-        type: entryPageReducerTypes.setList,
+        type: myFocusReducerTypes.setList,
         value: res
       });
     }),
@@ -92,7 +92,7 @@ function useGetAction(
     }) {
       const res = await postNewItem(data);
       dispatch({
-        type: entryPageReducerTypes.setList,
+        type: myFocusReducerTypes.setList,
         value: res
       });
     }),
@@ -102,14 +102,14 @@ function useGetAction(
     }) {
       const res = await changeItemContent(data);
       dispatch({
-        type: entryPageReducerTypes.setList,
+        type: myFocusReducerTypes.setList,
         value: res
       });
     }),
     deleteItem: promisify(async function(id: string) {
       const res = await deleteItem({ id });
       dispatch({
-        type: entryPageReducerTypes.setList,
+        type: myFocusReducerTypes.setList,
         value: res
       });
     })
@@ -119,7 +119,7 @@ function useGetAction(
 }
 
 // action types
-export const entryPageReducerTypes = {
+export const myFocusReducerTypes = {
   setList: "setList"
 };
 
@@ -128,7 +128,7 @@ function reducer(state: IContextState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
-    case entryPageReducerTypes.setList: {
+    case myFocusReducerTypes.setList: {
       newState = {
         ...newState,
         list: value

@@ -9,7 +9,8 @@ import { OurHomeContextProvider } from "../pages/home/context";
 import { StoreCheckOrderContextProvider } from "../pages/checkOrder/context";
 import { TotalOrderInfoProvider } from "../pages/checkOrder/container/context";
 import { StoreAuthContextProvider } from "../common-modules/context/authToken/context";
-import {AccountInfoContextProvider} from "../pages/personal/context";
+import { AccountInfoContextProvider } from "../pages/personal/context";
+import { MyFocusContextProvider } from "../pages/focus/context";
 
 export function RenderWithOriginData(props: any) {
   return (
@@ -23,17 +24,19 @@ export function RenderWithOriginData(props: any) {
           <AccountInfoContextProvider>
             {/*订单*/}
             <TotalOrderInfoProvider>
-              <StoreCheckOrderContextProvider>
-                <OurHomeContextProvider>
-                  <OrderInfoContextProvider>
-                    <ProductDetailContextProvider>
-                      <ProductListContextProvider>
-                        {props.children}
-                      </ProductListContextProvider>
-                    </ProductDetailContextProvider>
-                  </OrderInfoContextProvider>
-                </OurHomeContextProvider>
-              </StoreCheckOrderContextProvider>
+              <MyFocusContextProvider>
+                <StoreCheckOrderContextProvider>
+                  <OurHomeContextProvider>
+                    <OrderInfoContextProvider>
+                      <ProductDetailContextProvider>
+                        <ProductListContextProvider>
+                          {props.children}
+                        </ProductListContextProvider>
+                      </ProductDetailContextProvider>
+                    </OrderInfoContextProvider>
+                  </OurHomeContextProvider>
+                </StoreCheckOrderContextProvider>
+              </MyFocusContextProvider>
             </TotalOrderInfoProvider>
           </AccountInfoContextProvider>
         </GlobalSettingContextProvider>

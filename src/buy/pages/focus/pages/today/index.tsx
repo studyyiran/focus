@@ -1,23 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./index.less";
-import { EntryPageContext, IEntryPageContext } from "../../context";
 import { FormWrapper } from "../../components/formWrapper";
 import { Input, Button, Select } from "antd";
 import { main } from "./eventLoop";
 import PostItemForm from "../../components/postItemForm";
 import { TodayPageSection } from "../../components/todayPageSection";
+import { IMyFocusContext, MyFocusContext } from "../../context";
 const { Option } = Select;
 
 export function FocusToday() {
   const [showForm, setShowForm] = useState(false);
   const [currentId, setCurrentId] = useState("");
 
-  const entryPageContext = useContext(EntryPageContext);
-  const {
-    entryPageContextValue,
-    deleteItem
-  } = entryPageContext as IEntryPageContext;
-  const { list } = entryPageContextValue;
+  const myFocusContext = useContext(MyFocusContext);
+  const { myFocusContextValue, deleteItem } = myFocusContext as IMyFocusContext;
+  const { list } = myFocusContextValue;
   console.log(list);
 
   // ?

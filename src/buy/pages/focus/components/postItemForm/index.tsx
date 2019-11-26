@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 import "./index.less";
 import { FormWrapper } from "../formWrapper";
-import { EntryPageContext, IEntryPageContext } from "../../context";
+import {IMyFocusContext, MyFocusContext} from "../../context";
 
 export default function PostItemForm(props: any) {
   const { formConfig, onSubmit, id, show } = props;
-  const entryPageContext = useContext(EntryPageContext);
+  const myFocusContext = useContext(MyFocusContext);
   const {
     postNewItem,
     changeItemContent
-  } = entryPageContext as IEntryPageContext;
+  } = myFocusContext as IMyFocusContext;
   function onSubmitHandler(values: any) {
     if (props.id) {
       changeItemContent({
