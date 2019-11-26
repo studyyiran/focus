@@ -3,41 +3,40 @@ import { Form } from "antd";
 
 interface IFormConfig {
   id: string;
+  label: string;
   rules: [];
   renderFormEle: any;
 }
 
-interface ITest {
-  onSubmit: any;
-  form: any;
-  formConfig: any;
-}
+class FormWrapperComponent extends React.Component<any, any> {
+  render () {
+    const { form, formConfig, onSubmit, setValueJson } = this.props;
+    const { getFieldDecorator, validateFields, setFields } = form;
 
-function FormWrapperComponent(props: any) {
-  const { form, formConfig, onSubmit } = props;
-  const { getFieldDecorator, getFieldError, validateFields } = form;
-
-  function onSubmitHandler(e: any) {
-    e.preventDefault();
-    validateFields((error: any, values: any) => {
-      if (!error) {
-        console.log(values);
-        onSubmit && onSubmit(values);
+    function onSubmitHandler(e: any) {
+      e.preventDefault();
+      validateFields((error: any, values: any) => {
+        if (!error) {
+          console.log(values);
+          onSubmit && onSubmit(values);
+        }
+      });
+    }
+    const inner = formConfig.map((formConfig: IFormConfig) => {
+      const { id, renderFormEle, label, ...otherConfig } = formConfig;
+      if (id) {
+        return (
+          <Form.Item label={label}>
+            {getFieldDecorator(id, otherConfig)(renderFormEle())}
+          </Form.Item>
+        );
+      } else if (renderFormEle) {
+        return <Form.Item label={label}>{renderFormEle()}</Form.Item>;
       }
+      return null
     });
+    return <Form onSubmit={onSubmitHandler} layout={"vertical"}>{inner}</Form>;
   }
-
-  const inner = formConfig.map((formConfig: IFormConfig) => {
-    const { id, renderFormEle, ...otherConfig } = formConfig;
-    return (
-      <Form.Item key={id}>
-        {id
-          ? getFieldDecorator(id, otherConfig)(renderFormEle())
-          : renderFormEle()}
-      </Form.Item>
-    );
-  });
-  return <Form onSubmit={onSubmitHandler}>{inner}</Form>;
 }
 
 export const FormWrapper: any = Form.create()(FormWrapperComponent);

@@ -17,7 +17,8 @@ const transUrl = (url: string) => {
 
 // 下面是所有api提取
 const getRootApi = function(urlRoot: string) {
-  let apiRoot = "http://localhost:4000";
+  // 便于进行mac端联调
+  let apiRoot = "http://10.180.22.34:4000";
   switch (process.env.REACT_APP_SERVER_ENV) {
     default:
       if (process.env.REACT_APP_SERVER_ENV) {
