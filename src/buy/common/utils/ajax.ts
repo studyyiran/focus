@@ -20,24 +20,13 @@ const transUrl = (url: string) => {
 
 // 下面是所有api提取
 const getRootApi = function(urlRoot: string) {
-  let apiRoot = "http://qa-gateway-801477214.us-east-2.elb.amazonaws.com";
+  // 便于进行mac端联调
+  let apiRoot = "http://10.180.22.34:4000";
   switch (process.env.REACT_APP_SERVER_ENV) {
-    case "QA":
-      apiRoot = "http://qa-gateway-801477214.us-east-2.elb.amazonaws.com";
-      break;
-    case "UAT":
-      apiRoot = "http://demo-gateway-1613913116.us-east-2.elb.amazonaws.com";
-      break;
-    case "PUB":
-      if (process.env.SSR_SERVER) {
-        //ssr
-        apiRoot =
-          "http://internal-prod-gateway-inner-2143196506.us-east-2.elb.amazonaws.com";
-      } else {
-        //web
-        apiRoot = "https://api-gateway.uptradeit.com";
+    default:
+      if (process.env.REACT_APP_SERVER_ENV) {
+        apiRoot = "http://118.31.42.201";
       }
-      break;
   }
   return apiRoot + urlRoot;
 };
@@ -104,6 +93,8 @@ ajax.fetch = function(config) {
         // 接收到
         if (res && res.data) {
           const { code, data, success, resultMessage } = res.data;
+          // 简单处理
+          resolve(res.data);
           if (Number(code) === 200 || success || Number(code) === 0) {
             resolve(res.data.data);
           } else {

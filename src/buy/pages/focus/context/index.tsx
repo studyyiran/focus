@@ -43,7 +43,7 @@ export function MyFocusContextProvider(props: any) {
   );
   const action: IMyFocusActions = useGetAction(state, dispatch);
 
-  const isPage = useIsCurrentPage("/test");
+  const isPage = useIsCurrentPage("/focus");
 
   // @useEffect
   useEffect(() => {
