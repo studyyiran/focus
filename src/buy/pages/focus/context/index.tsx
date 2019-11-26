@@ -6,13 +6,8 @@ import React, {
   useEffect
 } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
-import { promisify } from "buy/common/utils/util";
+import {callBackWhenPassAllFunc, promisify} from "buy/common/utils/util";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
-import { IContextValue } from "../../../common/interface/index.interface";
-import {
-  callBackWhenPassAllFunc,
-  useIsCurrentPage
-} from "../../detail/context/test";
 import { IListItem } from "./interface";
 import {
   getTodayTodo,
@@ -20,6 +15,8 @@ import {
   changeItemContent,
   deleteItem
 } from "../server";
+import {IContextValue} from "../../../common/type";
+import {useIsCurrentPage} from "../../../common/useHook";
 
 export const EntryPageContext = createContext({});
 // store name

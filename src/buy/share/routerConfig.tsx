@@ -7,7 +7,7 @@ import UptradeProtect from "../pages/statics/uptrade-protect";
 import UptradePolicy from "../pages/statics/policy";
 import Home from "../pages/home";
 import React from "react";
-import {getLocationUrl, getProductListPath} from "../common/utils/util";
+import { getLocationUrl, getProductListPath } from "../common/utils/util";
 import { detailSsrRule } from "../pages/detail/ssr";
 import { ourHomeSsrRule } from "../pages/home/ssr";
 import BuyCheckOrder from "../pages/checkOrder/routers";
@@ -18,14 +18,14 @@ import UserRegister from "../pages/personal/pages/register";
 import UserRegisterEmail from "../pages/personal/pages/registerEmail";
 import UserForgetPassword from "../pages/personal/pages/userForgetPassword";
 import UserResetPassword from "../pages/personal/pages/userResetPassword";
+import { FocusRouter } from "../pages/focus";
 
 export const routerConfig = [
   {
     path: "/focus",
     exact: true,
     title: "Buy Used Cell Phones | UpTradeit.com",
-    Component: BuyHome,
-    getInitialProps: ourHomeSsrRule
+    Component: FocusRouter
   },
   {
     path: "/buy",
@@ -85,7 +85,7 @@ export const routerConfig = [
     getInitialProps: ourHomeSsrRule
   },
   {
-    path: getLocationUrl('login'),
+    path: getLocationUrl("login"),
     title: "Log in | UpTradeit.com",
     exact: true,
     Component: PersonalLogin
@@ -112,14 +112,14 @@ export const routerConfig = [
     path: "/account/forget-password",
     title: "Forget Password | UpTradeit.com",
     exact: true,
-    Component: UserForgetPassword,
+    Component: UserForgetPassword
   },
   {
     path: "/account/reset-password/:token",
     title: "Reset Password | UpTradeit.com",
     exact: true,
     Component: UserResetPassword
-  },
+  }
   // {
   //   title: "404 | UpTradeit.com",
   //   Component: () => <div>404</div>

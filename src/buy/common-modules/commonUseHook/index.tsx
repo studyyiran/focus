@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 
 export function UseGetParams() {
-  const result = useParams();
+  const result: any = useParams();
   try {
     Object.keys(result).forEach((key: string) => {
       if (result[key]) {
