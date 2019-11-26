@@ -9,8 +9,15 @@ const getTodayTodoUrl = serverName + "/getList";
 const postNewItemUrl = serverName + "/newStudyTodoItem";
 const changeItemContentUrl = serverName + "/changeContent";
 const deleteItemUrl = serverName + "/hideStudyItem";
+const changeStudyItemStatusUrl = serverName + "/changeStudyItemStatus";
 
 // 开始新增价格不太一样的接口
+
+export async function changeStudyItemStatus(data: any) {
+  const res: any = await ajax.put(changeStudyItemStatusUrl, data);
+  return res;
+}
+
 export async function getTodayTodo() {
   const res: any = await ajax.get(getTodayTodoUrl);
   return res;

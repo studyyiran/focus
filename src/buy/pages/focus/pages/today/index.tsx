@@ -13,7 +13,11 @@ export function FocusToday() {
   const [currentId, setCurrentId] = useState("");
 
   const myFocusContext = useContext(MyFocusContext);
-  const { myFocusContextValue, deleteItem } = myFocusContext as IMyFocusContext;
+  const {
+    myFocusContextValue,
+    deleteItem,
+    changeStudyItemStatus
+  } = myFocusContext as IMyFocusContext;
   const { list } = myFocusContextValue;
   console.log(list);
 
@@ -77,6 +81,9 @@ export function FocusToday() {
                 }}
               >
                 change
+              </Button>
+              <Button onClick={changeStudyItemStatus.bind({}, _id)}>
+                finish
               </Button>
             </li>
           );

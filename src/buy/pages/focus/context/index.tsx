@@ -6,17 +6,18 @@ import React, {
   useEffect
 } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
-import {callBackWhenPassAllFunc, promisify} from "buy/common/utils/util";
+import { callBackWhenPassAllFunc, promisify } from "buy/common/utils/util";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
 import { IListItem } from "./interface";
 import {
   getTodayTodo,
   postNewItem,
   changeItemContent,
-  deleteItem
+  deleteItem,
+  changeStudyItemStatus
 } from "../server";
-import {IContextValue} from "../../../common/type";
-import {useIsCurrentPage} from "../../../common/useHook";
+import { IContextValue } from "../../../common/type";
+import { useIsCurrentPage } from "../../../common/useHook";
 
 export const MyFocusContext = createContext({});
 // store name
@@ -66,6 +67,7 @@ export interface IMyFocusActions {
   postNewItem: ({ content, tag }: { content: string; tag: string }) => void;
   changeItemContent: ({ id, content }: { id: string; content: string }) => void;
   deleteItem: (id: string) => void;
+  changeStudyItemStatus: (id: any) => any;
 }
 
 // useCreateActions
@@ -79,6 +81,18 @@ function useGetAction(
     promiseStatus.current = {};
   }
   const actions: IMyFocusActions = {
+    changeStudyItemStatus: promisify(async function(id: string) {
+      // 进行状态更新
+      const res = await changeStudyItemStatus({
+        id: id,
+        status: "finish"
+      });
+      // 使用心的状态
+      dispatch({
+        type: myFocusReducerTypes.setList,
+        value: res
+      });
+    }),
     getTodayTodo: promisify(async function() {
       const res = await getTodayTodo();
       dispatch({
