@@ -6,6 +6,7 @@ import { main } from "./eventLoop";
 import PostItemForm from "../../components/postItemForm";
 import { TodayPageSection } from "../../components/todayPageSection";
 import { IMyFocusContext, MyFocusContext } from "../../context";
+import Svg from "../../../../components/svg";
 const { Option } = Select;
 
 export function FocusToday() {
@@ -61,7 +62,7 @@ export function FocusToday() {
 
   return (
     <div className="test-page">
-      <TodayPageSection title="Review">
+      <TodayPageSection title="Plane">
         {list.map(item => {
           const { content, _id } = item;
           return (
@@ -95,7 +96,7 @@ export function FocusToday() {
               setCurrentId("");
             }}
           >
-            add new Todo
+            <Svg icon="jia" />Add Into Today Todo
           </Button>
         </div>
         <PostItemForm formConfig={formConfig} id={currentId} show={showForm} />
