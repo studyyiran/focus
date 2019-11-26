@@ -5,13 +5,14 @@ import { getTestAjaxResultMock } from "./mock";
  * 首页相关
  * */
 const serverName = "/studyTodo";
-const TestAjaxUrl = serverName + "/getList";
+const getTodayTodoUrl = serverName + "/getList";
 const postNewItemUrl = serverName + "/newStudyTodoItem";
 const changeItemContentUrl = serverName + "/changeContent";
 const deleteItemUrl = serverName + "/hideStudyItem";
 
-export async function getTestAjaxResult() {
-  const res: any = await ajax.get(TestAjaxUrl);
+// 开始新增价格不太一样的接口
+export async function getTodayTodo() {
+  const res: any = await ajax.get(getTodayTodoUrl);
   return res;
 }
 

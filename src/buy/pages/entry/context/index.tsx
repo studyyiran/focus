@@ -15,7 +15,7 @@ import {
 } from "../../detail/context/test";
 import { IListItem } from "./interface";
 import {
-  getTestAjaxResult,
+  getTodayTodo,
   postNewItem,
   changeItemContent,
   deleteItem
@@ -52,8 +52,8 @@ export function EntryPageContextProvider(props: any) {
   useEffect(() => {
     // 1 当前页面
     // 2 d
-    callBackWhenPassAllFunc([() => isPage], action.getTestAjaxValue);
-  }, [action.getTestAjaxValue]);
+    callBackWhenPassAllFunc([() => isPage], action.getTodayTodo);
+  }, [action.getTodayTodo]);
 
   const propsValue: IEntryPageContext = {
     ...action,
@@ -65,7 +65,7 @@ export function EntryPageContextProvider(props: any) {
 
 // @actions
 export interface IEntryPageActions {
-  getTestAjaxValue: () => void;
+  getTodayTodo: () => void;
   postNewItem: ({ content, tag }: { content: string; tag: string }) => void;
   changeItemContent: ({ id, content }: { id: string; content: string }) => void;
   deleteItem: (id: string) => void;
@@ -82,8 +82,8 @@ function useGetAction(
     promiseStatus.current = {};
   }
   const actions: IEntryPageActions = {
-    getTestAjaxValue: promisify(async function() {
-      const res = await getTestAjaxResult();
+    getTodayTodo: promisify(async function() {
+      const res = await getTodayTodo();
       dispatch({
         type: entryPageReducerTypes.setList,
         value: res
@@ -117,7 +117,7 @@ function useGetAction(
       });
     })
   };
-  actions.getTestAjaxValue = useCallback(actions.getTestAjaxValue, []);
+  actions.getTodayTodo = useCallback(actions.getTodayTodo, []);
   return actions;
 }
 

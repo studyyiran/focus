@@ -5,6 +5,7 @@ import { FormWrapper } from "./components/formWrapper";
 import { Input, Button, Select } from "antd";
 import { main } from "./eventLoop";
 import PostItemForm from "./components/postItemForm";
+import { TodayPageSection } from "./components/todayPageSection";
 const { Option } = Select;
 
 export default function EntryPage() {
@@ -18,9 +19,13 @@ export default function EntryPage() {
   } = entryPageContext as IEntryPageContext;
   const { list } = entryPageContextValue;
   console.log(list);
+
+  // ?
   useEffect(() => {
     main();
   }, []);
+
+  // 一个不知道为什么会出现在这里的表单config
   const formConfig = [
     {
       id: "content",
@@ -55,8 +60,7 @@ export default function EntryPage() {
 
   return (
     <div className="test-page">
-      <h3>Doing</h3>
-      <ul>
+      <TodayPageSection title="Review">
         {list.map(item => {
           const { content, _id } = item;
           return (
@@ -80,16 +84,18 @@ export default function EntryPage() {
             </li>
           );
         })}
-      </ul>
-      <Button
-        onClick={() => {
-          setShowForm(true);
-          setCurrentId("");
-        }}
-      >
-        add new Todo
-      </Button>
-      <PostItemForm formConfig={formConfig} id={currentId} show={showForm} />
+        <div>
+          <Button
+            onClick={() => {
+              setShowForm(true);
+              setCurrentId("");
+            }}
+          >
+            add new Todo
+          </Button>
+        </div>
+        <PostItemForm formConfig={formConfig} id={currentId} show={showForm} />
+      </TodayPageSection>
     </div>
   );
 }
