@@ -1,17 +1,18 @@
 import React, { useContext, useEffect } from "react";
 import ProductDetail from "./index";
-import { useParams } from "react-router-dom";
 import {
   IProductDetailContext,
   ProductDetailContext,
   storeDetailActionTypes
 } from "./context";
 import { getProductDetailByToken } from "./server";
-import { callBackWhenPassAllFunc } from "./context/test";
 import { Message } from "../../components/message";
+import { callBackWhenPassAllFunc } from "../../common/utils/util";
+import {UseGetParams} from "../../common-modules/commonUseHook";
 
 export default function DetailPreviewWrapper(props: any) {
-  const { token } = useParams();
+  // @ts-ignore
+  const { token } = UseGetParams();
   const productDetailContext = useContext(ProductDetailContext);
   const {
     productDetailContextDispatch

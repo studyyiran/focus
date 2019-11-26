@@ -1,4 +1,10 @@
-import getSellPath, {getProductListPath} from "../utils/util";
+import getSellPath, {
+  getLocationUrl,
+  getProductListPath
+} from "../../common/utils/util";
+import { LoginButton, LoginWrapper } from "../components/loginButton";
+import RouterLink from "../components/routerLink";
+import React from "react";
 
 const footerInfo = [
   {
@@ -48,6 +54,10 @@ const footerInfo = [
       {
         subTitle: "FAQs",
         href: "/faq"
+      },
+      {
+        subTitle: "Return and Exchange Policy",
+        href: "/return-policy"
       }
     ]
   },
@@ -66,8 +76,25 @@ const footerInfo = [
     className: "",
     arr: [
       {
+        Component: () => {
+          return (
+            <LoginWrapper
+              renderNotLogin={() => (
+                <RouterLink to={getLocationUrl("login")}>My Account</RouterLink>
+              )}
+              renderWhenHaveLogin={() => (
+                <RouterLink to={"/account/management"}>My Account</RouterLink>
+              )}
+            />
+          );
+        }
+      },
+      {
         subTitle: "Check My Order",
         href: "/check-order"
+      },
+      {
+        Component: LoginButton
       }
     ]
   }

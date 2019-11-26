@@ -16,16 +16,18 @@ import UserInfo from "./components/userInfo";
 
 import { HeaderTitle } from "buy/components/headerTitle";
 import CollapsePanelList from "./components/collapsePanelList";
-import { callBackWhenPassAllFunc } from "../../detail/context/test";
 import {
   IStoreCheckOrderContext,
   StoreCheckOrderContext,
   storeCheckOrderReducerTypes
 } from "../context";
 import Button from "../../../components/button";
-import RouterLink from "../../../components/routerLink";
+import RouterLink from "../../../common-modules/components/routerLink";
 import Svg from "../../../components/svg";
-import { currencyTrans } from "../../../common/utils/util";
+import {
+  callBackWhenPassAllFunc,
+  currencyTrans
+} from "../../../common/utils/util";
 import { getRootApi } from "../../../api/api";
 import { locationHref } from "../../../common/utils/routerHistory";
 
@@ -108,6 +110,7 @@ export function OrderList(props: any) {
         )
     }
   ];
+  let needCancelButton = false;
   // part2
   list = list.concat(
     (checkOrderDetail.subOrders || []).map(order => {
@@ -169,6 +172,10 @@ export function OrderList(props: any) {
       TRANSACTION_SUCCEED(8, "Transaction Success", "Transaction Success")
        */
       const reactNodeConfig = statusToRenderConfig(subOrderStatus);
+      if (reactNodeConfig.cancelButton) {
+        needCancelButton = true;
+      }
+
       const needShowName = productInfo.productDisplayName;
       const progressInfo = getProgressType({
         orderStatusHistories: orderStatusHistories,
@@ -207,15 +214,6 @@ export function OrderList(props: any) {
                 Request Return
               </Button>
             ) : null}
-            {reactNodeConfig.cancelButton ? (
-              <Button
-                isLoading={isLoading && isLoading.serverRequestReturn}
-                className="button-centered disabled-status"
-                onClick={serverCancelOrder}
-              >
-                Cancel Order
-              </Button>
-            ) : null}
             {reactNodeConfig.printLabelbutton ? (
               <div className="return-label-tips">
                 <ul>
@@ -248,12 +246,12 @@ export function OrderList(props: any) {
                 </Button>
               </div>
             ) : null}
-            {refund ? (
-              <div className="have-refund">
-                <h3>Refund Issued {currencyTrans(refund)}</h3>
-                <Svg />
-              </div>
-            ) : null}
+            {/*{refund ? (*/}
+            {/*  <div className="have-refund">*/}
+            {/*    <h3>Refund Issued {currencyTrans(refund)}</h3>*/}
+            {/*    <Svg />*/}
+            {/*  </div>*/}
+            {/*) : null}*/}
           </div>
         )
       };
@@ -280,6 +278,15 @@ export function OrderList(props: any) {
           activeKey={currentSubOrderNo || currentPageKey}
         />
       </div>
+      {needCancelButton ? (
+        <Button
+          isLoading={isLoading && isLoading.serverRequestReturn}
+          className="button-centered disabled-status button-container"
+          onClick={serverCancelOrder}
+        >
+          Cancel Order
+        </Button>
+      ) : null}
     </div>
   );
   // 渲染

@@ -7,6 +7,7 @@ import { IProductDetailContext, ProductDetailContext } from "./context";
 import Svg from "../../components/svg";
 import TipsIcon from "../../components/tipsIcon";
 import getSellPath, {
+  callBackWhenPassAllFunc,
   currencyTrans,
   getProductListPath,
   isServer,
@@ -28,7 +29,7 @@ import { protectPrice } from "../../common/config/staticConst";
 import { locationHref } from "../../common/utils/routerHistory";
 import VideoComponent from "../../components/video";
 import EditorResolver from "./components/editorResolver";
-import RouterLink from "../../components/routerLink";
+import RouterLink from "../../common-modules/components/routerLink";
 import PayCardImages from "./components/payCardImages";
 import { getDescArr, useGetProductImg } from "./util";
 import { TipsAllPass, TipsProtection } from "./context/staticData";
@@ -38,13 +39,10 @@ import {
   IProductListContext,
   ProductListContext
 } from "../productList/context";
-import {
-  callBackWhenPassAllFunc,
-  useIsCurrentPage,
-  useWhenUrlChange
-} from "./context/test";
+import { dataReport } from "../../common/dataReport";
 import Button from "../../components/button";
-
+import { useIsCurrentPage, useWhenUrlChange } from "../../common/useHook";
+import { constValue } from "../../common/constValue";
 function Swiper(props: any) {
   const { buyProductImgPc, buyProductImgM, buyProductVideo } = props;
   const maxNumber = 3;
@@ -164,7 +162,7 @@ export default function ProductDetail(props: any) {
     productDescription,
     buyProductHistoryPdf,
     buyProductStatus,
-    buyProductBQV
+    skuId
   } = productDetail;
   // 依赖 采用基于依赖的写法,这行代码写在哪里就一点都不重要了.因为页面和刷新只不过是一种依赖条件而已.
   const id = useWhenUrlChange("productId");
@@ -187,6 +185,58 @@ export default function ProductDetail(props: any) {
       setProductId(null);
     };
   }, [setProductId]);
+
+  useEffect(() => {
+    // 只有有商品属性 并且有页面id的时候.并且相等.才进行上报操作
+    if (productDetail && id) {
+      const {
+        buyProductId,
+        buyLevel,
+        brandDisplayName,
+        buyPrice,
+        productDisplayName,
+        buyProductBQV,
+        skuId
+      } = productDetail;
+      if (safeEqual(id, productDetail.buyProductId)) {
+        let bqvParams: any = {};
+        if (buyProductBQV) {
+          buyProductBQV.forEach((item: any) => {
+            if (item && item.bpName) {
+              if (item.bpName.toLowerCase() === "color") {
+                bqvParams.colour = item.bpvName;
+              } else {
+                bqvParams[item.bpName.toLowerCase()] = item.bpvName;
+              }
+            }
+          });
+        }
+        dataReport(
+          Object.assign(bqvParams, {
+            event: "productPageViewed",
+            manufacturer: brandDisplayName, //update this
+            model: productDisplayName, //update this
+            condition: buyLevel, //update this
+            productID: String(buyProductId), //update this
+            price: Number(buyPrice), //update this
+            protectionPlan: false, //update this
+            ecommerce: {
+              currencyCode: "USD",
+              detail: {
+                products: [
+                  {
+                    sku: String(skuId),
+                    name: productDisplayName,
+                    price: Number(buyPrice)
+                  }
+                ]
+              }
+            }
+          })
+        );
+      }
+    }
+  }, [id, productDetail]);
 
   function viewAllClickHandler() {
     window.location.href = urlRmSpaceAndToLower(
@@ -238,7 +288,24 @@ export default function ProductDetail(props: any) {
                   </div>
                 </div>
                 <StartBuyButton
-                  onClick={() => setShowModal(true)}
+                  onClick={() => {
+                    dataReport({
+                      event: "EEaddToCart",
+                      ecommerce: {
+                        currencyCode: "USD",
+                        add: {
+                          products: [
+                            {
+                              sku: String(skuId),
+                              name: productDisplayName,
+                              price: Number(buyPrice)
+                            }
+                          ]
+                        }
+                      }
+                    });
+                    setShowModal(true);
+                  }}
                   buyProductStatus={buyProductStatus}
                 />
               </div>
@@ -337,7 +404,7 @@ export default function ProductDetail(props: any) {
             </li>
             <li>
               <img src={require("./res/return.svg")} />
-              <h3>14 Days Return</h3>
+              <h3>{constValue.REFUNDTIME} Days Return</h3>
             </li>
             <li>
               <img src={require("./res/secure-payment.svg")} />
@@ -452,6 +519,21 @@ export default function ProductDetail(props: any) {
               needProtection={needProtection}
               onClick={() => {
                 setShowModal(false);
+                dataReport({
+                  event: "EEcheckout",
+                  ecommerce: {
+                    currencyCode: "USD",
+                    add: {
+                      products: [
+                        {
+                          sku: String(skuId),
+                          name: productDisplayName,
+                          price: Number(buyPrice)
+                        }
+                      ]
+                    }
+                  }
+                });
               }}
             />
             <PayCardImages />
@@ -496,7 +578,7 @@ function CheckOutButton(props: any) {
         }
         // 2 短暂delay
         window.setTimeout(() => {
-          locationHref("/order/info");
+          locationHref("/buy/info");
         }, 100);
       }}
     >
@@ -621,7 +703,12 @@ function ProductInfo(props: any) {
         <span className="attr">{lineTwo ? lineTwo : ""}</span>
         <span className="condition">Condition {buyLevel}</span>
       </div>
-      <img className="check-icon" src={require("./res/uptrade-check.svg")} />
+      {/*暂时强制更新*/}
+      <img
+        key={Date.now()}
+        className="check-icon"
+        src={require("./res/uptrade-check.svg")}
+      />
     </section>
   );
 }

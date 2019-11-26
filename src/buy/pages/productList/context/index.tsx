@@ -9,6 +9,7 @@ import {
   productIdToBrandId
 } from "../server";
 import {
+  callBackWhenPassAllFunc,
   getProductListPath,
   promisify,
   safeEqual
@@ -17,11 +18,8 @@ import { IStaticFilterItem, filterListConfig } from "./staticData";
 import { useGetOriginData } from "../../../common/useHook/useGetOriginData";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
 import { locationHref } from "../../../common/utils/routerHistory";
-import {
-  callBackWhenPassAllFunc,
-  useIsCurrentPage
-} from "../../detail/context/test";
-
+import {useIsCurrentPage} from "../../../common/useHook";
+import {dataReport} from "../../../common/dataReport";
 export const ATTROF = "attrOf";
 export const ProductListContext = createContext({});
 export const StoreProductList = "StoreProductList";
@@ -63,7 +61,7 @@ export function ProductListContextProvider(props: any) {
   const isCurrentPage = useIsCurrentPage(getProductListPath());
 
   const { getProductList, replaceSEOUrl } = action;
-  
+
   // 当属性变化的时候,进行调用
   useEffect(() => {
     callBackWhenPassAllFunc([() => isCurrentPage], getProductList);
@@ -555,6 +553,19 @@ function useGetAction(
         value: true
       });
       const resList = await getProductList(answer);
+      const {productKey, filterBQVS} : any = answer
+      const result = filterBQVS.map(({bpName} : any) => {
+        return bpName
+      }).join(", ")
+      try {
+        dataReport({
+          event: "buyerSearch",
+          searchterm: productKey ? productKey.join(", ") : "",
+          network: result
+        });
+      } catch(e) {
+        console.error(e)
+      }
       // 发起
       dispatch({
         type: productListReducerActionTypes.setPendingStatus,

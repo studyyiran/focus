@@ -1,4 +1,7 @@
 import Axios from "axios";
+import { globalStore } from "../store";
+import { constValue } from "../constValue";
+import { safeEqual } from "./util";
 interface IAjax {
   get: (url: string, data?: any) => void;
   post: (url: string, data?: any) => void;
@@ -17,13 +20,24 @@ const transUrl = (url: string) => {
 
 // 下面是所有api提取
 const getRootApi = function(urlRoot: string) {
-  // 便于进行mac端联调
-  let apiRoot = "http://10.180.22.34:4000";
+  let apiRoot = "http://qa-gateway-801477214.us-east-2.elb.amazonaws.com";
   switch (process.env.REACT_APP_SERVER_ENV) {
-    default:
-      if (process.env.REACT_APP_SERVER_ENV) {
-        apiRoot = "http://118.31.42.201";
+    case "QA":
+      apiRoot = "http://qa-gateway-801477214.us-east-2.elb.amazonaws.com";
+      break;
+    case "UAT":
+      apiRoot = "http://demo-gateway-1613913116.us-east-2.elb.amazonaws.com";
+      break;
+    case "PUB":
+      if (process.env.SSR_SERVER) {
+        //ssr
+        apiRoot =
+          "http://internal-prod-gateway-inner-2143196506.us-east-2.elb.amazonaws.com";
+      } else {
+        //web
+        apiRoot = "https://api-gateway.uptradeit.com";
       }
+      break;
   }
   return apiRoot + urlRoot;
 };
@@ -73,17 +87,27 @@ ajax.get = function(url, data) {
 };
 
 ajax.fetch = function(config) {
+  // 暂时插入处理函数
+  if (globalStore) {
+    const state = globalStore.getState();
+    const authToken = state.token;
+    // 11-21修改.默认主动设置
+    if (authToken) {
+      config.headers = {};
+      config.headers[constValue.AUTHKEY] = authToken;
+    }
+  }
+
   return new Promise((resolve, reject) => {
     Axios(config)
       .then(res => {
         // 接收到
         if (res && res.data) {
           const { code, data, success, resultMessage } = res.data;
-          // 简单处理
-          resolve(res.data);
           if (Number(code) === 200 || success || Number(code) === 0) {
             resolve(res.data.data);
           } else {
+            // 业务性报错
             rejectError(config, reject, {
               code: code,
               resultMessage: resultMessage
@@ -92,8 +116,25 @@ ajax.fetch = function(config) {
         }
       })
       .catch(e => {
-        // catch 404 500异常
-        rejectError(config, reject, {});
+        if (e) {
+          const { response } = e;
+          if (response) {
+            // 处理403
+            const { data, status } = response;
+            if (safeEqual(status, 403)) {
+              if (safeEqual(data.code, 403)) {
+                globalStore.dispatch({
+                  type: "reduxSetToken",
+                  value: null
+                });
+              }
+            }
+            // 这块为什么主动扔出去?
+            // 这块应该加一个全局报错.
+            rejectError(config, reject, {});
+            // catch 404 500异常
+          }
+        }
       });
   });
 };

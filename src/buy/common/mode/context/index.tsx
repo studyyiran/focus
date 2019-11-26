@@ -6,21 +6,18 @@ import React, {
   useEffect
 } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
-import { getTestAjaxResult } from "../server";
-import { promisify } from "buy/common/utils/util";
+import { callBackWhenPassAllFunc, promisify } from "buy/common/utils/util";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
-import { IContextValue } from "../../../common/interface/index.interface";
-import {
-  callBackWhenPassAllFunc,
-  useIsCurrentPage,
-  useWhenUrlChange
-} from "../../detail/context/test";
+import { IContextValue } from "../../type";
+import { useIsCurrentPage } from "../../useHook";
+import { getTestAjaxResult } from "../server";
 
 export const StoreTestNameContext = createContext({});
+
 // store name
 export const StoreTestName = "StoreTestName";
 // store state
-interface IContextState {
+interface IStoreTestNameState {
   testValue: number;
 }
 
@@ -28,13 +25,13 @@ interface IContextState {
 export interface IStoreTestNameContext
   extends IStoreTestNameActions,
     IContextValue {
-  storeTestNameContextValue: IContextState;
+  storeTestNameContextValue: IStoreTestNameState;
   storeTestNameContextDispatch: (action: IReducerAction) => void;
 }
 
 // store provider
 export function StoreTestNameContextProvider(props: any) {
-  const initState: IContextState = {
+  const initState: IStoreTestNameState = {
     testValue: 101
   };
   const [state, dispatch] = useReducer(
@@ -48,7 +45,6 @@ export function StoreTestNameContextProvider(props: any) {
   // @useEffect
   useEffect(() => {
     // 1 当前页面
-    // 2 d
     callBackWhenPassAllFunc([() => isPage], action.getTestAjaxValue);
   }, [action.getTestAjaxValue]);
 
@@ -62,12 +58,12 @@ export function StoreTestNameContextProvider(props: any) {
 
 // @actions
 export interface IStoreTestNameActions {
-  getTestAjaxValue: () => void;
+  getTestAjaxValue: () => any;
 }
 
 // useCreateActions
 function useGetAction(
-  state: IContextState,
+  state: IStoreTestNameState,
   dispatch: (action: IReducerAction) => void
 ): IStoreTestNameActions {
   // 新增promise ref
@@ -94,7 +90,7 @@ export const storeTestNameReducerTypes = {
 };
 
 // reducer
-function reducer(state: IContextState, action: IReducerAction) {
+function reducer(state: IStoreTestNameState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {

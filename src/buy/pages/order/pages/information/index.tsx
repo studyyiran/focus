@@ -7,19 +7,26 @@ import {
   OrderInfoContext,
   orderInfoReducerTypes
 } from "../../context";
+import {
+  IStoreAuthContext,
+  StoreAuthContext
+} from "../../../../common-modules/context/authToken/context";
 
 function UserInformationWrapper(props: any) {
   const orderInfoContext = useContext(OrderInfoContext);
+  const accountInfoContext = useContext(StoreAuthContext);
   const {
     orderInfoContextValue,
     orderInfoContextDispatch,
     checkAddress
   } = orderInfoContext as IOrderInfoContext;
   const { userInfo } = orderInfoContextValue;
+  const { storeAuthContextValue } = accountInfoContext as IStoreAuthContext;
+  const {userInfoForm} = storeAuthContextValue
   return (
     <PureForm
       {...props}
-      propsInfo={userInfo}
+      propsInfo={Object.assign(userInfoForm, userInfo)}
       submitHandler={(result: any) => {
         // 开始验证地址 // 返回promise
         return checkAddress(result).then(() => {
@@ -101,20 +108,7 @@ function PureForm(props: any) {
     if (!/(\d{5,5})|(0\d{4,4})/.test(value)) {
       return;
     }
-    const addressInfo = await zipCodeToAddressInfo(value);
-    if (addressInfo.state && addressInfo.city) {
-      setFieldsValue({ state: addressInfo.state });
-      setFieldsValue({ city: addressInfo.city });
-    } else {
-      setFieldsValue({ state: "" });
-      setFieldsValue({ city: "" });
-      setFields({
-        zipCode: {
-          value: value,
-          errors: [new Error("Please enter a valid zipCode")]
-        }
-      });
-    }
+    await zipCodeToAddressInfo(value, form);
   }
 
   const infomationHTML = (
@@ -285,7 +279,7 @@ function PureForm(props: any) {
   return (
     <div className={"page-infomation-container"}>
       {!props.hideTitle ? (
-        <h2 className="order-common-less-title">Customer Information</h2>
+        <h2 className="order-common-less-title">Shipping Address</h2>
       ) : null}
       <div className="container">{infomationHTML}</div>
       {renderButton(handleNext)}

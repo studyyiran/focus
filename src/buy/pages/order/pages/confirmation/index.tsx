@@ -3,18 +3,19 @@ import "./index.less";
 import { useContext, useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import RouterLink from "../../../../components/routerLink";
+import RouterLink from "../../../../common-modules/components/routerLink";
 import { IOrderInfoContext, OrderInfoContext } from "../../context";
 import {
   getProductListPath,
   sellPageGoTo
 } from "../../../../common/utils/util";
 import useResetProductList from "../../../productList/useHook/useResetProductList";
+import { LoginWrapper } from "../../../../common-modules/components/loginButton";
 
 export default function Confirmation(props: any) {
   const orderInfoContext = useContext(OrderInfoContext);
   const { orderInfoContextValue } = orderInfoContext as IOrderInfoContext;
-  const { orderInfo } = orderInfoContextValue;
+  const { orderInfo, checkOrderInfo } = orderInfoContextValue;
   const [orderNo, setOrderNo] = useState("");
   const handler = useResetProductList();
   useEffect(() => {
@@ -27,6 +28,21 @@ export default function Confirmation(props: any) {
       setOrderNo(props.match.params.orderNo);
     }
   }, [props.match]);
+  function PostDataImg() {
+    if (checkOrderInfo) {
+      const { groupOrderNo, total } = checkOrderInfo as any;
+      if (groupOrderNo) {
+        return (
+          <img
+            src={`https://www.shareasale.com/sale.cfm?tracking=${groupOrderNo}&amount=${total}&merchantID=92948&transtype=sale&sscidmode=6&sscid=`}
+            width="1"
+            height="1"
+          />
+        );
+      }
+    }
+    return null;
+  }
   return (
     <div className={"order-confirmation-wrapper"}>
       <div className={"confirmation-wrapper"}>
@@ -57,10 +73,19 @@ export default function Confirmation(props: any) {
           Sell your old phone >
         </div>
 
-        {/*<div className={"or"}>OR</div>*/}
-        {/*<div className={"button-wrapper create-account"}>*/}
-        {/*  <button className="common-button">Create an account</button>*/}
-        {/*</div>*/}
+        <LoginWrapper
+          renderNotLogin={({ url, createUrl }: any) => (
+            <div>
+              <div className={"or"}>OR</div>
+              <div className={"button-wrapper create-account"}>
+                <button className="common-button">
+                  <RouterLink to={createUrl}>Create an account</RouterLink>
+                </button>
+              </div>
+              <PostDataImg />
+            </div>
+          )}
+        />
       </div>
     </div>
   );

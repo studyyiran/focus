@@ -22,6 +22,8 @@ import { getProductDetail } from "../../detail/server";
 import { IProductDetail } from "../../detail/context";
 import { Message } from "../../../components/message";
 import { reducerLog } from "../../../common/hoc";
+import { dataReport } from "../../../common/dataReport";
+import useGetTotalPrice from "../components/orderLayout/useHook";
 
 export const OrderInfoContext = createContext({});
 const storeName = "OrderInfo";
@@ -152,7 +154,7 @@ interface IContextActions {
   getExpress: () => void;
   createOrder: (info: any) => any;
   startOrder: () => any;
-  zipCodeToAddressInfo: (zipCode: string) => any;
+  zipCodeToAddressInfo: (zipCode: string, form: any) => any;
   checkAddress: (info: any) => any;
   orderIdToCheckOrderInfo: () => any;
 }
@@ -167,6 +169,8 @@ function useGetAction(
   if (!promiseStatus.current) {
     promiseStatus.current = {};
   }
+  // 数据上报计算
+  const { calcTotalPrice, getShippingPrice } = useGetTotalPrice(state);
   const actions: IContextActions = {
     orderIdToCheckOrderInfo: promisify(async function() {
       if (state.orderInfo) {
@@ -284,6 +288,49 @@ function useGetAction(
         });
         orderResult
           .then(res => {
+            try {
+              dataReport({
+                event: "buyerTransaction",
+                ecommerce: {
+                  purchase: {
+                    actionField: {
+                      id: res,
+                      affiliation: "Up Trade",
+                      revenue: calcTotalPrice()
+                    },
+                    products: state.subOrders.map((item: any) => {
+                      const { productId, needProtection } = item;
+                      const subOrderInfo: any = state.phoneDetailList.find(
+                        item => {
+                          return (
+                            String(item.buyProductId) === String(productId)
+                          );
+                        }
+                      );
+                      return {
+                        sku: String(productId),
+                        name: subOrderInfo
+                          ? subOrderInfo.productDisplayName
+                          : "",
+                        price: subOrderInfo
+                          ? Number(Number(subOrderInfo.buyPrice).toFixed(2))
+                          : -1,
+                        brand: subOrderInfo
+                          ? subOrderInfo.brandDisplayName
+                          : "",
+                        quantity: 1,
+                        dimension1: true, //buyer
+                        dimension2: false, //seller
+                        dimension3: state.userExpress, //update this USPS Parcel Select or USPS Priority
+                        dimension4: needProtection ? "yes" : "no" // if they select UpTrade Protect which is our $5/month insurance plan
+                      };
+                    })
+                  }
+                }
+              });
+            } catch (e) {
+              console.error(e);
+            }
             // 保存order参数
             dispatch({
               type: orderInfoReducerTypes.setOrderInfo,
@@ -330,8 +377,27 @@ function useGetAction(
         promiseStatus.current.reject = reject;
       });
     }),
-    zipCodeToAddressInfo: promisify(async function(zipCode: string) {
-      return await zipCodeToAddressInfo(zipCode);
+    zipCodeToAddressInfo: promisify(async function(value: string, form: any) {
+      const { setFieldsValue, setFields } = form;
+      if (!/(\d{5,5})|(0\d{4,4})/.test(value)) {
+        return;
+      }
+      const addressInfo: any = await zipCodeToAddressInfo(value);
+      if (addressInfo.state && addressInfo.city) {
+        setFieldsValue({ state: addressInfo.state });
+        setFieldsValue({ city: addressInfo.city });
+        return null;
+      } else {
+        setFieldsValue({ state: "" });
+        setFieldsValue({ city: "" });
+        // setFields({
+        //   zipCode: {
+        //     value: value,
+        //     errors: [new Error("Please enter a valid zipCode")]
+        //   }
+        // });
+        return "Please enter a valid zipCode";
+      }
     }),
     getDetailByProductList: promisify(async function() {
       // 这行是什么意思? 为什么这边是这样拉的? 订单结束后是否会有影响?
