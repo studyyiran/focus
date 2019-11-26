@@ -24,7 +24,11 @@ export const MyFocusContext = createContext({});
 export const MyFocus = "MyFocus";
 // store state
 interface IContextState {
-  list: IListItem[];
+  todayTodo: {
+    plane: IListItem[];
+    review: IListItem[];
+    delay: IListItem[];
+  };
 }
 
 // interface
@@ -36,7 +40,7 @@ export interface IMyFocusContext extends IMyFocusActions, IContextValue {
 // store provider
 export function MyFocusContextProvider(props: any) {
   const initState: IContextState = {
-    list: [] as any[]
+    todayTodo: {} as any
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -145,7 +149,7 @@ function reducer(state: IContextState, action: IReducerAction) {
     case myFocusReducerTypes.setList: {
       newState = {
         ...newState,
-        list: value
+        todayTodo: value
       };
       break;
     }

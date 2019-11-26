@@ -19,8 +19,8 @@ export function FocusToday() {
     deleteItem,
     changeStudyItemStatus
   } = myFocusContext as IMyFocusContext;
-  const { list } = myFocusContextValue;
-  console.log(list);
+  const { todayTodo } = myFocusContextValue;
+  console.log(todayTodo);
 
   // ?
   useEffect(() => {
@@ -63,32 +63,34 @@ export function FocusToday() {
   return (
     <div className="test-page">
       <TodayPageSection title="Plane">
-        {list.map(item => {
-          const { content, _id } = item;
-          return (
-            <li key={_id}>
-              <span>{content}</span>
-              <Button
-                onClick={() => {
-                  deleteItem(_id);
-                }}
-              >
-                delete
-              </Button>
-              <Button
-                onClick={() => {
-                  setShowForm(true);
-                  setCurrentId(_id);
-                }}
-              >
-                change
-              </Button>
-              <Button onClick={changeStudyItemStatus.bind({}, _id)}>
-                finish
-              </Button>
-            </li>
-          );
-        })}
+        {todayTodo && todayTodo.plane && todayTodo.plane.length
+          ? todayTodo.plane.map(item => {
+              const { content, _id } = item;
+              return (
+                <li key={_id}>
+                  <span>{content}</span>
+                  <Button
+                    onClick={() => {
+                      deleteItem(_id);
+                    }}
+                  >
+                    delete
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setShowForm(true);
+                      setCurrentId(_id);
+                    }}
+                  >
+                    change
+                  </Button>
+                  <Button onClick={changeStudyItemStatus.bind({}, _id)}>
+                    finish
+                  </Button>
+                </li>
+              );
+            })
+          : null}
         <div>
           <Button
             onClick={() => {
@@ -96,10 +98,41 @@ export function FocusToday() {
               setCurrentId("");
             }}
           >
-            <Svg icon="jia" />Add Into Today Todo
+            <Svg icon="jia" />
+            Add Into Today Todo
           </Button>
         </div>
         <PostItemForm formConfig={formConfig} id={currentId} show={showForm} />
+      </TodayPageSection>
+      <TodayPageSection title="Review">
+        {todayTodo && todayTodo.review && todayTodo.review.length
+          ? todayTodo.review.map(item => {
+              const { content, _id } = item;
+              return (
+                <li key={_id}>
+                  <span>{content}</span>
+                  <Button
+                    onClick={() => {
+                      deleteItem(_id);
+                    }}
+                  >
+                    delete
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setShowForm(true);
+                      setCurrentId(_id);
+                    }}
+                  >
+                    change
+                  </Button>
+                  <Button onClick={changeStudyItemStatus.bind({}, _id)}>
+                    finish
+                  </Button>
+                </li>
+              );
+            })
+          : null}
       </TodayPageSection>
     </div>
   );
