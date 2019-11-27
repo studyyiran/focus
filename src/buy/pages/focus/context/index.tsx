@@ -18,6 +18,7 @@ import {
 } from "../server";
 import { IContextValue } from "../../../common/type";
 import { useIsCurrentPage } from "../../../common/useHook";
+import moment from "moment";
 
 export const MyFocusContext = createContext({});
 // store name
@@ -79,7 +80,6 @@ const addTomorrowTodo = serverName + "/newStudyTodoItem";
 
  */
 
-
 // @actions
 export interface IMyFocusActions {
   getTodayTodo: () => void;
@@ -95,7 +95,8 @@ export interface IMyFocusActions {
   changeItemContent: ({ id, content }: { id: string; content: string }) => void;
   deleteItem: (id: string) => void;
   changeStudyItemStatus: (id: any) => any;
-  addTodayTodo: (data: any) => any;//新增一个常规任务
+  decoratorToday: (data: any) => any;// 设置开始时间为今天
+  addTodayTodo: (data: any) => any; //新增一个常规任务
 }
 
 // useCreateActions
@@ -109,8 +110,11 @@ function useGetAction(
     promiseStatus.current = {};
   }
   const actions: IMyFocusActions = {
+    decoratorToday: function(data: any) {
+      return { planStartTime: moment(), ...data };
+    },
     addTodayTodo: promisify(async function(data: any) {
-      return actions.postNewItem(data)
+      return actions.postNewItem(actions.decoratorToday(data));
     }),
     changeStudyItemStatus: promisify(async function(id: string) {
       // 进行状态更新

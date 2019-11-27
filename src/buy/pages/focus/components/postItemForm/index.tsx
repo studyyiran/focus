@@ -7,7 +7,7 @@ export default function PostItemForm(props: any) {
   const { formConfig, onSubmit, id, show } = props;
   const myFocusContext = useContext(MyFocusContext);
   const {
-    postNewItem,
+    addTodayTodo,
     changeItemContent
   } = myFocusContext as IMyFocusContext;
   function onSubmitHandler(values: any) {
@@ -17,7 +17,7 @@ export default function PostItemForm(props: any) {
         id: props.id
       });
     } else {
-      postNewItem(values);
+      addTodayTodo(values);
     }
     onSubmit && onSubmit();
   }
