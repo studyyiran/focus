@@ -64,14 +64,38 @@ export function MyFocusContextProvider(props: any) {
   };
   return <MyFocusContext.Provider value={propsValue} {...props} />;
 }
+/*
+
+//
+const addTodayTodo = serverName + "/newStudyTodoItem";
+// 新增一个完成的任务。
+const addTodayFinish = serverName + "/newStudyTodoItem";
+// 新增一个tag为review的任务。
+const addTodayReview = serverName + "/newStudyTodoItem";
+
+// 为明日新增一个tag为review的任务。
+const addTomorrowReview = serverName + "/newStudyTodoItem";
+const addTomorrowTodo = serverName + "/newStudyTodoItem";
+
+ */
+
 
 // @actions
 export interface IMyFocusActions {
   getTodayTodo: () => void;
-  postNewItem: ({ content, tag }: { content: string; tag: string }) => void;
+  postNewItem: ({
+    content,
+    tag,
+    planStartTime
+  }: {
+    content: string;
+    tag: string;
+    planStartTime: string;
+  }) => void;
   changeItemContent: ({ id, content }: { id: string; content: string }) => void;
   deleteItem: (id: string) => void;
   changeStudyItemStatus: (id: any) => any;
+  addTodayTodo: (data: any) => any;//新增一个常规任务
 }
 
 // useCreateActions
@@ -85,6 +109,9 @@ function useGetAction(
     promiseStatus.current = {};
   }
   const actions: IMyFocusActions = {
+    addTodayTodo: promisify(async function(data: any) {
+      return actions.postNewItem(data)
+    }),
     changeStudyItemStatus: promisify(async function(id: string) {
       // 进行状态更新
       const res = await changeStudyItemStatus({
