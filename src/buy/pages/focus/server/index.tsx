@@ -6,23 +6,25 @@ import { getTestAjaxResultMock } from "./mock";
  * */
 const serverName = "/studyTodo";
 
-// 获取today列表
-const getTodayTodoUrl = serverName + "/getList";
 
-// 删除，修改接口
-const changeItemContentUrl = serverName + "/changeContent";
-const deleteItemUrl = serverName + "/hideStudyItem";
+const getTodayTodoUrl = serverName + "/getList";// 获取today列表
+const postNewItemUrl = serverName + "/newStudyTodoItem";// 新增口
+const changeStudyItemStatusUrl = serverName + "/changeStudyItemStatus";// 完成任务接口
 
-// 完成任务接口
-const changeStudyItemStatusUrl = serverName + "/changeStudyItemStatus";
 
-// 新增口
-const postNewItemUrl = serverName + "/newStudyTodoItem";
+const changeItemContentUrl = serverName + "/changeContent"; // 通用修改口
+const deleteItemUrl = serverName + "/hideStudyItem"; // 通用删除口
 
-// 新增一个常规任务
-const addTodayTodo = serverName + "/newStudyTodoItem";
-// 新增一个完成的任务。
-const addTodayFinish = serverName + "/newStudyTodoItem";
+
+
+
+
+
+
+
+
+
+const addTodayFinish = serverName + "/newStudyTodoItem";// 新增一个完成的任务。
 // 新增一个tag为review的任务。(直接使用原来的任务的字段。)
 const addTodayReview = serverName + "/newStudyTodoItem";
 

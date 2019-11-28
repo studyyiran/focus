@@ -23,13 +23,17 @@ import moment from "moment";
 export const MyFocusContext = createContext({});
 // store name
 export const MyFocus = "MyFocus";
+
+
+interface ITodayTodo {
+  plane: IListItem[];
+  review: IListItem[];
+  delay: IListItem[];
+};
+
 // store state
 interface IContextState {
-  todayTodo: {
-    plane: IListItem[];
-    review: IListItem[];
-    delay: IListItem[];
-  };
+  todayTodo: ITodayTodo
 }
 
 // interface
@@ -83,6 +87,7 @@ const addTomorrowTodo = serverName + "/newStudyTodoItem";
 // @actions
 export interface IMyFocusActions {
   getTodayTodo: () => void;
+  addTodayTodo: (data: any) => any;
   postNewItem: ({
     content,
     tag,
@@ -96,7 +101,8 @@ export interface IMyFocusActions {
   deleteItem: (id: string) => void;
   changeStudyItemStatus: (id: any) => any;
   decoratorToday: (data: any) => any;// 设置开始时间为今天
-  addTodayTodo: (data: any) => any; //新增一个常规任务
+  todayPageFilter: (data: any) => ITodayTodo[]
+
 }
 
 // useCreateActions
@@ -110,9 +116,39 @@ function useGetAction(
     promiseStatus.current = {};
   }
   const actions: IMyFocusActions = {
+    todayPageFilter: function(data: any) {
+      const jsonWithFilterData = {
+        review: [],
+        plane: [],
+        delay: []
+      } as any
+      data.forEach((item: any) => {
+        const {tag} = item
+        switch(tag) {
+          case 'review':
+            jsonWithFilterData.review.push(item)
+            break;
+          default:
+            jsonWithFilterData.plane.push(item)
+        }
+      })
+      return jsonWithFilterData
+    },
     decoratorToday: function(data: any) {
       return { planStartTime: moment(), ...data };
     },
+    // 新增的底层功能接口
+    postNewItem: promisify(async function(data: {
+      content: string;
+      tag: string;
+    }) {
+      const res = await postNewItem(data);
+      dispatch({
+        type: myFocusReducerTypes.setList,
+        value: res
+      });
+    }),
+    //新增一个常规任务
     addTodayTodo: promisify(async function(data: any) {
       return actions.postNewItem(actions.decoratorToday(data));
     }),
@@ -135,16 +171,7 @@ function useGetAction(
         value: res
       });
     }),
-    postNewItem: promisify(async function(data: {
-      content: string;
-      tag: string;
-    }) {
-      const res = await postNewItem(data);
-      dispatch({
-        type: myFocusReducerTypes.setList,
-        value: res
-      });
-    }),
+
     changeItemContent: promisify(async function(data: {
       id: string;
       content: string;
