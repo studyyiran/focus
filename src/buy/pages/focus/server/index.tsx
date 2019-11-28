@@ -6,8 +6,8 @@ import { getTestAjaxResultMock } from "./mock";
  * */
 const serverName = "/studyTodo";
 
-
-const getTodayTodoUrl = serverName + "/getList";// 获取today列表
+const getTodayTodoUrl = serverName + "/getTodayList";// 获取today列表
+const getTodayDoneUrl = serverName + "/getTodayDoneList";// 获取today列表
 const postNewItemUrl = serverName + "/newStudyTodoItem";// 新增口
 const changeStudyItemStatusUrl = serverName + "/changeStudyItemStatus";// 完成任务接口
 
