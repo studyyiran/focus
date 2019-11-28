@@ -56,15 +56,6 @@ export function MyFocusContextProvider(props: any) {
   );
   const action: IMyFocusActions = useGetAction(state, dispatch);
 
-  const isPage = useIsCurrentPage("/focus");
-
-  // @useEffect
-  useEffect(() => {
-    // 1 当前页面
-    // 2 d
-    callBackWhenPassAllFunc([() => isPage], action.getTodayTodo);
-  }, [action.getTodayTodo]);
-
   const propsValue: IMyFocusContext = {
     ...action,
     myFocusContextValue: state,

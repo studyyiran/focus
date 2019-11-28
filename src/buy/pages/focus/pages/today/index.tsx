@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import "./index.less";
 import { FormWrapper } from "../../components/formWrapper";
 import { Input, Button, Select } from "antd";
-import { main } from "./eventLoop";
 import PostItemForm from "../../components/postItemForm";
 import { TodayPageSection } from "../../components/todayPageSection";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import Svg from "../../../../components/svg";
+import { useIsCurrentPage, useWhenUrlChange } from "../../../../common/useHook";
+import { callBackWhenPassAllFunc } from "../../../../common/utils/util";
 const { Option } = Select;
 
 export function FocusToday() {
@@ -15,6 +16,7 @@ export function FocusToday() {
 
   const myFocusContext = useContext(MyFocusContext);
   const {
+    getTodayTodo,
     myFocusContextValue,
     deleteItem,
     changeStudyItemStatus
@@ -22,10 +24,11 @@ export function FocusToday() {
   const { todayTodo } = myFocusContextValue;
   console.log(todayTodo);
 
-  // ?
   useEffect(() => {
-    main();
-  }, []);
+    // 1 当前页面
+    // 2 d
+    callBackWhenPassAllFunc([], getTodayTodo);
+  }, [getTodayTodo]);
 
   // 一个不知道为什么会出现在这里的表单config
   const formConfig = [
