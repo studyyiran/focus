@@ -6,16 +6,13 @@ import { getTestAjaxResultMock } from "./mock";
  * */
 const serverName = "/studyTodo";
 
-const getTodayTodoUrl = serverName + "/getTodayList";// 获取today列表
-const getTodayDoneUrl = serverName + "/getTodayDoneList";// 获取today列表
-const postNewItemUrl = serverName + "/newStudyTodoItem";// 新增口
-const changeStudyItemStatusUrl = serverName + "/changeStudyItemStatus";// 完成任务接口
-
+const getTodayTodoUrl = serverName + "/getTodayList"; // 获取today列表
+const getTodayDoneUrl = serverName + "/getTodayDoneList"; // 获取today列表
+const postNewItemUrl = serverName + "/newStudyTodoItem"; // 新增口
+const changeStudyItemStatusUrl = serverName + "/changeStudyItemStatus"; // 完成任务接口
 
 const changeItemContentUrl = serverName + "/changeContent"; // 通用修改口
 const deleteItemUrl = serverName + "/hideStudyItem"; // 通用删除口
-
-
 
 export async function changeStudyItemStatus(data: any) {
   const res: any = await ajax.put(changeStudyItemStatusUrl, data);
@@ -24,6 +21,11 @@ export async function changeStudyItemStatus(data: any) {
 
 export async function getTodayTodo() {
   const res: any = await ajax.get(getTodayTodoUrl);
+  return res;
+}
+
+export async function getTodayDone() {
+  const res: any = await ajax.get(getTodayDoneUrl);
   return res;
 }
 

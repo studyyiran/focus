@@ -11,6 +11,7 @@ import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
 import { IListItem } from "./interface";
 import {
   getTodayTodo,
+  getTodayDone,
   postNewItem,
   changeItemContent,
   deleteItem,
@@ -34,6 +35,7 @@ interface ITodayTodo {
 // store state
 interface IContextState {
   todayTodo: ITodayTodo;
+  todayDoneList: IListItem[];
 }
 
 // interface
@@ -45,7 +47,8 @@ export interface IMyFocusContext extends IMyFocusActions, IContextValue {
 // store provider
 export function MyFocusContextProvider(props: any) {
   const initState: IContextState = {
-    todayTodo: {} as any
+    todayTodo: {} as any,
+    todayDoneList: []
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -87,6 +90,7 @@ const addTomorrowTodo = serverName + "/newStudyTodoItem";
 // @actions
 export interface IMyFocusActions {
   getTodayTodo: () => void;
+  getTodayDone: () => any;
   addTodayTodo: (data: any) => any;
   postNewItem: ({
     content,
@@ -113,6 +117,16 @@ function useGetAction(
     promiseStatus.current = {};
   }
   const actions: IMyFocusActions = {
+    getTodayDone: promisify(async function(data: {
+      content: string;
+      tag: string;
+    }) {
+      const res = await getTodayDone();
+      dispatch({
+        type: myFocusReducerTypes.setTodayDoneList,
+        value: res
+      });
+    }),
     // 新增的底层功能接口
     postNewItem: promisify(async function(data: {
       content: string;
@@ -172,7 +186,8 @@ function useGetAction(
 
 // action types
 export const myFocusReducerTypes = {
-  setList: "setList"
+  setList: "setList",
+  setTodayDoneList: "setTodayDoneList"
 };
 
 // reducer
@@ -180,6 +195,13 @@ function reducer(state: IContextState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
+    case myFocusReducerTypes.setTodayDoneList: {
+      newState = {
+        ...newState,
+        todayDoneList: value
+      };
+      break;
+    }
     case myFocusReducerTypes.setList: {
       newState = {
         ...newState,
