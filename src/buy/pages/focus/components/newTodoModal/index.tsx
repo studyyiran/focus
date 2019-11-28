@@ -5,7 +5,8 @@ import { locationHref } from "../../../../common/utils/routerHistory";
 import { getLocationUrl } from "../../../../common/utils/util";
 import { Input, Button, Select } from "antd";
 const { Option } = Select;
-export function showNewTodoModal() {
+export function NewTodoModal(props: any) {
+  const { show } = props;
   // 一个不知道为什么会出现在这里的表单config
   const formConfig = [
     {
@@ -39,17 +40,18 @@ export function showNewTodoModal() {
     }
   ];
 
-  // 日后制作修改弹框,需要传入id来实现
-  (Modal as any).confirm({
+  const modalProps = {
     width: "70%",
-    closable: false,
+    closable: true,
     title: null,
-    footer: "single",
     maskClosable: true,
     cancelText: "Got it",
-    onCancel: () => {
-      locationHref(getLocationUrl("buyhome"));
-    },
-    children: <PostItemForm formConfig={formConfig} show={true} />
-  });
+    footer: null
+  };
+  return (
+    <Modal {...modalProps} visible={show}>
+      <PostItemForm formConfig={formConfig} />
+    </Modal>
+  );
+  // 日后制作修改弹框,需要传入id来实现
 }

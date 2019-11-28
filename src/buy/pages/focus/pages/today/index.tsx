@@ -5,11 +5,12 @@ import { TodayPageSection } from "../../components/todayPageSection";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import Svg from "../../../../components/svg";
 import { callBackWhenPassAllFunc } from "../../../../common/utils/util";
-import {showNewTodoModal} from "../../components/newTodoModal";
-
+import { NewTodoModal } from "../../components/newTodoModal";
 
 export function FocusToday() {
   const myFocusContext = useContext(MyFocusContext);
+  const [showModal, setShowModal] = useState(false);
+
   const {
     getTodayTodo,
     myFocusContextValue,
@@ -50,13 +51,14 @@ export function FocusToday() {
         <div>
           <Button
             onClick={() => {
-              showNewTodoModal();
+              setShowModal(true);
             }}
           >
             <Svg icon="jia" />
             Add Into Today Todo
           </Button>
         </div>
+        <NewTodoModal show={showModal} />
       </TodayPageSection>
       <TodayPageSection title="Review">
         {todayTodo && todayTodo.review && todayTodo.review.length
