@@ -134,6 +134,28 @@ export function FocusToday() {
             })
           : null}
       </TodayPageSection>
+      <TodayPageSection title="Delay">
+        {todayTodo && todayTodo.delay && todayTodo.delay.length
+          ? todayTodo.delay.map(item => {
+              const { content, _id } = item;
+              return (
+                <li key={_id}>
+                  <span>{content}</span>
+                  <Button
+                    onClick={() => {
+                      deleteItem(_id);
+                    }}
+                  >
+                    delete
+                  </Button>
+                  <Button onClick={changeStudyItemStatus.bind({}, _id)}>
+                    finish
+                  </Button>
+                </li>
+              );
+            })
+          : null}
+      </TodayPageSection>
     </div>
   );
 }

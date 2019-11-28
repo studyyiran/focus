@@ -8,6 +8,15 @@ export function todayPageFilter(data: any) {
   } as any;
   data.forEach((item: any) => {
     const { tag } = item;
+    let isToday = false;
+    if (item && item.planStartTime) {
+      isToday = moment(item.planStartTime).isSame(moment(), "day");
+    }
+    // 如果已经不是当日的.扔到delay
+    if (!isToday) {
+      jsonWithFilterData.delay.push(item);
+      return
+    }
     switch (tag) {
       case "review":
         jsonWithFilterData.review.push(item);
