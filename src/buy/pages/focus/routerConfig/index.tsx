@@ -9,7 +9,7 @@ export const routerConfig = [
     component: FocusToday
   },
   {
-    path: "/todaydone",
+    path: "/done",
     exact: true,
     title: "Buy Used Cell Phones | UpTradeit.com",
     component: TodayDone

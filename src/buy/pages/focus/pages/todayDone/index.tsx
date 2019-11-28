@@ -12,6 +12,17 @@ export function TodayDone() {
   useEffect(() => {
     getTodayDone();
   }, []);
-  console.log(todayDoneList)
-  return <div className="test-page">123</div>;
+  function renderList() {
+    if (todayDoneList && todayDoneList.length) {
+      return todayDoneList.map(item => {
+        const { content } = item;
+        return <li>{content}</li>;
+      });
+    }
+  }
+  return (
+    <div className="test-page">
+      <ul>{renderList()}</ul>
+    </div>
+  );
 }
