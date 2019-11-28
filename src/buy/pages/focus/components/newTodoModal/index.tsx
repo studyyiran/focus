@@ -6,7 +6,7 @@ import { getLocationUrl } from "../../../../common/utils/util";
 import { Input, Button, Select } from "antd";
 const { Option } = Select;
 export function NewTodoModal(props: any) {
-  const { show } = props;
+  const { show, ...others } = props;
   // 一个不知道为什么会出现在这里的表单config
   const formConfig = [
     {
@@ -50,7 +50,7 @@ export function NewTodoModal(props: any) {
   };
   return (
     <Modal {...modalProps} visible={show}>
-      <PostItemForm formConfig={formConfig} />
+      <PostItemForm formConfig={formConfig} {...others} />
     </Modal>
   );
   // 日后制作修改弹框,需要传入id来实现

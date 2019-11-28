@@ -1,12 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./index.less";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import Button from "../../../../components/button";
 import Svg from "../../../../components/svg";
-import PostItemForm from "../../components/postItemForm";
+import { NewTodoModal } from "../../components/newTodoModal";
 
 export function TodayDone() {
   const myFocusContext = useContext(MyFocusContext);
+  const [showModal, setShowModal] = useState(false);
+
   const {
     myFocusContextValue,
     getTodayDone,
@@ -30,11 +32,13 @@ export function TodayDone() {
       <Button
         onClick={() => {
           // 唤起弹框
+          setShowModal(true);
         }}
       >
         <Svg icon="jia" />
         Quick Finish
       </Button>
+      <NewTodoModal show={showModal} prevent={true} onSubmit={addTodayFinish} />
     </div>
   );
 }
