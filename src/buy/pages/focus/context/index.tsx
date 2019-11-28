@@ -138,7 +138,9 @@ function useGetAction(
     }),
     //新增任务并马上完成
     addTodayFinish: promisify(async function(data: any) {
-      return actions.postNewItem(decoratorFinish(decoratorToday(data)));
+      await actions.postNewItem(decoratorFinish(decoratorToday(data)));
+      // 更新数据
+      actions.getTodayDone();
     }),
     changeStudyItemStatus: promisify(async function(id: string) {
       // 进行状态更新

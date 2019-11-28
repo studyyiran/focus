@@ -10,7 +10,7 @@ export default function PostItemForm(props: any) {
   function onSubmitHandler(values: any) {
     if (prevent && onSubmit) {
       // 执行自定义逻辑
-      onSubmit();
+      onSubmit(values);
     } else {
       // 这块是修改和新增两用
       if (props.id) {
@@ -24,7 +24,7 @@ export default function PostItemForm(props: any) {
         // 新增
         addTodayTodo(values);
       }
-      onSubmit && onSubmit();
+      onSubmit && onSubmit(values);
     }
   }
   return (
