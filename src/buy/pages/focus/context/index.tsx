@@ -19,21 +19,21 @@ import {
 import { IContextValue } from "../../../common/type";
 import { useIsCurrentPage } from "../../../common/useHook";
 import moment from "moment";
+import { decoratorToday, todayPageFilter } from "../util";
 
 export const MyFocusContext = createContext({});
 // store name
 export const MyFocus = "MyFocus";
 
-
 interface ITodayTodo {
   plane: IListItem[];
   review: IListItem[];
   delay: IListItem[];
-};
+}
 
 // store state
 interface IContextState {
-  todayTodo: ITodayTodo
+  todayTodo: ITodayTodo;
 }
 
 // interface
@@ -100,9 +100,6 @@ export interface IMyFocusActions {
   changeItemContent: ({ id, content }: { id: string; content: string }) => void;
   deleteItem: (id: string) => void;
   changeStudyItemStatus: (id: any) => any;
-  decoratorToday: (data: any) => any;// 设置开始时间为今天
-  todayPageFilter: (data: any) => ITodayTodo[]
-
 }
 
 // useCreateActions
@@ -116,27 +113,6 @@ function useGetAction(
     promiseStatus.current = {};
   }
   const actions: IMyFocusActions = {
-    todayPageFilter: function(data: any) {
-      const jsonWithFilterData = {
-        review: [],
-        plane: [],
-        delay: []
-      } as any
-      data.forEach((item: any) => {
-        const {tag} = item
-        switch(tag) {
-          case 'review':
-            jsonWithFilterData.review.push(item)
-            break;
-          default:
-            jsonWithFilterData.plane.push(item)
-        }
-      })
-      return jsonWithFilterData
-    },
-    decoratorToday: function(data: any) {
-      return { planStartTime: moment(), ...data };
-    },
     // 新增的底层功能接口
     postNewItem: promisify(async function(data: {
       content: string;
@@ -150,7 +126,7 @@ function useGetAction(
     }),
     //新增一个常规任务
     addTodayTodo: promisify(async function(data: any) {
-      return actions.postNewItem(actions.decoratorToday(data));
+      return actions.postNewItem(decoratorToday(data));
     }),
     changeStudyItemStatus: promisify(async function(id: string) {
       // 进行状态更新
@@ -207,7 +183,7 @@ function reducer(state: IContextState, action: IReducerAction) {
     case myFocusReducerTypes.setList: {
       newState = {
         ...newState,
-        todayTodo: value
+        todayTodo: todayPageFilter(value)
       };
       break;
     }
