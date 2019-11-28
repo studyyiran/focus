@@ -11,6 +11,7 @@ export default function PostItemForm(props: any) {
     changeItemContent
   } = myFocusContext as IMyFocusContext;
   function onSubmitHandler(values: any) {
+    // 这块是修改和新增两用
     if (props.id) {
       changeItemContent({
         ...values,

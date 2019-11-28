@@ -20,7 +20,7 @@ import {
 import { IContextValue } from "../../../common/type";
 import { useIsCurrentPage } from "../../../common/useHook";
 import moment from "moment";
-import { decoratorToday, todayPageFilter } from "../util";
+import { decoratorFinish, decoratorToday, todayPageFilter } from "../util";
 
 export const MyFocusContext = createContext({});
 // store name
@@ -67,8 +67,8 @@ export function MyFocusContextProvider(props: any) {
 
 //
 const addTodayTodo = serverName + "/newStudyTodoItem";
-// 新增一个完成的任务。
-const addTodayFinish = serverName + "/newStudyTodoItem";
+
+
 // 新增一个tag为review的任务。
 const addTodayReview = serverName + "/newStudyTodoItem";
 
@@ -83,6 +83,8 @@ export interface IMyFocusActions {
   getTodayTodo: () => void;
   getTodayDone: () => any;
   addTodayTodo: (data: any) => any;
+
+  //  新增任务
   postNewItem: ({
     content,
     tag,
@@ -92,6 +94,7 @@ export interface IMyFocusActions {
     tag: string;
     planStartTime: string;
   }) => void;
+  addTodayFinish: (data: any) => any; // 新增一个完成的任务。
   changeItemContent: ({ id, content }: { id: string; content: string }) => void;
   deleteItem: (id: string) => void;
   changeStudyItemStatus: (id: any) => any;
@@ -132,6 +135,10 @@ function useGetAction(
     //新增一个常规任务
     addTodayTodo: promisify(async function(data: any) {
       return actions.postNewItem(decoratorToday(data));
+    }),
+    //新增任务并马上完成
+    addTodayFinish: promisify(async function(data: any) {
+      return actions.postNewItem(decoratorFinish(decoratorToday(data)));
     }),
     changeStudyItemStatus: promisify(async function(id: string) {
       // 进行状态更新

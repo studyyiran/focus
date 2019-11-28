@@ -15,7 +15,7 @@ export function todayPageFilter(data: any) {
     // 如果已经不是当日的.扔到delay
     if (!isToday) {
       jsonWithFilterData.delay.push(item);
-      return
+      return;
     }
     switch (tag) {
       case "review":
@@ -30,4 +30,8 @@ export function todayPageFilter(data: any) {
 
 export function decoratorToday(data: any) {
   return { planStartTime: moment(), ...data };
+}
+
+export function decoratorFinish(data: any) {
+  return { ...data, status: "finish" };
 }

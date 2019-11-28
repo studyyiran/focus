@@ -1,19 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./index.less";
-import { FormWrapper } from "../../components/formWrapper";
-import { Input, Button, Select } from "antd";
-import PostItemForm from "../../components/postItemForm";
+import { Button, Select } from "antd";
 import { TodayPageSection } from "../../components/todayPageSection";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import Svg from "../../../../components/svg";
-import { useIsCurrentPage, useWhenUrlChange } from "../../../../common/useHook";
 import { callBackWhenPassAllFunc } from "../../../../common/utils/util";
-const { Option } = Select;
+import {showNewTodoModal} from "../../components/newTodoModal";
+
 
 export function FocusToday() {
-  const [showForm, setShowForm] = useState(false);
-  const [currentId, setCurrentId] = useState("");
-
   const myFocusContext = useContext(MyFocusContext);
   const {
     getTodayTodo,
@@ -22,46 +17,12 @@ export function FocusToday() {
     changeStudyItemStatus
   } = myFocusContext as IMyFocusContext;
   const { todayTodo } = myFocusContextValue;
-  console.log(todayTodo);
 
   useEffect(() => {
     // 1 当前页面
     // 2 d
     callBackWhenPassAllFunc([], getTodayTodo);
   }, [getTodayTodo]);
-
-  // 一个不知道为什么会出现在这里的表单config
-  const formConfig = [
-    {
-      id: "content",
-      rules: [
-        {
-          required: true,
-          message: "not empty"
-        }
-      ],
-      renderFormEle: () => <Input />
-    },
-    {
-      id: "tag",
-      initialValue: "study",
-      rules: [
-        {
-          required: true,
-          message: "not empty"
-        }
-      ],
-      renderFormEle: () => (
-        <Select>
-          <Option value="review">review</Option>
-          <Option value="study">study</Option>
-        </Select>
-      )
-    },
-    {
-      renderFormEle: () => <Button htmlType="submit">submit</Button>
-    }
-  ];
 
   return (
     <div className="test-page">
@@ -79,14 +40,6 @@ export function FocusToday() {
                   >
                     delete
                   </Button>
-                  <Button
-                    onClick={() => {
-                      setShowForm(true);
-                      setCurrentId(_id);
-                    }}
-                  >
-                    change
-                  </Button>
                   <Button onClick={changeStudyItemStatus.bind({}, _id)}>
                     finish
                   </Button>
@@ -97,15 +50,13 @@ export function FocusToday() {
         <div>
           <Button
             onClick={() => {
-              setShowForm(true);
-              setCurrentId("");
+              showNewTodoModal();
             }}
           >
             <Svg icon="jia" />
             Add Into Today Todo
           </Button>
         </div>
-        <PostItemForm formConfig={formConfig} id={currentId} show={showForm} />
       </TodayPageSection>
       <TodayPageSection title="Review">
         {todayTodo && todayTodo.review && todayTodo.review.length
@@ -120,14 +71,6 @@ export function FocusToday() {
                     }}
                   >
                     delete
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      setShowForm(true);
-                      setCurrentId(_id);
-                    }}
-                  >
-                    change
                   </Button>
                   <Button onClick={changeStudyItemStatus.bind({}, _id)}>
                     finish
