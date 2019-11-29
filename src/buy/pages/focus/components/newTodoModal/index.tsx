@@ -21,7 +21,7 @@ export function NewTodoModal(props: any) {
     },
     {
       id: "tag",
-      initialValue: "study",
+      initialValue: "money",
       rules: [
         {
           required: true,
@@ -32,6 +32,7 @@ export function NewTodoModal(props: any) {
         <Select>
           <Option value="review">review</Option>
           <Option value="study">study</Option>
+          <Option value="money">money</Option>
         </Select>
       )
     },
