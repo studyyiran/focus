@@ -30,9 +30,11 @@ export function NewTodoModal(props: any) {
       ],
       renderFormEle: () => (
         <Select>
-          <Option value="review">review</Option>
-          <Option value="study">study</Option>
-          <Option value="money">money</Option>
+          <Option value="review">复习</Option>
+          <Option value="study">学习</Option>
+          <Option value="money">金钱</Option>
+          <Option value="work">工作</Option>
+          <Option value="business">事业</Option>
         </Select>
       )
     },

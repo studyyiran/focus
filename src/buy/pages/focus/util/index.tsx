@@ -28,6 +28,10 @@ export function todayPageFilter(data: any) {
   return jsonWithFilterData;
 }
 
+export function decoratorTomorrow(data: any) {
+  return { planStartTime: moment().add(1, 'days'), ...data };
+}
+
 export function decoratorToday(data: any) {
   return { planStartTime: moment(), ...data };
 }

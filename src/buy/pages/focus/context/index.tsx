@@ -20,7 +20,7 @@ import {
 import { IContextValue } from "../../../common/type";
 import { useIsCurrentPage } from "../../../common/useHook";
 import moment from "moment";
-import { decoratorFinish, decoratorToday, todayPageFilter } from "../util";
+import {decoratorFinish, decoratorToday, decoratorTomorrow, todayPageFilter} from "../util";
 
 export const MyFocusContext = createContext({});
 // store name
@@ -84,6 +84,9 @@ export interface IMyFocusActions {
   getTodayDone: () => any;
   addTodayTodo: (data: any) => any;
 
+  addTomorrowTodo: (data: any) => any;
+  addTomorrowReview: (data: any) => any;
+
   //  新增任务
   postNewItem: ({
     content,
@@ -111,6 +114,18 @@ function useGetAction(
     promiseStatus.current = {};
   }
   const actions: IMyFocusActions = {
+    addTomorrowReview: promisify(async function(data: {
+      content: string;
+      tag: string;
+    }) {
+      return actions.postNewItem(decoratorTomorrow(data));
+    }),
+    addTomorrowTodo: promisify(async function(data: {
+      content: string;
+      tag: string;
+    }) {
+      return actions.postNewItem(decoratorTomorrow(data));
+    }),
     getTodayDone: promisify(async function(data: {
       content: string;
       tag: string;

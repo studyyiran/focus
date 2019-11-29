@@ -10,12 +10,14 @@ import { NewTodoModal } from "../../components/newTodoModal";
 export function FocusToday() {
   const myFocusContext = useContext(MyFocusContext);
   const [showModal, setShowModal] = useState(false);
+  const [showTomorrowModal, setShowTomorrowModal] = useState(false);
 
   const {
     getTodayTodo,
     myFocusContextValue,
     deleteItem,
-    changeStudyItemStatus
+    changeStudyItemStatus,
+    addTomorrowTodo
   } = myFocusContext as IMyFocusContext;
   const { todayTodo } = myFocusContextValue;
 
@@ -104,6 +106,20 @@ export function FocusToday() {
             })
           : null}
       </TodayPageSection>
+      <Button
+        onClick={() => {
+          setShowTomorrowModal(true);
+        }}
+      >
+        Add Tomorrow TODO
+      </Button>
+      <NewTodoModal
+        show={showTomorrowModal}
+        prevent={true}
+        onSubmit={(data: any) => {
+          addTomorrowTodo(data);
+        }}
+      />
     </div>
   );
 }

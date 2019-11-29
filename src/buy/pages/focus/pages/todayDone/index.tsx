@@ -12,7 +12,8 @@ export function TodayDone() {
   const {
     myFocusContextValue,
     getTodayDone,
-    addTodayFinish
+    addTodayFinish,
+    addTomorrowReview
   } = myFocusContext as IMyFocusContext;
   const { todayDoneList } = myFocusContextValue;
   useEffect(() => {
@@ -21,8 +22,24 @@ export function TodayDone() {
   function renderList() {
     if (todayDoneList && todayDoneList.length) {
       return todayDoneList.map(item => {
-        const { content } = item;
-        return <li>{content}</li>;
+        const { content, tag } = item;
+        return (
+          <li>
+            <span>《{tag}》</span>
+            <span>{content}</span>
+            <Button
+              onClick={() => {
+                addTomorrowReview({
+                  content: content,
+                  tag: "review"
+                });
+              }}
+            >
+              <Svg icon="jia" />
+              Add Into Tomorrow Review
+            </Button>
+          </li>
+        );
       });
     }
   }
