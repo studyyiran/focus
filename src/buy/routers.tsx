@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { Switch, Route, Router } from "react-router-dom";
-import Footer from "./components/footer";
-import Header from "./components/header";
 import hocDocumentTitle from "./components/documentTitle";
 import { routerHistory } from "./common/utils/routerHistory";
 import { scrollTop } from "./common/utils/util";
@@ -50,11 +48,9 @@ function hocWithLayout(Component: any, otherConfig: any) {
     }, [routerProps.match.url]);
     return (
       <div className="layout">
-        {header === "hide" ? null : <Header {...routerProps} />}
         <main>
           <Component {...routerProps} />
         </main>
-        <Footer {...routerProps} />
       </div>
     );
   };
