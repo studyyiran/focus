@@ -8,7 +8,7 @@ import React, {
 import { IReducerAction } from "buy/common/interface/index.interface";
 import { callBackWhenPassAllFunc, promisify } from "buy/common/utils/util";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
-import { IListItem } from "./interface";
+import { IListItem, ITodayTodo } from "./interface";
 import {
   getTodayTodo,
   getTodayDone,
@@ -20,17 +20,16 @@ import {
 import { IContextValue } from "../../../common/type";
 import { useIsCurrentPage } from "../../../common/useHook";
 import moment from "moment";
-import {decoratorFinish, decoratorToday, decoratorTomorrow, todayPageFilter} from "../util";
+import {
+  decoratorFinish,
+  decoratorToday,
+  decoratorTomorrow,
+  todayPageFilter
+} from "../util";
 
 export const MyFocusContext = createContext({});
 // store name
 export const MyFocus = "MyFocus";
-
-interface ITodayTodo {
-  plane: IListItem[];
-  review: IListItem[];
-  delay: IListItem[];
-}
 
 // store state
 interface IContextState {
@@ -55,6 +54,10 @@ export function MyFocusContextProvider(props: any) {
     initState
   );
   const action: IMyFocusActions = useGetAction(state, dispatch);
+
+  useEffect(() => {
+    callBackWhenPassAllFunc([], action.getTodayTodo);
+  }, [getTodayTodo]);
 
   const propsValue: IMyFocusContext = {
     ...action,

@@ -16,7 +16,7 @@ export function todayPageFilter(data: any) {
     if (!isToday) {
       // 如果是明天的
       if (moment(item.planStartTime).isSame(moment().add(1, 'days'), "day")) {
-        jsonWithFilterData.delay.push(item);
+        jsonWithFilterData.tomorrow.push(item);
       } else {
         // 如果已经不是当日的.扔到delay
         jsonWithFilterData.delay.push(item);

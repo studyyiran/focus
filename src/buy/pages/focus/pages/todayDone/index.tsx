@@ -4,24 +4,27 @@ import { IMyFocusContext, MyFocusContext } from "../../context";
 import Button from "../../../../components/button";
 import Svg from "../../../../components/svg";
 import { NewTodoModal } from "../../components/newTodoModal";
+import { IListItem } from "../../context/interface";
 
 export function TodayDone() {
   const myFocusContext = useContext(MyFocusContext);
   const [showModal, setShowModal] = useState(false);
-
+  const [showTomorrowModal, setShowTomorrowModal] = useState(false);
   const {
     myFocusContextValue,
     getTodayDone,
     addTodayFinish,
-    addTomorrowReview
+    addTomorrowReview,
+    addTomorrowTodo
   } = myFocusContext as IMyFocusContext;
-  const { todayDoneList } = myFocusContextValue;
+  const { todayDoneList, todayTodo } = myFocusContextValue;
   useEffect(() => {
     getTodayDone();
   }, []);
-  function renderList() {
-    if (todayDoneList && todayDoneList.length) {
-      return todayDoneList.map(item => {
+  console.log(todayTodo)
+  function renderList(list: IListItem[]) {
+    if (list && list.length) {
+      return list.map(item => {
         const { content, tag } = item;
         return (
           <li>
@@ -45,7 +48,7 @@ export function TodayDone() {
   }
   return (
     <div className="test-page">
-      <ul>{renderList()}</ul>
+      <ul>{renderList(todayDoneList)}</ul>
       <Button
         onClick={() => {
           // 唤起弹框
@@ -56,6 +59,24 @@ export function TodayDone() {
         Quick Finish
       </Button>
       <NewTodoModal show={showModal} prevent={true} onSubmit={addTodayFinish} />
+      <div>
+        <h2>Tomorrow Part</h2>
+        <ul>{renderList(todayTodo.tomorrow)}</ul>
+        <Button
+          onClick={() => {
+            setShowTomorrowModal(true);
+          }}
+        >
+          Add Tomorrow TODO
+        </Button>
+        <NewTodoModal
+          show={showTomorrowModal}
+          prevent={true}
+          onSubmit={(data: any) => {
+            addTomorrowTodo(data);
+          }}
+        />
+      </div>
     </div>
   );
 }

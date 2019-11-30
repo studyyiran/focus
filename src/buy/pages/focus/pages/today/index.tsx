@@ -10,22 +10,13 @@ import { NewTodoModal } from "../../components/newTodoModal";
 export function FocusToday() {
   const myFocusContext = useContext(MyFocusContext);
   const [showModal, setShowModal] = useState(false);
-  const [showTomorrowModal, setShowTomorrowModal] = useState(false);
-
   const {
     getTodayTodo,
     myFocusContextValue,
     deleteItem,
-    changeStudyItemStatus,
-    addTomorrowTodo
+    changeStudyItemStatus
   } = myFocusContext as IMyFocusContext;
   const { todayTodo } = myFocusContextValue;
-
-  useEffect(() => {
-    // 1 当前页面
-    // 2 d
-    callBackWhenPassAllFunc([], getTodayTodo);
-  }, [getTodayTodo]);
 
   return (
     <div className="test-page">
@@ -50,17 +41,6 @@ export function FocusToday() {
               );
             })
           : null}
-        <div>
-          <Button
-            onClick={() => {
-              setShowModal(true);
-            }}
-          >
-            <Svg icon="jia" />
-            Add Into Today Todo
-          </Button>
-        </div>
-        <NewTodoModal show={showModal} />
       </TodayPageSection>
       <TodayPageSection title="Review">
         {todayTodo && todayTodo.review && todayTodo.review.length
@@ -106,20 +86,17 @@ export function FocusToday() {
             })
           : null}
       </TodayPageSection>
-      <Button
-        onClick={() => {
-          setShowTomorrowModal(true);
-        }}
-      >
-        Add Tomorrow TODO
-      </Button>
-      <NewTodoModal
-        show={showTomorrowModal}
-        prevent={true}
-        onSubmit={(data: any) => {
-          addTomorrowTodo(data);
-        }}
-      />
+      <div>
+        <Button
+          onClick={() => {
+            setShowModal(true);
+          }}
+        >
+          <Svg icon="jia" />
+          Add Into Today Todo
+        </Button>
+      </div>
+      <NewTodoModal show={showModal} />
     </div>
   );
 }
