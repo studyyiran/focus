@@ -23,10 +23,11 @@ export default function RouterLink(props: {
       />
     );
   }
-  
+
   function RenderLink() {
     return <Link onClick={onClick} {...other} to={to} />;
   }
+  return <RenderLink />
   if (isServer()) {
     return <RenderA />
   } else {

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Switch, Route, Router } from "react-router-dom";
+import { Switch, Route, Router, Redirect } from "react-router-dom";
 import hocDocumentTitle from "./components/documentTitle";
 import { routerHistory } from "./common/utils/routerHistory";
 import { scrollTop } from "./common/utils/util";
@@ -33,6 +33,7 @@ export default function ContextProviderWrapper() {
               />
             )
           )}
+          <Redirect to={"/focus/today"} />
         </Switch>
       </RenderWithOriginData>
     </Router>
