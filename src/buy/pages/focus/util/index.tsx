@@ -4,7 +4,8 @@ export function todayPageFilter(data: any) {
   const jsonWithFilterData = {
     review: [],
     plane: [],
-    delay: []
+    delay: [],
+    tomorrow: [],
   } as any;
   data.forEach((item: any) => {
     const { tag } = item;
@@ -12,9 +13,14 @@ export function todayPageFilter(data: any) {
     if (item && item.planStartTime) {
       isToday = moment(item.planStartTime).isSame(moment(), "day");
     }
-    // 如果已经不是当日的.扔到delay
     if (!isToday) {
-      jsonWithFilterData.delay.push(item);
+      // 如果是明天的
+      if (moment(item.planStartTime).isSame(moment().add(1, 'days'), "day")) {
+        jsonWithFilterData.delay.push(item);
+      } else {
+        // 如果已经不是当日的.扔到delay
+        jsonWithFilterData.delay.push(item);
+      }
       return;
     }
     switch (tag) {
