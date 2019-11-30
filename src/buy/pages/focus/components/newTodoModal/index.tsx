@@ -49,6 +49,9 @@ export function NewTodoModal(props: any) {
     title: null,
     maskClosable: true,
     cancelText: "Got it",
+    onCancel: () => {
+      props && props.onCancel && props.onCancel();
+    },
     footer: null
   };
   return (

@@ -97,7 +97,12 @@ export function FocusToday() {
           Add Into Today Todo
         </Button>
       </div>
-      <NewTodoModal show={showModal} />
+      <NewTodoModal
+        show={showModal}
+        onCancel={() => {
+          setShowModal(false);
+        }}
+      />
     </div>
   );
 }

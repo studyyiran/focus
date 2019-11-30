@@ -62,6 +62,9 @@ export function TodayDone() {
           Quick Finish
         </Button>
         <NewTodoModal
+          onCancel={() => {
+            setShowModal(false);
+          }}
           show={showModal}
           prevent={true}
           onSubmit={addTodayFinish}
@@ -79,6 +82,9 @@ export function TodayDone() {
           Add Tomorrow TODO
         </Button>
         <NewTodoModal
+          onCancel={() => {
+            setShowTomorrowModal(false);
+          }}
           show={showTomorrowModal}
           prevent={true}
           onSubmit={(data: any) => {
