@@ -20,6 +20,7 @@ export function FocusToday() {
 
   return (
     <div className="test-page">
+      <h1>Focus Today</h1>
       <TodayPageSection title="Plane">
         {todayTodo && todayTodo.plane && todayTodo.plane.length
           ? todayTodo.plane.map(item => {

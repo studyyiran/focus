@@ -21,7 +21,7 @@ export function TodayDone() {
   useEffect(() => {
     getTodayDone();
   }, []);
-  console.log(todayTodo)
+  console.log(todayTodo);
   function renderList(list: IListItem[]) {
     if (list && list.length) {
       return list.map(item => {
@@ -48,19 +48,28 @@ export function TodayDone() {
   }
   return (
     <div className="test-page">
-      <ul>{renderList(todayDoneList)}</ul>
-      <Button
-        onClick={() => {
-          // 唤起弹框
-          setShowModal(true);
-        }}
-      >
-        <Svg icon="jia" />
-        Quick Finish
-      </Button>
-      <NewTodoModal show={showModal} prevent={true} onSubmit={addTodayFinish} />
+      <h1>Done</h1>
       <div>
-        <h2>Tomorrow Part</h2>
+        <h2>Today Done</h2>
+        <ul>{renderList(todayDoneList)}</ul>
+        <Button
+          onClick={() => {
+            // 唤起弹框
+            setShowModal(true);
+          }}
+        >
+          <Svg icon="jia" />
+          Quick Finish
+        </Button>
+        <NewTodoModal
+          show={showModal}
+          prevent={true}
+          onSubmit={addTodayFinish}
+        />
+      </div>
+
+      <div>
+        <h2>Tomorrow Plan</h2>
         <ul>{renderList(todayTodo.tomorrow)}</ul>
         <Button
           onClick={() => {
