@@ -7,23 +7,42 @@ export function FocusLayout(props: any) {
   const { children, computedMatch, location } = props;
   const { path: fatherPath } = computedMatch;
   const { pathname } = location;
+
+  // 进行匹配，同台渲染标题
   // 获取当前的url
   return (
     <div className="focus-layout">
-      <div>
+      <header>
         <ul>
-          {routerConfig.map(({ path }: any) => {
+          {routerConfig.map(routerInfo => {
+            const { path } = routerInfo;
             return (
-              <li
-                style={pathname === fatherPath + path ? { color: "red" } : {}}
-              >
-                <RouterLink to={`${fatherPath}${path}`}>{path}</RouterLink>
-              </li>
+              <div>
+                <li
+                  style={pathname === fatherPath + path ? { color: "red" } : {}}
+                >
+                  <RouterLink to={`${fatherPath}${path}`}>{path}</RouterLink>
+                </li>
+              </div>
             );
           })}
         </ul>
-      </div>
-      <div>{children}</div>
+      </header>
+      {routerConfig.map(routerInfo => {
+        const { path } = routerInfo;
+        return <RenderTitle {...routerInfo} fatherPath={fatherPath} />;
+      })}
+      <main>{children}</main>
     </div>
   );
+}
+
+function RenderTitle(props: any) {
+  const { path, title, fatherPath } = props;
+  const matched = !!useRouteMatch(`${fatherPath}${path}`);
+  if (matched) {
+    return <h1>{title}</h1>;
+  } else {
+    return null;
+  }
 }

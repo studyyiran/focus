@@ -48,7 +48,6 @@ export function TodayDone() {
   }
   return (
     <div className="test-page">
-      <h1>Done</h1>
       <div>
         <h2>Today Done</h2>
         <ul>{renderList(todayDoneList)}</ul>

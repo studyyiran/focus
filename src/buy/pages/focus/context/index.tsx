@@ -11,18 +11,12 @@ import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
 import { IListItem, ITodayTodo } from "./interface";
 
 import { IContextValue } from "../../../common/type";
-import { useIsCurrentPage } from "../../../common/useHook";
-import moment from "moment";
 import {
   decoratorFinish,
   decoratorToday,
   decoratorTomorrow,
   todayPageFilter
 } from "../util";
-
-export const MyFocusContext = createContext({});
-// store name
-export const MyFocus = "MyFocus";
 
 import {
   getTodayTodo,
@@ -33,6 +27,10 @@ import {
   changeStudyItemStatus,
   getHistoryByFilter
 } from "../server";
+
+export const MyFocusContext = createContext({});
+// store name
+export const MyFocus = "MyFocus";
 
 // store state
 interface IContextState {
