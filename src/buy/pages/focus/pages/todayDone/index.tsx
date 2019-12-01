@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import "./index.less";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import Svg from "../../../../components/svg";
-import { NewTodoModal } from "../../components/newTodoModal";
+import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { IListItem } from "../../context/interface";
 import { Button } from "antd";
+import { TodoLine } from "../../components/ToDoLine";
 
 export function TodayDone() {
   const myFocusContext = useContext(MyFocusContext);
@@ -21,17 +22,24 @@ export function TodayDone() {
   useEffect(() => {
     getTodayDone();
   }, []);
+
+  const quickFinishModal = useShowNewTodoModal({
+    prevent: true,
+    onSubmit: addTodayFinish
+  });
+
+  const addTomorrowTodoModal = useShowNewTodoModal({
+    prevent: true,
+    onSubmit: addTomorrowTodo
+  });
+
   function renderList(list: IListItem[]) {
     if (list && list.length) {
       return list.map(item => {
         const { content, tag, _id } = item;
         return (
           <li key={_id} className="line">
-            <div>
-              <span>《{tag}》</span>
-              <span>{content}</span>
-            </div>
-
+            <TodoLine {...item} />
             <Button
               onClick={() => {
                 addTomorrowReview({
@@ -53,45 +61,16 @@ export function TodayDone() {
       <div>
         <h2>Today Done</h2>
         <ul>{renderList(todayDoneList)}</ul>
-        <Button
-          onClick={() => {
-            // 唤起弹框
-            setShowModal(true);
-          }}
-        >
+        <Button onClick={quickFinishModal}>
           <Svg icon="jia" />
           Quick Finish
         </Button>
-        <NewTodoModal
-          onCancel={() => {
-            setShowModal(false);
-          }}
-          show={showModal}
-          prevent={true}
-          onSubmit={addTodayFinish}
-        />
       </div>
 
       <div>
         <h2>Tomorrow Plan</h2>
         <ul>{renderList(todayTodo.tomorrow)}</ul>
-        <Button
-          onClick={() => {
-            setShowTomorrowModal(true);
-          }}
-        >
-          Add Tomorrow TODO
-        </Button>
-        <NewTodoModal
-          onCancel={() => {
-            setShowTomorrowModal(false);
-          }}
-          show={showTomorrowModal}
-          prevent={true}
-          onSubmit={(data: any) => {
-            addTomorrowTodo(data);
-          }}
-        />
+        <Button onClick={addTomorrowTodoModal}>Add Tomorrow TODO</Button>
       </div>
     </div>
   );
