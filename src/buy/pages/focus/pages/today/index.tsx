@@ -12,9 +12,7 @@ import { TodoLine } from "../../components/ToDoLine";
 export function FocusToday() {
   const myFocusContext = useContext(MyFocusContext);
   const {
-    getTodayTodo,
     myFocusContextValue,
-    deleteItem,
     changeStudyItemStatus
   } = myFocusContext as IMyFocusContext;
   const { todayTodo } = myFocusContextValue;
@@ -30,13 +28,6 @@ export function FocusToday() {
               return (
                 <li key={_id}>
                   <TodoLine {...item} />
-                  <Button
-                    onClick={() => {
-                      deleteItem(_id);
-                    }}
-                  >
-                    delete
-                  </Button>
                   <Button onClick={changeStudyItemStatus.bind({}, _id)}>
                     finish
                   </Button>
@@ -52,13 +43,6 @@ export function FocusToday() {
               return (
                 <li key={_id}>
                   <TodoLine {...item} />
-                  <Button
-                    onClick={() => {
-                      deleteItem(_id);
-                    }}
-                  >
-                    delete
-                  </Button>
                   <Button onClick={changeStudyItemStatus.bind({}, _id)}>
                     finish
                   </Button>
@@ -74,13 +58,6 @@ export function FocusToday() {
               return (
                 <li key={_id}>
                   <TodoLine {...item} />
-                  <Button
-                    onClick={() => {
-                      deleteItem(_id);
-                    }}
-                  >
-                    delete
-                  </Button>
                   <Button onClick={changeStudyItemStatus.bind({}, _id)}>
                     finish
                   </Button>
