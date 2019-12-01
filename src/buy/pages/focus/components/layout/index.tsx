@@ -17,7 +17,7 @@ export function FocusLayout(props: any) {
           {routerConfig.map(routerInfo => {
             const { path } = routerInfo;
             return (
-              <div>
+              <div key={path}>
                 <li
                   style={pathname === fatherPath + path ? { color: "red" } : {}}
                 >
@@ -30,7 +30,7 @@ export function FocusLayout(props: any) {
       </header>
       {routerConfig.map(routerInfo => {
         const { path } = routerInfo;
-        return <RenderTitle {...routerInfo} fatherPath={fatherPath} />;
+        return <RenderTitle key={path} {...routerInfo} fatherPath={fatherPath} />;
       })}
       <main>{children}</main>
     </div>

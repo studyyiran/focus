@@ -4,6 +4,7 @@ import { IMyFocusContext, MyFocusContext } from "../../context";
 import { TodoLine } from "../../components/ToDoLine";
 import { Button } from "antd";
 import Modal from "../../../../components/modal";
+import { useShowNewTodoModal } from "../../components/newTodoModal";
 
 export function HistoryPage() {
   const storeTestNameContext = useContext(MyFocusContext);
@@ -16,17 +17,15 @@ export function HistoryPage() {
     getHistoryByFilter({});
   }, []);
   const { historyList } = myFocusContextValue;
-  console.log(historyList);
 
   function renderList() {
     if (historyList && historyList.length) {
       return historyList.map(info => {
         return (
-          <div className={"todo-line-wrapper"}>
+          <div className={"todo-line-wrapper"} key={info._id}>
             <TodoLine {...info} />
             <Button
               onClick={() => {
-                console.log(info);
                 setCurrentInfo(info);
               }}
             >
@@ -57,6 +56,8 @@ function SettingModal(props: any) {
   const { deleteItem, changeItemContent } = myFocusContext as IMyFocusContext;
   const { currentInfo, onCancel } = props;
   const visible = currentInfo && currentInfo._id;
+
+  const openEditModal = useShowNewTodoModal(currentInfo);
   return (
     <div>
       <Modal
@@ -66,9 +67,7 @@ function SettingModal(props: any) {
         footer={null}
       >
         <ul>
-          <li onClick={() => {
-
-          }}>edit</li>
+          <li onClick={openEditModal}>edit</li>
           <li onClick={deleteItem.bind({}, currentInfo._id)}>delete</li>
           <li>add into</li>
         </ul>

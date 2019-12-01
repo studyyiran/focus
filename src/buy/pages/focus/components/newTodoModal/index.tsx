@@ -69,7 +69,7 @@ export function NewTodoModal(props: any) {
 }
 
 export function useShowNewTodoModal(props: any) {
-  const { onSubmit, id, prevent = false } = props;
+  const { onSubmit, _id, prevent = false } = props;
   const myFocusContext = useContext(MyFocusContext);
   const { addTodayTodo, changeItemContent } = myFocusContext as IMyFocusContext;
   function onSubmitHandler(values: any) {
@@ -78,25 +78,25 @@ export function useShowNewTodoModal(props: any) {
       onSubmit(values);
     } else {
       // 这块是修改和新增两用
-      if (props.id) {
+      if (props._id) {
         // 修改
         changeItemContent({
           ...values,
-          id: id
+          id: _id
         });
       } else {
-        console.log(myFocusContext);
         // 新增
         addTodayTodo(values);
       }
       onSubmit && onSubmit(values);
     }
   }
-
+  console.log(props);
   // 一个不知道为什么会出现在这里的表单config
   const formConfig = [
     {
       id: "content",
+      initialValue: props.content || "",
       rules: [
         {
           required: true,
@@ -107,7 +107,7 @@ export function useShowNewTodoModal(props: any) {
     },
     {
       id: "tag",
-      initialValue: "study",
+      initialValue: props.tag || "study",
       rules: [
         {
           required: true,

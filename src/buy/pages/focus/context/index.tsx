@@ -162,7 +162,7 @@ function useGetAction(
       dispatch({
         type: myFocusReducerTypes.setHistoryList,
         value: res
-      })
+      });
     }),
     getTodayTodo: promisify(async function() {
       const res = await getTodayTodo();
@@ -203,7 +203,7 @@ function useGetAction(
     }) {
       const res = await changeItemContent(data);
       dispatch({
-        type: myFocusReducerTypes.setList,
+        type: myFocusReducerTypes.setHistoryList,
         value: res
       });
     }),
@@ -211,7 +211,7 @@ function useGetAction(
     deleteItem: promisify(async function(id: string) {
       const res = await deleteItem({ id });
       dispatch({
-        type: myFocusReducerTypes.setList,
+        type: myFocusReducerTypes.setHistoryList,
         value: res
       });
     })
@@ -224,7 +224,7 @@ function useGetAction(
 export const myFocusReducerTypes = {
   setList: "setList",
   setTodayDoneList: "setTodayDoneList",
-  setHistoryList: "setHistoryList",
+  setHistoryList: "setHistoryList"
 };
 
 // reducer

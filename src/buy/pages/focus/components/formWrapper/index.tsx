@@ -9,7 +9,7 @@ interface IFormConfig {
 }
 
 class FormWrapperComponent extends React.Component<any, any> {
-  render () {
+  render() {
     const { form, formConfig, onSubmit, setValueJson } = this.props;
     const { getFieldDecorator, validateFields, setFields } = form;
 
@@ -17,25 +17,32 @@ class FormWrapperComponent extends React.Component<any, any> {
       e.preventDefault();
       validateFields((error: any, values: any) => {
         if (!error) {
-          console.log(values);
           onSubmit && onSubmit(values);
         }
       });
     }
-    const inner = formConfig.map((formConfig: IFormConfig) => {
+    const inner = formConfig.map((formConfig: IFormConfig, index: number) => {
       const { id, renderFormEle, label, ...otherConfig } = formConfig;
       if (id) {
         return (
-          <Form.Item label={label}>
+          <Form.Item label={label} key={index}>
             {getFieldDecorator(id, otherConfig)(renderFormEle())}
           </Form.Item>
         );
       } else if (renderFormEle) {
-        return <Form.Item label={label}>{renderFormEle()}</Form.Item>;
+        return (
+          <Form.Item key={index} label={label}>
+            {renderFormEle()}
+          </Form.Item>
+        );
       }
-      return null
+      return null;
     });
-    return <Form onSubmit={onSubmitHandler} layout={"vertical"}>{inner}</Form>;
+    return (
+      <Form onSubmit={onSubmitHandler} layout={"vertical"}>
+        {inner}
+      </Form>
+    );
   }
 }
 

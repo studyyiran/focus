@@ -7,7 +7,7 @@ import "./index.less";
 export function FocusRouter(props: any) {
   const { path } = props.match;
   const dom = routerConfig.map(({ path: relativePath, ...others }) => {
-    return <Route path={path + relativePath} {...others} />;
+    return <Route key={relativePath} path={path + relativePath} {...others} />;
   });
   return (
     <Switch>

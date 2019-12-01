@@ -21,13 +21,12 @@ export function TodayDone() {
   useEffect(() => {
     getTodayDone();
   }, []);
-  console.log(todayTodo);
   function renderList(list: IListItem[]) {
     if (list && list.length) {
       return list.map(item => {
-        const { content, tag } = item;
+        const { content, tag, _id } = item;
         return (
-          <li className="line">
+          <li key={_id} className="line">
             <div>
               <span>《{tag}》</span>
               <span>{content}</span>
