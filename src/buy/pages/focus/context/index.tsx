@@ -122,7 +122,7 @@ function useGetAction(
   }
   const actions: IMyFocusActions = {
     getHistoryByFilter: promisify(async function(data: any) {
-      const res = actions.postNewItem(decoratorTomorrow(data));
+      // const res = actions.getHistoryByFilter(decoratorTomorrow(data));
     }),
     addTomorrowReview: promisify(async function(data: {
       content: string;

@@ -6,16 +6,8 @@ import { IMyFocusContext, MyFocusContext } from "../../context";
 import Svg from "../../../../components/svg";
 import { callBackWhenPassAllFunc } from "../../../../common/utils/util";
 import { NewTodoModal } from "../../components/newTodoModal";
+import { TodoLine } from "../../components/ToDoLine";
 
-function ContentLine(props: any) {
-  const {tag, content} = props
-  return (
-    <>
-      <span>《{tag}》</span>
-      <span>{content}</span>
-    </>
-  );
-}
 
 export function FocusToday() {
   const myFocusContext = useContext(MyFocusContext);
@@ -36,7 +28,7 @@ export function FocusToday() {
               const { _id } = item;
               return (
                 <li key={_id}>
-                  <ContentLine {...item} />
+                  <TodoLine {...item} />
                   <Button
                     onClick={() => {
                       deleteItem(_id);
@@ -58,7 +50,7 @@ export function FocusToday() {
               const { content, _id, tag } = item;
               return (
                 <li key={_id}>
-                  <ContentLine {...item} />
+                  <TodoLine {...item} />
                   <Button
                     onClick={() => {
                       deleteItem(_id);
@@ -80,7 +72,7 @@ export function FocusToday() {
               const { content, _id } = item;
               return (
                 <li key={_id}>
-                  <ContentLine {...item} />
+                  <TodoLine {...item} />
                   <Button
                     onClick={() => {
                       deleteItem(_id);
