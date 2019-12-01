@@ -7,6 +7,16 @@ import Svg from "../../../../components/svg";
 import { callBackWhenPassAllFunc } from "../../../../common/utils/util";
 import { NewTodoModal } from "../../components/newTodoModal";
 
+function ContentLine(props: any) {
+  const {tag, content} = props
+  return (
+    <>
+      <span>《{tag}》</span>
+      <span>{content}</span>
+    </>
+  );
+}
+
 export function FocusToday() {
   const myFocusContext = useContext(MyFocusContext);
   const [showModal, setShowModal] = useState(false);
@@ -24,10 +34,10 @@ export function FocusToday() {
       <TodayPageSection title="Plane">
         {todayTodo && todayTodo.plane && todayTodo.plane.length
           ? todayTodo.plane.map(item => {
-              const { content, _id } = item;
+              const { _id } = item;
               return (
                 <li key={_id}>
-                  <span>{content}</span>
+                  <ContentLine {...item} />
                   <Button
                     onClick={() => {
                       deleteItem(_id);
@@ -46,10 +56,10 @@ export function FocusToday() {
       <TodayPageSection title="Review">
         {todayTodo && todayTodo.review && todayTodo.review.length
           ? todayTodo.review.map(item => {
-              const { content, _id } = item;
+              const { content, _id, tag } = item;
               return (
                 <li key={_id}>
-                  <span>{content}</span>
+                  <ContentLine {...item} />
                   <Button
                     onClick={() => {
                       deleteItem(_id);
@@ -71,7 +81,7 @@ export function FocusToday() {
               const { content, _id } = item;
               return (
                 <li key={_id}>
-                  <span>{content}</span>
+                  <ContentLine {...item} />
                   <Button
                     onClick={() => {
                       deleteItem(_id);

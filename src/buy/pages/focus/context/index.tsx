@@ -9,14 +9,7 @@ import { IReducerAction } from "buy/common/interface/index.interface";
 import { callBackWhenPassAllFunc, promisify } from "buy/common/utils/util";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
 import { IListItem, ITodayTodo } from "./interface";
-import {
-  getTodayTodo,
-  getTodayDone,
-  postNewItem,
-  changeItemContent,
-  deleteItem,
-  changeStudyItemStatus
-} from "../server";
+
 import { IContextValue } from "../../../common/type";
 import { useIsCurrentPage } from "../../../common/useHook";
 import moment from "moment";
@@ -31,10 +24,21 @@ export const MyFocusContext = createContext({});
 // store name
 export const MyFocus = "MyFocus";
 
+import {
+  getTodayTodo,
+  getTodayDone,
+  postNewItem,
+  changeItemContent,
+  deleteItem,
+  changeStudyItemStatus,
+  getHistoryByFilter
+} from "../server";
+
 // store state
 interface IContextState {
   todayTodo: ITodayTodo;
   todayDoneList: IListItem[];
+  historyList: IListItem[];
 }
 
 // interface
@@ -47,7 +51,8 @@ export interface IMyFocusContext extends IMyFocusActions, IContextValue {
 export function MyFocusContextProvider(props: any) {
   const initState: IContextState = {
     todayTodo: {} as any,
-    todayDoneList: []
+    todayDoneList: [],
+    historyList: []
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -104,6 +109,7 @@ export interface IMyFocusActions {
   changeItemContent: ({ id, content }: { id: string; content: string }) => void;
   deleteItem: (id: string) => void;
   changeStudyItemStatus: (id: any) => any;
+  getHistoryByFilter: (filterInfo: any) => any;
 }
 
 // useCreateActions
@@ -117,6 +123,9 @@ function useGetAction(
     promiseStatus.current = {};
   }
   const actions: IMyFocusActions = {
+    getHistoryByFilter: promisify(async function(data: any) {
+      const res = actions.postNewItem(decoratorTomorrow(data));
+    }),
     addTomorrowReview: promisify(async function(data: {
       content: string;
       tag: string;

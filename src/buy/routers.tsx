@@ -15,7 +15,7 @@ export default function ContextProviderWrapper() {
   // router是最外层
   // 然后是provider层,这样store可以使用router的信息
   // 然后是组件渲染层.
-  // 这个层次结构应该和server端是一致的,因为需求是类似的.
+  // 这个层次结构应该和serve是一致的,因为需求是类似的.
   return (
     <Router history={routerHistory}>
       <RenderWithOriginData originData={originData}>

@@ -14,6 +14,10 @@ const changeStudyItemStatusUrl = serverName + "/changeStudyItemStatus"; // 完�
 const changeItemContentUrl = serverName + "/changeContent"; // 通用修改口
 const deleteItemUrl = serverName + "/hideStudyItem"; // 通用删除口
 
+const getHistoryByFilterUrl = serverName + "/hideStudyItem"; // 获取全部的列表信息数据（根据筛选项。）
+
+const getWithList = serverName + "/getWithList"; // 获取心愿单
+
 export async function changeStudyItemStatus(data: any) {
   const res: any = await ajax.put(changeStudyItemStatusUrl, data);
   return res;
@@ -31,6 +35,11 @@ export async function getTodayDone() {
 
 export async function postNewItem(data: { content: string }) {
   const res: any = await ajax.post(postNewItemUrl, data);
+  return res;
+}
+
+export async function getHistoryByFilter(filterInfo: any) {
+  const res: any = await ajax.post(getHistoryByFilterUrl, filterInfo);
   return res;
 }
 
