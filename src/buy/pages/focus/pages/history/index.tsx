@@ -5,6 +5,7 @@ import { TodoLine } from "../../components/ToDoLine";
 import { Button } from "antd";
 import Modal from "../../../../components/modal";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
+import { IListItem } from "../../context/interface";
 
 export function HistoryPage() {
   const storeTestNameContext = useContext(MyFocusContext);
@@ -18,9 +19,16 @@ export function HistoryPage() {
   }, []);
   const { historyList } = myFocusContextValue;
 
-  function renderList() {
-    if (historyList && historyList.length) {
-      return historyList.map(info => {
+  // 根据选项来进行筛选（暂时写死hidden）
+  function listFilter(list: IListItem[]) {
+    return list.filter(item => {
+      return item && !item.hidden;
+    });
+  }
+
+  function renderList(list: IListItem[]) {
+    if (list && list.length) {
+      return list.map(info => {
         return (
           <div className={"todo-line-wrapper"} key={info._id}>
             <TodoLine {...info} />
@@ -46,7 +54,7 @@ export function HistoryPage() {
           setCurrentInfo({});
         }}
       />
-      <ul>{renderList()}</ul>
+      <ul>{renderList(listFilter(historyList))}</ul>
     </div>
   );
 }
@@ -68,7 +76,14 @@ function SettingModal(props: any) {
       >
         <ul>
           <li onClick={openEditModal}>edit</li>
-          <li onClick={deleteItem.bind({}, currentInfo._id)}>delete</li>
+          <li
+            onClick={() => {
+              deleteItem(currentInfo._id);
+              onCancel();
+            }}
+          >
+            delete
+          </li>
           <li>add into</li>
         </ul>
       </Modal>
