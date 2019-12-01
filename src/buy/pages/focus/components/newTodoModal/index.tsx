@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import MyModal from "../../../../components/modal";
-import PostItemForm from "../postItemForm";
 import { locationHref } from "../../../../common/utils/routerHistory";
 import { getLocationUrl } from "../../../../common/utils/util";
 import { Input, Button, Select } from "antd";
@@ -68,6 +67,54 @@ const { Option } = Select;
 //   // 日后制作修改弹框,需要传入id来实现
 // }
 
+export const tagArr = [
+  {
+    value: "work",
+    name: "工作",
+    className: "pos1"
+  },
+  {
+    value: "money",
+    name: "金钱",
+    className: "pos2"
+  },
+  {
+    value: "business",
+    name: "个人项目",
+    className: "pos2"
+  },
+  {
+    value: "psychic",
+    name: "个人成长",
+    className: "pos2"
+  },
+  {
+    value: "study",
+    name: "学习",
+    className: "pos2"
+  },
+  {
+    value: "review",
+    name: "复习",
+    className: "pos2"
+  },
+  {
+    value: "diamond",
+    name: "钻石",
+    className: "pos2"
+  },
+  {
+    value: "family",
+    name: "家庭和老婆",
+    className: "pos2"
+  },
+  {
+    value: "addict",
+    name: "成瘾",
+    className: "pos2"
+  }
+];
+
 export function useShowNewTodoModal(props: any) {
   const { onSubmit, _id, prevent = false } = props;
   const myFocusContext = useContext(MyFocusContext);
@@ -92,6 +139,9 @@ export function useShowNewTodoModal(props: any) {
     }
   }
   console.log(props);
+
+
+
   // 一个不知道为什么会出现在这里的表单config
   const formConfig = [
     {
@@ -116,16 +166,17 @@ export function useShowNewTodoModal(props: any) {
       ],
       renderFormEle: () => (
         <Select>
-          <Option value="review">复习</Option>
-          <Option value="study">学习</Option>
-
-          <Option value="money">金钱</Option>
-
-          <Option value="work">工作</Option>
-          <Option value="business">事业</Option>
-
-          <Option value="business">个人成长</Option>
-          <Option value="business">钻石</Option>
+          {tagArr.map(item => {
+            return (
+              <Option
+                className={item.className}
+                value={item.value}
+                key={item.value}
+              >
+                {item.name}
+              </Option>
+            );
+          })}
         </Select>
       )
     },
