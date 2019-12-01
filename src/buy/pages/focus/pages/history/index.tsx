@@ -22,7 +22,7 @@ export function HistoryPage() {
     if (historyList && historyList.length) {
       return historyList.map(info => {
         return (
-          <div>
+          <div className={"todo-line-wrapper"}>
             <TodoLine {...info} />
             <Button
               onClick={() => {

@@ -1,0 +1,18 @@
+@import (reference) "~buy/common/styles/index.less";
+
+@p1: {
+  .focus-page-common {
+    .todo-line-wrapper {
+      padding: 5 * @px;
+      border: 1px solid @color-border;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      &:not(:last-child) {
+        border-bottom: none;
+      }
+    }
+  }
+};
+
+.hello(@p1);

@@ -11,7 +11,7 @@ export function FocusLayout(props: any) {
   // 进行匹配，同台渲染标题
   // 获取当前的url
   return (
-    <div className="focus-layout">
+    <div className="focus-layout focus-page-common">
       <header>
         <ul>
           {routerConfig.map(routerInfo => {
