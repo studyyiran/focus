@@ -41,21 +41,35 @@ export function HistoryPage() {
   }
   return (
     <div className="history-page">
-      <SettingModal currentInfo={currentInfo} />
+      <SettingModal
+        currentInfo={currentInfo}
+        onCancel={() => {
+          setCurrentInfo({});
+        }}
+      />
       <ul>{renderList()}</ul>
     </div>
   );
 }
 
 function SettingModal(props: any) {
-  const { currentInfo } = props;
+  const myFocusContext = useContext(MyFocusContext);
+  const { deleteItem, changeItemContent } = myFocusContext as IMyFocusContext;
+  const { currentInfo, onCancel } = props;
   const visible = currentInfo && currentInfo._id;
   return (
     <div>
-      <Modal visible={visible}>
+      <Modal
+        maskClosable={true}
+        visible={visible}
+        onCancel={onCancel}
+        footer={null}
+      >
         <ul>
-          <li>edit</li>
-          <li>delete</li>
+          <li onClick={() => {
+
+          }}>edit</li>
+          <li onClick={deleteItem.bind({}, currentInfo._id)}>delete</li>
           <li>add into</li>
         </ul>
       </Modal>

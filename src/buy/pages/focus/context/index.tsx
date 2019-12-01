@@ -121,35 +121,7 @@ function useGetAction(
     promiseStatus.current = {};
   }
   const actions: IMyFocusActions = {
-    getHistoryByFilter: promisify(async function(data: any) {
-      const res = await getHistoryByFilter(data);
-      dispatch({
-        type: myFocusReducerTypes.setHistoryList,
-        value: res
-      })
-    }),
-    addTomorrowReview: promisify(async function(data: {
-      content: string;
-      tag: string;
-    }) {
-      return actions.postNewItem(decoratorTomorrow(data));
-    }),
-    addTomorrowTodo: promisify(async function(data: {
-      content: string;
-      tag: string;
-    }) {
-      return actions.postNewItem(decoratorTomorrow(data));
-    }),
-    getTodayDone: promisify(async function(data: {
-      content: string;
-      tag: string;
-    }) {
-      const res = await getTodayDone();
-      dispatch({
-        type: myFocusReducerTypes.setTodayDoneList,
-        value: res
-      });
-    }),
+    // 添加类
     // 新增的底层功能接口
     postNewItem: promisify(async function(data: {
       content: string;
@@ -171,6 +143,47 @@ function useGetAction(
       // 更新数据
       actions.getTodayDone();
     }),
+    addTomorrowReview: promisify(async function(data: {
+      content: string;
+      tag: string;
+    }) {
+      return actions.postNewItem(decoratorTomorrow(data));
+    }),
+    addTomorrowTodo: promisify(async function(data: {
+      content: string;
+      tag: string;
+    }) {
+      return actions.postNewItem(decoratorTomorrow(data));
+    }),
+    //
+    // 获取类
+    getHistoryByFilter: promisify(async function(data: any) {
+      const res = await getHistoryByFilter(data);
+      dispatch({
+        type: myFocusReducerTypes.setHistoryList,
+        value: res
+      })
+    }),
+    getTodayTodo: promisify(async function() {
+      const res = await getTodayTodo();
+      dispatch({
+        type: myFocusReducerTypes.setList,
+        value: res
+      });
+    }),
+    getTodayDone: promisify(async function(data: {
+      content: string;
+      tag: string;
+    }) {
+      const res = await getTodayDone();
+      dispatch({
+        type: myFocusReducerTypes.setTodayDoneList,
+        value: res
+      });
+    }),
+    //
+    // 更改类接口
+    // 完成任务
     changeStudyItemStatus: promisify(async function(id: string) {
       // 进行状态更新
       const res = await changeStudyItemStatus({
@@ -183,14 +196,7 @@ function useGetAction(
         value: res
       });
     }),
-    getTodayTodo: promisify(async function() {
-      const res = await getTodayTodo();
-      dispatch({
-        type: myFocusReducerTypes.setList,
-        value: res
-      });
-    }),
-
+    // 修改内容
     changeItemContent: promisify(async function(data: {
       id: string;
       content: string;
@@ -201,6 +207,7 @@ function useGetAction(
         value: res
       });
     }),
+    // 删除指定的条目
     deleteItem: promisify(async function(id: string) {
       const res = await deleteItem({ id });
       dispatch({
