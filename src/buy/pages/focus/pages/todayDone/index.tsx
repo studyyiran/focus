@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./index.less";
 import { IMyFocusContext, MyFocusContext } from "../../context";
-import Button from "../../../../components/button";
 import Svg from "../../../../components/svg";
 import { NewTodoModal } from "../../components/newTodoModal";
 import { IListItem } from "../../context/interface";
+import { Button } from "antd";
 
 export function TodayDone() {
   const myFocusContext = useContext(MyFocusContext);
@@ -27,9 +27,12 @@ export function TodayDone() {
       return list.map(item => {
         const { content, tag } = item;
         return (
-          <li>
-            <span>《{tag}》</span>
-            <span>{content}</span>
+          <li className="line">
+            <div>
+              <span>《{tag}》</span>
+              <span>{content}</span>
+            </div>
+
             <Button
               onClick={() => {
                 addTomorrowReview({
@@ -47,7 +50,7 @@ export function TodayDone() {
     }
   }
   return (
-    <div className="test-page">
+    <div className="today-done">
       <div>
         <h2>Today Done</h2>
         <ul>{renderList(todayDoneList)}</ul>
