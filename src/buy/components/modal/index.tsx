@@ -296,7 +296,6 @@ Modal.confirm = function(props: any) {
       <Modal
         {...props}
         visible={bool}
-        maskClosable={false}
         destoryFunc={() => {
           destroy(addEle);
         }}
