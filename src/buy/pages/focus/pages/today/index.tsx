@@ -4,14 +4,13 @@ import { Button, Select } from "antd";
 import { TodayPageSection } from "../../components/todayPageSection";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import Svg from "../../../../components/svg";
-import { callBackWhenPassAllFunc } from "../../../../common/utils/util";
-import { NewTodoModal } from "../../components/newTodoModal";
+import {
+  useShowNewTodoModal
+} from "../../components/newTodoModal";
 import { TodoLine } from "../../components/ToDoLine";
-
 
 export function FocusToday() {
   const myFocusContext = useContext(MyFocusContext);
-  const [showModal, setShowModal] = useState(false);
   const {
     getTodayTodo,
     myFocusContextValue,
@@ -19,6 +18,8 @@ export function FocusToday() {
     changeStudyItemStatus
   } = myFocusContext as IMyFocusContext;
   const { todayTodo } = myFocusContextValue;
+
+  const testFunc = useShowNewTodoModal({});
 
   return (
     <div className="test-page">
@@ -89,21 +90,11 @@ export function FocusToday() {
           : null}
       </TodayPageSection>
       <div>
-        <Button
-          onClick={() => {
-            setShowModal(true);
-          }}
-        >
+        <Button onClick={testFunc}>
           <Svg icon="jia" />
           Add Into Today Todo
         </Button>
       </div>
-      <NewTodoModal
-        show={showModal}
-        onCancel={() => {
-          setShowModal(false);
-        }}
-      />
     </div>
   );
 }
