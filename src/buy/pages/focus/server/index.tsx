@@ -14,7 +14,7 @@ const changeStudyItemStatusUrl = serverName + "/changeStudyItemStatus"; // 完�
 const changeItemContentUrl = serverName + "/changeContent"; // 通用修改口
 const deleteItemUrl = serverName + "/hideStudyItem"; // 通用删除口
 
-const getHistoryByFilterUrl = serverName + "/hideStudyItem"; // 获取全部的列表信息数据（根据筛选项。）
+const getHistoryByFilterUrl = serverName + "/getHistoryList"; // 获取全部的列表信息数据（根据筛选项。）
 
 const getWithList = serverName + "/getWithList"; // 获取心愿单
 

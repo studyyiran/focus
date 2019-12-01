@@ -122,7 +122,11 @@ function useGetAction(
   }
   const actions: IMyFocusActions = {
     getHistoryByFilter: promisify(async function(data: any) {
-      // const res = actions.getHistoryByFilter(decoratorTomorrow(data));
+      const res = await getHistoryByFilter(data);
+      dispatch({
+        type: myFocusReducerTypes.setHistoryList,
+        value: res
+      })
     }),
     addTomorrowReview: promisify(async function(data: {
       content: string;
@@ -212,7 +216,8 @@ function useGetAction(
 // action types
 export const myFocusReducerTypes = {
   setList: "setList",
-  setTodayDoneList: "setTodayDoneList"
+  setTodayDoneList: "setTodayDoneList",
+  setHistoryList: "setHistoryList",
 };
 
 // reducer
@@ -220,6 +225,13 @@ function reducer(state: IContextState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
+    case myFocusReducerTypes.setHistoryList: {
+      newState = {
+        ...newState,
+        historyList: value
+      };
+      break;
+    }
     case myFocusReducerTypes.setTodayDoneList: {
       newState = {
         ...newState,
