@@ -13,6 +13,7 @@ import { IListItem, ITodayTodo } from "./interface";
 import { IContextValue } from "../../../common/type";
 import {
   decoratorFinish,
+  decoratorTagReview,
   decoratorToday,
   decoratorTomorrow,
   todayPageFilter
@@ -86,13 +87,15 @@ const addTomorrowTodo = serverName + "/newStudyTodoItem";
 
 // @actions
 export interface IMyFocusActions {
+  // 查询
   getTodayTodo: () => void;
   getTodayDone: () => any;
-  addTodayTodo: (data: any) => any;
+  getHistoryByFilter: (filterInfo: any) => any; // 获取历史
 
+  // 增
+  addTodayTodo: (data: any) => any;
   addTomorrowTodo: (data: any) => any;
   addTomorrowReview: (data: any) => any;
-
   //  新增任务
   postNewItem: ({
     content,
@@ -103,11 +106,12 @@ export interface IMyFocusActions {
     tag: string;
     planStartTime: string;
   }) => void;
-  addTodayFinish: (data: any) => any; // 新增一个完成的任务。
-  changeItemContent: ({ id, content }: { id: string; content: string }) => void;
+  addTodayFinish: (data: any) => any; // 新增快速完成
+  // 改
+  changeItemContent: (data: any) => void;
+  changeStudyItemStatus: (id: any) => any; // 完成任务
+  // 删除
   deleteItem: (id: string) => void;
-  changeStudyItemStatus: (id: any) => any;
-  getHistoryByFilter: (filterInfo: any) => any;
 }
 
 // useCreateActions
@@ -143,11 +147,11 @@ function useGetAction(
       // 更新数据
       actions.getTodayDone();
     }),
-    addTomorrowReview: promisify(async function(data: {
-      content: string;
-      tag: string;
-    }) {
-      return actions.postNewItem(decoratorTomorrow(data));
+    addTomorrowReview: promisify(async function(content: string) {
+      return actions.postNewItem(
+        // 这两个函数应该负责，将tag进行抽象，而不是靠调用者来指定。
+        decoratorTagReview(decoratorTomorrow({ content }))
+      );
     }),
     addTomorrowTodo: promisify(async function(data: {
       content: string;
@@ -197,10 +201,7 @@ function useGetAction(
       });
     }),
     // 修改内容
-    changeItemContent: promisify(async function(data: {
-      id: string;
-      content: string;
-    }) {
+    changeItemContent: promisify(async function(data: any) {
       const res = await changeItemContent(data);
       dispatch({
         type: myFocusReducerTypes.setHistoryList,

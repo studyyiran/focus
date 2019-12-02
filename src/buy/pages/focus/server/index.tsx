@@ -43,7 +43,7 @@ export async function getHistoryByFilter(filterInfo: any) {
   return res;
 }
 
-export async function changeItemContent(data: { id: string; content: string }) {
+export async function changeItemContent(data: any) {
   const res: any = await ajax.put(changeItemContentUrl, data);
   return res;
 }

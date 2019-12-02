@@ -45,3 +45,7 @@ export function decoratorToday(data: any) {
 export function decoratorFinish(data: any) {
   return { ...data, status: "finish" };
 }
+
+export function decoratorTagReview(data: any) {
+  return { ...data, tag: "review" };
+}

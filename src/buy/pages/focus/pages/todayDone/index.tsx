@@ -42,10 +42,7 @@ export function TodayDone() {
             <TodoLine {...item} />
             <Button
               onClick={() => {
-                addTomorrowReview({
-                  content: content,
-                  tag: "review"
-                });
+                addTomorrowReview(content);
               }}
             >
               <Svg icon="jia" />
