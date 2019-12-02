@@ -12,7 +12,8 @@ export function HistoryPage() {
   const [currentInfo, setCurrentInfo] = useState({});
   const {
     myFocusContextValue,
-    getHistoryByFilter
+    getHistoryByFilter,
+    addTodayTodo
   } = storeTestNameContext as IMyFocusContext;
   useEffect(() => {
     getHistoryByFilter({});
@@ -49,6 +50,7 @@ export function HistoryPage() {
   return (
     <div className="history-page">
       <SettingModal
+        addTodayTodo={addTodayTodo}
         currentInfo={currentInfo}
         onCancel={() => {
           setCurrentInfo({});
@@ -61,11 +63,20 @@ export function HistoryPage() {
 
 function SettingModal(props: any) {
   const myFocusContext = useContext(MyFocusContext);
-  const { deleteItem, changeItemContent } = myFocusContext as IMyFocusContext;
-  const { currentInfo, onCancel } = props;
+  const { deleteItem } = myFocusContext as IMyFocusContext;
+  const { currentInfo, onCancel, addTodayTodo } = props;
   const visible = currentInfo && currentInfo._id;
 
   const openEditModal = useShowNewTodoModal(currentInfo);
+  const openAddAsTodayModal = useShowNewTodoModal({
+    currentInfo,
+    prevent: true,
+    onSubmit: (values: any) => {
+      console.log(values);
+      addTodayTodo(values);
+    }
+  });
+
   return (
     <div>
       <Modal
@@ -84,7 +95,7 @@ function SettingModal(props: any) {
           >
             delete
           </li>
-          <li>add into</li>
+          <li onClick={openAddAsTodayModal}>add as today</li>
         </ul>
       </Modal>
     </div>
