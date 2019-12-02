@@ -69,7 +69,7 @@ function SettingModal(props: any) {
 
   const openEditModal = useShowNewTodoModal(currentInfo);
   const openAddAsTodayModal = useShowNewTodoModal({
-    currentInfo,
+    ...currentInfo,
     prevent: true,
     onSubmit: (values: any) => {
       console.log(values);
