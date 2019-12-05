@@ -150,7 +150,7 @@ function useGetAction(
     async function() {
       const res = await server.getWishList();
       dispatch({
-        type: myFocusReducerTypes.setTodayDoneList,
+        type: myFocusReducerTypes.setWishList,
         value: res
       });
     },
@@ -167,6 +167,7 @@ function useGetAction(
         type: myFocusReducerTypes.setList,
         value: res
       });
+      return res;
     },
     [dispatch]
   );
@@ -209,9 +210,11 @@ function useGetAction(
   // 新增一个with
   const addWishList: IMyFocusActions["addWishList"] = useCallback(
     async function(todo: ITodoItem) {
-      return postNewItem(todo);
+      const res: any = postNewItem(todo);
+      res.then(getWishList);
+      return res;
     },
-    [postNewItem]
+    [getWishList, postNewItem]
   );
 
   // 更改类接口

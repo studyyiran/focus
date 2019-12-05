@@ -3,6 +3,7 @@ export interface IListItem {
   tag: string;
   _id: string;
   hidden: boolean;
+  createTime: string;
 }
 
 export interface ITodayTodo {
