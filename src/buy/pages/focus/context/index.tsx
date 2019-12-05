@@ -30,6 +30,7 @@ interface IContextState {
   todayTodo: ITodayTodo;
   todayDoneList: IListItem[];
   historyList: IListItem[];
+  wishList: IListItem[];
 }
 
 // interface
@@ -43,7 +44,8 @@ export function MyFocusContextProvider(props: any) {
   const initState: IContextState = {
     todayTodo: {} as any,
     todayDoneList: [],
-    historyList: []
+    historyList: [],
+    wishList: []
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -89,6 +91,7 @@ export interface IMyFocusActions {
   getTodayTodo: () => void;
   getTodayDone: () => any;
   getHistoryByFilter: (filterInfo: any) => any; // 获取历史
+  getWishList: () => any; // 获取历史
 
   // 增
   addTodayTodo: (data: any) => any;
@@ -135,6 +138,17 @@ function useGetAction(
   const getTodayDone: IMyFocusActions["getTodayDone"] = useCallback(
     async function() {
       const res = await server.getTodayDone();
+      dispatch({
+        type: myFocusReducerTypes.setTodayDoneList,
+        value: res
+      });
+    },
+    [dispatch]
+  );
+
+  const getWishList: IMyFocusActions["getTodayDone"] = useCallback(
+    async function() {
+      const res = await server.getWishList();
       dispatch({
         type: myFocusReducerTypes.setTodayDoneList,
         value: res
@@ -252,6 +266,7 @@ function useGetAction(
     changeItemContent,
     changeStudyItemStatus,
     deleteItem,
+    getWishList,
     addWishList
   };
 }
@@ -260,7 +275,8 @@ function useGetAction(
 export const myFocusReducerTypes = {
   setList: "setList",
   setTodayDoneList: "setTodayDoneList",
-  setHistoryList: "setHistoryList"
+  setHistoryList: "setHistoryList",
+  setWishList: "setWishList"
 };
 
 // reducer
@@ -268,6 +284,13 @@ function reducer(state: IContextState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
+    case myFocusReducerTypes.setWishList: {
+      newState = {
+        ...newState,
+        wishList: value
+      };
+      break;
+    }
     case myFocusReducerTypes.setHistoryList: {
       newState = {
         ...newState,

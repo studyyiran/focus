@@ -16,7 +16,7 @@ const deleteItemUrl = serverName + "/hideStudyItem"; // 通用删除口
 
 const getHistoryByFilterUrl = serverName + "/getHistoryList"; // 获取全部的列表信息数据（根据筛选项。）
 
-const getWithList = serverName + "/getWithList"; // 获取心愿单
+const getWishListUrl = serverName + "/getWishList"; // 获取心愿单
 
 export default {
   changeStudyItemStatus: async (data: any) => {
@@ -45,6 +45,10 @@ export default {
   },
   deleteItem: async (data: { id: string }) => {
     const res: any = await ajax.put(deleteItemUrl, data);
+    return res;
+  },
+  getWishList: async () => {
+    const res: any = await ajax.get(getWishListUrl);
     return res;
   }
 };

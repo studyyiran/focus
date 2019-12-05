@@ -1,7 +1,7 @@
 import { FocusToday } from "../pages/today";
 import { TodayDone } from "../pages/todayDone";
 import { HistoryPage } from "../pages/history";
-import { WishList } from "../pages/pool";
+import { WishList } from "../pages/wishList";
 
 export const routerConfig = [
   {
