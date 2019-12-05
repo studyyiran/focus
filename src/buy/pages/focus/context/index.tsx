@@ -122,95 +122,119 @@ function useGetAction(
   const actions: IMyFocusActions = {
     // 添加类
     // 新增的底层功能接口
-    postNewItem: useCallback(async function(data: {
-      content: string;
-      tag: string;
-    }) {
-      const res = await postNewItem(data);
-      dispatch({
-        type: myFocusReducerTypes.setList,
-        value: res
-      });
-    }, []),
+    postNewItem: useCallback(
+      async function(data: { content: string; tag: string }) {
+        const res = await postNewItem(data);
+        dispatch({
+          type: myFocusReducerTypes.setList,
+          value: res
+        });
+      },
+      [dispatch]
+    ),
     //新增一个常规任务
-    addTodayTodo: useCallback(async function(data: any) {
-      return actions.postNewItem(decoratorToday(data));
-    }, []),
+    addTodayTodo: useCallback(
+      async function(data: any) {
+        return actions.postNewItem(decoratorToday(data));
+      },
+      [actions]
+    ),
     //新增任务并马上完成
-    addTodayFinish: useCallback(async function(data: any) {
-      await actions.postNewItem(decoratorFinish(decoratorToday(data)));
-      // 更新数据
-      actions.getTodayDone();
-    }, []),
-    addTomorrowReview: useCallback(async function(content: string) {
-      return actions.postNewItem(
-        // 这两个函数应该负责，将tag进行抽象，而不是靠调用者来指定。
-        decoratorTagReview(decoratorTomorrow({ content }))
-      );
-    }, []),
-    addTomorrowTodo: useCallback(async function(data: {
-      content: string;
-      tag: string;
-    }) {
-      return actions.postNewItem(decoratorTomorrow(data));
-    }, []),
+    addTodayFinish: useCallback(
+      async function(data: any) {
+        await actions.postNewItem(decoratorFinish(decoratorToday(data)));
+        // 更新数据
+        actions.getTodayDone();
+      },
+      [actions]
+    ),
+    addTomorrowReview: useCallback(
+      async function(content: string) {
+        return actions.postNewItem(
+          // 这两个函数应该负责，将tag进行抽象，而不是靠调用者来指定。
+          decoratorTagReview(decoratorTomorrow({ content }))
+        );
+      },
+      [actions]
+    ),
+    addTomorrowTodo: useCallback(
+      async function(data: { content: string; tag: string }) {
+        return actions.postNewItem(decoratorTomorrow(data));
+      },
+      [actions]
+    ),
     //
     // 获取类
-    getHistoryByFilter: useCallback(async function(data: any) {
-      const res = await getHistoryByFilter(data);
-      dispatch({
-        type: myFocusReducerTypes.setHistoryList,
-        value: res
-      });
-    }, []),
-    getTodayTodo: useCallback(async function() {
-      const res = await getTodayTodo();
-      dispatch({
-        type: myFocusReducerTypes.setList,
-        value: res
-      });
-    }, []),
-    getTodayDone: useCallback(async function(data: {
-      content: string;
-      tag: string;
-    }) {
-      const res = await getTodayDone();
-      dispatch({
-        type: myFocusReducerTypes.setTodayDoneList,
-        value: res
-      });
-    }, []),
+    getHistoryByFilter: useCallback(
+      async function(data: any) {
+        const res = await getHistoryByFilter(data);
+        dispatch({
+          type: myFocusReducerTypes.setHistoryList,
+          value: res
+        });
+      },
+      [dispatch]
+    ),
+    getTodayTodo: useCallback(
+      async function() {
+        const res = await getTodayTodo();
+        dispatch({
+          type: myFocusReducerTypes.setList,
+          value: res
+        });
+      },
+      [dispatch]
+    ),
+    getTodayDone: useCallback(
+      async function() {
+        const res = await getTodayDone();
+        dispatch({
+          type: myFocusReducerTypes.setTodayDoneList,
+          value: res
+        });
+      },
+      [dispatch]
+    ),
     //
     // 更改类接口
     // 完成任务
-    changeStudyItemStatus: useCallback(async function(id: string) {
-      // 进行状态更新
-      const res = await changeStudyItemStatus({
-        id: id,
-        status: "finish"
-      });
-      // 使用心的状态
-      dispatch({
-        type: myFocusReducerTypes.setList,
-        value: res
-      });
-    }, []),
+    changeStudyItemStatus: useCallback(
+      async function(id: string) {
+        // 进行状态更新
+        const res = await changeStudyItemStatus({
+          id: id,
+          status: "finish"
+        });
+        // 使用心的状态
+        dispatch({
+          type: myFocusReducerTypes.setList,
+          value: res
+        });
+      },
+      [dispatch]
+    ),
     // 修改内容
-    changeItemContent: useCallback(async function(data: any) {
-      const res = await changeItemContent(data);
-      dispatch({
-        type: myFocusReducerTypes.setHistoryList,
-        value: res
-      });
-    }, []),
+    changeItemContent: useCallback(
+      async function(data: any) {
+        const res = await changeItemContent(data);
+        dispatch({
+          type: myFocusReducerTypes.setHistoryList,
+          value: res
+        });
+      },
+      [dispatch]
+    ),
     // 删除指定的条目
-    deleteItem: useCallback(async function(id: string) {
-      const res = await deleteItem({ id });
-      dispatch({
-        type: myFocusReducerTypes.setHistoryList,
-        value: res
-      });
-    }, [])
+    deleteItem: useCallback(
+      async function(id: string) {
+        const res = await deleteItem({ id });
+        dispatch({
+          type: myFocusReducerTypes.setHistoryList,
+          value: res
+        });
+      },
+      [dispatch]
+    )
   };
   return actions;
 }
