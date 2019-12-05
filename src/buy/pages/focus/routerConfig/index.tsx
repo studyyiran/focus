@@ -20,6 +20,12 @@ export const routerConfig = [
     exact: true,
     title: "History",
     component: HistoryPage
+  },
+  {
+    path: "/pool",
+    exact: true,
+    title: "Pool任务池",
+    component: HistoryPage
   }
   // {
   //   title: "404 | UpTradeit.com",
