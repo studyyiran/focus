@@ -61,7 +61,7 @@ export function MyFocusContextProvider(props: any) {
 
   useEffect(() => {
     callBackWhenPassAllFunc([], action.getTodayTodo);
-  }, [getTodayTodo]);
+  }, [action.getTodayTodo]);
 
   const propsValue: IMyFocusContext = {
     ...action,
@@ -119,15 +119,10 @@ function useGetAction(
   state: IContextState,
   dispatch: (action: IReducerAction) => void
 ): IMyFocusActions {
-  // 新增promise ref
-  const promiseStatus: any = useRef();
-  if (!promiseStatus.current) {
-    promiseStatus.current = {};
-  }
   const actions: IMyFocusActions = {
     // 添加类
     // 新增的底层功能接口
-    postNewItem: promisify(async function(data: {
+    postNewItem: useCallback(async function(data: {
       content: string;
       tag: string;
     }) {
@@ -136,46 +131,46 @@ function useGetAction(
         type: myFocusReducerTypes.setList,
         value: res
       });
-    }),
+    }, []),
     //新增一个常规任务
-    addTodayTodo: promisify(async function(data: any) {
+    addTodayTodo: useCallback(async function(data: any) {
       return actions.postNewItem(decoratorToday(data));
-    }),
+    }, []),
     //新增任务并马上完成
-    addTodayFinish: promisify(async function(data: any) {
+    addTodayFinish: useCallback(async function(data: any) {
       await actions.postNewItem(decoratorFinish(decoratorToday(data)));
       // 更新数据
       actions.getTodayDone();
-    }),
-    addTomorrowReview: promisify(async function(content: string) {
+    }, []),
+    addTomorrowReview: useCallback(async function(content: string) {
       return actions.postNewItem(
         // 这两个函数应该负责，将tag进行抽象，而不是靠调用者来指定。
         decoratorTagReview(decoratorTomorrow({ content }))
       );
-    }),
-    addTomorrowTodo: promisify(async function(data: {
+    }, []),
+    addTomorrowTodo: useCallback(async function(data: {
       content: string;
       tag: string;
     }) {
       return actions.postNewItem(decoratorTomorrow(data));
-    }),
+    }, []),
     //
     // 获取类
-    getHistoryByFilter: promisify(async function(data: any) {
+    getHistoryByFilter: useCallback(async function(data: any) {
       const res = await getHistoryByFilter(data);
       dispatch({
         type: myFocusReducerTypes.setHistoryList,
         value: res
       });
-    }),
-    getTodayTodo: promisify(async function() {
+    }, []),
+    getTodayTodo: useCallback(async function() {
       const res = await getTodayTodo();
       dispatch({
         type: myFocusReducerTypes.setList,
         value: res
       });
-    }),
-    getTodayDone: promisify(async function(data: {
+    }, []),
+    getTodayDone: useCallback(async function(data: {
       content: string;
       tag: string;
     }) {
@@ -184,11 +179,11 @@ function useGetAction(
         type: myFocusReducerTypes.setTodayDoneList,
         value: res
       });
-    }),
+    }, []),
     //
     // 更改类接口
     // 完成任务
-    changeStudyItemStatus: promisify(async function(id: string) {
+    changeStudyItemStatus: useCallback(async function(id: string) {
       // 进行状态更新
       const res = await changeStudyItemStatus({
         id: id,
@@ -199,25 +194,24 @@ function useGetAction(
         type: myFocusReducerTypes.setList,
         value: res
       });
-    }),
+    }, []),
     // 修改内容
-    changeItemContent: promisify(async function(data: any) {
+    changeItemContent: useCallback(async function(data: any) {
       const res = await changeItemContent(data);
       dispatch({
         type: myFocusReducerTypes.setHistoryList,
         value: res
       });
-    }),
+    }, []),
     // 删除指定的条目
-    deleteItem: promisify(async function(id: string) {
+    deleteItem: useCallback(async function(id: string) {
       const res = await deleteItem({ id });
       dispatch({
         type: myFocusReducerTypes.setHistoryList,
         value: res
       });
-    })
+    }, [])
   };
-  actions.getTodayTodo = useCallback(actions.getTodayTodo, []);
   return actions;
 }
 
