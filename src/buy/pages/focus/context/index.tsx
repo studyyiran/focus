@@ -8,7 +8,7 @@ import React, {
 import { IReducerAction } from "buy/common/interface/index.interface";
 import { callBackWhenPassAllFunc, promisify } from "buy/common/utils/util";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
-import { IListItem, ITodayTodo } from "./interface";
+import {IListItem, ITodayTodo, ITodoItem} from "./interface";
 
 import { IContextValue } from "../../../common/type";
 import {
@@ -79,11 +79,7 @@ const addTomorrowTodo = serverName + "/newStudyTodoItem";
 
  */
 
-interface ITodoItem {
-  content: string;
-  tag: string;
-  planStartTime?: string;
-}
+
 
 // @actions
 export interface IMyFocusActions {
@@ -175,7 +171,7 @@ function useGetAction(
   //新增一个常规任务
   const addTodayTodo: IMyFocusActions["addTodayTodo"] = useCallback(
     async function(data: any) {
-      return postNewItem(decoratorToday(data));
+      return server.postNewItem(decoratorToday(data));
     },
     [postNewItem]
   );
@@ -192,7 +188,7 @@ function useGetAction(
 
   const addTomorrowReview: IMyFocusActions["addTomorrowReview"] = useCallback(
     async function(content: string) {
-      return postNewItem(
+      return server.postNewItem(
         // 这两个函数应该负责，将tag进行抽象，而不是靠调用者来指定。
         decoratorTagReview(decoratorTomorrow({ content }))
       );
@@ -202,7 +198,7 @@ function useGetAction(
 
   const addTomorrowTodo: IMyFocusActions["addTomorrowTodo"] = useCallback(
     async function(data: { content: string; tag: string }) {
-      return postNewItem(decoratorTomorrow(data));
+      return server.postNewItem(decoratorTomorrow(data));
     },
     [postNewItem]
   );
@@ -210,11 +206,11 @@ function useGetAction(
   // 新增一个with
   const addWishList: IMyFocusActions["addWishList"] = useCallback(
     async function(todo: ITodoItem) {
-      const res: any = postNewItem(todo);
+      const res: any = server.postNewItem(todo);
       res.then(getWishList);
       return res;
     },
-    [getWishList, postNewItem]
+    [getWishList]
   );
 
   // 更改类接口

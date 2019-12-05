@@ -12,3 +12,9 @@ export interface ITodayTodo {
   delay: IListItem[];
   tomorrow: IListItem[];
 }
+
+export interface ITodoItem {
+  content: string;
+  tag: string;
+  planStartTime?: string;
+}

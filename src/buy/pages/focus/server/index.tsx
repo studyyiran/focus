@@ -1,5 +1,6 @@
 import ajax from "../../../common/utils/ajax";
 import { getTestAjaxResultMock } from "./mock";
+import { ITodoItem } from "../context/interface";
 
 /**
  * 首页相关
@@ -8,7 +9,7 @@ const serverName = "/studyTodo";
 
 const getTodayTodoUrl = serverName + "/getTodayList"; // 获取today列表
 const getTodayDoneUrl = serverName + "/getTodayDoneList"; // 获取today列表
-const postNewItemUrl = serverName + "/newStudyTodoItem"; // 新增口
+const newStudyTodoItemUrl = serverName + "/newStudyTodoItem"; // 新增口
 const changeStudyItemStatusUrl = serverName + "/changeStudyItemStatus"; // 完成任务接口
 
 const changeItemContentUrl = serverName + "/changeContent"; // 通用修改口
@@ -31,8 +32,8 @@ export default {
     const res: any = await ajax.get(getTodayDoneUrl);
     return res;
   },
-  postNewItem: async (data: { content: string }) => {
-    const res: any = await ajax.post(postNewItemUrl, data);
+  postNewItem: async (data: ITodoItem) => {
+    const res: any = await ajax.post(newStudyTodoItemUrl, data);
     return res;
   },
   getHistoryByFilter: async (filterInfo: any) => {
