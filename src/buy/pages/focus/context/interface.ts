@@ -16,5 +16,5 @@ export interface ITodayTodo {
 export interface ITodoItem {
   content: string;
   tag: string;
-  planStartTime?: string;
+  timeType?: string;
 }

@@ -12,7 +12,7 @@ const getTodayDoneUrl = serverName + "/getTodayDoneList"; // 获取today列表
 const newStudyTodoItemUrl = serverName + "/newStudyTodoItem"; // 新增口
 const changeStudyItemStatusUrl = serverName + "/changeStudyItemStatus"; // 完成任务接口
 
-const changeItemContentUrl = serverName + "/changeContent"; // 通用修改口
+const ChangeTodoItemUrl = serverName + "/ChangeTodoItem"; // 通用修改口
 const deleteItemUrl = serverName + "/hideStudyItem"; // 通用删除口
 
 const getHistoryByFilterUrl = serverName + "/getHistoryList"; // 获取全部的列表信息数据（根据筛选项。）
@@ -40,8 +40,8 @@ export default {
     const res: any = await ajax.post(getHistoryByFilterUrl, filterInfo);
     return res;
   },
-  changeItemContent: async (data: any) => {
-    const res: any = await ajax.put(changeItemContentUrl, data);
+  changeTodoItem: async (todo: ITodoItem) => {
+    const res: any = await ajax.put(ChangeTodoItemUrl, todo);
     return res;
   },
   deleteItem: async (data: { id: string }) => {

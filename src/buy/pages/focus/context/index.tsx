@@ -96,7 +96,7 @@ export interface IMyFocusActions {
   postNewItem: (todo: ITodoItem) => void;
   addTodayFinish: (todo: ITodoItem) => any; // 新增快速完成
   // 改
-  changeItemContent: (todo: ITodoItem) => void;
+  changeTodoItem: (todo: ITodoItem) => void;
   changeStudyItemStatus: (id: any) => any; // 完成任务
   // 删除
   deleteItem: (id: string) => void;
@@ -230,9 +230,9 @@ function useGetAction(
   );
 
   // 修改内容
-  const changeItemContent: IMyFocusActions["changeItemContent"] = useCallback(
-    async function(data: any) {
-      const res = await server.changeItemContent(data);
+  const changeTodoItem: IMyFocusActions["changeTodoItem"] = useCallback(
+    async function(todo) {
+      const res = await server.changeTodoItem(todo);
       dispatch({
         type: myFocusReducerTypes.setHistoryList,
         value: res
@@ -277,7 +277,7 @@ function useGetAction(
     addTomorrowReview,
     postNewItem,
     addTodayFinish,
-    changeItemContent,
+    changeTodoItem,
     changeStudyItemStatus,
     deleteItem,
     getWishList,

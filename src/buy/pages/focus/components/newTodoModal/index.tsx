@@ -118,7 +118,7 @@ export const tagArr = [
 export function useShowNewTodoModal(props: any) {
   const { onSubmit, _id, prevent = false } = props;
   const myFocusContext = useContext(MyFocusContext);
-  const { addTodayTodo, changeItemContent } = myFocusContext as IMyFocusContext;
+  const { addTodayTodo, changeTodoItem } = myFocusContext as IMyFocusContext;
   function onSubmitHandler(values: any) {
     if (prevent && onSubmit) {
       // 执行自定义逻辑
@@ -127,7 +127,7 @@ export function useShowNewTodoModal(props: any) {
       // 这块是修改和新增两用
       if (props._id) {
         // 修改
-        changeItemContent({
+        changeTodoItem({
           ...values,
           id: _id
         });
@@ -139,8 +139,6 @@ export function useShowNewTodoModal(props: any) {
     }
   }
   console.log(props);
-
-
 
   // 一个不知道为什么会出现在这里的表单config
   const formConfig = [
