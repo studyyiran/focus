@@ -1,6 +1,5 @@
 import { createBrowserHistory, createMemoryHistory } from "history";
 import { isServer } from "./util";
-import { routerConfigWithoutComponent } from "../../share/routerConfigWithoutComponent";
 import { matchPath } from "react-router-dom";
 
 export const routerHistory = isServer()
@@ -9,7 +8,7 @@ export const routerHistory = isServer()
 
 export const locationHref = (url: string, params?: string) => {
   // 没有路由就跳转出去
-  const findInBuyRouter = routerConfigWithoutComponent.find((route: any) => {
+  const findInBuyRouter = [].find((route: any) => {
     return !!matchPath(url, route);
   });
   if (!findInBuyRouter) {
@@ -29,7 +28,7 @@ export const locationHref = (url: string, params?: string) => {
 };
 
 export const checkIsBuyUrl = (url: string) => {
-  const findInBuyRouter = routerConfigWithoutComponent.find((route: any) => {
+  const findInBuyRouter = [].find((route: any) => {
     return !!matchPath(url, route);
   });
   return findInBuyRouter;
