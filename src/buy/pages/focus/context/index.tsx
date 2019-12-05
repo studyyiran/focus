@@ -49,7 +49,7 @@ export function MyFocusContextProvider(props: any) {
     useReducerMiddleware(reducer),
     initState
   );
-  const action: IMyFocusActions = useGetAction(state, dispatch);
+  const action = useGetAction(state, dispatch);
 
   useEffect(() => {
     callBackWhenPassAllFunc([], action.getTodayTodo);
