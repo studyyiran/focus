@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button } from "antd";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
+import { IMyFocusContext, MyFocusContext } from "../../context";
 
 export function WishList() {
-  const addNewTodoModal = useShowNewTodoModal({prevent: true, onSubmit: () => {
-
-    }});
+  const myFocusContext = useContext(MyFocusContext);
+  const { addWishList } = myFocusContext as IMyFocusContext;
+  const addNewTodoModal = useShowNewTodoModal({
+    prevent: true,
+    onSubmit: addWishList
+  });
   return <Button onClick={addNewTodoModal}>add</Button>;
 }

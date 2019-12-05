@@ -77,6 +77,12 @@ const addTomorrowTodo = serverName + "/newStudyTodoItem";
 
  */
 
+interface ITodoItem {
+  content: string;
+  tag: string;
+  planStartTime?: string;
+}
+
 // @actions
 export interface IMyFocusActions {
   // 查询
@@ -88,12 +94,9 @@ export interface IMyFocusActions {
   addTodayTodo: (data: any) => any;
   addTomorrowTodo: (data: any) => any;
   addTomorrowReview: (data: any) => any;
+  addWishList: (todo: ITodoItem) => any;
   //  新增任务
-  postNewItem: (data: {
-    content: string;
-    tag: string;
-    planStartTime?: string;
-  }) => void;
+  postNewItem: (todo: ITodoItem) => void;
   addTodayFinish: (data: any) => any; // 新增快速完成
   // 改
   changeItemContent: (data: any) => void;
@@ -189,6 +192,14 @@ function useGetAction(
     [postNewItem]
   );
 
+  // 新增一个with
+  const addWishList: IMyFocusActions["addWishList"] = useCallback(
+    async function(todo: ITodoItem) {
+      return postNewItem(todo);
+    },
+    [postNewItem]
+  );
+
   // 更改类接口
   // 完成任务
   const changeStudyItemStatus: IMyFocusActions["changeStudyItemStatus"] = useCallback(
@@ -240,7 +251,8 @@ function useGetAction(
     addTodayFinish,
     changeItemContent,
     changeStudyItemStatus,
-    deleteItem
+    deleteItem,
+    addWishList
   };
 }
 
