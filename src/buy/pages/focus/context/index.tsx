@@ -8,7 +8,7 @@ import React, {
 import { IReducerAction } from "buy/common/interface/index.interface";
 import { callBackWhenPassAllFunc, promisify } from "buy/common/utils/util";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
-import {IListItem, ITodayTodo, ITodoItem} from "./interface";
+import { IListItem, ITodayTodo, ITodoItem } from "./interface";
 
 import { IContextValue } from "../../../common/type";
 import {
@@ -79,8 +79,6 @@ const addTomorrowTodo = serverName + "/newStudyTodoItem";
 
  */
 
-
-
 // @actions
 export interface IMyFocusActions {
   // 查询
@@ -91,7 +89,7 @@ export interface IMyFocusActions {
 
   // 增
   addTodayTodo: (todo: ITodoItem) => any;
-  addTomorrowTodo: (todo: ITodoItem) => any;
+  addTomorrowTodo: (todo: { content: string; tag: string }) => any;
   addTomorrowReview: (content: string) => any;
   addWishList: (todo: ITodoItem) => any;
   //  新增任务
@@ -157,8 +155,8 @@ function useGetAction(
   // 新增的底层功能接口
 
   const postNewItem: IMyFocusActions["postNewItem"] = useCallback(
-    async function(data) {
-      const res = await server.postNewItem(data);
+    async function(todo) {
+      const res = await server.postNewItem(todo);
       dispatch({
         type: myFocusReducerTypes.setList,
         value: res
@@ -170,16 +168,16 @@ function useGetAction(
 
   //新增一个常规任务
   const addTodayTodo: IMyFocusActions["addTodayTodo"] = useCallback(
-    async function(data: any) {
-      return server.postNewItem(decoratorToday(data));
+    async function(todo) {
+      return server.postNewItem(decoratorToday(todo));
     },
     [postNewItem]
   );
 
   //新增任务并马上完成
   const addTodayFinish: IMyFocusActions["addTodayFinish"] = useCallback(
-    async function(data: any) {
-      await server.postNewItem(decoratorFinish(decoratorToday(data)));
+    async function(todo) {
+      await server.postNewItem(decoratorFinish(decoratorToday(todo)));
       // 更新数据
       getTodayDone();
     },
@@ -197,8 +195,8 @@ function useGetAction(
   );
 
   const addTomorrowTodo: IMyFocusActions["addTomorrowTodo"] = useCallback(
-    async function(data: { content: string; tag: string }) {
-      return server.postNewItem(decoratorTomorrow(data));
+    async function(todo) {
+      return server.postNewItem(decoratorTomorrow(todo));
     },
     [postNewItem]
   );

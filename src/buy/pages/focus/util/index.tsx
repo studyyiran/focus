@@ -35,11 +35,11 @@ export function todayPageFilter(data: any) {
 }
 
 export function decoratorTomorrow(data: any) {
-  return { planStartTime: moment().add(1, 'days'), ...data };
+  return { timeType: 'tomorrow', ...data };
 }
 
 export function decoratorToday(data: any) {
-  return { planStartTime: moment(), ...data };
+  return { timeType: 'today', ...data };
 }
 
 export function decoratorFinish(data: any) {
