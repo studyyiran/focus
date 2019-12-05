@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button } from "antd";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { IMyFocusContext, MyFocusContext } from "../../context";
@@ -8,7 +8,9 @@ import "./index.less";
 
 export function WishList() {
   const myFocusContext = useContext(MyFocusContext);
+  const [currentTodo, setCurrentTodo] = useState({});
   const {
+    addTodayTodo,
     getWishList,
     addWishList,
     myFocusContextValue
@@ -17,17 +19,25 @@ export function WishList() {
     getWishList();
   }, [getWishList]);
   const { wishList } = myFocusContextValue;
-  const addNewTodoModal = useShowNewTodoModal({
-    prevent: true,
-    onSubmit: addWishList
-  });
+  const addNewTodoModal = useShowNewTodoModal({});
+  const addNewTodoModal2 = useCallback(
+    useShowNewTodoModal({
+      prevent: true,
+      onSubmit: addWishList
+    }),
+    []
+  );
   function renderList() {
     const dom = wishList.map(item => {
       return (
         <div className="line-container">
           <TodoLine key={item._id} {...item} />
           <span>{moment(Number(item.createTime)).format("LLLL")}</span>
-          <Button onClick={() => {}}>Move Into Plane</Button>
+          <div>
+            <Button onClick={() => {}}>Quick add today</Button>
+            <Button onClick={() => {}}>Move Into Plane</Button>
+          </div>
+
         </div>
       );
     });

@@ -94,15 +94,15 @@ export interface IMyFocusActions {
   getWishList: () => any; // 获取历史
 
   // 增
-  addTodayTodo: (data: any) => any;
-  addTomorrowTodo: (data: any) => any;
-  addTomorrowReview: (data: any) => any;
+  addTodayTodo: (todo: ITodoItem) => any;
+  addTomorrowTodo: (todo: ITodoItem) => any;
+  addTomorrowReview: (content: string) => any;
   addWishList: (todo: ITodoItem) => any;
   //  新增任务
   postNewItem: (todo: ITodoItem) => void;
-  addTodayFinish: (data: any) => any; // 新增快速完成
+  addTodayFinish: (todo: ITodoItem) => any; // 新增快速完成
   // 改
-  changeItemContent: (data: any) => void;
+  changeItemContent: (todo: ITodoItem) => void;
   changeStudyItemStatus: (id: any) => any; // 完成任务
   // 删除
   deleteItem: (id: string) => void;
@@ -246,6 +246,23 @@ function useGetAction(
     },
     [dispatch]
   );
+
+  const moveWishInto: IMyFocusActions["changeStudyItemStatus"] = useCallback(
+    async function(id: string) {
+      // 进行状态更新
+      const res = await server.changeStudyItemStatus({
+        id: id,
+        status: "finish"
+      });
+      // 使用心的状态
+      dispatch({
+        type: myFocusReducerTypes.setList,
+        value: res
+      });
+    },
+    [dispatch]
+  );
+
   // 删除指定的条目
   const deleteItem: IMyFocusActions["deleteItem"] = useCallback(
     async function(id: string) {
