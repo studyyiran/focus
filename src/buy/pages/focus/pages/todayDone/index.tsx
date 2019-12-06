@@ -16,12 +16,14 @@ export function TodayDone() {
     getTodayDone,
     addTodayFinish,
     addTomorrowReview,
-    addTomorrowTodo
+    addTomorrowTodo,
+    getTodayTodo
   } = myFocusContext as IMyFocusContext;
   const { todayDoneList, todayTodo } = myFocusContextValue;
   useEffect(() => {
     getTodayDone();
-  }, []);
+    getTodayTodo();
+  }, [getTodayDone, getTodayTodo]);
 
   const quickFinishModal = useShowNewTodoModal({
     prevent: true,
