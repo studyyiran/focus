@@ -38,7 +38,9 @@ export function WishList() {
     ...currentTodo,
     prevent: true,
     onSubmit: (todo: ITodoItem) => {
+      setCurrentTodo({} as any);
       changeTodoItem({
+        ...currentTodo,
         ...todo,
         timeType: "tomorrow"
       });
@@ -70,7 +72,7 @@ export function WishList() {
             >
               Quick add today
             </Button>
-            <Button onClick={slowChangeTodoItemModal}>Slow add Plan</Button>
+            <Button onClick={() => setCurrentTodo(item)}>Slow add Plan</Button>
           </div>
         </div>
       );
