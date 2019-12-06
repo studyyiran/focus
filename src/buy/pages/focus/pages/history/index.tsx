@@ -72,7 +72,6 @@ function SettingModal(props: any) {
     ...currentInfo,
     prevent: true,
     onSubmit: (values: any) => {
-      console.log(values);
       addTodayTodo(values);
     }
   });

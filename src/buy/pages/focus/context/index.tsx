@@ -157,13 +157,17 @@ function useGetAction(
   const _postNewItem: IMyFocusActions["_postNewItem"] = useCallback(
     async function(todo) {
       const res = await server.postNewItem(todo);
+      // 设置列表
       dispatch({
         type: myFocusReducerTypes.setList,
         value: res
       });
+      // 自动拉取其他的数据.
+      getTodayDone();
+      getHistoryByFilter(null);
       return res;
     },
-    [dispatch]
+    [dispatch, getHistoryByFilter, getTodayDone]
   );
 
   //新增一个常规任务
@@ -181,7 +185,7 @@ function useGetAction(
       // 更新数据
       getTodayDone();
     },
-    [getTodayDone]
+    [_postNewItem, getTodayDone]
   );
 
   const addTomorrowReview: IMyFocusActions["addTomorrowReview"] = useCallback(
@@ -208,7 +212,7 @@ function useGetAction(
       res.then(getWishList);
       return res;
     },
-    [getWishList]
+    [_postNewItem, getWishList]
   );
 
   // 更改类接口
