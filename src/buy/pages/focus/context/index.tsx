@@ -53,9 +53,9 @@ export function MyFocusContextProvider(props: any) {
   );
   const action = useGetAction(state, dispatch);
 
-  useEffect(() => {
-    callBackWhenPassAllFunc([], action.getTodayTodo);
-  }, [action.getTodayTodo]);
+  // useEffect(() => {
+  //   callBackWhenPassAllFunc([], action.getTodayTodo);
+  // }, [action.getTodayTodo]);
 
   const propsValue: IMyFocusContext = {
     ...action,

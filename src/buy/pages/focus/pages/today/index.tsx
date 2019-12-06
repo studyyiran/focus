@@ -4,18 +4,22 @@ import { Button, Select } from "antd";
 import { TodayPageSection } from "../../components/todayPageSection";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import Svg from "../../../../components/svg";
-import {
-  useShowNewTodoModal
-} from "../../components/newTodoModal";
+import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { TodoLine } from "../../components/ToDoLine";
+import { callBackWhenPassAllFunc } from "../../../../common/utils/util";
 
 export function FocusToday() {
   const myFocusContext = useContext(MyFocusContext);
   const {
     myFocusContextValue,
+    getTodayTodo,
     changeStudyItemStatus
   } = myFocusContext as IMyFocusContext;
   const { todayTodo } = myFocusContextValue;
+
+  useEffect(() => {
+    callBackWhenPassAllFunc([], getTodayTodo);
+  }, [getTodayTodo]);
 
   const testFunc = useShowNewTodoModal({});
 
