@@ -210,10 +210,9 @@ function useGetAction(
   const addWishList: IMyFocusActions["addWishList"] = useCallback(
     async function(todo: ITodoItem) {
       const res: any = _postNewItem(todo);
-      res.then(getWishList);
       return res;
     },
-    [_postNewItem, getWishList]
+    [_postNewItem]
   );
 
   // 更改类接口
@@ -242,8 +241,12 @@ function useGetAction(
         type: myFocusReducerTypes.setHistoryList,
         value: res
       });
+      // 同样是同步一系列的数据
+      getWishList();
+      getTodayDone();
+      getTodayTodo();
     },
-    [dispatch]
+    [dispatch, getTodayDone, getTodayTodo, getWishList]
   );
 
   const moveWishInto: IMyFocusActions["changeStudyItemStatus"] = useCallback(

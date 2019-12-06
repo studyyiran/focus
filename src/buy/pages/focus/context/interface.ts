@@ -17,4 +17,5 @@ export interface ITodoItem {
   content: string;
   tag: string;
   timeType?: string;
+  _id: string;
 }

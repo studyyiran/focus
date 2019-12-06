@@ -5,12 +5,13 @@ import { IMyFocusContext, MyFocusContext } from "../../context";
 import { TodoLine } from "../../components/ToDoLine";
 import moment from "moment-timezone";
 import "./index.less";
+import { ITodoItem } from "../../context/interface";
 
 export function WishList() {
   const myFocusContext = useContext(MyFocusContext);
-  const [currentTodo, setCurrentTodo] = useState({});
+  const [currentTodo, setCurrentTodo] = useState({} as ITodoItem);
   const {
-    addTodayTodo,
+    changeTodoItem,
     getWishList,
     addWishList,
     myFocusContextValue
@@ -19,14 +20,38 @@ export function WishList() {
     getWishList();
   }, [getWishList]);
   const { wishList } = myFocusContextValue;
-  const addNewTodoModal = useShowNewTodoModal({ timeType: "" });
-  const addNewTodoModal2 = useCallback(
+  const addWishListModal = useCallback(
     useShowNewTodoModal({
       prevent: true,
       onSubmit: addWishList
     }),
     []
   );
+  const quickChangeTodoItem = (todo: ITodoItem) => {
+    changeTodoItem({
+      ...todo,
+      timeType: "today"
+    });
+  };
+
+  const slowChangeTodoItemModal = useShowNewTodoModal({
+    ...currentTodo,
+    prevent: true,
+    onSubmit: (todo: ITodoItem) => {
+      changeTodoItem({
+        ...todo,
+        timeType: "tomorrow"
+      });
+    }
+  });
+
+  // 当有值的时候
+  useEffect(() => {
+    if (currentTodo && currentTodo.content) {
+      slowChangeTodoItemModal();
+    }
+  }, [currentTodo, slowChangeTodoItemModal]);
+
   function renderList() {
     const dom = wishList.map(item => {
       return (
@@ -38,8 +63,14 @@ export function WishList() {
             ).format("LLLL")}
           </span>
           <div>
-            <Button onClick={() => {}}>Quick add today</Button>
-            <Button onClick={() => {}}>Move Into Plane</Button>
+            <Button
+              onClick={() => {
+                quickChangeTodoItem(item);
+              }}
+            >
+              Quick add today
+            </Button>
+            <Button onClick={slowChangeTodoItemModal}>Slow add Plan</Button>
           </div>
         </div>
       );
@@ -49,7 +80,7 @@ export function WishList() {
   return (
     <div className="wish-list">
       {renderList()}
-      <Button onClick={addNewTodoModal}>add</Button>
+      <Button onClick={addWishListModal}>add</Button>
     </div>
   );
 }

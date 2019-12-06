@@ -139,7 +139,6 @@ export function useShowNewTodoModal(props: any) {
       onSubmit && onSubmit(values);
     }
   }
-  console.log(props);
 
   // 一个不知道为什么会出现在这里的表单config
   const formConfig = [
