@@ -93,7 +93,7 @@ export interface IMyFocusActions {
   addTomorrowReview: (content: string) => any;
   addWishList: (todo: ITodoItem) => any;
   //  新增任务
-  postNewItem: (todo: ITodoItem) => void;
+  _postNewItem: (todo: ITodoItem) => void;
   addTodayFinish: (todo: ITodoItem) => any; // 新增快速完成
   // 改
   changeTodoItem: (todo: ITodoItem) => void;
@@ -154,7 +154,7 @@ function useGetAction(
   // 添加类
   // 新增的底层功能接口
 
-  const postNewItem: IMyFocusActions["postNewItem"] = useCallback(
+  const _postNewItem: IMyFocusActions["_postNewItem"] = useCallback(
     async function(todo) {
       const res = await server.postNewItem(todo);
       dispatch({
@@ -169,15 +169,15 @@ function useGetAction(
   //新增一个常规任务
   const addTodayTodo: IMyFocusActions["addTodayTodo"] = useCallback(
     async function(todo) {
-      return server.postNewItem(decoratorToday(todo));
+      return _postNewItem(decoratorToday(todo));
     },
-    [postNewItem]
+    [_postNewItem]
   );
 
   //新增任务并马上完成
   const addTodayFinish: IMyFocusActions["addTodayFinish"] = useCallback(
     async function(todo) {
-      await server.postNewItem(decoratorFinish(decoratorToday(todo)));
+      await _postNewItem(decoratorFinish(decoratorToday(todo)));
       // 更新数据
       getTodayDone();
     },
@@ -186,25 +186,25 @@ function useGetAction(
 
   const addTomorrowReview: IMyFocusActions["addTomorrowReview"] = useCallback(
     async function(content: string) {
-      return server.postNewItem(
+      return _postNewItem(
         // 这两个函数应该负责，将tag进行抽象，而不是靠调用者来指定。
         decoratorTagReview(decoratorTomorrow({ content }))
       );
     },
-    [postNewItem]
+    [_postNewItem]
   );
 
   const addTomorrowTodo: IMyFocusActions["addTomorrowTodo"] = useCallback(
     async function(todo) {
-      return server.postNewItem(decoratorTomorrow(todo));
+      return _postNewItem(decoratorTomorrow(todo));
     },
-    [postNewItem]
+    [_postNewItem]
   );
 
   // 新增一个with
   const addWishList: IMyFocusActions["addWishList"] = useCallback(
     async function(todo: ITodoItem) {
-      const res: any = server.postNewItem(todo);
+      const res: any = _postNewItem(todo);
       res.then(getWishList);
       return res;
     },
@@ -275,7 +275,7 @@ function useGetAction(
     addTodayTodo,
     addTomorrowTodo,
     addTomorrowReview,
-    postNewItem,
+    _postNewItem,
     addTodayFinish,
     changeTodoItem,
     changeStudyItemStatus,
