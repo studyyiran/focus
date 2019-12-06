@@ -19,7 +19,7 @@ export function WishList() {
     getWishList();
   }, [getWishList]);
   const { wishList } = myFocusContextValue;
-  const addNewTodoModal = useShowNewTodoModal({});
+  const addNewTodoModal = useShowNewTodoModal({ timeType: "" });
   const addNewTodoModal2 = useCallback(
     useShowNewTodoModal({
       prevent: true,
@@ -30,14 +30,17 @@ export function WishList() {
   function renderList() {
     const dom = wishList.map(item => {
       return (
-        <div className="line-container">
-          <TodoLine key={item._id} {...item} />
-          <span>{moment(Number(item.createTime)).format("LLLL")}</span>
+        <div className="line-container" key={item._id}>
+          <TodoLine {...item} />
+          <span>
+            {(
+              moment(Number(item.createTime)) || moment(item.createTime)
+            ).format("LLLL")}
+          </span>
           <div>
             <Button onClick={() => {}}>Quick add today</Button>
             <Button onClick={() => {}}>Move Into Plane</Button>
           </div>
-
         </div>
       );
     });

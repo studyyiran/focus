@@ -165,9 +165,10 @@ function useGetAction(
       // 自动拉取其他的数据.
       getTodayDone();
       getHistoryByFilter(null);
+      getWishList();
       return res;
     },
-    [dispatch, getHistoryByFilter, getTodayDone]
+    [dispatch, getHistoryByFilter, getTodayDone, getWishList]
   );
 
   //新增一个常规任务

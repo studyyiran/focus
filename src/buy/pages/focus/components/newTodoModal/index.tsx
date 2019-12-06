@@ -116,7 +116,7 @@ export const tagArr = [
 ];
 
 export function useShowNewTodoModal(props: any) {
-  const { onSubmit, _id, prevent = false } = props;
+  const { onSubmit, _id, prevent = false, ...otherProps } = props;
   const myFocusContext = useContext(MyFocusContext);
   const { addTodayTodo, changeTodoItem } = myFocusContext as IMyFocusContext;
   function onSubmitHandler(values: any) {
@@ -129,11 +129,12 @@ export function useShowNewTodoModal(props: any) {
         // 修改
         changeTodoItem({
           ...values,
-          id: _id
+          id: _id,
+          ...otherProps
         });
       } else {
         // 新增
-        addTodayTodo(values);
+        addTodayTodo({ ...values, ...otherProps });
       }
       onSubmit && onSubmit(values);
     }
