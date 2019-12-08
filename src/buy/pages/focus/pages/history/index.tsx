@@ -6,6 +6,7 @@ import { Button } from "antd";
 import Modal from "../../../../components/modal";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { IListItem } from "../../context/interface";
+import moment from "moment";
 
 export function HistoryPage() {
   const storeTestNameContext = useContext(MyFocusContext);
@@ -17,7 +18,7 @@ export function HistoryPage() {
   } = storeTestNameContext as IMyFocusContext;
   useEffect(() => {
     getHistoryByFilter({});
-  }, []);
+  }, [getHistoryByFilter]);
   const { historyList } = myFocusContextValue;
 
   // 根据选项来进行筛选（暂时写死hidden）
@@ -30,9 +31,13 @@ export function HistoryPage() {
   function renderList(list: IListItem[]) {
     if (list && list.length) {
       return list.map(info => {
+        console.log(info);
         return (
           <div className={"todo-line-wrapper"} key={info._id}>
             <TodoLine {...info} />
+            {info.finishDate
+              ? moment(info.finishDate).format("LLLL")
+              : "not finish"}
             <Button
               onClick={() => {
                 setCurrentInfo(info);

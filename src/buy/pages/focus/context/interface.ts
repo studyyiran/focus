@@ -4,6 +4,8 @@ export interface IListItem {
   _id: string;
   hidden: boolean;
   createTime: string;
+  finishDate: string;
+  status: string;
 }
 
 export interface ITodayTodo {
