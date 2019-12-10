@@ -4,7 +4,6 @@ import "./index.less";
 import "buy/common/styles/index.less";
 import Routers from "./routers";
 import {isServer} from "./common/utils/util";
-import {FocusToday} from './pages/focus/pages/today';
 
 if (!isServer()) {
   (window as any).LOCATIONENV = 'buy';

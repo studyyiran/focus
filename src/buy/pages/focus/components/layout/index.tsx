@@ -3,6 +3,8 @@ import "./index.less";
 import { routerConfig } from "../../routerConfig";
 import RouterLink from "../../../../common-modules/components/routerLink";
 import { useRouteMatch } from "react-router";
+import "../../common.less";
+
 export function FocusLayout(props: any) {
   const { children, computedMatch, location } = props;
   const { path: fatherPath } = computedMatch;
@@ -30,7 +32,9 @@ export function FocusLayout(props: any) {
       </header>
       {routerConfig.map(routerInfo => {
         const { path } = routerInfo;
-        return <RenderTitle key={path} {...routerInfo} fatherPath={fatherPath} />;
+        return (
+          <RenderTitle key={path} {...routerInfo} fatherPath={fatherPath} />
+        );
       })}
       <main>{children}</main>
     </div>
