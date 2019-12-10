@@ -33,7 +33,7 @@ export function HistoryPage() {
       return list.map(info => {
         console.log(info);
         return (
-          <div className={"todo-line-wrapper"} key={info._id}>
+          <li className={"todo-line-wrapper"} key={info._id}>
             <TodoLine {...info} />
             {info.finishDate
               ? moment(info.finishDate).format("LLLL")
@@ -45,7 +45,7 @@ export function HistoryPage() {
             >
               Action
             </Button>
-          </div>
+          </li>
         );
       });
     } else {
@@ -61,7 +61,7 @@ export function HistoryPage() {
           setCurrentInfo({});
         }}
       />
-      <ul>{renderList(listFilter(historyList))}</ul>
+      <ul className="ul-line-container">{renderList(listFilter(historyList))}</ul>
     </div>
   );
 }

@@ -59,7 +59,7 @@ export function TodayDone() {
     <div className="today-done">
       <div>
         <h2>Today Done</h2>
-        <ul>{renderList(todayDoneList)}</ul>
+        <ul className="ul-line-container">{renderList(todayDoneList)}</ul>
         <Button onClick={quickFinishModal}>
           <Svg icon="jia" />
           Quick Finish
@@ -68,7 +68,7 @@ export function TodayDone() {
 
       <div>
         <h2>Tomorrow Plan</h2>
-        <ul>{renderList(todayTodo.tomorrow)}</ul>
+        <ul className="ul-line-container">{renderList(todayTodo.tomorrow)}</ul>
         <Button onClick={addTomorrowTodoModal}>Add Tomorrow TODO</Button>
       </div>
     </div>

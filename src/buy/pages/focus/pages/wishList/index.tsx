@@ -57,7 +57,7 @@ export function WishList() {
   function renderList() {
     const dom = wishList.map(item => {
       return (
-        <div className="line-container" key={item._id}>
+        <li className="line-container" key={item._id}>
           <TodoLine {...item} />
           <span>
             {(
@@ -74,7 +74,7 @@ export function WishList() {
             </Button>
             <Button onClick={() => setCurrentTodo(item)}>Slow add Plan</Button>
           </div>
-        </div>
+        </li>
       );
     });
     return <ul className="ul-line-container">{dom}</ul>;
