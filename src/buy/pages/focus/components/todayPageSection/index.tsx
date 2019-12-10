@@ -13,7 +13,7 @@ export function TodayPageSection(props: {
   return (
     <div>
       <h3>{title}</h3>
-      <ul>{children}</ul>
+      <ul className="ul-line-container">{children}</ul>
     </div>
   );
 }

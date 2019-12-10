@@ -27,17 +27,20 @@ export function HistoryPage() {
       return item && !item.hidden;
     });
   }
-
   function renderList(list: IListItem[]) {
     if (list && list.length) {
       return list.map(info => {
         console.log(info);
         return (
-          <li className={"todo-line-wrapper"} key={info._id}>
+          <li
+            className={"todo-line-wrapper"}
+            key={info._id}
+            data-finish={!(info.planStartTime && !info.finishDate)}
+          >
             <TodoLine {...info} />
             {info.finishDate
               ? moment(info.finishDate).format("LLLL")
-              : "not finish"}
+              : moment(info.createTime).format("LLLL")}
             <Button
               onClick={() => {
                 setCurrentInfo(info);
@@ -61,7 +64,9 @@ export function HistoryPage() {
           setCurrentInfo({});
         }}
       />
-      <ul className="ul-line-container">{renderList(listFilter(historyList))}</ul>
+      <ul className="ul-line-container">
+        {renderList(listFilter(historyList))}
+      </ul>
     </div>
   );
 }
