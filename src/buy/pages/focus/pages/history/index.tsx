@@ -18,11 +18,11 @@ export function HistoryPage() {
     addTodayTodo
   } = storeTestNameContext as IMyFocusContext;
 
-  const { historyList, historyFilter } = myFocusContextValue;
+  const { historyList } = myFocusContextValue;
 
   useEffect(() => {
-    getHistoryByFilter(historyFilter);
-  }, [getHistoryByFilter, historyFilter]);
+    getHistoryByFilter();
+  }, [getHistoryByFilter]);
 
   // 根据选项来进行筛选（暂时写死hidden）
   // function listFilter(list: IListItem[]) {
@@ -68,9 +68,7 @@ export function HistoryPage() {
         }}
       />
       <FilterPart />
-      <ul className="ul-line-container">
-        {renderList(historyList)}
-      </ul>
+      <ul className="ul-line-container">{renderList(historyList)}</ul>
     </div>
   );
 }

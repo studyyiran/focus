@@ -86,7 +86,7 @@ export interface IMyFocusActions {
   // 查询
   getTodayTodo: () => void;
   getTodayDone: () => any;
-  getHistoryByFilter: (filterInfo: IHistoryFilter) => any; // 获取历史
+  getHistoryByFilter: () => any; // 获取历史
   getWishList: () => any; // 获取历史
 
   // 增
@@ -112,14 +112,14 @@ function useGetAction(
 ): IMyFocusActions {
   // 获取类
   const getHistoryByFilter: IMyFocusActions["getHistoryByFilter"] = useCallback(
-    async function(data) {
-      const res = await server.getHistoryByFilter(data);
+    async function() {
+      const res = await server.getHistoryByFilter(state.historyFilter);
       dispatch({
         type: myFocusReducerTypes.setHistoryList,
         value: res
       });
     },
-    [dispatch]
+    [dispatch, state.historyFilter]
   );
   const getTodayTodo: IMyFocusActions["getTodayTodo"] = useCallback(
     async function() {
@@ -167,7 +167,7 @@ function useGetAction(
       });
       // 自动拉取其他的数据.
       getTodayDone();
-      getHistoryByFilter({});
+      getHistoryByFilter();
       getWishList();
       return res;
     },
@@ -240,16 +240,13 @@ function useGetAction(
   const changeTodoItem: IMyFocusActions["changeTodoItem"] = useCallback(
     async function(todo) {
       const res = await server.changeTodoItem(todo);
-      dispatch({
-        type: myFocusReducerTypes.setHistoryList,
-        value: res
-      });
       // 同样是同步一系列的数据
       getWishList();
       getTodayDone();
       getTodayTodo();
+      getHistoryByFilter();
     },
-    [dispatch, getTodayDone, getTodayTodo, getWishList]
+    [getHistoryByFilter, getTodayDone, getTodayTodo, getWishList]
   );
 
   const moveWishInto: IMyFocusActions["changeStudyItemStatus"] = useCallback(
@@ -272,12 +269,9 @@ function useGetAction(
   const deleteItem: IMyFocusActions["deleteItem"] = useCallback(
     async function(id: string) {
       const res = await server.deleteItem({ id });
-      dispatch({
-        type: myFocusReducerTypes.setHistoryList,
-        value: res
-      });
+      getHistoryByFilter();
     },
-    [dispatch]
+    [getHistoryByFilter]
   );
 
   // 修改状态
