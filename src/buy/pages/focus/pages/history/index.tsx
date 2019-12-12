@@ -7,6 +7,7 @@ import Modal from "../../../../components/modal";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { IListItem } from "../../context/interface";
 import moment from "moment";
+import { FilterPart } from "./components/filterPart";
 
 export function HistoryPage() {
   const storeTestNameContext = useContext(MyFocusContext);
@@ -66,6 +67,7 @@ export function HistoryPage() {
           setCurrentInfo({});
         }}
       />
+      <FilterPart />
       <ul className="ul-line-container">
         {renderList(listFilter(historyList))}
       </ul>
