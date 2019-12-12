@@ -22,3 +22,8 @@ export interface ITodoItem {
   timeType?: string;
   _id: string;
 }
+
+export interface IHistoryFilter {
+  content: string;
+
+}
