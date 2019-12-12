@@ -37,7 +37,7 @@ export default {
     return res;
   },
   getHistoryByFilter: async (filterInfo: IHistoryFilter) => {
-    const res: any = await ajax.post(getHistoryByFilterUrl, filterInfo);
+    const res: any = await ajax.post(getHistoryByFilterUrl, { filterInfo });
     return res;
   },
   changeTodoItem: async (todo: ITodoItem) => {

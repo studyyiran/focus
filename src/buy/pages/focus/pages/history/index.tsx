@@ -25,11 +25,11 @@ export function HistoryPage() {
   }, [getHistoryByFilter, historyFilter]);
 
   // 根据选项来进行筛选（暂时写死hidden）
-  function listFilter(list: IListItem[]) {
-    return list.filter(item => {
-      return item && !item.hidden;
-    });
-  }
+  // function listFilter(list: IListItem[]) {
+  //   return list.filter(item => {
+  //     return item && !item.hidden;
+  //   });
+  // }
   function renderList(list: IListItem[]) {
     if (list && list.length) {
       return list.map(info => {
@@ -69,7 +69,7 @@ export function HistoryPage() {
       />
       <FilterPart />
       <ul className="ul-line-container">
-        {renderList(listFilter(historyList))}
+        {renderList(historyList)}
       </ul>
     </div>
   );
