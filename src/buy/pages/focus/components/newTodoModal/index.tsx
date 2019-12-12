@@ -128,9 +128,9 @@ export function useShowNewTodoModal(props: any) {
       if (props._id) {
         // 修改
         changeTodoItem({
+          ...otherProps,
           ...values,
-          id: _id,
-          ...otherProps
+          id: _id
         });
       } else {
         // 新增
