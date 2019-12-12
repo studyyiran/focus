@@ -8,7 +8,7 @@ import React, {
 import { IReducerAction } from "buy/common/interface/index.interface";
 import { callBackWhenPassAllFunc, promisify } from "buy/common/utils/util";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
-import { IListItem, ITodayTodo, ITodoItem } from "./interface";
+import { IHistoryFilter, IListItem, ITodayTodo, ITodoItem } from "./interface";
 
 import { IContextValue } from "../../../common/type";
 import {
@@ -31,6 +31,7 @@ interface IContextState {
   todayDoneList: IListItem[];
   historyList: IListItem[];
   wishList: IListItem[];
+  historyFilter: IHistoryFilter;
 }
 
 // interface
@@ -45,7 +46,8 @@ export function MyFocusContextProvider(props: any) {
     todayTodo: {} as any,
     todayDoneList: [],
     historyList: [],
-    wishList: []
+    wishList: [],
+    historyFilter: {} as IHistoryFilter
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -84,7 +86,7 @@ export interface IMyFocusActions {
   // 查询
   getTodayTodo: () => void;
   getTodayDone: () => any;
-  getHistoryByFilter: (filterInfo: any) => any; // 获取历史
+  getHistoryByFilter: (filterInfo: IHistoryFilter) => any; // 获取历史
   getWishList: () => any; // 获取历史
 
   // 增
@@ -109,7 +111,7 @@ function useGetAction(
 ): IMyFocusActions {
   // 获取类
   const getHistoryByFilter: IMyFocusActions["getHistoryByFilter"] = useCallback(
-    async function(data: any) {
+    async function(data) {
       const res = await server.getHistoryByFilter(data);
       dispatch({
         type: myFocusReducerTypes.setHistoryList,
@@ -164,11 +166,17 @@ function useGetAction(
       });
       // 自动拉取其他的数据.
       getTodayDone();
-      getHistoryByFilter(null);
+      getHistoryByFilter(state.historyFilter);
       getWishList();
       return res;
     },
-    [dispatch, getHistoryByFilter, getTodayDone, getWishList]
+    [
+      dispatch,
+      getHistoryByFilter,
+      getTodayDone,
+      getWishList,
+      state.historyFilter
+    ]
   );
 
   //新增一个常规任务

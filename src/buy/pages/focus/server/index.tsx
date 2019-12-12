@@ -1,6 +1,6 @@
 import ajax from "../../../common/utils/ajax";
 import { getTestAjaxResultMock } from "./mock";
-import { ITodoItem } from "../context/interface";
+import { IHistoryFilter, ITodoItem } from "../context/interface";
 
 /**
  * 首页相关
@@ -36,7 +36,7 @@ export default {
     const res: any = await ajax.post(newStudyTodoItemUrl, data);
     return res;
   },
-  getHistoryByFilter: async (filterInfo: any) => {
+  getHistoryByFilter: async (filterInfo: IHistoryFilter) => {
     const res: any = await ajax.post(getHistoryByFilterUrl, filterInfo);
     return res;
   },
