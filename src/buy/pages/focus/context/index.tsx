@@ -102,6 +102,7 @@ export interface IMyFocusActions {
   changeStudyItemStatus: (id: any) => any; // 完成任务
   // 删除
   deleteItem: (id: string) => void;
+  changeHistoryFilter: (value: IHistoryFilter) => any;
 }
 
 // useCreateActions
@@ -166,17 +167,11 @@ function useGetAction(
       });
       // 自动拉取其他的数据.
       getTodayDone();
-      getHistoryByFilter(state.historyFilter);
+      getHistoryByFilter({});
       getWishList();
       return res;
     },
-    [
-      dispatch,
-      getHistoryByFilter,
-      getTodayDone,
-      getWishList,
-      state.historyFilter
-    ]
+    [dispatch, getHistoryByFilter, getTodayDone, getWishList]
   );
 
   //新增一个常规任务
@@ -284,6 +279,17 @@ function useGetAction(
     },
     [dispatch]
   );
+
+  // 修改状态
+  const changeHistoryFilter: IMyFocusActions["changeHistoryFilter"] = useCallback(
+    async function(info) {
+      dispatch({
+        type: myFocusReducerTypes.changeHistoryFilter,
+        value: info
+      });
+    },
+    [dispatch]
+  );
   return {
     getTodayTodo,
     getTodayDone,
@@ -297,6 +303,7 @@ function useGetAction(
     changeStudyItemStatus,
     deleteItem,
     getWishList,
+    changeHistoryFilter,
     addWishList
   };
 }
@@ -306,7 +313,8 @@ export const myFocusReducerTypes = {
   setList: "setList",
   setTodayDoneList: "setTodayDoneList",
   setHistoryList: "setHistoryList",
-  setWishList: "setWishList"
+  setWishList: "setWishList",
+  changeHistoryFilter: "changeHistoryFilter"
 };
 
 // reducer
@@ -314,6 +322,16 @@ function reducer(state: IContextState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
+    case myFocusReducerTypes.changeHistoryFilter: {
+      newState = {
+        ...newState,
+        historyFilter: {
+          ...newState.historyFilter,
+          ...value
+        }
+      };
+      break;
+    }
     case myFocusReducerTypes.setWishList: {
       newState = {
         ...newState,

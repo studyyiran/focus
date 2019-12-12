@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Select } from "antd";
 import { tagArr } from "../../../../components/newTodoModal";
+import { IMyFocusContext, MyFocusContext } from "../../../../context";
 
 const { Option } = Select;
 export function FilterPart() {
-  function onChangeSelectHandler() {}
+  const myFocusContext = useContext(MyFocusContext);
+  const { changeHistoryFilter } = myFocusContext as IMyFocusContext;
+  function onChangeSelectHandler(value: string) {
+    console.log(value);
+    changeHistoryFilter({
+      tag: value
+    });
+  }
   return (
     <div>
       <section>
