@@ -28,10 +28,10 @@ const getRootApi = function(urlRoot: string) {
     case "development":
       // 便于进行mac端联调
       apiRoot = "http://10.180.23.59:4000";
+      // apiRoot = "http://139.224.2.112";
       break;
     case "production":
       apiRoot = "http://139.224.2.112";
-    default:
   }
   return apiRoot + urlRoot;
 };
