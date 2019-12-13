@@ -7,12 +7,16 @@ import "./index.less";
 const { Option } = Select;
 export function FilterPart() {
   const myFocusContext = useContext(MyFocusContext);
-  const { changeHistoryFilter } = myFocusContext as IMyFocusContext;
-  function onChangeSelectHandler(value: string) {
-    console.log(value);
-    changeHistoryFilter({
-      tag: value
-    });
+  const {
+    changeHistoryFilter,
+    myFocusContextValue
+  } = myFocusContext as IMyFocusContext;
+  const { historyFilter } = myFocusContextValue;
+  // 这是一个通用的回调
+  function onChangeSelectHandler(type: string, value: string) {
+    const changeResult = {} as any;
+    changeResult[type] = value;
+    changeHistoryFilter(changeResult);
   }
   const timeTarget = [
     {
@@ -36,7 +40,7 @@ export function FilterPart() {
       ]
     },
     {
-      title: " Time Part",
+      title: "Time Part",
       children: [
         {
           key: "timeTarget",
@@ -51,20 +55,19 @@ export function FilterPart() {
       ]
     }
   ];
-
   return (
     <ul className="selector-list">
       {configArr.map(({ title, children }) => {
         console.log(children);
-
         return (
           <li>
             <section>
               <h3>{title}</h3>
               {children.map(({ key, arrSource, handler }) => {
+                // @ts-ignore
                 return (
                   <Select
-                    defaultValue={arrSource[0].value}
+                    defaultValue={(historyFilter as any)[key]}
                     onChange={handler.bind({}, key)}
                   >
                     {arrSource.map((item: any) => {

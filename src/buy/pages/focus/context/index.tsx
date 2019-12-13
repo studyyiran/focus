@@ -47,7 +47,12 @@ export function MyFocusContextProvider(props: any) {
     todayDoneList: [],
     historyList: [],
     wishList: [],
-    historyFilter: { hidden: false } as IHistoryFilter
+    historyFilter: {
+      hidden: false,
+      tag: "",
+      timeRange: [],
+      timeTarget: "createTime"
+    }
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
