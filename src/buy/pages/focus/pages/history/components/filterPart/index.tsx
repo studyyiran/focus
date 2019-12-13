@@ -14,7 +14,20 @@ export function FilterPart() {
       tag: value
     });
   }
-  const timeTarget = ["createTime", "finishDate", "planStartTime"];
+  const timeTarget = [
+    {
+      value: "createTime",
+      name: "创建时间"
+    },
+    {
+      value: "finishDate",
+      name: "完成时间"
+    },
+    {
+      value: "planStartTime",
+      name: "开始时间"
+    }
+  ];
   const configArr = [
     {
       title: "Tag Part",
@@ -42,25 +55,23 @@ export function FilterPart() {
   return (
     <ul className="selector-list">
       {configArr.map(({ title, children }) => {
-        console.log(children)
+        console.log(children);
+
         return (
           <li>
             <section>
               <h3>{title}</h3>
-              {/*({ key, arrSource, handler }) => {*/}
-              {/*return (*/}
-              {/*<Select*/}
-              {/*defaultValue={arrSource[0].value}*/}
-              {/*onChange={handler.bind({}, key)}*/}
-              {/*>*/}
-              {/*{arrSource.map(item => {*/}
-                {/*return <Option value={item.value}>{item.name}</Option>;*/}
-              {/*})}*/}
-              {/*</Select>*/}
-              {/*);*/}
-            {/*}*/}
-              {children.map((item:any , index: any) => {
-                return <div>123</div>;
+              {children.map(({ key, arrSource, handler }) => {
+                return (
+                  <Select
+                    defaultValue={arrSource[0].value}
+                    onChange={handler.bind({}, key)}
+                  >
+                    {arrSource.map((item: any) => {
+                      return <Option value={item.value}>{item.name}</Option>;
+                    })}
+                  </Select>
+                );
               })}
             </section>
           </li>
