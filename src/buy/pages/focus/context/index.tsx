@@ -50,7 +50,7 @@ export function MyFocusContextProvider(props: any) {
     historyFilter: {
       hidden: false,
       tag: "",
-      timeRange: [],
+      timeRange: "yesterday",
       timeTarget: "createTime"
     }
   };
