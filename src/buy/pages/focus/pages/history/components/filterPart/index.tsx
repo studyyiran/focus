@@ -14,42 +14,58 @@ export function FilterPart() {
       tag: value
     });
   }
+  const timeTarget = ["createTime", "finishDate", "planStartTime"];
+  const configArr = [
+    {
+      title: "Tag Part",
+      children: [
+        { key: "tag", arrSource: tagArr, handler: onChangeSelectHandler }
+      ]
+    },
+    {
+      title: " Time Part",
+      children: [
+        {
+          key: "timeTarget",
+          arrSource: timeTarget,
+          handler: onChangeSelectHandler
+        },
+        {
+          key: "timeRange",
+          arrSource: timeTarget,
+          handler: onChangeSelectHandler
+        }
+      ]
+    }
+  ];
+
   return (
     <ul className="selector-list">
-      <li>
-        <section>
-          <h3>Tag Part</h3>
-          <Select
-            defaultValue={tagArr[0].value}
-            onChange={onChangeSelectHandler}
-          >
-            {tagArr.map(item => {
-              return <Option value={item.value}>{item.name}</Option>;
-            })}
-          </Select>
-        </section>
-      </li>
-      <li>
-        <section>
-          <h3>Time Part</h3>
-          <Select
-            defaultValue={tagArr[0].value}
-            onChange={onChangeSelectHandler}
-          >
-            {tagArr.map(item => {
-              return <Option value={item.value}>{item.name}</Option>;
-            })}
-          </Select>
-          <Select
-            defaultValue={tagArr[0].value}
-            onChange={onChangeSelectHandler}
-          >
-            {tagArr.map(item => {
-              return <Option value={item.value}>{item.name}</Option>;
-            })}
-          </Select>
-        </section>
-      </li>
+      {configArr.map(({ title, children }) => {
+        console.log(children)
+        return (
+          <li>
+            <section>
+              <h3>{title}</h3>
+              {/*({ key, arrSource, handler }) => {*/}
+              {/*return (*/}
+              {/*<Select*/}
+              {/*defaultValue={arrSource[0].value}*/}
+              {/*onChange={handler.bind({}, key)}*/}
+              {/*>*/}
+              {/*{arrSource.map(item => {*/}
+                {/*return <Option value={item.value}>{item.name}</Option>;*/}
+              {/*})}*/}
+              {/*</Select>*/}
+              {/*);*/}
+            {/*}*/}
+              {children.map((item:any , index: any) => {
+                return <div>123</div>;
+              })}
+            </section>
+          </li>
+        );
+      })}
     </ul>
   );
 }

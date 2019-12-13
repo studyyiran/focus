@@ -3,7 +3,13 @@
 @p1: {
   .selector-list {
     display: grid;
-    grid-template-columns: repeat(1fr, 1fr);
+    //grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    section {
+      > * {
+        width: 80%;
+      }
+    }
   }
 };
 
