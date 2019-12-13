@@ -18,7 +18,7 @@ export function FilterPart() {
     changeResult[type] = value;
     changeHistoryFilter(changeResult);
   }
-  const timeTarget = [
+  const timeTargetArr = [
     {
       value: "createTime",
       name: "创建时间"
@@ -30,6 +30,29 @@ export function FilterPart() {
     {
       value: "planStartTime",
       name: "开始时间"
+    }
+  ];
+
+  const timeRangeArr = [
+    {
+      value: "today",
+      name: "今天"
+    },
+    {
+      value: "yesterday",
+      name: "昨天"
+    },
+    {
+      value: "week",
+      name: "星期"
+    },
+    {
+      value: "month",
+      name: "上个月"
+    },
+    {
+      value: "year",
+      name: "年"
     }
   ];
   const configArr = [
@@ -44,12 +67,12 @@ export function FilterPart() {
       children: [
         {
           key: "timeTarget",
-          arrSource: timeTarget,
+          arrSource: timeTargetArr,
           handler: onChangeSelectHandler
         },
         {
           key: "timeRange",
-          arrSource: timeTarget,
+          arrSource: timeRangeArr,
           handler: onChangeSelectHandler
         }
       ]
