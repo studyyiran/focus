@@ -8,6 +8,7 @@ import { Modal } from "antd";
 import { func } from "prop-types";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import { FormWrapper } from "../formWrapper";
+import {tagArr} from "../../config/tagArrConfig";
 
 const { Option } = Select;
 // export function NewTodoModal(props: any) {
@@ -67,53 +68,7 @@ const { Option } = Select;
 //   // 日后制作修改弹框,需要传入id来实现
 // }
 
-export const tagArr = [
-  {
-    value: "work",
-    name: "工作",
-    className: "pos1"
-  },
-  {
-    value: "money",
-    name: "金钱",
-    className: "pos2"
-  },
-  {
-    value: "business",
-    name: "个人项目",
-    className: "pos2"
-  },
-  {
-    value: "psychic",
-    name: "个人成长",
-    className: "pos2"
-  },
-  {
-    value: "study",
-    name: "学习",
-    className: "pos2"
-  },
-  {
-    value: "review",
-    name: "复习",
-    className: "pos2"
-  },
-  {
-    value: "diamond",
-    name: "钻石",
-    className: "pos2"
-  },
-  {
-    value: "family",
-    name: "家庭和老婆",
-    className: "pos2"
-  },
-  {
-    value: "addict",
-    name: "成瘾",
-    className: "pos2"
-  }
-];
+
 
 export function useShowNewTodoModal(props: any) {
   const { onSubmit, _id, prevent = false, ...otherProps } = props;

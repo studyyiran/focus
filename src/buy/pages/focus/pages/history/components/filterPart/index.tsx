@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Select } from "antd";
-import { tagArr } from "../../../../components/newTodoModal";
 import { IMyFocusContext, MyFocusContext } from "../../../../context";
 import "./index.less";
+import {tagArr, timeRangeArr, timeTargetArr} from "../../../../config/tagArrConfig";
 
 const { Option } = Select;
 export function FilterPart() {
@@ -18,43 +18,7 @@ export function FilterPart() {
     changeResult[type] = value;
     changeHistoryFilter(changeResult);
   }
-  const timeTargetArr = [
-    {
-      value: "createTime",
-      name: "创建时间"
-    },
-    {
-      value: "finishDate",
-      name: "完成时间"
-    },
-    {
-      value: "planStartTime",
-      name: "开始时间"
-    }
-  ];
 
-  const timeRangeArr = [
-    {
-      value: "today",
-      name: "今天"
-    },
-    {
-      value: "yesterday",
-      name: "昨天"
-    },
-    {
-      value: "week",
-      name: "星期"
-    },
-    {
-      value: "month",
-      name: "上个月"
-    },
-    {
-      value: "year",
-      name: "年"
-    }
-  ];
   const configArr = [
     {
       title: "Tag Part",

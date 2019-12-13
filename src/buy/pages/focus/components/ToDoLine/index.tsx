@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import "./index.less";
-import { tagArr } from "../newTodoModal";
+import {tagArr} from "../../config/tagArrConfig";
 
 export function TodoLine(props: any) {
   const { tag, content } = props;
