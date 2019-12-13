@@ -43,6 +43,11 @@ export const tagArr = [
     value: "addict",
     name: "成瘾",
     className: "pos2"
+  },
+  {
+    value: "",
+    name: "全部",
+    className: "pos2"
   }
 ];
 
