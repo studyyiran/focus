@@ -2,7 +2,11 @@ import React, { useContext } from "react";
 import { Select } from "antd";
 import { IMyFocusContext, MyFocusContext } from "../../../../context";
 import "./index.less";
-import {tagArr, timeRangeArr, timeTargetArr} from "../../../../config/tagArrConfig";
+import {
+  tagArr,
+  timeRangeArr,
+  timeTargetArr
+} from "../../../../config/tagArrConfig";
 
 const { Option } = Select;
 export function FilterPart() {
@@ -21,12 +25,6 @@ export function FilterPart() {
 
   const configArr = [
     {
-      title: "Tag Part",
-      children: [
-        { key: "tag", arrSource: tagArr, handler: onChangeSelectHandler }
-      ]
-    },
-    {
       title: "Time Part",
       children: [
         {
@@ -39,6 +37,12 @@ export function FilterPart() {
           arrSource: timeRangeArr,
           handler: onChangeSelectHandler
         }
+      ]
+    },
+    {
+      title: "Tag Part",
+      children: [
+        { key: "tag", arrSource: tagArr, handler: onChangeSelectHandler }
       ]
     }
   ];
