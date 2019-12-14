@@ -22,13 +22,13 @@ const transUrl = (url: string) => {
 const getRootApi = function(urlRoot: string) {
   let env = process.env.NODE_ENV;
   // let apiRoot = "";
-  // let apiRoot = "http://localhost:4000";
   let apiRoot = "";
   switch (env) {
     case "development":
       // 便于进行mac端联调
       apiRoot = "http://10.180.23.59:4000";
       // apiRoot = "http://139.224.2.112";
+      apiRoot = "http://localhost:4000";
       break;
     case "production":
       apiRoot = "http://139.224.2.112";

@@ -59,11 +59,7 @@ export function WishList() {
       return (
         <li className="line-container" key={item._id}>
           <TodoLine {...item} />
-          <span>
-            {(
-              moment(Number(item.createTime)) || moment(item.createTime)
-            ).format("LLLL")}
-          </span>
+          <span>{moment(item.createTime).format("LLLL")}</span>
           <div>
             <Button
               onClick={() => {
