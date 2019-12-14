@@ -49,13 +49,11 @@ export function FilterPart() {
   return (
     <ul className="selector-list">
       {configArr.map(({ title, children }) => {
-        console.log(children);
         return (
           <li>
             <section>
               <h3>{title}</h3>
               {children.map(({ key, arrSource, handler }) => {
-                // @ts-ignore
                 return (
                   <Select
                     defaultValue={(historyFilter as any)[key]}
