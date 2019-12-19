@@ -51,7 +51,8 @@ export function MyFocusContextProvider(props: any) {
       hidden: false,
       tag: "",
       timeRange: "yesterday",
-      timeTarget: "createTime"
+      timeTarget: "createTime",
+      timeRangeSelect: 2
     }
   };
   const [state, dispatch] = useReducer(

@@ -28,4 +28,5 @@ export interface IHistoryFilter {
   timeTarget?: string;
   timeRange?: string; // 'today' 'lastweek'
   hidden?: boolean; // 'today' 'lastweek'
+  timeRangeSelect?: number; // 'today' 'lastweek'
 }
