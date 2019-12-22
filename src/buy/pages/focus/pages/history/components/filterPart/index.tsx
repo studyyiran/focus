@@ -42,14 +42,14 @@ export function FilterPart() {
           key: "timeRange",
           arrSource: timeRangeArr,
           handler: (uselessType: any, value: any) => {
-            onChangeSelectHandler("timeRange", dateToTimeRangeObj(value));
+            onChangeSelectHandler("timeRangeInfo", dateToTimeRangeObj(value));
           }
         },
         {
           key: "timeRangeSelect",
           arrSource: timeRangeDateArr,
           handler: (uselessType: any, value: any) => {
-            onChangeSelectHandler("timeRange", {
+            onChangeSelectHandler("timeRangeInfo", {
               start: -1 * value,
               end: value + 1
             });

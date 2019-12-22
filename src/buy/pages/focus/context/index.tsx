@@ -53,6 +53,8 @@ export function dateToTimeRangeObj(dateString: string) {
     case "year":
       return make(-365, 366);
       break;
+    default:
+      return make(0, 1);
   }
 }
 
