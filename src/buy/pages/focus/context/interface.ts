@@ -26,7 +26,9 @@ export interface ITodoItem {
 export interface IHistoryFilter {
   tag?: string;
   timeTarget?: string;
-  timeRange?: string; // 'today' 'lastweek'
+  timeRangeInfo: {
+    start: number,
+    end: number
+  }; // 'today' 'lastweek'
   hidden?: boolean; // 'today' 'lastweek'
-  timeRangeSelect?: number; // 'today' 'lastweek'
 }

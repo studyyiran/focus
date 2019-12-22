@@ -1,6 +1,11 @@
 import React, { useContext } from "react";
 import { Select } from "antd";
-import { IMyFocusContext, MyFocusContext } from "../../../../context";
+import {
+  dateToTimeRangeObj,
+  defaultTimeSelectRangeInfo,
+  IMyFocusContext,
+  MyFocusContext
+} from "../../../../context";
 import "./index.less";
 import {
   tagArr,
@@ -37,31 +42,7 @@ export function FilterPart() {
           key: "timeRange",
           arrSource: timeRangeArr,
           handler: (uselessType: any, value: any) => {
-            function make(a: number, b: number) {
-              return {
-                start: a,
-                end: b
-              };
-            }
-            let obj = {};
-            switch (value) {
-              case "today":
-                obj = make(0, 1);
-                break;
-              case "yesterday":
-                obj = make(-1, 1);
-                break;
-              case "week":
-                obj = make(-7, 8);
-                break;
-              case "month":
-                obj = make(-30, 31);
-                break;
-              case "year":
-                obj = make(-365, 366);
-                break;
-            }
-            onChangeSelectHandler(uselessType, obj);
+            onChangeSelectHandler("timeRange", dateToTimeRangeObj(value));
           }
         },
         {
@@ -91,9 +72,18 @@ export function FilterPart() {
             <section>
               <h3>{title}</h3>
               {children.map(({ key, arrSource, handler }) => {
+                let defaultValue = "";
+                if (historyFilter.hasOwnProperty(key)) {
+                  const value = (historyFilter as any)[key];
+                  if (typeof value === "string") {
+                    defaultValue = value;
+                  }
+                } else if (defaultTimeSelectRangeInfo.hasOwnProperty(key)) {
+                  defaultValue = (defaultTimeSelectRangeInfo as any)[key];
+                }
                 return (
                   <Select
-                    defaultValue={(historyFilter as any)[key]}
+                    defaultValue={defaultValue}
                     onChange={handler.bind({}, key)}
                   >
                     {(arrSource as any).map((item: any) => {

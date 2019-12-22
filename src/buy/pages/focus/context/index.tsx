@@ -25,6 +25,37 @@ export const MyFocusContext = createContext({});
 // store name
 export const MyFocus = "MyFocus";
 
+export const defaultTimeSelectRangeInfo = {
+  timeRange: "yesterday",
+  timeRangeSelect: ""
+};
+
+export function dateToTimeRangeObj(dateString: string) {
+  function make(a: number, b: number) {
+    return {
+      start: a,
+      end: b
+    };
+  }
+  switch (dateString) {
+    case "today":
+      return make(0, 1);
+      break;
+    case "yesterday":
+      return make(-1, 1);
+      break;
+    case "week":
+      return make(-7, 8);
+      break;
+    case "month":
+      return make(-30, 31);
+      break;
+    case "year":
+      return make(-365, 366);
+      break;
+  }
+}
+
 // store state
 interface IContextState {
   todayTodo: ITodayTodo;
@@ -50,9 +81,8 @@ export function MyFocusContextProvider(props: any) {
     historyFilter: {
       hidden: false,
       tag: "",
-      timeRange: "yesterday",
-      timeTarget: "createTime",
-      timeRangeSelect: 2
+      timeRangeInfo: dateToTimeRangeObj(defaultTimeSelectRangeInfo.timeRange),
+      timeTarget: "createTime"
     }
   };
   const [state, dispatch] = useReducer(

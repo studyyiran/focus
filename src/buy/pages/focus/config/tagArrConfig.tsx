@@ -112,10 +112,10 @@ export const timeRangeDateArr = [
   },
   {
     value: 6,
-    name: "5"
+    name: "6"
   },
   {
     value: 7,
-    name: "5"
+    name: "7"
   }
 ];
