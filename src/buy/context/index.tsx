@@ -55,11 +55,12 @@ export function GlobalSettingContextProvider(props: any) {
     isMobile: false,
     categoryId: ""
   };
-  const [state, dispatch, useClientRepair] = useGetOriginData(
-    reducer,
-    initState,
-    StoreNameGlobalSetting
-  );
+  const [state, dispatch] = useReducer(reducer, initState);
+  // const [state, dispatch] = useGetOriginData(
+  //   reducer,
+  //   initState,
+  //   StoreNameGlobalSetting
+  // );
   const action: IContextActions = useGetAction(state, dispatch);
   useEffect(() => {
     window.addEventListener(
@@ -76,7 +77,6 @@ export function GlobalSettingContextProvider(props: any) {
     dispatch({ type: "setCategoryId", value: CategoryId });
   }, []);
   const propsValue: IGlobalSettingContext = {
-    ...useClientRepair,
     ...action,
     globalSettingContextValue: state,
     globalSettingContextDispatch: dispatch

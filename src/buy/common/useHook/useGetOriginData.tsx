@@ -32,13 +32,13 @@ export function useGetOriginData(
         const storeJson = storeList.find(({ storeName }) => {
           return storeName === currentStoreName;
         });
-        // 赋值到本地store
-        if (storeJson) {
-          dispatch({
-            type: mergeOriginDataReducerKey,
-            value: storeJson.storeData
-          });
-        }
+        // // 赋值到本地store
+        // if (storeJson) {
+        //   dispatch({
+        //     type: mergeOriginDataReducerKey,
+        //     value: storeJson.storeData
+        //   });
+        // }
       });
     }
   };
@@ -62,10 +62,7 @@ export function useGetOriginData(
   }
 
   // 用merge后的数据进行初始化store
-  const [state, dispatch] = useReducer(
-    useReducerMiddleware(clientRepairMiddleware, reducer),
-    mergeInitState
-  );
+  const [state, dispatch] = useReducer(reducer, mergeInitState);
 
   // 当originData  在初始化之后  发生了变化.需要对目前的store进行强行赋值
   // useEffect(() => {

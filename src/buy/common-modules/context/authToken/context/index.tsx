@@ -124,10 +124,8 @@ export function StoreAuthContextProvider(props: any) {
         }
       } else if (state.tokenInfo === null) {
         // 清空store(null变为{})
-        dispatch({
-          type: storeAuthReducerTypes.setToken,
-          value: { token: "" }
-        });
+        // @ts-ignore
+        dispatch({ type: storeAuthReducerTypes.setToken, value: { token: "" } });
         // 清空redux
         if (globalStore && globalStore.dispatch) {
           globalStore.dispatch({
@@ -157,7 +155,7 @@ export function StoreAuthContextProvider(props: any) {
           exp.toUTCString();
       } else if (!token) {
         // 清空cookie
-        alert('clear')
+        alert("clear");
         document.cookie = `${constValue.AUTHKEY}=; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
       }
     }

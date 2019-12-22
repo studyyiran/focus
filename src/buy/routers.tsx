@@ -44,11 +44,12 @@ function hocWithLayout(Component: any, otherConfig: any) {
   const { title, header, footer } = otherConfig;
   const NewComponent = (routerProps: any) => {
     useEffect(() => {
-      // 路由跳转钩子
+      // 路由跳转钩子K
       scrollTop();
     }, [routerProps.match.url]);
     return (
       <div className="layout">
+        v12-22:2
         <main>
           <Component {...routerProps} />
         </main>
