@@ -49,7 +49,7 @@ function hocWithLayout(Component: any, otherConfig: any) {
     }, [routerProps.match.url]);
     return (
       <div className="layout">
-        v12-22:2
+        v12-22:3
         <main>
           <Component {...routerProps} />
         </main>
