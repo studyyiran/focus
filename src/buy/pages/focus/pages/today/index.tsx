@@ -49,7 +49,7 @@ export function FocusToday() {
         <Button onClick={testFunc}>
           <Svg icon="jia" />
           Add Into Today Todo
-        </Button>W
+        </Button>
         {todayTodo && todayTodo.plane && todayTodo.plane.length
           ? todayTodo.plane.map(item => {
               const { _id } = item;
