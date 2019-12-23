@@ -7,7 +7,7 @@ import Svg from "../../../../components/svg";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { TodoLine } from "../../components/ToDoLine";
 import { callBackWhenPassAllFunc } from "../../../../common/utils/util";
-import {IListItem} from "../../context/interface";
+import { IListItem } from "../../context/interface";
 
 export function FocusToday() {
   const myFocusContext = useContext(MyFocusContext);
@@ -24,7 +24,6 @@ export function FocusToday() {
   }, [getTodayTodo]);
 
   const testFunc = useShowNewTodoModal({});
-
 
   const addTomorrowTodoModal = useShowNewTodoModal({
     prevent: true,
@@ -47,6 +46,10 @@ export function FocusToday() {
   return (
     <div className="test-page">
       <TodayPageSection title="Plane">
+        <Button onClick={testFunc}>
+          <Svg icon="jia" />
+          Add Into Today Todo
+        </Button>W
         {todayTodo && todayTodo.plane && todayTodo.plane.length
           ? todayTodo.plane.map(item => {
               const { _id } = item;
@@ -91,16 +94,11 @@ export function FocusToday() {
             })
           : null}
       </TodayPageSection>
-      <div>
-        <Button onClick={testFunc}>
-          <Svg icon="jia" />
-          Add Into Today Todo
-        </Button>
-      </div>
+
       <div>
         <h2>Tomorrow Plan</h2>
-        <ul className="ul-line-container">{renderList(todayTodo.tomorrow)}</ul>
         <Button onClick={addTomorrowTodoModal}>Add Tomorrow TODO</Button>
+        <ul className="ul-line-container">{renderList(todayTodo.tomorrow)}</ul>
       </div>
     </div>
   );

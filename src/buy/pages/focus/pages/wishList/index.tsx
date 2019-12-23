@@ -77,8 +77,8 @@ export function WishList() {
   }
   return (
     <div className="wish-list">
-      {renderList()}
       <Button onClick={addWishListModal}>add</Button>
+      {renderList()}
     </div>
   );
 }

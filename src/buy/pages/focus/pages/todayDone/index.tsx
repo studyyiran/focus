@@ -59,11 +59,11 @@ export function TodayDone() {
     <div className="today-done">
       <div>
         <h2>Today Done</h2>
-        <ul className="ul-line-container">{renderList(todayDoneList)}</ul>
         <Button onClick={quickFinishModal}>
           <Svg icon="jia" />
           Quick Finish
         </Button>
+        <ul className="ul-line-container">{renderList(todayDoneList)}</ul>
       </div>
 
       {/*<div>*/}
