@@ -25,36 +25,46 @@ export const MyFocusContext = createContext({});
 // store name
 export const MyFocus = "MyFocus";
 
-export const defaultTimeSelectRangeInfo = {
-  timeRange: "yesterday",
-  timeRangeSelect: ""
-};
+export const dateInfoArr = [
+  {
+    start: 0,
+    end: 1,
+    key: "today"
+  },
+  {
+    start: -1,
+    end: 1,
+    key: "yesterday"
+  },
+  {
+    start: -7,
+    end: 8,
+    key: "week"
+  },
+  {
+    start: -30,
+    end: 31,
+    key: "month"
+  },
+  {
+    start: -365,
+    end: 365,
+    key: "year"
+  }
+];
 
 export function dateToTimeRangeObj(dateString: string) {
-  function make(a: number, b: number) {
+  const target = dateInfoArr.find(({ key }) => key === dateString);
+  if (target) {
     return {
-      start: a,
-      end: b
+      start: target.start,
+      end: target.end
     };
-  }
-  switch (dateString) {
-    case "today":
-      return make(0, 1);
-      break;
-    case "yesterday":
-      return make(-1, 1);
-      break;
-    case "week":
-      return make(-7, 8);
-      break;
-    case "month":
-      return make(-30, 31);
-      break;
-    case "year":
-      return make(-365, 366);
-      break;
-    default:
-      return make(0, 1);
+  } else {
+    return {
+      start: dateInfoArr[0].start,
+      end: dateInfoArr[0].end
+    };
   }
 }
 
@@ -83,7 +93,7 @@ export function MyFocusContextProvider(props: any) {
     historyFilter: {
       hidden: false,
       tag: "",
-      timeRangeInfo: dateToTimeRangeObj(defaultTimeSelectRangeInfo.timeRange),
+      timeRangeInfo: dateToTimeRangeObj("yesterday"),
       timeTarget: "createTime"
     }
   };

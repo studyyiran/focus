@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Select } from "antd";
 import {
+  dateInfoArr,
   dateToTimeRangeObj,
-  defaultTimeSelectRangeInfo,
   IMyFocusContext,
   MyFocusContext
 } from "../../../../context";
@@ -13,6 +13,8 @@ import {
   timeRangeDateArr,
   timeTargetArr
 } from "../../../../config/tagArrConfig";
+import { IHistoryFilter } from "../../../../context/interface";
+import { safeEqual } from "../../../../../../common/utils/util";
 
 const { Option } = Select;
 export function FilterPart() {
@@ -23,7 +25,10 @@ export function FilterPart() {
   } = myFocusContext as IMyFocusContext;
   const { historyFilter } = myFocusContextValue;
   // 这是一个通用的回调
-  function onChangeSelectHandler(type: string, value: any) {
+  function onChangeSelectHandler(
+    type: string,
+    value: IHistoryFilter["timeRangeInfo"] | string,
+  ) {
     const changeResult = {} as any;
     changeResult[type] = value;
     changeHistoryFilter(changeResult);
@@ -41,17 +46,17 @@ export function FilterPart() {
         {
           key: "timeRange",
           arrSource: timeRangeArr,
-          handler: (uselessType: any, value: any) => {
+          handler: (uselessType: any, value: string) => {
             onChangeSelectHandler("timeRangeInfo", dateToTimeRangeObj(value));
           }
         },
         {
           key: "timeRangeSelect",
           arrSource: timeRangeDateArr,
-          handler: (uselessType: any, value: any) => {
+          handler: (uselessType: any, value: string) => {
             onChangeSelectHandler("timeRangeInfo", {
-              start: -1 * value,
-              end: value + 1
+              start: -1 * Number(value),
+              end: Number(value) + 1
             });
           }
         }
@@ -64,6 +69,22 @@ export function FilterPart() {
       ]
     }
   ];
+
+  function timeInfoToSelectvalue(
+    info: IHistoryFilter["timeRangeInfo"],
+    currentKey: string
+  ) {
+    if (currentKey === "timeRange") {
+      const target =
+        dateInfoArr.find(({ start }) => safeEqual(start, info.start)) ||
+        dateInfoArr[0];
+      return String(target.key);
+    }
+    if (currentKey === "timeRangeSelect") {
+      return String(Number(info.start) * -1);
+    }
+    return "" as string;
+  }
   return (
     <ul className="selector-list">
       {configArr.map(({ title, children }) => {
@@ -78,8 +99,8 @@ export function FilterPart() {
                   if (typeof value === "string") {
                     defaultValue = value;
                   }
-                } else if (defaultTimeSelectRangeInfo.hasOwnProperty(key)) {
-                  defaultValue = (defaultTimeSelectRangeInfo as any)[key];
+                } else if (key === "timeRange" || key === "timeRangeSelect") {
+                  defaultValue = timeInfoToSelectvalue(historyFilter.timeRangeInfo, key);
                 }
                 return (
                   <Select
