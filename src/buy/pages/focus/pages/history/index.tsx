@@ -82,6 +82,7 @@ function SettingModal(props: any) {
   const openEditModal = useShowNewTodoModal(currentInfo);
   const openAddAsTodayModal = useShowNewTodoModal({
     ...currentInfo,
+    tag: 'review',
     prevent: true,
     onSubmit: (values: any) => {
       addTodayTodo(values);
