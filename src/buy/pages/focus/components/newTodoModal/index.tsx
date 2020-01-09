@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useReducer, useState } from "react";
 import MyModal from "../../../../components/modal";
 import { locationHref } from "../../../../common/utils/routerHistory";
 import { getLocationUrl } from "../../../../common/utils/util";
@@ -8,7 +8,7 @@ import { Modal } from "antd";
 import { func } from "prop-types";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import { FormWrapper } from "../formWrapper";
-import {tagArr} from "../../config/tagArrConfig";
+import { tagArr } from "../../config/tagArrConfig";
 
 const { Option } = Select;
 // export function NewTodoModal(props: any) {
@@ -68,9 +68,27 @@ const { Option } = Select;
 //   // 日后制作修改弹框,需要传入id来实现
 // }
 
+function reducer(state: INewTodoState, actions: any) {
+  const { type, value } = actions;
+  console.log(type);
+  console.log(value);
+  switch (type) {
+    case "set":
+      return { ...value };
+    default:
+      return { ...state };
+  }
+}
 
+interface INewTodoState {
+  tag: string;
+  content: string;
+}
 
 export function useShowNewTodoModal(props: any) {
+  const initState = {} as INewTodoState;
+  // 保存用户缓存.
+  const [state, dispatch] = useReducer(reducer, initState);
   const { onSubmit, _id, prevent = false, ...otherProps } = props;
   const myFocusContext = useContext(MyFocusContext);
   const { addTodayTodo, changeTodoItem } = myFocusContext as IMyFocusContext;
@@ -95,11 +113,10 @@ export function useShowNewTodoModal(props: any) {
     }
   }
 
-  // 一个不知道为什么会出现在这里的表单config
   const formConfig = [
     {
       id: "content",
-      initialValue: props.content || "",
+      initialValue: props.content || state.content || "",
       rules: [
         {
           required: true,
@@ -110,7 +127,7 @@ export function useShowNewTodoModal(props: any) {
     },
     {
       id: "tag",
-      initialValue: props.tag || "study",
+      initialValue: props.tag || state.tag || "study",
       rules: [
         {
           required: true,
@@ -148,9 +165,28 @@ export function useShowNewTodoModal(props: any) {
       cancelText: "Got it",
       children: (
         <div className="post-item-form">
-          <FormWrapper formConfig={formConfig} onSubmit={onSubmitHandler} />
+          <FormWrapper
+            formConfig={formConfig}
+            onSubmit={onSubmitHandler}
+            onValuesChange={(value: any) => {
+              dispatch({
+                type: "set",
+                value: value
+              });
+            }}
+          />
         </div>
       )
     });
   };
 }
+
+/*
+1)组件没有销毁.然而,一个modal,他必然被销毁.这个没办法
+2)有单独的state保存了值,modal中的form只作为展示.
+
+这次优化之后还是有空间 例如
+1)目前只针对某一个弹框实例
+2)当切换页面后,弹框实例一旦被销毁,就失去了这个缓存
+
+ */

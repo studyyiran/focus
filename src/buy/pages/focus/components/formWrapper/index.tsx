@@ -10,7 +10,12 @@ interface IFormConfig {
 
 class FormWrapperComponent extends React.Component<any, any> {
   render() {
-    const { form, formConfig, onSubmit, setValueJson } = this.props;
+    const {
+      form,
+      formConfig,
+      onSubmit,
+      setValueJson,
+    } = this.props;
     const { getFieldDecorator, validateFields, setFields } = form;
 
     function onSubmitHandler(e: any) {
@@ -46,4 +51,20 @@ class FormWrapperComponent extends React.Component<any, any> {
   }
 }
 
-export const FormWrapper: any = Form.create()(FormWrapperComponent);
+export const FormWrapper: any = Form.create({
+  onFieldsChange: (...arg: any[]) => {
+    // console.log('onFieldsChange')
+    // console.log(arg[0]);
+    // console.log(arg[1]);
+    // console.log(arg[2]);
+  },
+  onValuesChange: (props, changedValues, allValues) => {
+    // console.log('onValuesChange')
+    // console.log(props);
+    // console.log(changedValues);
+    // console.log(allValues);
+    if (props.onValuesChange) {
+      props.onValuesChange(allValues)
+    }
+  }
+})(FormWrapperComponent);
