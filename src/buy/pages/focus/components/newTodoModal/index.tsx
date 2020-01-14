@@ -110,6 +110,11 @@ export function useShowNewTodoModal(props: any) {
         addTodayTodo({ ...values, ...otherProps });
       }
       onSubmit && onSubmit(values);
+      // 清空本地的缓存
+      dispatch({
+        type: 'set',
+        value: {}
+      })
     }
   }
 
@@ -159,7 +164,7 @@ export function useShowNewTodoModal(props: any) {
     (MyModal as any).confirm({
       width: "70%",
       closable: true,
-      maskClosable: true,
+      maskClosable: false,
       title: null,
       footer: "single",
       cancelText: "Got it",
