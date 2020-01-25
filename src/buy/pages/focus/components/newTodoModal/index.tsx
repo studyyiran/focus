@@ -171,7 +171,7 @@ export function useShowNewTodoModal(props: any) {
       children: (
         <div className="post-item-form">
           <FormWrapper
-            formConfig={formConfig}
+            formConfig={props.formConfig || formConfig}
             onSubmit={onSubmitHandler}
             onValuesChange={(value: any) => {
               dispatch({

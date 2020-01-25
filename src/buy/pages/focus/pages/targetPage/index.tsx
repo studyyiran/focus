@@ -31,9 +31,9 @@ export function TargetInfoPage() {
   });
 
   function renderList() {
-    return targetWithCountList.map(({ id, targetName, count }) => {
+    return targetWithCountList.map(({ _id, targetName, count }) => {
       return (
-        <li key={id}>
+        <li key={_id}>
           <span>{targetName}</span>
           <span>{count}</span>
         </li>

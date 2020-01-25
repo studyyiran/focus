@@ -11,11 +11,17 @@ interface IAddNewTargetInfo {
   targetName: string
 }
 
+interface IAddTargetRelated {
+  targetId: string
+  todoId: string
+}
+
 // @actions
 export interface ITargetInfoActions {
   getTargetRelatedTodo: () => any;
   addNewTarget: (data: IAddNewTargetInfo) => any;
   getTargetList: () => any;
+  addTargetRelate: (data: IAddTargetRelated) => any;
 }
 
 // useCreateActions
@@ -45,6 +51,15 @@ export function useTargetInfoGetActions (
     });
   }, [dispatch])
 
+  // 关联
+  const addTargetRelate = useCallback(async function(data) {
+    const res = await targetInfoServer.addTargetRelate(data);
+    // dispatch({
+    //   type: ITargetInfoReducerTypes.setTargetWithCountList,
+    //   value: res
+    // });
+  }, [dispatch])
+
 
   const getTargetList = useCallback(async function() {
     const res = await targetInfoServer.getTargetList();
@@ -59,5 +74,6 @@ export function useTargetInfoGetActions (
     getTargetRelatedTodo,
     addNewTarget,
     getTargetList,
+    addTargetRelate,
   };
 }

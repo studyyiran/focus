@@ -4,13 +4,13 @@ import { ITargetInfoActions, useTargetInfoGetActions } from "./useGetActions";
 import { IContextValue } from "../../../../../common/type";
 import useReducerMiddleware from "../../../../../common/useHook/useReducerMiddleware";
 
-export const TargetInfoContext = createContext({});
+export const TargetInfoContext = createContext({} as ITargetInfoContext);
 
 // store name
 export const TargetInfo = "TargetInfo";
 
 export interface ITarget {
-  id: string;
+  _id: string;
   targetName: string;
 }
 

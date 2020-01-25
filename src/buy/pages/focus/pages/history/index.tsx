@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import "./index.less";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import { TodoLine } from "../../components/ToDoLine";
-import { Button } from "antd";
+import { Button, Select } from "antd";
 import Modal from "../../../../components/modal";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { IListItem } from "../../context/interface";
 import moment from "moment";
 import { FilterPart } from "./components/filterPart";
+import { TargetInfoContext } from "../targetPage/context";
+const { Option } = Select;
 
 export function HistoryPage() {
   const storeTestNameContext = useContext(MyFocusContext);
@@ -74,6 +76,9 @@ export function HistoryPage() {
 }
 
 function SettingModal(props: any) {
+  const targetInfoContext = useContext(TargetInfoContext);
+  const { targetInfoContextValue, addTargetRelate } = targetInfoContext;
+  const { targetList } = targetInfoContextValue;
   const myFocusContext = useContext(MyFocusContext);
   const { deleteItem } = myFocusContext as IMyFocusContext;
   const { currentInfo, onCancel, addTodayTodo } = props;
@@ -82,10 +87,48 @@ function SettingModal(props: any) {
   const openEditModal = useShowNewTodoModal(currentInfo);
   const openAddAsTodayModal = useShowNewTodoModal({
     ...currentInfo,
-    tag: 'review',
+    tag: "review",
     prevent: true,
     onSubmit: (values: any) => {
       addTodayTodo(values);
+    }
+  });
+
+  const openAddIntoTargetModal = useShowNewTodoModal({
+    formConfig: [
+      {
+        id: "targetId",
+        initialValue: "",
+        rules: [
+          {
+            required: true,
+            message: "not empty"
+          }
+        ],
+        renderFormEle: () => (
+          <Select>
+            {targetList.map(({targetName, _id}) => {
+              return (
+                <Option value={_id} key={_id}>
+                  {targetName}
+                </Option>
+              );
+            })}
+          </Select>
+        )
+      },
+      {
+        renderFormEle: () => <Button htmlType="submit">submit</Button>
+      }
+    ],
+    prevent: true,
+    onSubmit: (values: any) => {
+      const {targetId} = values
+      const todoId = currentInfo._id
+      addTargetRelate({
+        targetId,
+        todoId
+      })
     }
   });
 
@@ -108,6 +151,7 @@ function SettingModal(props: any) {
             delete
           </li>
           <li onClick={openAddAsTodayModal}>add as today</li>
+          <li onClick={openAddIntoTargetModal}>add into target</li>
         </ul>
       </Modal>
     </div>
