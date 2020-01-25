@@ -15,6 +15,7 @@ interface IAddNewTargetInfo {
 export interface ITargetInfoActions {
   getTargetRelatedTodo: () => any;
   addNewTarget: (data: IAddNewTargetInfo) => any;
+  getTargetList: () => any;
 }
 
 // useCreateActions
@@ -45,8 +46,18 @@ export function useTargetInfoGetActions (
   }, [dispatch])
 
 
+  const getTargetList = useCallback(async function() {
+    const res = await targetInfoServer.getTargetList();
+    dispatch({
+      type: ITargetInfoReducerTypes.setTargetList,
+      value: res
+    });
+  }, [dispatch])
+
+
   return {
     getTargetRelatedTodo,
-    addNewTarget
+    addNewTarget,
+    getTargetList,
   };
 }

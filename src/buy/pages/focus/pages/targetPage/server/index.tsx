@@ -6,6 +6,7 @@ const targetUrl = "/target";
 const targetRelatedTodoUrl = "/targetRelatedTodo"
 export const getTargetRelatedTodoUrl = targetRelatedTodoUrl + "/getList";
 export const addNewTargetUrl = targetUrl + "/addNewTarget";
+export const getTargetListUrl = targetUrl + "/getTargetList";
 
 async function getTargetRelatedTodo() {
   const res: any = await ajax.get(getTargetRelatedTodoUrl);
@@ -17,8 +18,15 @@ async function addNewTarget(data: any) {
   return res;
 }
 
+async function getTargetList() {
+  const res: any = await ajax.get(getTargetListUrl);
+  return res;
+}
+
+
 export const targetInfoServer = {
   getTargetRelatedTodo,
   addNewTarget,
+  getTargetList,
 }
 
