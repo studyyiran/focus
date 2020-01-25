@@ -1,10 +1,11 @@
 import React, {
-  useCallback,
-  useRef,
+  useCallback, useContext,
+  useRef
 } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
 import {targetInfoServer} from "../server";
 import {ITargetInfoState, ITargetInfoReducerTypes} from "./index";
+import { MyFocusContext } from "../../../context";
 
 
 interface IAddNewTargetInfo {
@@ -29,11 +30,8 @@ export function useTargetInfoGetActions (
   state: ITargetInfoState,
   dispatch: (action: IReducerAction) => void
 ): ITargetInfoActions {
-  // 新增promise ref
-  const promiseStatus: any = useRef();
-  if (!promiseStatus.current) {
-    promiseStatus.current = {};
-  }
+  const myFocusContext = useContext(MyFocusContext)
+  const {getHistoryByFilter} = myFocusContext
   const getTargetRelatedTodo = useCallback(async function() {
     const res = await targetInfoServer.getTargetRelatedTodo();
     dispatch({
@@ -42,9 +40,20 @@ export function useTargetInfoGetActions (
     });
   }, [dispatch])
 
+  // 更新基础列表。（这个口，还有相关字段，是否可以用count来代替？）
+  const getTargetList = useCallback(async function() {
+    const res = await targetInfoServer.getTargetList();
+    dispatch({
+      type: ITargetInfoReducerTypes.setTargetList,
+      value: res
+    });
+  }, [dispatch])
+
   // 添加
   const addNewTarget = useCallback(async function(data) {
     const res = await targetInfoServer.addNewTarget(data);
+    // 更新下xxx
+    getTargetList();
     dispatch({
       type: ITargetInfoReducerTypes.setTargetWithCountList,
       value: res
@@ -56,17 +65,8 @@ export function useTargetInfoGetActions (
     // 1 发起关联
     const res = await targetInfoServer.addTargetRelate(data);
     // 2 更新history
+    getHistoryByFilter()
   }, [dispatch])
-
-
-  const getTargetList = useCallback(async function() {
-    const res = await targetInfoServer.getTargetList();
-    dispatch({
-      type: ITargetInfoReducerTypes.setTargetList,
-      value: res
-    });
-  }, [dispatch])
-
 
   return {
     getTargetRelatedTodo,

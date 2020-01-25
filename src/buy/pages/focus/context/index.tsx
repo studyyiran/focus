@@ -21,7 +21,7 @@ import {
 
 import server from "../server";
 
-export const MyFocusContext = createContext({});
+export const MyFocusContext = createContext({} as IMyFocusContext);
 // store name
 export const MyFocus = "MyFocus";
 
