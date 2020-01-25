@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import "./index.less";
 import { ITargetInfoContext, TargetInfoContext } from "./context";
 
-export function Name() {
+export function TargetInfoPage() {
   // 引入context
   const targetInfoContext = useContext(TargetInfoContext);
   const {

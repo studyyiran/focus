@@ -2,6 +2,7 @@ import { FocusToday } from "../pages/today";
 import { TodayDone } from "../pages/todayDone";
 import { HistoryPage } from "../pages/history";
 import { WishList } from "../pages/wishList";
+import { TargetInfoPage } from "../pages/targetPage";
 
 export const routerConfig = [
   {
@@ -27,6 +28,12 @@ export const routerConfig = [
     exact: true,
     title: "wishList",
     component: WishList
+  },
+  {
+    path: "/target-info",
+    exact: true,
+    title: "target-info",
+    component: TargetInfoPage
   }
   // {
   //   title: "404 | UpTradeit.com",
