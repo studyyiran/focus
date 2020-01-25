@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useEffect } from "react";
 import "./index.less";
 import { ITargetInfoContext, TargetInfoContext } from "./context";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
+import { Button } from "antd";
 
 export function TargetInfoPage() {
   // 引入context
@@ -33,7 +34,7 @@ export function TargetInfoPage() {
   function renderList() {
     return targetWithCountList.map(({ _id, targetName, count }) => {
       return (
-        <li key={_id}>
+        <li className="line-container" key={_id}>
           <span>{targetName}</span>
           <span>{count}</span>
         </li>
@@ -42,8 +43,8 @@ export function TargetInfoPage() {
   }
   return (
     <div className="test-page">
-      {renderList()}
-      <button onClick={addModal}>add</button>
+      <ul className="ul-line-container">{renderList()}</ul>
+      <Button onClick={addModal}>add</Button>
     </div>
   );
 }
