@@ -13,7 +13,7 @@ const { Option } = Select;
 
 export function HistoryPage() {
   const storeTestNameContext = useContext(MyFocusContext);
-  const [currentInfo, setCurrentInfo] = useState({});
+  const [currentTodoId, setCurrentTodoId] = useState({});
   const {
     myFocusContextValue,
     getHistoryByFilter,
@@ -47,7 +47,7 @@ export function HistoryPage() {
               : moment(info.createTime).format("LLLL")}
             <Button
               onClick={() => {
-                setCurrentInfo(info);
+                setCurrentTodoId(info._id);
               }}
             >
               Action
@@ -63,9 +63,11 @@ export function HistoryPage() {
     <div className="history-page">
       <SettingModal
         addTodayTodo={addTodayTodo}
-        currentInfo={currentInfo}
+        currentInfo={historyList.find(({ _id }) => {
+          return _id === currentTodoId;
+        })}
         onCancel={() => {
-          setCurrentInfo({});
+          setCurrentTodoId("");
         }}
       />
       <FilterPart />
@@ -80,9 +82,9 @@ function SettingModal(props: any) {
   const { targetList } = targetInfoContextValue;
   const myFocusContext = useContext(MyFocusContext);
   const { deleteItem } = myFocusContext as IMyFocusContext;
-  const { currentInfo, onCancel, addTodayTodo } = props;
+  const { currentInfo={}, onCancel, addTodayTodo } = props;
   const visible = currentInfo && currentInfo._id;
-  const {haveRelated} = currentInfo
+  const { haveRelated } = currentInfo;
 
   const openEditModal = useShowNewTodoModal(currentInfo);
   const openAddAsTodayModal = useShowNewTodoModal({
@@ -107,7 +109,7 @@ function SettingModal(props: any) {
         ],
         renderFormEle: () => (
           <Select>
-            {targetList.map(({targetName, _id}) => {
+            {targetList.map(({ targetName, _id }) => {
               return (
                 <Option value={_id} key={_id}>
                   {targetName}
@@ -123,12 +125,12 @@ function SettingModal(props: any) {
     ],
     prevent: true,
     onSubmit: (values: any) => {
-      const {targetId} = values
-      const todoId = currentInfo._id
+      const { targetId } = values;
+      const todoId = currentInfo._id;
       addTargetRelate({
         targetId,
         todoId
-      })
+      });
     }
   });
 
@@ -151,7 +153,9 @@ function SettingModal(props: any) {
             delete
           </li>
           <li onClick={openAddAsTodayModal}>add as today</li>
-          {!haveRelated ? <li onClick={openAddIntoTargetModal}>add into target</li> : null}
+          {!haveRelated ? (
+            <li onClick={openAddIntoTargetModal}>add into target</li>
+          ) : null}
         </ul>
       </Modal>
     </div>
