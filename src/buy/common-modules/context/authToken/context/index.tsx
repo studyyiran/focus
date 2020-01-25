@@ -191,18 +191,18 @@ export function StoreAuthContextProvider(props: any) {
   useEffect(() => {
     callBackWhenPassAllFunc([], () => {
       const cookieInfo = getFromCookie(constValue.AUTHKEY);
-      if (cookieInfo) {
-        dispatch({
-          type: storeAuthReducerTypes.setToken,
-          value: { token: cookieInfo }
-        });
-      } else {
-        // 如果第一次没有cookie.那么就需要认为是未登录状态了.
-        dispatch({
-          type: storeAuthReducerTypes.setToken,
-          value: { token: "" }
-        });
-      }
+      // if (cookieInfo) {
+      //   dispatch({
+      //     type: storeAuthReducerTypes.setToken,
+      //     value: { token: cookieInfo }
+      //   });
+      // } else {
+      //   // 如果第一次没有cookie.那么就需要认为是未登录状态了.
+      //   dispatch({
+      //     type: storeAuthReducerTypes.setToken,
+      //     value: { token: "" }
+      //   });
+      // }
     });
 
     callBackWhenPassAllFunc([], () => {
