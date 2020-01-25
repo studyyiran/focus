@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./index.less";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import { TodoLine } from "../../components/ToDoLine";
@@ -77,6 +77,7 @@ export function HistoryPage() {
 }
 
 function SettingModal(props: any) {
+  const currentModalRef = useRef(null as any)
   const targetInfoContext = useContext(TargetInfoContext);
   const { targetInfoContextValue, addTargetRelate } = targetInfoContext;
   const { targetList } = targetInfoContextValue;
@@ -131,6 +132,10 @@ function SettingModal(props: any) {
         targetId,
         todoId
       });
+      if (currentModalRef.current && currentModalRef.current.destroy) {
+        currentModalRef.current.destroy()
+      }
+      // 关闭弹框
     }
   });
 
@@ -154,7 +159,11 @@ function SettingModal(props: any) {
           </li>
           <li onClick={openAddAsTodayModal}>add as today</li>
           {!haveRelated ? (
-            <li onClick={openAddIntoTargetModal}>add into target</li>
+            <li onClick={() => {
+              if (currentModalRef) {
+                currentModalRef.current = openAddIntoTargetModal()
+              }
+            }}>add into target</li>
           ) : null}
         </ul>
       </Modal>

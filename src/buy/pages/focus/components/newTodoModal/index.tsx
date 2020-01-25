@@ -159,7 +159,7 @@ export function useShowNewTodoModal(props: any) {
   ];
   return () => {
     // 日后制作修改弹框,需要传入id来实现
-    (MyModal as any).confirm({
+    return (MyModal as any).confirm({
       width: "70%",
       closable: true,
       maskClosable: false,
