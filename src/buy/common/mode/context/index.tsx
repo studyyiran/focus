@@ -1,9 +1,7 @@
 import React, { createContext, useReducer, useEffect } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
-import { callBackWhenPassAllFunc } from "buy/common/utils/util";
 import useReducerMiddleware from "../../../common/useHook/useReducerMiddleware";
 import { IContextValue } from "../../type";
-import { useIsCurrentPage } from "../../useHook";
 import {
   IStoreTestNameActions,
   useStoreTestNameGetActions

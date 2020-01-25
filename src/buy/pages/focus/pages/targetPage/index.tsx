@@ -10,11 +10,18 @@ export function Name() {
     getTestAjaxValue
   } = targetInfoContext as ITargetInfoContext;
   // 从context中获取值
-  const { testValue } = targetInfoContextValue;
+  const { targetWithCountList } = targetInfoContextValue;
   // local发起请求
   useEffect(() => {
     getTestAjaxValue();
   }, [getTestAjaxValue]);
   // 渲染
-  return <div className="test-page">{testValue}</div>;
+  return <div className="test-page">
+    {targetWithCountList.map(({id, targetName, count}) => {
+      return <li key={id}>
+        <span>{targetName}</span>
+        <span>{count}</span>
+      </li>
+    })}
+  </div>;
 }

@@ -1,10 +1,8 @@
 import React, { createContext, useReducer, useEffect } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
-import { callBackWhenPassAllFunc } from "buy/common/utils/util";
 import { ITargetInfoActions, useTargetInfoGetActions } from "./useGetActions";
 import { IContextValue } from "../../../../../common/type";
 import useReducerMiddleware from "../../../../../common/useHook/useReducerMiddleware";
-import { useIsCurrentPage } from "../../../../../common/useHook";
 
 export const TargetInfoContext = createContext({});
 
@@ -12,7 +10,9 @@ export const TargetInfoContext = createContext({});
 export const TargetInfo = "TargetInfo";
 
 export interface ITargetWithConut {
-
+  id: string,
+  targetName: string,
+  count: Number,
 }
 
 // store state
@@ -22,8 +22,8 @@ export interface ITargetInfoState {
 
 // interface
 export interface ITargetInfoContext extends ITargetInfoActions, IContextValue {
-  TargetInfoContextValue: ITargetInfoState;
-  TargetInfoContextDispatch: (action: IReducerAction) => void;
+  targetInfoContextValue: ITargetInfoState;
+  targetInfoContextDispatch: (action: IReducerAction) => void;
 }
 
 // store provider
@@ -37,18 +37,10 @@ export function TargetInfoContextProvider(props: any) {
   );
   const action: ITargetInfoActions = useTargetInfoGetActions(state, dispatch);
 
-  const isPage = useIsCurrentPage("/test");
-
-  // @useEffect
-  useEffect(() => {
-    // 1 当前页面
-    callBackWhenPassAllFunc([() => isPage], action.getTestAjaxValue);
-  }, [action.getTestAjaxValue, isPage]);
-
   const propsValue: ITargetInfoContext = {
     ...action,
-    TargetInfoContextValue: state,
-    TargetInfoContextDispatch: dispatch
+    targetInfoContextValue: state,
+    targetInfoContextDispatch: dispatch
   };
   return <TargetInfoContext.Provider value={propsValue} {...props} />;
 }
