@@ -48,7 +48,7 @@ export const dateInfoArr = [
   },
   {
     start: -365,
-    end: 365,
+    end: 366,
     key: "year"
   }
 ];
