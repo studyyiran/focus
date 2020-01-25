@@ -365,6 +365,7 @@ function reducer(state: IContextState, action: IReducerAction) {
   let newState = { ...state };
   switch (type) {
     case myFocusReducerTypes.changeHistoryFilter: {
+      console.log(value)
       newState = {
         ...newState,
         historyFilter: {

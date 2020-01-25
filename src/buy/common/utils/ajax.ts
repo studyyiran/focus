@@ -108,7 +108,6 @@ ajax.fetch = function(config) {
             res.data &&
             !res.data.code
           ) {
-            console.log(res.data);
             // 第三方接口(review)
             resolve(res.data);
           } else {

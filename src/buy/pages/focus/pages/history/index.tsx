@@ -35,7 +35,6 @@ export function HistoryPage() {
   function renderList(list: IListItem[]) {
     if (list && list.length) {
       return list.map(info => {
-        console.log(info);
         return (
           <li
             className={"todo-line-wrapper"}

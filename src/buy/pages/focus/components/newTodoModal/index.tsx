@@ -70,8 +70,6 @@ const { Option } = Select;
 
 function reducer(state: INewTodoState, actions: any) {
   const { type, value } = actions;
-  console.log(type);
-  console.log(value);
   switch (type) {
     case "set":
       return { ...value };
