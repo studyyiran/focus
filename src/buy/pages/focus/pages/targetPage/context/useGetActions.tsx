@@ -6,9 +6,15 @@ import { IReducerAction } from "buy/common/interface/index.interface";
 import {targetInfoServer} from "../server";
 import {ITargetInfoState, ITargetInfoReducerTypes} from "./index";
 
+
+interface IAddNewTargetInfo {
+  targetName: string
+}
+
 // @actions
 export interface ITargetInfoActions {
-  getTestAjaxValue: () => any;
+  getTargetRelatedTodo: () => any;
+  addNewTarget: (data: IAddNewTargetInfo) => any;
 }
 
 // useCreateActions
@@ -21,14 +27,26 @@ export function useTargetInfoGetActions (
   if (!promiseStatus.current) {
     promiseStatus.current = {};
   }
-  const getTestAjaxValue = useCallback(async function() {
+  const getTargetRelatedTodo = useCallback(async function() {
     const res = await targetInfoServer.getTargetRelatedTodo();
     dispatch({
       type: ITargetInfoReducerTypes.setTargetWithCountList,
       value: res
     });
   }, [dispatch])
+
+  // 添加
+  const addNewTarget = useCallback(async function(data) {
+    const res = await targetInfoServer.addNewTarget(data);
+    dispatch({
+      type: ITargetInfoReducerTypes.setTargetWithCountList,
+      value: res
+    });
+  }, [dispatch])
+
+
   return {
-    getTestAjaxValue
+    getTargetRelatedTodo,
+    addNewTarget
   };
 }
