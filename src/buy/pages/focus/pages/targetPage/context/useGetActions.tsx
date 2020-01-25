@@ -53,11 +53,9 @@ export function useTargetInfoGetActions (
 
   // 关联
   const addTargetRelate = useCallback(async function(data) {
+    // 1 发起关联
     const res = await targetInfoServer.addTargetRelate(data);
-    // dispatch({
-    //   type: ITargetInfoReducerTypes.setTargetWithCountList,
-    //   value: res
-    // });
+    // 2 更新history
   }, [dispatch])
 
 

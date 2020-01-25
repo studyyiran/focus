@@ -83,6 +83,7 @@ function SettingModal(props: any) {
   const { deleteItem } = myFocusContext as IMyFocusContext;
   const { currentInfo, onCancel, addTodayTodo } = props;
   const visible = currentInfo && currentInfo._id;
+  const {haveRelated} = currentInfo
 
   const openEditModal = useShowNewTodoModal(currentInfo);
   const openAddAsTodayModal = useShowNewTodoModal({
@@ -151,7 +152,7 @@ function SettingModal(props: any) {
             delete
           </li>
           <li onClick={openAddAsTodayModal}>add as today</li>
-          <li onClick={openAddIntoTargetModal}>add into target</li>
+          {!haveRelated ? <li onClick={openAddIntoTargetModal}>add into target</li> : null}
         </ul>
       </Modal>
     </div>
