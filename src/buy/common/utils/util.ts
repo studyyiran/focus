@@ -1,7 +1,8 @@
 import { locationHref } from "./routerHistory";
+import { matchPath } from "react-router-dom";
+import { routerConfig } from "../../share/routerConfig";
 import { constValue } from "../constValue";
 import { Message } from "../../components/message";
-
 export const staticContentConfig = {
   priceUnit: "$",
   perMonth: "/mo",
@@ -9,6 +10,7 @@ export const staticContentConfig = {
   INTRANSACTION: "INTRANSACTION"
 };
 
+// 废弃
 export function requestWrapper(obj: any, all?: boolean) {
   let fixUrl = "";
   switch (process.env.REACT_APP_SERVER_ENV) {
@@ -71,7 +73,13 @@ export function currencyTrans(value: any, whenFree?: any) {
   if (whenFree && Number(fixValue) === 0) {
     return whenFree;
   } else {
-    return fixValue ? constValue.priceUnit + transNumber(fixValue) : fixValue;
+    if (!isServer()) {
+      return fixValue ? constValue.priceUnit + transNumber(fixValue) : fixValue;
+    } else {
+      return fixValue
+        ? constValue.priceUnit + " " + transNumber(fixValue)
+        : fixValue;
+    }
   }
 }
 
@@ -150,19 +158,6 @@ export function scrollTop() {
   window.scrollTo(0, 0);
 }
 
-export function debounce(callback: any, timer: any) {
-  let currentId: number;
-  const newFunc = (...arg: any[]) => {
-    if (currentId) {
-      window.clearInterval(currentId);
-    }
-    currentId = window.setTimeout(() => {
-      callback(...arg);
-    }, timer);
-  };
-  return newFunc;
-}
-
 export function getProductListPath() {
   return "/buy-phone";
 }
@@ -174,6 +169,9 @@ export function getLocationUrl(type: string) {
     }
     case "buyhome": {
       return "/buy";
+    }
+    case "home": {
+      return "/";
     }
     default:
       return "";
@@ -269,4 +267,27 @@ export function actionsWithCatchAndLoading({
   });
 
   return res;
+}
+
+export function debounce(callback: any, timer: any) {
+  let currentId: number;
+  if (!isServer()) {
+    const newFunc = (...arg: any[]) => {
+      console.log("+++++++");
+      let nextPromise: any;
+      if (currentId) {
+        window.clearInterval(currentId);
+      }
+      currentId = window.setTimeout(() => {
+        console.log("!!!!!!");
+        nextPromise(callback(...arg));
+      }, timer);
+      return new Promise((resolve, reject) => {
+        nextPromise = resolve;
+      });
+    };
+    return newFunc;
+  } else {
+    return callback;
+  }
 }
