@@ -77,13 +77,13 @@ export function HistoryPage() {
 }
 
 function SettingModal(props: any) {
-  const currentModalRef = useRef(null as any)
+  const currentModalRef = useRef(null as any);
   const targetInfoContext = useContext(TargetInfoContext);
   const { targetInfoContextValue, addTargetRelate } = targetInfoContext;
   const { targetList } = targetInfoContextValue;
   const myFocusContext = useContext(MyFocusContext);
   const { deleteItem } = myFocusContext as IMyFocusContext;
-  const { currentInfo={}, onCancel, addTodayTodo } = props;
+  const { currentInfo = {}, onCancel, addTodayTodo } = props;
   const visible = currentInfo && currentInfo._id;
   const { haveRelated } = currentInfo;
 
@@ -133,7 +133,7 @@ function SettingModal(props: any) {
         todoId
       });
       if (currentModalRef.current && currentModalRef.current.destroy) {
-        currentModalRef.current.destroy()
+        currentModalRef.current.destroy();
       }
       // 关闭弹框
     }
@@ -159,11 +159,15 @@ function SettingModal(props: any) {
           </li>
           <li onClick={openAddAsTodayModal}>add as today</li>
           {!haveRelated ? (
-            <li onClick={() => {
-              if (currentModalRef) {
-                currentModalRef.current = openAddIntoTargetModal()
-              }
-            }}>add into target</li>
+            <li
+              onClick={() => {
+                if (currentModalRef) {
+                  currentModalRef.current = openAddIntoTargetModal();
+                }
+              }}
+            >
+              add into target
+            </li>
           ) : null}
         </ul>
       </Modal>
