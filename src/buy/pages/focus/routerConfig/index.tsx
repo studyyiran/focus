@@ -3,6 +3,7 @@ import { TodayDone } from "../pages/todayDone";
 import { HistoryPage } from "../pages/history";
 import { WishList } from "../pages/wishList";
 import { TargetInfoPage } from "../pages/targetPage";
+import { TaiTan } from "../pages/taitan";
 
 export const routerConfig = [
   {
@@ -34,6 +35,12 @@ export const routerConfig = [
     exact: true,
     title: "target-info",
     component: TargetInfoPage
+  },
+  {
+    path: "/game-taitan",
+    exact: true,
+    title: "game-taitan",
+    component: TaiTan
   }
   // {
   //   title: "404 | UpTradeit.com",
