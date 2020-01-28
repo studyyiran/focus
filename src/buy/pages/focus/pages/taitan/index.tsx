@@ -6,6 +6,7 @@ export const TaiTan = () => {
   const [level, setLevel] = useState(0);
   const [damage, setDamage] = useState(0);
   const [hp, setHp] = useState(0);
+  const [playerAttack, setPlayerAttack] = useState(10)
 
   const getRandom = (max = 1) => {
     const random = Math.random();
@@ -23,6 +24,7 @@ export const TaiTan = () => {
       const maxHp = Math.floor(getRandom(100 * level));
       maxHpRef.current = maxHp;
       setHp(maxHp);
+      setPlayerAttack(a => a + Math.floor(getRandom(5)))
     }
   }, [level]);
 
@@ -59,7 +61,8 @@ export const TaiTan = () => {
       <div>
         last attack damage: {damage} {damage > 40 ? "暴击!!!" : ""}
       </div>
-      <div onClick={attack.bind({}, 10)}>Im Boss</div>
+      <div>attack: {playerAttack}</div>
+      <div className="click-range" onClick={attack.bind({}, 10 + level)}></div>
       <div>我是勇士</div>
     </div>
   );
