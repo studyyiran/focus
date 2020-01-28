@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import "./index.less";
 
 export const TaiTan = () => {
+  const maxHpRef = useRef(null as any);
   const [level, setLevel] = useState(0);
   const [damage, setDamage] = useState(0);
   const [hp, setHp] = useState(0);
@@ -18,12 +20,14 @@ export const TaiTan = () => {
 
   useEffect(() => {
     if (level > 0) {
-      setHp(Math.floor(getRandom(100 * level)));
+      const maxHp = Math.floor(getRandom(100 * level));
+      maxHpRef.current = maxHp;
+      setHp(maxHp);
     }
   }, [level]);
 
   const attack = (max: number) => {
-    let d : number;
+    let d: number;
     const random = getRandom();
     if (random > 0.9) {
       d = 5 * max;
@@ -31,13 +35,27 @@ export const TaiTan = () => {
       d = Math.floor(max * random);
     }
     setDamage(d);
-    setHp(hp => hp - d)
+    setHp(hp => hp - d);
+  };
+
+  const getWidth = () => {
+    let percent
+    if (maxHpRef && maxHpRef.current) {
+      percent = hp / maxHpRef.current
+    } else {
+      percent = 1
+    }
+    return {width: 100 * percent + '%'}
   };
 
   return (
-    <div>
+    <div className="taitan-game">
       <div>level: {level}</div>
-      <div>hp: {hp}</div>
+
+      <div className="out-hp">
+        <div className="inner-hp" style={getWidth()}></div>
+        <div className={"hp-value"}>{hp}/{maxHpRef.current}</div>
+      </div>
       <div>
         last attack damage: {damage} {damage > 40 ? "暴击!!!" : ""}
       </div>

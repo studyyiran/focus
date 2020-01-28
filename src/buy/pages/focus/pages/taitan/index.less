@@ -1,0 +1,27 @@
+@import (reference) "~buy/common/styles/index.less";
+
+@p1: {
+  .taitan-game {
+    .out-hp {
+      position: relative;
+      width: 100px;
+      @height: 30px;
+      height: @height;
+      background: grey;
+      .inner-hp {
+        position: absolute;
+        background: red;
+        height: 100%;
+      }
+      .hp-value {
+        color: #6dd230;
+        position: relative;
+        z-index: 1;
+        line-height: @height;
+        text-align: center;
+      }
+    }
+  }
+};
+
+.hello(@p1);
