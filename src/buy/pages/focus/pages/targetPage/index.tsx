@@ -32,15 +32,14 @@ export function TargetInfoPage() {
   });
 
   function renderList() {
-    return targetList.map(({ process }) => {
-      return process.map(({ _id, targetName, todos }) => {
-        return (
-          <li className="line-container" key={_id}>
-            <span>{targetName}</span>
-            <span>{todos.length}</span>
-          </li>
-        );
-      });
+    return targetList.map(({ process, _id }) => {
+      const {targetName, todos} = process[0]
+      return (
+        <li className="line-container" key={_id}>
+          <span>{targetName}</span>
+          <span>{todos.length}</span>
+        </li>
+      );
     });
   }
   return (

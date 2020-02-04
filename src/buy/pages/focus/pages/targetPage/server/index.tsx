@@ -5,7 +5,7 @@ import ajax from "../../../../../common/utils/ajax";
 const targetUrl = "/target";
 const targetRelatedTodoUrl = "/targetRelatedTodo"
 export const getTargetRelatedTodoUrl = targetRelatedTodoUrl + "/getList";
-export const targetRelateUrl = targetRelatedTodoUrl + "/targetRelate";
+export const targetRelateUrl = targetUrl + "/targetRelate";
 export const addNewTargetUrl = targetUrl + "/addNewTarget";
 export const getTargetListUrl = targetUrl + "/getTargetList";
 

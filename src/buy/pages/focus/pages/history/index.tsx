@@ -110,14 +110,13 @@ function SettingModal(props: any) {
         ],
         renderFormEle: () => (
           <Select>
-            {targetList.map(({ process }) => {
-              return process.map(({ targetName, _id }) => {
-                return (
-                  <Option value={_id} key={_id}>
-                    {targetName}
-                  </Option>
-                );
-              });
+            {targetList.map(({ process, _id }) => {
+              const { targetName } = process[0]
+              return (
+                <Option value={_id} key={_id}>
+                  {targetName}
+                </Option>
+              );
             })}
           </Select>
         )
@@ -128,6 +127,8 @@ function SettingModal(props: any) {
     ],
     prevent: true,
     onSubmit: (values: any) => {
+      debugger
+      console.log(values);
       const { targetId } = values;
       const todoId = currentInfo._id;
       addTargetRelate({
