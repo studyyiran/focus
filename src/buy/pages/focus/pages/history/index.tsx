@@ -110,12 +110,14 @@ function SettingModal(props: any) {
         ],
         renderFormEle: () => (
           <Select>
-            {targetList.map(({ targetName, _id }) => {
-              return (
-                <Option value={_id} key={_id}>
-                  {targetName}
-                </Option>
-              );
+            {targetList.map(({ process }) => {
+              return process.map(({ targetName, _id }) => {
+                return (
+                  <Option value={_id} key={_id}>
+                    {targetName}
+                  </Option>
+                );
+              });
             })}
           </Select>
         )

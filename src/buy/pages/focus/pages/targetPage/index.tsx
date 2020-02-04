@@ -10,14 +10,14 @@ export function TargetInfoPage() {
   const {
     targetInfoContextValue,
     addNewTarget,
-    getTargetRelatedTodo
+    getTargetList
   } = targetInfoContext as ITargetInfoContext;
   // 从context中获取值
-  const { targetWithCountList } = targetInfoContextValue;
+  const { targetList } = targetInfoContextValue;
   // local发起请求
   useEffect(() => {
-    getTargetRelatedTodo();
-  }, [getTargetRelatedTodo]);
+    getTargetList();
+  }, [getTargetList]);
   // 渲染
 
   const addModal = useShowNewTodoModal({
@@ -32,13 +32,15 @@ export function TargetInfoPage() {
   });
 
   function renderList() {
-    return targetWithCountList.map(({ _id, targetName, count }) => {
-      return (
-        <li className="line-container" key={_id}>
-          <span>{targetName}</span>
-          <span>{count}</span>
-        </li>
-      );
+    return targetList.map(({ process }) => {
+      return process.map(({ _id, targetName, todos }) => {
+        return (
+          <li className="line-container" key={_id}>
+            <span>{targetName}</span>
+            <span>{todos.length}</span>
+          </li>
+        );
+      });
     });
   }
   return (

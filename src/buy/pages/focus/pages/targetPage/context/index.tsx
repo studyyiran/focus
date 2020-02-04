@@ -9,19 +9,26 @@ export const TargetInfoContext = createContext({} as ITargetInfoContext);
 // store name
 export const TargetInfo = "TargetInfo";
 
-export interface ITarget {
-  _id: string;
-  targetName: string;
+export interface TargetTodoInfo {
+
 }
 
-export interface ITargetWithCount extends ITarget {
-  count: Number;
+export interface ISubTarget {
+  _id: string;
+  targetName: string;
+  todos: TargetTodoInfo[];
+  createTime: string;
 }
+
+export interface ITarget {
+  status: string,
+  _id: string,
+  process: ISubTarget[]
+};
 
 // store state
 export interface ITargetInfoState {
-  targetWithCountList: ITargetWithCount[];
-  targetList: ITarget[];
+  targetList: ITarget[]
 }
 
 // interface
@@ -33,8 +40,7 @@ export interface ITargetInfoContext extends ITargetInfoActions, IContextValue {
 // store provider
 export function TargetInfoContextProvider(props: any) {
   const initState: ITargetInfoState = {
-    targetWithCountList: [],
-    targetList: []
+    targetList: [] as ITargetInfoState["targetList"],
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -65,13 +71,6 @@ function reducer(state: ITargetInfoState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
-    case ITargetInfoReducerTypes.setTargetWithCountList: {
-      newState = {
-        ...newState,
-        targetWithCountList: value
-      };
-      break;
-    }
     case ITargetInfoReducerTypes.setTargetList: {
       newState = {
         ...newState,
