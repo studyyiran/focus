@@ -127,7 +127,6 @@ function SettingModal(props: any) {
     ],
     prevent: true,
     onSubmit: (values: any) => {
-      debugger
       console.log(values);
       const { targetId } = values;
       const todoId = currentInfo._id;
