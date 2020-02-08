@@ -1,6 +1,11 @@
 import React, { useCallback, useContext, useEffect } from "react";
 import "./index.less";
-import { ITarget, ITargetInfoContext, TargetInfoContext } from "./context";
+import {
+  ISubTarget,
+  ITarget,
+  ITargetInfoContext,
+  TargetInfoContext
+} from "./context";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { Button } from "antd";
 
@@ -35,11 +40,14 @@ export function TargetInfoPage() {
     return targetList.map(({ process, _id, level }) => {
       const { targetName, todos } = process[0];
       return (
-        <li className="line-container" key={_id}>
-          <span>{targetName}</span>
-          <span>{level}</span>
-          <span>{todos.length}</span>
-        </li>
+        <>
+          <li className="line-container" key={_id}>
+            <span>{targetName}</span>
+            <span>{level}</span>
+            <span>{todos.length}</span>
+          </li>
+          <RenderSubTargetList processArr={process} />
+        </>
       );
     });
   }
@@ -58,12 +66,54 @@ interface IProps {
 const RenderSubTargetList: React.FC<IProps> = props => {
   const { processArr } = props;
   return (
-    <ul>
+    <ul className="ul-line-container">
+      {/*<li>*/}
+      {/*  <span>targetName</span>*/}
+      {/*  <span>status</span>*/}
+      {/*  <span>createTime</span>*/}
+      {/*  <span>levelUpTime</span>*/}
+      {/*</li>*/}
       {processArr.map(subTarget => {
-        const { _id, targetName, status, createTime, levelUpTime, todos } = subTarget;
-        return <li>
-          <span>{targetName}</span>
-        </li>
+        const {
+          _id,
+          targetName,
+          status,
+          createTime,
+          levelUpTime,
+          todos
+        } = subTarget;
+        return (
+          <>
+            <li>
+              <span>{targetName}</span>
+              <span>{status}</span>
+              <span>{createTime}</span>
+              <span>{levelUpTime}</span>
+            </li>
+            <RenderTodoList todos={todos} />
+          </>
+        );
+      })}
+    </ul>
+  );
+};
+
+interface IRenderTodoList {
+  todos: ISubTarget["todos"];
+}
+
+const RenderTodoList: React.FC<IRenderTodoList> = props => {
+  const { todos } = props;
+  return (
+    <ul className="ul-line-container">
+      {todos.map(todo => {
+        const { _id, todoId, content, createTime } = todo;
+        return (
+          <li key={_id}>
+            <span>{content}</span>
+            <span>{createTime}</span>
+          </li>
+        );
       })}
     </ul>
   );

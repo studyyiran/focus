@@ -12,7 +12,7 @@ export const TargetInfo = "TargetInfo";
 export interface TargetTodoInfo {
   _id: string;
   todoId: string;
-  targetName: string;
+  content: string;
   createTime: string;
 }
 
