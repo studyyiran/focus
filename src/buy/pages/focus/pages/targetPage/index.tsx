@@ -55,6 +55,7 @@ export function TargetInfoPage() {
     <div className="test-page">
       <ul className="ul-line-container">{renderList()}</ul>
       <Button onClick={addModal}>add</Button>
+      <Button>封神开始</Button>
     </div>
   );
 }
@@ -106,12 +107,14 @@ const RenderTodoList: React.FC<IRenderTodoList> = props => {
   const { todos } = props;
   return (
     <ul className="ul-line-container">
-      {todos.map(todo => {
-        const { _id, todoId, content, createTime } = todo;
+      {todos.map((todo, index) => {
+        const { _id, todoId, content, createTime, tag } = todo;
         return (
           <li key={_id}>
+            <span>No：{index}</span>
             <span>{content}</span>
             <span>{createTime}</span>
+            <span>{tag}</span>
           </li>
         );
       })}

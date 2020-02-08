@@ -13,6 +13,7 @@ export interface TargetTodoInfo {
   _id: string;
   todoId: string;
   content: string;
+  tag: string;
   createTime: string;
 }
 
