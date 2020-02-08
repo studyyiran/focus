@@ -32,11 +32,12 @@ export function TargetInfoPage() {
   });
 
   function renderList() {
-    return targetList.map(({ process, _id }) => {
+    return targetList.map(({ process, _id,level }) => {
       const {targetName, todos} = process[0]
       return (
         <li className="line-container" key={_id}>
           <span>{targetName}</span>
+          <span>{level}</span>
           <span>{todos.length}</span>
         </li>
       );

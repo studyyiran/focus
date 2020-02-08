@@ -23,7 +23,8 @@ export interface ISubTarget {
 export interface ITarget {
   status: string,
   _id: string,
-  process: ISubTarget[]
+  process: ISubTarget[],
+  level: number,
 };
 
 // store state
