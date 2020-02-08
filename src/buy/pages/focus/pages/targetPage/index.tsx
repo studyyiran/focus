@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect } from "react";
 import "./index.less";
-import { ITargetInfoContext, TargetInfoContext } from "./context";
+import { ITarget, ITargetInfoContext, TargetInfoContext } from "./context";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { Button } from "antd";
 
@@ -32,8 +32,8 @@ export function TargetInfoPage() {
   });
 
   function renderList() {
-    return targetList.map(({ process, _id,level }) => {
-      const {targetName, todos} = process[0]
+    return targetList.map(({ process, _id, level }) => {
+      const { targetName, todos } = process[0];
       return (
         <li className="line-container" key={_id}>
           <span>{targetName}</span>
@@ -50,3 +50,21 @@ export function TargetInfoPage() {
     </div>
   );
 }
+
+interface IProps {
+  processArr: ITarget["process"];
+}
+
+const RenderSubTargetList: React.FC<IProps> = props => {
+  const { processArr } = props;
+  return (
+    <ul>
+      {processArr.map(subTarget => {
+        const { _id, targetName, status, createTime, levelUpTime, todos } = subTarget;
+        return <li>
+          <span>{targetName}</span>
+        </li>
+      })}
+    </ul>
+  );
+};

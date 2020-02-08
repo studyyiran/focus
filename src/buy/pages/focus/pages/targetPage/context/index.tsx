@@ -10,14 +10,19 @@ export const TargetInfoContext = createContext({} as ITargetInfoContext);
 export const TargetInfo = "TargetInfo";
 
 export interface TargetTodoInfo {
-
+  _id: string;
+  todoId: string;
+  targetName: string;
+  createTime: string;
 }
 
 export interface ISubTarget {
   _id: string;
   targetName: string;
+  status: string;
   todos: TargetTodoInfo[];
   createTime: string;
+  levelUpTime: string;
 }
 
 export interface ITarget {
