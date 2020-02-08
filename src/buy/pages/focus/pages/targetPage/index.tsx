@@ -113,8 +113,8 @@ const RenderTodoList: React.FC<IRenderTodoList> = props => {
           <li key={_id}>
             <span>No：{index}</span>
             <span>{content}</span>
-            <span>{createTime}</span>
             <span>{tag}</span>
+            <span>{createTime}</span>
           </li>
         );
       })}
