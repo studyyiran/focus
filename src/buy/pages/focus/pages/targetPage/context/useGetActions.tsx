@@ -3,6 +3,7 @@ import { IReducerAction } from "buy/common/interface/index.interface";
 import { targetInfoServer } from "../server";
 import { ITargetInfoState, ITargetInfoReducerTypes } from "./index";
 import { MyFocusContext } from "../../../context";
+import { ITargetLevelUpJson } from "../index";
 
 interface IAddNewTargetInfo {
   targetName: string;
@@ -19,6 +20,7 @@ export interface ITargetInfoActions {
   addNewTarget: (data: IAddNewTargetInfo) => any;
   getTargetList: () => any;
   addTargetRelate: (data: IAddTargetRelated) => any;
+  targetLevelUp: (data: ITargetLevelUpJson) => any;
 }
 
 // useCreateActions
@@ -76,10 +78,26 @@ export function useTargetInfoGetActions(
     [dispatch, getHistoryByFilter]
   );
 
+
+  // 关联
+  const targetLevelUp = useCallback(
+    async function(data) {
+      // 1 发起关联
+      const res = await targetInfoServer.targetLevelUp(data);
+      // 2 更新history
+      dispatch({
+        type: ITargetInfoReducerTypes.setTargetList,
+        value: res
+      });
+    },
+    [dispatch, getHistoryByFilter]
+  );
+
   return {
     getTargetRelatedTodo,
     addNewTarget,
     getTargetList,
-    addTargetRelate
+    addTargetRelate,
+    targetLevelUp
   };
 }

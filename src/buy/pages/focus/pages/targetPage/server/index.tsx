@@ -2,12 +2,14 @@
  * 首页相关
  * */
 import ajax from "../../../../../common/utils/ajax";
+import { ITargetLevelUpJson } from "../index";
 const targetUrl = "/target";
 const targetRelatedTodoUrl = "/targetRelatedTodo"
 export const getTargetRelatedTodoUrl = targetRelatedTodoUrl + "/getList";
 export const targetRelateUrl = targetUrl + "/targetRelate";
 export const addNewTargetUrl = targetUrl + "/addNewTarget";
 export const getTargetListUrl = targetUrl + "/getTargetList";
+export const levelupUrl = targetUrl + "/levelup";
 
 async function getTargetRelatedTodo() {
   const res: any = await ajax.get(getTargetRelatedTodoUrl);
@@ -29,11 +31,17 @@ async function getTargetList() {
   return res;
 }
 
+async function targetLevelUp(data: ITargetLevelUpJson) {
+  const res: any = await ajax.post(levelupUrl, data);
+  return res;
+}
+
 
 export const targetInfoServer = {
   getTargetRelatedTodo,
   addNewTarget,
   addTargetRelate,
   getTargetList,
+  targetLevelUp,
 }
 

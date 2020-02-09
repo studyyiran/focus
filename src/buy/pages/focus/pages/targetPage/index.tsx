@@ -17,14 +17,14 @@ import { IReducerAction } from "../../../../common/mode/context/simple";
 import MyModal from "../../../../components/modal";
 import { FormWrapper } from "../../components/formWrapper";
 
-function reducer(state: IArr, action: IReducerAction) {
+function reducer(state: ITargetLevelUpJson, action: IReducerAction) {
   const { type, value } = action;
   switch (type) {
     case "nextTarget": {
       const { targetId, innerValue } = value;
       return {
-        arr: [
-          ...state.arr,
+        targetArr: [
+          ...state.targetArr,
           {
             isPass: true,
             nextTree: "",
@@ -36,22 +36,22 @@ function reducer(state: IArr, action: IReducerAction) {
       break;
     }
     case "nextTree": {
-      state.arr.forEach(item => {
+      state.targetArr.forEach(item => {
         const { targetId, innerValue } = value;
         if (item.targetId === targetId) {
           item.nextTree = innerValue;
         }
       });
       return {
-        arr: [...state.arr]
+        targetArr: [...state.targetArr]
       };
       break;
     }
     case "isPass": {
       const { targetId, innerValue } = value;
       return {
-        arr: [
-          ...state.arr,
+        targetArr: [
+          ...state.targetArr,
           {
             isPass: innerValue,
             nextTree: "",
@@ -75,12 +75,12 @@ interface ISub {
   nextTree: string;
 }
 
-interface IArr {
-  arr: ISub[];
+export interface ITargetLevelUpJson {
+  targetArr: ISub[];
 }
 
 export function TargetInfoPage() {
-  const initState: IArr = { arr: [] as ISub[] };
+  const initState: ITargetLevelUpJson = { targetArr: [] as ISub[] };
   // 待迁移代码
   const [levelArr, dispatchLevelArr]: [any, any] = useReducer(
     reducer as any,
@@ -93,7 +93,8 @@ export function TargetInfoPage() {
   const {
     targetInfoContextValue,
     addNewTarget,
-    getTargetList
+    getTargetList,
+    targetLevelUp
   } = targetInfoContext as ITargetInfoContext;
   // 从context中获取值
   const { targetList } = targetInfoContextValue;
@@ -152,7 +153,7 @@ export function TargetInfoPage() {
   }
 
   function levelUpButtons(targetId: string) {
-    const targetLevel = ((levelArr as any).arr as ISub[]).find(levelInfo => {
+    const targetLevel = ((levelArr as any).targetArr as ISub[]).find(levelInfo => {
       return levelInfo.targetId === targetId;
     });
 
@@ -287,7 +288,9 @@ export function TargetInfoPage() {
       <ul className="ul-line-container">{renderList()}</ul>
       <Button onClick={addModal}>add</Button>
       {targetPageStatus === "doing" ? (
-        <Button onClick={() => {}}>封神完成</Button>
+        <Button onClick={() => {
+          targetLevelUp(levelArr)
+        }}>封神完成</Button>
       ) : (
         <Button
           onClick={() => {
