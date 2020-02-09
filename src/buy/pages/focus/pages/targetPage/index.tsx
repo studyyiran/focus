@@ -1,4 +1,9 @@
-import React, { useCallback, useContext, useEffect } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useReducer,
+  useState
+} from "react";
 import "./index.less";
 import {
   ISubTarget,
@@ -7,11 +12,84 @@ import {
   TargetInfoContext
 } from "./context";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
-import { Button } from "antd";
+import { Button, Input } from "antd";
+import { IReducerAction } from "../../../../common/mode/context/simple";
+import MyModal from "../../../../components/modal";
+import { FormWrapper } from "../../components/formWrapper";
+
+function reducer(state: IArr, action: IReducerAction) {
+  const { type, value } = action;
+  switch (type) {
+    case "nextTarget": {
+      const { targetId, innerValue } = value;
+      return {
+        arr: [
+          ...state.arr,
+          {
+            isPass: true,
+            nextTree: "",
+            targetId,
+            nextTarget: innerValue
+          }
+        ]
+      };
+      break;
+    }
+    case "nextTree": {
+      state.arr.forEach(item => {
+        const { targetId, innerValue } = value;
+        if (item.targetId === targetId) {
+          item.nextTree = innerValue;
+        }
+      });
+      return {
+        arr: [...state.arr]
+      };
+      break;
+    }
+    case "isPass": {
+      const { targetId, innerValue } = value;
+      return {
+        arr: [
+          ...state.arr,
+          {
+            isPass: innerValue,
+            nextTree: "",
+            targetId,
+            nextTarget: ""
+          }
+        ]
+      };
+      break;
+    }
+    default:
+      return { ...state };
+      break;
+  }
+}
+
+interface ISub {
+  isPass: boolean;
+  targetId: string;
+  nextTarget: string;
+  nextTree: string;
+}
+
+interface IArr {
+  arr: ISub[];
+}
 
 export function TargetInfoPage() {
+  const initState: IArr = { arr: [] as ISub[] };
+  // 待迁移代码
+  const [levelArr, dispatchLevelArr]: [any, any] = useReducer(
+    reducer as any,
+    initState as any
+  );
+  console.log(levelArr);
   // 引入context
   const targetInfoContext = useContext(TargetInfoContext);
+  const [targetPageStatus, setTargetPageStatus] = useState("padding");
   const {
     targetInfoContextValue,
     addNewTarget,
@@ -36,6 +114,156 @@ export function TargetInfoPage() {
     }
   });
 
+  function levelupModal(type: string, callBack: any) {
+    const modal = (MyModal as any).confirm({
+      width: "70%",
+      closable: true,
+      maskClosable: false,
+      title: null,
+      footer: null,
+      cancelText: "Got it",
+      children: (
+        <div className="post-item-form">
+          <FormWrapper
+            formConfig={[
+              {
+                id: type,
+                initialValue: "",
+                rules: [
+                  {
+                    required: true,
+                    message: "not empty"
+                  }
+                ],
+                renderFormEle: () => <Input />
+              },
+              {
+                renderFormEle: () => <Button htmlType="submit">submit</Button>
+              }
+            ]}
+            onSubmit={(...params: any[]) => {
+              callBack(...params);
+              modal.destroy();
+            }}
+          />
+        </div>
+      )
+    });
+  }
+
+  function levelUpButtons(targetId: string) {
+    const targetLevel = ((levelArr as any).arr as ISub[]).find(levelInfo => {
+      return levelInfo.targetId === targetId;
+    });
+
+    function haha(key: keyof ISub) {
+      let dom = null;
+      switch (key) {
+        case "nextTarget":
+          dom = (
+            <Button
+              onClick={() => {
+                // 开启Modal弹框，录入xxx
+                levelupModal(key, (info: any) => {
+                  dispatchLevelArr({
+                    type: key,
+                    value: {
+                      targetId,
+                      innerValue: info[key]
+                    }
+                  });
+                });
+              }}
+            >
+              LevelUp
+            </Button>
+          );
+          if (!targetLevel || !targetLevel[key]) {
+            // 如果没有 或者 没有这个字段
+          }
+          break;
+        case "nextTree":
+          // 如果已经完成任务
+          dom = (
+            <Button
+              onClick={() => {
+                // 开启Modal弹框，录入xxx
+                levelupModal(key, (info: any) => {
+                  dispatchLevelArr({
+                    type: key,
+                    value: {
+                      targetId,
+                      innerValue: info[key]
+                    }
+                  });
+                });
+              }}
+            >
+              升阶
+            </Button>
+          );
+          if (targetLevel && targetLevel.nextTarget && !targetLevel[key]) {
+          }
+          break;
+        case "isPass":
+          // 如果还没有完成 也没任何操作
+          dom = (
+            <Button
+              onClick={() => {
+                dispatchLevelArr({
+                  type: key,
+                  value: {
+                    targetId,
+                    innerValue: false
+                  }
+                });
+              }}
+            >
+              Fail
+            </Button>
+          );
+          // if (targetLevel && targetLevel[key] === "" && !targetLevel.targetId) {
+          // }
+          break;
+      }
+      return dom;
+    }
+
+    if (targetPageStatus === "doing") {
+      // 已经有了
+      if (targetLevel) {
+        // 如果
+        if (targetLevel.isPass === false) {
+          return null;
+        } else {
+          if (!targetLevel.nextTree) {
+            return (
+              <ul>
+                <li>{haha("nextTree")}</li>
+              </ul>
+            );
+          } else {
+            return (
+              <ul>
+                <li>已成神</li>
+              </ul>
+            );
+          }
+        }
+      } else {
+        // 还没有
+        return (
+          <ul>
+            <li>{haha("nextTarget")}</li>
+            <li>{haha("isPass")}</li>
+          </ul>
+        );
+      }
+    } else {
+      return null;
+    }
+  }
+
   function renderList() {
     return targetList.map(({ process, _id, level }) => {
       const { targetName, todos } = process[0];
@@ -45,17 +273,30 @@ export function TargetInfoPage() {
             <span>{targetName}</span>
             <span>{level}</span>
             <span>{todos.length}</span>
+            {levelUpButtons(_id)}
           </li>
           <RenderSubTargetList processArr={process} />
         </>
       );
     });
   }
+
   return (
     <div className="test-page">
+      <div>status: {targetPageStatus}</div>
       <ul className="ul-line-container">{renderList()}</ul>
       <Button onClick={addModal}>add</Button>
-      <Button>封神开始</Button>
+      {targetPageStatus === "doing" ? (
+        <Button onClick={() => {}}>封神完成</Button>
+      ) : (
+        <Button
+          onClick={() => {
+            setTargetPageStatus("doing");
+          }}
+        >
+          封神开始
+        </Button>
+      )}
     </div>
   );
 }
