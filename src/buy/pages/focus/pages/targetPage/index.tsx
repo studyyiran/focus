@@ -1,9 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useReducer,
-  useState
-} from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import "./index.less";
 import {
   ISubTarget,
@@ -16,6 +11,9 @@ import { Button, Input } from "antd";
 import { IReducerAction } from "../../../../common/mode/context/simple";
 import MyModal from "../../../../components/modal";
 import { FormWrapper } from "../../components/formWrapper";
+import { Collapse } from "antd";
+
+const { Panel } = Collapse;
 
 function reducer(state: ITargetLevelUpJson, action: IReducerAction) {
   const { type, value } = action;
@@ -153,9 +151,11 @@ export function TargetInfoPage() {
   }
 
   function levelUpButtons(targetId: string) {
-    const targetLevel = ((levelArr as any).targetArr as ISub[]).find(levelInfo => {
-      return levelInfo.targetId === targetId;
-    });
+    const targetLevel = ((levelArr as any).targetArr as ISub[]).find(
+      levelInfo => {
+        return levelInfo.targetId === targetId;
+      }
+    );
 
     function haha(key: keyof ISub) {
       let dom = null;
@@ -265,32 +265,66 @@ export function TargetInfoPage() {
     }
   }
 
+  // function renderHead(headerConfig) {
+  //     // const {} = headerInfo
+  //     return <Collapse>
+  //       <Panel header="This is panel header 1" key="1">
+  //         <p>{text}</p>
+  //       </Panel>
+  //     </Collapse>
+  //   }
+  // }
+
   function renderList() {
-    return targetList.map(({ process, _id, level }) => {
+    return targetList.map(({ process, _id: myTargetId, level, createTime }) => {
       const { targetName, todos } = process[0];
       return (
-        <>
-          <li className="line-container" key={_id}>
-            <span>{targetName}</span>
-            <span>{level}</span>
-            <span>{todos.length}</span>
-            {levelUpButtons(_id)}
-          </li>
-          <RenderSubTargetList processArr={process} />
-        </>
+        <Collapse key={myTargetId}>
+          <Panel
+            header={
+              <table>
+                <thead>
+                  <tr>
+                    <th>创建时间</th>
+                    <th>等级</th>
+                    <th>当前的Target</th>
+                    <th>当前的Target todo count</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{createTime}</td>
+                    <td>{level}</td>
+                    <td>{targetName}</td>
+                    <td>{todos && todos.length}</td>
+                    <td>{levelUpButtons(myTargetId)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            }
+            key="1"
+          >
+            <RenderSubTargetList processArr={process} />
+          </Panel>
+        </Collapse>
       );
     });
   }
 
   return (
     <div className="test-page">
-      <div>status: {targetPageStatus}</div>
+      <div>成神页面status: {targetPageStatus}</div>
       <ul className="ul-line-container">{renderList()}</ul>
-      <Button onClick={addModal}>add</Button>
+      <Button onClick={addModal}>add 新的target</Button>
       {targetPageStatus === "doing" ? (
-        <Button onClick={() => {
-          targetLevelUp(levelArr)
-        }}>封神完成</Button>
+        <Button
+          onClick={() => {
+            targetLevelUp(levelArr);
+          }}
+        >
+          封神完成
+        </Button>
       ) : (
         <Button
           onClick={() => {

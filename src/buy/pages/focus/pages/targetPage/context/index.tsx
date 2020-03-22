@@ -31,6 +31,7 @@ export interface ITarget {
   _id: string,
   process: ISubTarget[],
   level: number,
+  createTime: string,
 };
 
 // store state
