@@ -344,37 +344,53 @@ interface IProps {
 
 const RenderSubTargetList: React.FC<IProps> = props => {
   const { processArr } = props;
-  return (
-    <ul className="ul-line-container">
-      {/*<li>*/}
-      {/*  <span>targetName</span>*/}
-      {/*  <span>status</span>*/}
-      {/*  <span>createTime</span>*/}
-      {/*  <span>levelUpTime</span>*/}
-      {/*</li>*/}
-      {processArr.map(subTarget => {
-        const {
-          _id,
-          targetName,
-          status,
-          createTime,
-          levelUpTime,
-          todos
-        } = subTarget;
-        return (
-          <>
-            <li>
-              <span>{targetName}</span>
-              <span>{status}</span>
-              <span>{createTime}</span>
-              <span>{levelUpTime}</span>
-            </li>
-            <RenderTodoList todos={todos} />
-          </>
-        );
-      })}
-    </ul>
-  );
+  const dom = processArr.map(subTarget => {
+    const {
+      _id,
+      targetName,
+      status,
+      createTime,
+      levelUpTime,
+      todos
+    } = subTarget;
+    return (
+      <Collapse key={_id}>
+        <Panel
+          key={_id}
+          header={
+            <table>
+              <thead>
+                <tr>
+                  <th>targetName</th>
+                  <th>createTime</th>
+                  <th>levelUpTime</th>
+                  <th>status</th>
+                  <th>todo count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{targetName}</td>
+                  <td>{createTime}</td>
+                  <td>{levelUpTime}</td>
+                  <td>{status}</td>
+                  <td>{todos && todos.length}</td>
+                </tr>
+              </tbody>
+            </table>
+          }
+        >
+          <RenderTodoList todos={todos} />
+        </Panel>
+      </Collapse>
+    );
+  });
+  return <div>{dom}</div>;
+  // return (
+  //   <ul className="ul-line-container">
+  //     {}
+  //   </ul>
+  // );
 };
 
 interface IRenderTodoList {
