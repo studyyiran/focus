@@ -313,7 +313,7 @@ export function TargetInfoPage() {
   }
 
   return (
-    <div className="test-page">
+    <div className="target-page">
       <div>成神页面status: {targetPageStatus}</div>
       <ul className="ul-line-container">{renderList()}</ul>
       <Button onClick={addModal}>add 新的target</Button>
