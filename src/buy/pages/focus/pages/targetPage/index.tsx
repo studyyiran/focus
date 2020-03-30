@@ -17,53 +17,66 @@ const { Panel } = Collapse;
 
 function reducer(state: ITargetLevelUpJson, action: IReducerAction) {
   const { type, value } = action;
-  switch (type) {
-    case "nextTarget": {
-      const { targetId, innerValue } = value;
-      return {
-        targetArr: [
-          ...state.targetArr,
-          {
-            isPass: true,
-            nextTree: "",
-            targetId,
-            nextTarget: innerValue
-          }
-        ]
-      };
-      break;
+  if (value) {
+    const { targetId, innerValue } = value;
+    switch (type) {
+      case "nextTarget": {
+        return {
+          targetArr: [
+            ...state.targetArr,
+            {
+              isPass: true,
+              nextTree: "",
+              targetId,
+              nextTarget: innerValue
+            }
+          ]
+        };
+        break;
+      }
+      case "nextTree": {
+        // state.targetArr.forEach(item => {
+        //   const { targetId, innerValue } = value;
+        //   if (item.targetId === targetId) {
+        //     item.nextTree = innerValue;
+        //   }
+        // });
+        // return {
+        //   targetArr: [...state.targetArr]
+        // };
+        return {
+          targetArr: [
+            ...state.targetArr,
+            {
+              isPass: true,
+              nextTree: innerValue,
+              targetId,
+              nextTarget: ""
+            }
+          ]
+        };
+        break;
+      }
+      case "isPass": {
+        return {
+          targetArr: [
+            ...state.targetArr,
+            {
+              isPass: innerValue,
+              nextTree: "",
+              targetId,
+              nextTarget: ""
+            }
+          ]
+        };
+        break;
+      }
+      default:
+        break;
     }
-    case "nextTree": {
-      state.targetArr.forEach(item => {
-        const { targetId, innerValue } = value;
-        if (item.targetId === targetId) {
-          item.nextTree = innerValue;
-        }
-      });
-      return {
-        targetArr: [...state.targetArr]
-      };
-      break;
-    }
-    case "isPass": {
-      const { targetId, innerValue } = value;
-      return {
-        targetArr: [
-          ...state.targetArr,
-          {
-            isPass: innerValue,
-            nextTree: "",
-            targetId,
-            nextTarget: ""
-          }
-        ]
-      };
-      break;
-    }
-    default:
-      return { ...state };
-      break;
   }
+  return { ...state };
+
 }
 
 interface ISub {
@@ -80,11 +93,10 @@ export interface ITargetLevelUpJson {
 export function TargetInfoPage() {
   const initState: ITargetLevelUpJson = { targetArr: [] as ISub[] };
   // 待迁移代码
-  const [levelArr, dispatchLevelArr]: [any, any] = useReducer(
+  const [targetLevelUpJson, dispatchTargetLevelUpJson]: [any, any] = useReducer(
     reducer as any,
     initState as any
   );
-  console.log(levelArr);
   // 引入context
   const targetInfoContext = useContext(TargetInfoContext);
   const [targetPageStatus, setTargetPageStatus] = useState("padding");
@@ -96,10 +108,18 @@ export function TargetInfoPage() {
   } = targetInfoContext as ITargetInfoContext;
   // 从context中获取值
   const { targetList } = targetInfoContextValue;
+
   // local发起请求
   useEffect(() => {
     getTargetList();
   }, [getTargetList]);
+
+  useEffect(() => {
+    if (targetLevelUpJson && targetLevelUpJson.targetArr && targetLevelUpJson.targetArr.length) {
+      targetLevelUp(targetLevelUpJson);
+    }
+  }, [targetLevelUpJson]);
+
   // 渲染
 
   const addModal = useShowNewTodoModal({
@@ -150,8 +170,8 @@ export function TargetInfoPage() {
     });
   }
 
-  function levelUpButtons(targetId: string) {
-    const targetLevel = ((levelArr as any).targetArr as ISub[]).find(
+  function renderLevelUpButtons(targetId: string) {
+    const targetLevel = ((targetLevelUpJson as any).targetArr as ISub[]).find(
       levelInfo => {
         return levelInfo.targetId === targetId;
       }
@@ -166,7 +186,7 @@ export function TargetInfoPage() {
               onClick={() => {
                 // 开启Modal弹框，录入xxx
                 levelupModal(key, (info: any) => {
-                  dispatchLevelArr({
+                  dispatchTargetLevelUpJson({
                     type: key,
                     value: {
                       targetId,
@@ -190,7 +210,7 @@ export function TargetInfoPage() {
               onClick={() => {
                 // 开启Modal弹框，录入xxx
                 levelupModal(key, (info: any) => {
-                  dispatchLevelArr({
+                  dispatchTargetLevelUpJson({
                     type: key,
                     value: {
                       targetId,
@@ -211,7 +231,7 @@ export function TargetInfoPage() {
           dom = (
             <Button
               onClick={() => {
-                dispatchLevelArr({
+                dispatchTargetLevelUpJson({
                   type: key,
                   value: {
                     targetId,
@@ -261,7 +281,11 @@ export function TargetInfoPage() {
         );
       }
     } else {
-      return null;
+      return (
+        <ul>
+          <li>{haha("nextTree")}</li>
+        </ul>
+      );
     }
   }
 
@@ -285,20 +309,20 @@ export function TargetInfoPage() {
               <table>
                 <thead>
                   <tr>
-                    <th>创建时间</th>
-                    <th>等级</th>
                     <th>当前的Target</th>
+                    <th>createTime</th>
+                    <th>有效success level</th>
                     <th>当前的Target todo count</th>
                     <th>操作</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
+                    <td>{targetName}</td>
                     <td>{createTime}</td>
                     <td>{level}</td>
-                    <td>{targetName}</td>
                     <td>{todos && todos.length}</td>
-                    <td>{levelUpButtons(myTargetId)}</td>
+                    <td>{renderLevelUpButtons(myTargetId)}</td>
                   </tr>
                 </tbody>
               </table>
@@ -320,7 +344,7 @@ export function TargetInfoPage() {
       {targetPageStatus === "doing" ? (
         <Button
           onClick={() => {
-            targetLevelUp(levelArr);
+            targetLevelUp(targetLevelUpJson);
           }}
         >
           封神完成
