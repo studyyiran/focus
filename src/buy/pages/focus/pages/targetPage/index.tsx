@@ -116,16 +116,16 @@ function useRenderList(targetList: ITargetInfoState['targetList']) {
 
 function useRenderLevelUpButtons(targetId: string) {
   const initState: ITargetLevelUpJson = { targetArr: [] as ISub[]};
-  // const [showMoreButton, setShowMoreButton] = useState(false);
+  const [showMoreButton, setShowMoreButton] = useState(false);
   const [targetLevelUpJson, dispatchTargetLevelUpJson] = useReducer(
     reducer,
     initState
   );
-  // const targetLevel = targetLevelUpJson && targetLevelUpJson.targetArr && targetLevelUpJson.targetArr.length && targetLevelUpJson.targetArr.find(
-  //   levelInfo => {
-  //     return levelInfo.targetId === targetId;
-  //   }
-  // );
+  const targetLevel = targetLevelUpJson && targetLevelUpJson.targetArr && targetLevelUpJson.targetArr.length && targetLevelUpJson.targetArr.find(
+    levelInfo => {
+      return levelInfo.targetId === targetId;
+    }
+  );
 
   function renderButtonByFormKey(key: keyof ISub) {
     let dom = null;
@@ -136,22 +136,22 @@ function useRenderLevelUpButtons(targetId: string) {
             onClick={() => {
               // 开启Modal弹框，录入xxx
               levelupModal(key, (info: any) => {
-                // dispatchTargetLevelUpJson({
-                //   type: key,
-                //   value: {
-                //     targetId,
-                //     innerValue: info[key]
-                //   }
-                // });
+                dispatchTargetLevelUpJson({
+                  type: key,
+                  value: {
+                    targetId,
+                    innerValue: info[key]
+                  }
+                });
               });
             }}
           >
             LevelUp
           </Button>
         );
-        // if (!targetLevel || !targetLevel[key]) {
+        if (!targetLevel || !targetLevel[key]) {
           // 如果没有 或者 没有这个字段
-        // }
+        }
         break;
       case "nextTree":
         // 如果已经完成任务
@@ -160,34 +160,34 @@ function useRenderLevelUpButtons(targetId: string) {
             onClick={() => {
               // 开启Modal弹框，录入xxx
               levelupModal(key, (info: any) => {
-                // dispatchTargetLevelUpJson({
-                //   type: key,
-                //   value: {
-                //     targetId,
-                //     innerValue: info[key]
-                //   }
-                // });
+                dispatchTargetLevelUpJson({
+                  type: key,
+                  value: {
+                    targetId,
+                    innerValue: info[key]
+                  }
+                });
               });
             }}
           >
             升阶
           </Button>
         );
-        // if (targetLevel && targetLevel.nextTarget && !targetLevel[key]) {
-        // }
+        if (targetLevel && targetLevel.nextTarget && !targetLevel[key]) {
+        }
         break;
       case "isPass":
         // 如果还没有完成 也没任何操作
         dom = (
           <Button
             onClick={() => {
-              // dispatchTargetLevelUpJson({
-              //   type: key,
-              //   value: {
-              //     targetId,
-              //     innerValue: false
-              //   }
-              // });
+              dispatchTargetLevelUpJson({
+                type: key,
+                value: {
+                  targetId,
+                  innerValue: false
+                }
+              });
             }}
           >
             Fail
@@ -203,37 +203,37 @@ function useRenderLevelUpButtons(targetId: string) {
   if (!false) {
     return (
       <ul>
-        {/*<li>{renderButtonByFormKey("nextTree")}</li>*/}
+        <li>{renderButtonByFormKey("nextTree")}</li>
       </ul>
     );
   } else {
     // 根据用户已经选的内容，进行按钮内容渲染
-    // if (targetLevel) {
-    //   if (targetLevel.isPass === false) {
-    //     return null;
-    //   } else {
-    //     if (!targetLevel.nextTree) {
-    //       return (
-    //         <ul>
-    //           {/*<li>{renderButtonByFormKey("nextTree")}</li>*/}
-    //         </ul>
-    //       );
-    //     } else {
-    //       return (
-    //         <ul>
-    //           <li>已成神</li>
-    //         </ul>
-    //       );
-    //     }
-    //   }
-    // } else {
-    //   return (
-    //     <ul>
-    //       {/*<li>{renderButtonByFormKey("nextTarget")}</li>*/}
-    //       {/*<li>{renderButtonByFormKey("isPass")}</li>*/}
-    //     </ul>
-    //   );
-    // }
+    if (targetLevel) {
+      if (targetLevel.isPass === false) {
+        return null;
+      } else {
+        if (!targetLevel.nextTree) {
+          return (
+            <ul>
+              <li>{renderButtonByFormKey("nextTree")}</li>
+            </ul>
+          );
+        } else {
+          return (
+            <ul>
+              <li>已成神</li>
+            </ul>
+          );
+        }
+      }
+    } else {
+      return (
+        <ul>
+          <li>{renderButtonByFormKey("nextTarget")}</li>
+          <li>{renderButtonByFormKey("isPass")}</li>
+        </ul>
+      );
+    }
   }
 }
 
