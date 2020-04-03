@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useReducer, useState } from "react";
+import React, {useContext, useEffect, useMemo, useReducer, useState} from "react";
 import "./index.less";
 import {
   ISubTarget,
   ITarget,
   ITargetInfoContext,
-  TargetInfoContext
+  TargetInfoContext,
+  ITargetInfoState
 } from "./context";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { Button, Input } from "antd";
@@ -15,7 +16,228 @@ import { Collapse } from "antd";
 
 const { Panel } = Collapse;
 
-function reducer(state: ITargetLevelUpJson, action: IReducerAction) {
+interface ISub {
+  isPass: boolean;
+  targetId: string;
+  nextTarget: string;
+  nextTree: string;
+}
+
+export interface ITargetLevelUpJson {
+  targetArr: ISub[];
+}
+
+export function TargetInfoPage() {
+  // 引入context
+  const targetInfoContext = useContext(TargetInfoContext);
+  const {
+    targetInfoContextValue,
+    addNewTarget,
+    getTargetList,
+    targetLevelUp
+  } = targetInfoContext;
+  // 从context中获取值
+  const { targetList } = targetInfoContextValue;
+
+  // local发起请求
+  useEffect(() => {
+    getTargetList();
+  }, [getTargetList]);
+
+  return (
+    <div className="target-page">
+      {/*<div>成神页面status: {targetPageStatus}</div>*/}
+      <ul className="ul-line-container">{useRenderList(targetList)}</ul>
+      <Button onClick={useShowNewTodoModal({
+        prevent: true,
+        onSubmit: (values: any) => {
+          const { content } = values;
+          // 提交content
+          addNewTarget({
+            targetName: content
+          });
+        }
+      })}>add 新的target</Button>
+      {/*{renderLevelUpButton()}*/}
+    </div>
+  );
+
+
+  // function renderHead(headerConfig) {
+  //     // const {} = headerInfo
+  //     return <Collapse>
+  //       <Panel header="This is panel header 1" key="1">
+  //         <p>{text}</p>
+  //       </Panel>
+  //     </Collapse>
+  //   }
+  // }
+}
+
+
+function useRenderList(targetList: ITargetInfoState['targetList']) {
+  function useHehe({ process, _id: myTargetId, level, createTime }: any) {
+    const { targetName, todos } = process[0];
+    const dom = useRenderLevelUpButtons(myTargetId)
+    return (
+      <Collapse key={myTargetId}>
+        <Panel
+          header={
+            <table>
+              <thead>
+              <tr>
+                <th>当前的Target</th>
+                <th>createTime</th>
+                <th>有效success level</th>
+                <th>当前的Target todo count</th>
+                <th>操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>{targetName}</td>
+                <td>{createTime}</td>
+                <td>{level}</td>
+                <td>{todos && todos.length}</td>
+                <td>{dom}</td>
+              </tr>
+              </tbody>
+            </table>
+          }
+          key="1"
+        >
+          <RenderSubTargetList processArr={process} />
+        </Panel>
+      </Collapse>
+    );
+  }
+  return targetList.map(useHehe);
+}
+
+function useRenderLevelUpButtons(targetId: string) {
+  const initState: ITargetLevelUpJson = { targetArr: [] as ISub[]};
+  // const [showMoreButton, setShowMoreButton] = useState(false);
+  const [targetLevelUpJson, dispatchTargetLevelUpJson] = useReducer(
+    reducer,
+    initState
+  );
+  // const targetLevel = targetLevelUpJson && targetLevelUpJson.targetArr && targetLevelUpJson.targetArr.length && targetLevelUpJson.targetArr.find(
+  //   levelInfo => {
+  //     return levelInfo.targetId === targetId;
+  //   }
+  // );
+
+  function renderButtonByFormKey(key: keyof ISub) {
+    let dom = null;
+    switch (key) {
+      case "nextTarget":
+        dom = (
+          <Button
+            onClick={() => {
+              // 开启Modal弹框，录入xxx
+              levelupModal(key, (info: any) => {
+                // dispatchTargetLevelUpJson({
+                //   type: key,
+                //   value: {
+                //     targetId,
+                //     innerValue: info[key]
+                //   }
+                // });
+              });
+            }}
+          >
+            LevelUp
+          </Button>
+        );
+        // if (!targetLevel || !targetLevel[key]) {
+          // 如果没有 或者 没有这个字段
+        // }
+        break;
+      case "nextTree":
+        // 如果已经完成任务
+        dom = (
+          <Button
+            onClick={() => {
+              // 开启Modal弹框，录入xxx
+              levelupModal(key, (info: any) => {
+                // dispatchTargetLevelUpJson({
+                //   type: key,
+                //   value: {
+                //     targetId,
+                //     innerValue: info[key]
+                //   }
+                // });
+              });
+            }}
+          >
+            升阶
+          </Button>
+        );
+        // if (targetLevel && targetLevel.nextTarget && !targetLevel[key]) {
+        // }
+        break;
+      case "isPass":
+        // 如果还没有完成 也没任何操作
+        dom = (
+          <Button
+            onClick={() => {
+              // dispatchTargetLevelUpJson({
+              //   type: key,
+              //   value: {
+              //     targetId,
+              //     innerValue: false
+              //   }
+              // });
+            }}
+          >
+            Fail
+          </Button>
+        );
+        // if (targetLevel && targetLevel[key] === "" && !targetLevel.targetId) {
+        // }
+        break;
+    }
+    return dom;
+  }
+
+  if (!false) {
+    return (
+      <ul>
+        {/*<li>{renderButtonByFormKey("nextTree")}</li>*/}
+      </ul>
+    );
+  } else {
+    // 根据用户已经选的内容，进行按钮内容渲染
+    // if (targetLevel) {
+    //   if (targetLevel.isPass === false) {
+    //     return null;
+    //   } else {
+    //     if (!targetLevel.nextTree) {
+    //       return (
+    //         <ul>
+    //           {/*<li>{renderButtonByFormKey("nextTree")}</li>*/}
+    //         </ul>
+    //       );
+    //     } else {
+    //       return (
+    //         <ul>
+    //           <li>已成神</li>
+    //         </ul>
+    //       );
+    //     }
+    //   }
+    // } else {
+    //   return (
+    //     <ul>
+    //       {/*<li>{renderButtonByFormKey("nextTarget")}</li>*/}
+    //       {/*<li>{renderButtonByFormKey("isPass")}</li>*/}
+    //     </ul>
+    //   );
+    // }
+  }
+}
+
+function reducer(state: ITargetLevelUpJson, action: IReducerAction) : ITargetLevelUpJson {
   const { type, value } = action;
   if (value) {
     const { targetId, innerValue } = value;
@@ -79,294 +301,49 @@ function reducer(state: ITargetLevelUpJson, action: IReducerAction) {
 
 }
 
-interface ISub {
-  isPass: boolean;
-  targetId: string;
-  nextTarget: string;
-  nextTree: string;
-}
-
-export interface ITargetLevelUpJson {
-  targetArr: ISub[];
-}
-
-export function TargetInfoPage() {
-  const initState: ITargetLevelUpJson = { targetArr: [] as ISub[] };
-  // 待迁移代码
-  const [targetLevelUpJson, dispatchTargetLevelUpJson]: [any, any] = useReducer(
-    reducer as any,
-    initState as any
-  );
-  // 引入context
-  const targetInfoContext = useContext(TargetInfoContext);
-  const [targetPageStatus, setTargetPageStatus] = useState("padding");
-  const {
-    targetInfoContextValue,
-    addNewTarget,
-    getTargetList,
-    targetLevelUp
-  } = targetInfoContext as ITargetInfoContext;
-  // 从context中获取值
-  const { targetList } = targetInfoContextValue;
-
-  // local发起请求
-  useEffect(() => {
-    getTargetList();
-  }, [getTargetList]);
-
-  useEffect(() => {
-    if (targetLevelUpJson && targetLevelUpJson.targetArr && targetLevelUpJson.targetArr.length) {
-      targetLevelUp(targetLevelUpJson);
-    }
-  }, [targetLevelUpJson]);
-
-  // 渲染
-
-  const addModal = useShowNewTodoModal({
-    prevent: true,
-    onSubmit: (values: any) => {
-      const { content } = values;
-      // 提交content
-      addNewTarget({
-        targetName: content
-      });
-    }
-  });
-
-  function levelupModal(type: string, callBack: any) {
-    const modal = (MyModal as any).confirm({
-      width: "70%",
-      closable: true,
-      maskClosable: false,
-      title: null,
-      footer: null,
-      cancelText: "Got it",
-      children: (
-        <div className="post-item-form">
-          <FormWrapper
-            formConfig={[
-              {
-                id: type,
-                initialValue: "",
-                rules: [
-                  {
-                    required: true,
-                    message: "not empty"
-                  }
-                ],
-                renderFormEle: () => <Input />
-              },
-              {
-                renderFormEle: () => <Button htmlType="submit">submit</Button>
-              }
-            ]}
-            onSubmit={(...params: any[]) => {
-              callBack(...params);
-              modal.destroy();
-            }}
-          />
-        </div>
-      )
-    });
-  }
-
-  function renderLevelUpButtons(targetId: string) {
-    const targetLevel = ((targetLevelUpJson as any).targetArr as ISub[]).find(
-      levelInfo => {
-        return levelInfo.targetId === targetId;
-      }
-    );
-
-    function haha(key: keyof ISub) {
-      let dom = null;
-      switch (key) {
-        case "nextTarget":
-          dom = (
-            <Button
-              onClick={() => {
-                // 开启Modal弹框，录入xxx
-                levelupModal(key, (info: any) => {
-                  dispatchTargetLevelUpJson({
-                    type: key,
-                    value: {
-                      targetId,
-                      innerValue: info[key]
-                    }
-                  });
-                });
-              }}
-            >
-              LevelUp
-            </Button>
-          );
-          if (!targetLevel || !targetLevel[key]) {
-            // 如果没有 或者 没有这个字段
-          }
-          break;
-        case "nextTree":
-          // 如果已经完成任务
-          dom = (
-            <Button
-              onClick={() => {
-                // 开启Modal弹框，录入xxx
-                levelupModal(key, (info: any) => {
-                  dispatchTargetLevelUpJson({
-                    type: key,
-                    value: {
-                      targetId,
-                      innerValue: info[key]
-                    }
-                  });
-                });
-              }}
-            >
-              升阶
-            </Button>
-          );
-          if (targetLevel && targetLevel.nextTarget && !targetLevel[key]) {
-          }
-          break;
-        case "isPass":
-          // 如果还没有完成 也没任何操作
-          dom = (
-            <Button
-              onClick={() => {
-                dispatchTargetLevelUpJson({
-                  type: key,
-                  value: {
-                    targetId,
-                    innerValue: false
-                  }
-                });
-              }}
-            >
-              Fail
-            </Button>
-          );
-          // if (targetLevel && targetLevel[key] === "" && !targetLevel.targetId) {
-          // }
-          break;
-      }
-      return dom;
-    }
-
-    if (targetPageStatus === "doing") {
-      // 已经有了
-      if (targetLevel) {
-        // 如果
-        if (targetLevel.isPass === false) {
-          return null;
-        } else {
-          if (!targetLevel.nextTree) {
-            return (
-              <ul>
-                <li>{haha("nextTree")}</li>
-              </ul>
-            );
-          } else {
-            return (
-              <ul>
-                <li>已成神</li>
-              </ul>
-            );
-          }
-        }
-      } else {
-        // 还没有
-        return (
-          <ul>
-            <li>{haha("nextTarget")}</li>
-            <li>{haha("isPass")}</li>
-          </ul>
-        );
-      }
-    } else {
-      return (
-        <ul>
-          <li>{haha("nextTree")}</li>
-        </ul>
-      );
-    }
-  }
-
-  // function renderHead(headerConfig) {
-  //     // const {} = headerInfo
-  //     return <Collapse>
-  //       <Panel header="This is panel header 1" key="1">
-  //         <p>{text}</p>
-  //       </Panel>
-  //     </Collapse>
-  //   }
-  // }
-
-  function renderList() {
-    return targetList.map(({ process, _id: myTargetId, level, createTime }) => {
-      const { targetName, todos } = process[0];
-      return (
-        <Collapse key={myTargetId}>
-          <Panel
-            header={
-              <table>
-                <thead>
-                  <tr>
-                    <th>当前的Target</th>
-                    <th>createTime</th>
-                    <th>有效success level</th>
-                    <th>当前的Target todo count</th>
-                    <th>操作</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{targetName}</td>
-                    <td>{createTime}</td>
-                    <td>{level}</td>
-                    <td>{todos && todos.length}</td>
-                    <td>{renderLevelUpButtons(myTargetId)}</td>
-                  </tr>
-                </tbody>
-              </table>
+function levelupModal(type: string, callBack: any) {
+  const modal = (MyModal as any).confirm({
+    width: "70%",
+    closable: true,
+    maskClosable: false,
+    title: null,
+    footer: null,
+    cancelText: "Got it",
+    children: (
+      <div className="post-item-form">
+        <FormWrapper
+          formConfig={[
+            {
+              id: type,
+              initialValue: "",
+              rules: [
+                {
+                  required: true,
+                  message: "not empty"
+                }
+              ],
+              renderFormEle: () => <Input />
+            },
+            {
+              renderFormEle: () => <Button htmlType="submit">submit</Button>
             }
-            key="1"
-          >
-            <RenderSubTargetList processArr={process} />
-          </Panel>
-        </Collapse>
-      );
-    });
-  }
-
-  return (
-    <div className="target-page">
-      <div>成神页面status: {targetPageStatus}</div>
-      <ul className="ul-line-container">{renderList()}</ul>
-      <Button onClick={addModal}>add 新的target</Button>
-      {targetPageStatus === "doing" ? (
-        <Button
-          onClick={() => {
-            targetLevelUp(targetLevelUpJson);
+          ]}
+          onSubmit={(...params: any[]) => {
+            callBack(...params);
+            modal.destroy();
           }}
-        >
-          封神完成
-        </Button>
-      ) : (
-        <Button
-          onClick={() => {
-            setTargetPageStatus("doing");
-          }}
-        >
-          封神开始
-        </Button>
-      )}
-    </div>
-  );
+        />
+      </div>
+    )
+  });
 }
 
-interface IProps {
+
+interface IRenderSubTargetList {
   processArr: ITarget["process"];
 }
 
-const RenderSubTargetList: React.FC<IProps> = props => {
+const RenderSubTargetList: React.FC<IRenderSubTargetList> = props => {
   const { processArr } = props;
   const dom = processArr.map(subTarget => {
     const {
