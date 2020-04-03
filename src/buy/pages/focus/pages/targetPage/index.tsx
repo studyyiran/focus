@@ -1,4 +1,10 @@
-import React, {useContext, useEffect, useMemo, useReducer, useState} from "react";
+import React, {
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState
+} from "react";
 import "./index.less";
 import {
   ISubTarget,
@@ -47,21 +53,28 @@ export function TargetInfoPage() {
   return (
     <div className="target-page">
       {/*<div>成神页面status: {targetPageStatus}</div>*/}
-      <ul className="ul-line-container">{useRenderList(targetList)}</ul>
-      <Button onClick={useShowNewTodoModal({
-        prevent: true,
-        onSubmit: (values: any) => {
-          const { content } = values;
-          // 提交content
-          addNewTarget({
-            targetName: content
-          });
-        }
-      })}>add 新的target</Button>
+      <ul className="ul-line-container">
+        {targetList.map(props => (
+          <RenderTargetLine {...props} />
+        ))}
+      </ul>
+      <Button
+        onClick={useShowNewTodoModal({
+          prevent: true,
+          onSubmit: (values: any) => {
+            const { content } = values;
+            // 提交content
+            addNewTarget({
+              targetName: content
+            });
+          }
+        })}
+      >
+        add 新的target
+      </Button>
       {/*{renderLevelUpButton()}*/}
     </div>
   );
-
 
   // function renderHead(headerConfig) {
   //     // const {} = headerInfo
@@ -74,17 +87,14 @@ export function TargetInfoPage() {
   // }
 }
 
-
-function useRenderList(targetList: ITargetInfoState['targetList']) {
-  function useHehe({ process, _id: myTargetId, level, createTime }: any) {
-    const { targetName, todos } = process[0];
-    const dom = useRenderLevelUpButtons(myTargetId)
-    return (
-      <Collapse key={myTargetId}>
-        <Panel
-          header={
-            <table>
-              <thead>
+function RenderTargetLine({ process, _id: targetId, level, createTime }: any) {
+  const { targetName, todos } = process[0];
+  return (
+    <Collapse key={targetId}>
+      <Panel
+        header={
+          <table>
+            <thead>
               <tr>
                 <th>当前的Target</th>
                 <th>createTime</th>
@@ -92,40 +102,48 @@ function useRenderList(targetList: ITargetInfoState['targetList']) {
                 <th>当前的Target todo count</th>
                 <th>操作</th>
               </tr>
-              </thead>
-              <tbody>
+            </thead>
+            <tbody>
               <tr>
                 <td>{targetName}</td>
                 <td>{createTime}</td>
                 <td>{level}</td>
                 <td>{todos && todos.length}</td>
-                <td>{dom}</td>
+                <td>
+                  <RenderLevelUpButtons targetId={targetId} />
+                </td>
               </tr>
-              </tbody>
-            </table>
-          }
-          key="1"
-        >
-          <RenderSubTargetList processArr={process} />
-        </Panel>
-      </Collapse>
-    );
-  }
-  return targetList.map(useHehe);
+            </tbody>
+          </table>
+        }
+        key="1"
+      >
+        <RenderSubTargetList processArr={process} />
+      </Panel>
+    </Collapse>
+  );
 }
 
-function useRenderLevelUpButtons(targetId: string) {
-  const initState: ITargetLevelUpJson = { targetArr: [] as ISub[]};
+interface IRenderLevelUpButtons {
+  targetId: string;
+}
+
+const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
+  targetId
+}) => {
+  const initState: ITargetLevelUpJson = { targetArr: [] as ISub[] };
   const [showMoreButton, setShowMoreButton] = useState(false);
   const [targetLevelUpJson, dispatchTargetLevelUpJson] = useReducer(
     reducer,
     initState
   );
-  const targetLevel = targetLevelUpJson && targetLevelUpJson.targetArr && targetLevelUpJson.targetArr.length && targetLevelUpJson.targetArr.find(
-    levelInfo => {
+  const targetLevel =
+    targetLevelUpJson &&
+    targetLevelUpJson.targetArr &&
+    targetLevelUpJson.targetArr.length &&
+    targetLevelUpJson.targetArr.find(levelInfo => {
       return levelInfo.targetId === targetId;
-    }
-  );
+    });
 
   function renderButtonByFormKey(key: keyof ISub) {
     let dom = null;
@@ -235,9 +253,12 @@ function useRenderLevelUpButtons(targetId: string) {
       );
     }
   }
-}
+};
 
-function reducer(state: ITargetLevelUpJson, action: IReducerAction) : ITargetLevelUpJson {
+function reducer(
+  state: ITargetLevelUpJson,
+  action: IReducerAction
+): ITargetLevelUpJson {
   const { type, value } = action;
   if (value) {
     const { targetId, innerValue } = value;
@@ -298,7 +319,6 @@ function reducer(state: ITargetLevelUpJson, action: IReducerAction) : ITargetLev
     }
   }
   return { ...state };
-
 }
 
 function levelupModal(type: string, callBack: any) {
@@ -337,7 +357,6 @@ function levelupModal(type: string, callBack: any) {
     )
   });
 }
-
 
 interface IRenderSubTargetList {
   processArr: ITarget["process"];
