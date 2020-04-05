@@ -16,7 +16,11 @@ export const GodTreeContext = createContext({} as IGodTreeContext);
 export const GodTree = "GodTree";
 // store state
 export interface IGodTreeState {
-  testValue: number;
+  treeList: treeNode[];
+}
+
+interface treeNode {
+
 }
 
 // interface
@@ -30,21 +34,13 @@ export interface IGodTreeContext
 // store provider
 export function GodTreeContextProvider(props: any) {
   const initState: IGodTreeState = {
-    testValue: 101
+    treeList: []
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
     initState
   );
   const action: IGodTreeActions = useGodTreeGetActions(state, dispatch);
-
-  const isPage = useIsCurrentPage("/test");
-
-  // @useEffect
-  useEffect(() => {
-    // 1 当前页面
-    callBackWhenPassAllFunc([() => isPage], action.getTestAjaxValue);
-  }, [action.getTestAjaxValue, isPage]);
 
   const propsValue: IGodTreeContext = {
     ...action,
@@ -58,7 +54,7 @@ export function GodTreeContextProvider(props: any) {
 
 // action types
 export const godTreeReducerTypes = {
-  setTestValue: "setTestValue"
+  setTreeList: "setTreeList"
 };
 
 // reducer
@@ -66,10 +62,10 @@ function reducer(state: IGodTreeState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
-    case godTreeReducerTypes.setTestValue: {
+    case godTreeReducerTypes.setTreeList: {
       newState = {
         ...newState,
-        testValue: value
+        treeList: value
       };
       break;
     }

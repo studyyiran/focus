@@ -4,10 +4,11 @@ import React, {
   useEffect
 } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
-import { callBackWhenPassAllFunc } from "buy/common/utils/util";
+// import { callBackWhenPassAllFunc } from "buy/common/utils/util";
+// import { useIsCurrentPage } from "buy/common/useHook";
 import useReducerMiddleware from "buy/common/useHook/useReducerMiddleware";
 import { IContextValue } from "buy/common/type";
-import { useIsCurrentPage } from "buy/common/useHook";
+
 import {IStoreTestNameActions, useStoreTestNameGetActions} from "./useGetActions";
 
 export const StoreTestNameContext = createContext({} as IStoreTestNameContext);
@@ -38,20 +39,19 @@ export function StoreTestNameContextProvider(props: any) {
   );
   const action: IStoreTestNameActions = useStoreTestNameGetActions(state, dispatch);
 
-  const isPage = useIsCurrentPage("/test");
-
-  // @useEffect
-  useEffect(() => {
-    // 1 当前页面
-    callBackWhenPassAllFunc([() => isPage], action.getTestAjaxValue);
-  }, [action.getTestAjaxValue, isPage]);
-
   const propsValue: IStoreTestNameContext = {
     ...action,
     storeTestNameContextValue: state,
     storeTestNameContextDispatch: dispatch
   };
   return <StoreTestNameContext.Provider value={propsValue} {...props} />;
+
+  // const isPage = useIsCurrentPage("/test");
+  // @useEffect
+  // useEffect(() => {
+  //   // 1 当前页面
+  //   callBackWhenPassAllFunc([() => isPage], action.getTestAjaxValue);
+  // }, [action.getTestAjaxValue, isPage]);
 }
 
 

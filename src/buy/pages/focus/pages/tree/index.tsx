@@ -7,14 +7,15 @@ export function TreePage() {
   const godTreeContext = useContext(GodTreeContext);
   const {
     godTreeContextValue,
-    getTestAjaxValue
+    getTreeList
   } = godTreeContext as IGodTreeContext;
   // 从context中获取值
-  const { testValue } = godTreeContextValue;
+  const { treeList } = godTreeContextValue;
   // local发起请求
   useEffect(() => {
-    getTestAjaxValue();
-  }, [getTestAjaxValue]);
+    getTreeList();
+  }, [getTreeList]);
   // 渲染
-  return <div className="test-page">{testValue}</div>;
+  console.log(treeList)
+  return <div className="test-page">{123}</div>;
 }

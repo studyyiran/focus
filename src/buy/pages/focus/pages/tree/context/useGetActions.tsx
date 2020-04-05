@@ -8,7 +8,7 @@ import {IGodTreeState, godTreeReducerTypes} from "./index";
 
 // @actions
 export interface IGodTreeActions {
-  getTestAjaxValue: () => any;
+  getTreeList: () => any;
 }
 
 // useCreateActions
@@ -21,14 +21,14 @@ export function useGodTreeGetActions (
   if (!promiseStatus.current) {
     promiseStatus.current = {};
   }
-  const getTestAjaxValue = useCallback(async function() {
-    const res = await godTreeServer.getTestAjaxResult();
+  const getTreeList = useCallback(async function() {
+    const res = await godTreeServer.getTreeList();
     dispatch({
-      type: godTreeReducerTypes.setTestValue,
+      type: godTreeReducerTypes.setTreeList,
       value: res
     });
   }, [dispatch])
   return {
-    getTestAjaxValue
+    getTreeList
   };
 }
