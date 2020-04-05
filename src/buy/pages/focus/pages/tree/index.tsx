@@ -1,16 +1,16 @@
 import React, { useContext, useEffect } from "react";
 import "./index.less";
-import { IStoreTestNameContext, StoreTestNameContext } from "./context";
+import { IGodTreeContext, GodTreeContext } from "./context";
 
 export function TreePage() {
   // 引入context
-  const storeTestNameContext = useContext(StoreTestNameContext);
+  const godTreeContext = useContext(GodTreeContext);
   const {
-    storeTestNameContextValue,
+    godTreeContextValue,
     getTestAjaxValue
-  } = storeTestNameContext as IStoreTestNameContext;
+  } = godTreeContext as IGodTreeContext;
   // 从context中获取值
-  const { testValue } = storeTestNameContextValue;
+  const { testValue } = godTreeContextValue;
   // local发起请求
   useEffect(() => {
     getTestAjaxValue();

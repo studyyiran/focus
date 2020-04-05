@@ -8,35 +8,35 @@ import { callBackWhenPassAllFunc } from "buy/common/utils/util";
 import useReducerMiddleware from "buy/common/useHook/useReducerMiddleware";
 import { IContextValue } from "buy/common/type";
 import { useIsCurrentPage } from "buy/common/useHook";
-import {IStoreTestNameActions, useStoreTestNameGetActions} from "./useGetActions";
+import {IGodTreeActions, useGodTreeGetActions} from "./useGetActions";
 
-export const StoreTestNameContext = createContext({} as IStoreTestNameContext);
+export const GodTreeContext = createContext({} as IGodTreeContext);
 
 // store name
-export const StoreTestName = "StoreTestName";
+export const GodTree = "GodTree";
 // store state
-export interface IStoreTestNameState {
+export interface IGodTreeState {
   testValue: number;
 }
 
 // interface
-export interface IStoreTestNameContext
-  extends IStoreTestNameActions,
+export interface IGodTreeContext
+  extends IGodTreeActions,
     IContextValue {
-  storeTestNameContextValue: IStoreTestNameState;
-  storeTestNameContextDispatch: (action: IReducerAction) => void;
+  godTreeContextValue: IGodTreeState;
+  godTreeContextDispatch: (action: IReducerAction) => void;
 }
 
 // store provider
-export function StoreTestNameContextProvider(props: any) {
-  const initState: IStoreTestNameState = {
+export function GodTreeContextProvider(props: any) {
+  const initState: IGodTreeState = {
     testValue: 101
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
     initState
   );
-  const action: IStoreTestNameActions = useStoreTestNameGetActions(state, dispatch);
+  const action: IGodTreeActions = useGodTreeGetActions(state, dispatch);
 
   const isPage = useIsCurrentPage("/test");
 
@@ -46,27 +46,27 @@ export function StoreTestNameContextProvider(props: any) {
     callBackWhenPassAllFunc([() => isPage], action.getTestAjaxValue);
   }, [action.getTestAjaxValue, isPage]);
 
-  const propsValue: IStoreTestNameContext = {
+  const propsValue: IGodTreeContext = {
     ...action,
-    storeTestNameContextValue: state,
-    storeTestNameContextDispatch: dispatch
+    godTreeContextValue: state,
+    godTreeContextDispatch: dispatch
   };
-  return <StoreTestNameContext.Provider value={propsValue} {...props} />;
+  return <GodTreeContext.Provider value={propsValue} {...props} />;
 }
 
 
 
 // action types
-export const storeTestNameReducerTypes = {
+export const godTreeReducerTypes = {
   setTestValue: "setTestValue"
 };
 
 // reducer
-function reducer(state: IStoreTestNameState, action: IReducerAction) {
+function reducer(state: IGodTreeState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
-    case storeTestNameReducerTypes.setTestValue: {
+    case godTreeReducerTypes.setTestValue: {
       newState = {
         ...newState,
         testValue: value

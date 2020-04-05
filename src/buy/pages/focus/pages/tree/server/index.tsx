@@ -12,6 +12,6 @@ async function getTestAjaxResult() {
   return res;
 }
 
-export const storeTestNameServer = {
+export const godTreeServer = {
   getTestAjaxResult
 }

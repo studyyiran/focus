@@ -4,23 +4,23 @@ import React, {
   useCallback
 } from "react";
 // 引入请求层
-import { storeTestNameServer } from "../server";
+import { godTreeServer } from "../server";
 
-export const StoreTestNameContext = createContext({});
+export const GodTreeContext = createContext({});
 
 // store name
-export const StoreTestName = "StoreTestName";
+export const GodTree = "GodTree";
 
 
 // store provider
-export function StoreTestNameContextProvider(props) {
+export function GodTreeContextProvider(props) {
   const initState = {
     testValue: 101
   };
   const [state, dispatch] = useReducer(reducer, initState);
 
   // 传入state dispatch -> actions请求中间体
-  const action = useStoreTestNameGetActions(
+  const action = useGodTreeGetActions(
     state,
     dispatch
   );
@@ -28,23 +28,23 @@ export function StoreTestNameContextProvider(props) {
   const contextValue = {
     // contextValue = 所有的请求中间体 + stateValue + dispatch
     ...action,
-    storeTestNameContextValue: state,
-    storeTestNameContextDispatch: dispatch
+    godTreeContextValue: state,
+    godTreeContextDispatch: dispatch
   };
-  return <StoreTestNameContext.Provider value={contextValue} {...props} />;
+  return <GodTreeContext.Provider value={contextValue} {...props} />;
 }
 
 // useGetActions
-export function useStoreTestNameGetActions(
+export function useGodTreeGetActions(
   state,
   dispatch
 ) {
   // useCallBack包装得到了一个: 依赖于状态的函数.
   const getTestAjaxValue = useCallback(
     async function(n) {
-      const res = await storeTestNameServer.getTestAjaxResult(n);
+      const res = await godTreeServer.getTestAjaxResult(n);
       dispatch({
-        type: storeTestNameReducerTypes.setTestValue,
+        type: godTreeReducerTypes.setTestValue,
         value: res
       });
     },
@@ -56,7 +56,7 @@ export function useStoreTestNameGetActions(
 }
 
 // reducer action types
-export const storeTestNameReducerTypes = {
+export const godTreeReducerTypes = {
   setTestValue: "setTestValue"
 };
 
@@ -65,7 +65,7 @@ function reducer(state, action) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
-    case storeTestNameReducerTypes.setTestValue: {
+    case godTreeReducerTypes.setTestValue: {
       newState = {
         ...newState,
         testValue: value

@@ -1,8 +1,8 @@
 import React, {createContext, useReducer, useEffect, useCallback} from "react";
 // 引入请求层
-import {storeTestNameServer} from "../server";
+import {godTreeServer} from "../server";
 
-export const StoreTestNameContext = createContext({});
+export const GodTreeContext = createContext({});
 
 export interface IReducerAction {
   type: string;
@@ -10,28 +10,28 @@ export interface IReducerAction {
 }
 
 // store name
-export const StoreTestName = "StoreTestName";
+export const GodTree = "GodTree";
 
 // store state
-export interface IStoreTestNameState {
+export interface IGodTreeState {
   testValue: number;
 }
 
 // store context value
-export interface IStoreTestNameContext extends IStoreTestNameActions {
-  storeTestNameContextValue: IStoreTestNameState;
-  storeTestNameContextDispatch: (action: IReducerAction) => void;
+export interface IGodTreeContext extends IGodTreeActions {
+  godTreeContextValue: IGodTreeState;
+  godTreeContextDispatch: (action: IReducerAction) => void;
 }
 
 // store provider
-export function StoreTestNameContextProvider(props: any) {
-  const initState: IStoreTestNameState = {
+export function GodTreeContextProvider(props: any) {
+  const initState: IGodTreeState = {
     testValue: 101
   };
   const [state, dispatch] = useReducer(reducer, initState);
 
   // 传入state dispatch -> actions请求中间体
-  const action: IStoreTestNameActions = useStoreTestNameGetActions(
+  const action: IGodTreeActions = useGodTreeGetActions(
     state,
     dispatch
   );
@@ -42,30 +42,30 @@ export function StoreTestNameContextProvider(props: any) {
     getTestAjaxValue();
   }, [getTestAjaxValue]);
 
-  const contextValue: IStoreTestNameContext = {
+  const contextValue: IGodTreeContext = {
     // contextValue = 所有的请求中间体 + stateValue + dispatch
     ...action,
-    storeTestNameContextValue: state,
-    storeTestNameContextDispatch: dispatch
+    godTreeContextValue: state,
+    godTreeContextDispatch: dispatch
   };
-  return <StoreTestNameContext.Provider value={contextValue} {...props} />;
+  return <GodTreeContext.Provider value={contextValue} {...props} />;
 }
 
 // actions type
-export interface IStoreTestNameActions {
+export interface IGodTreeActions {
   getTestAjaxValue: () => void;
 }
 
 // useGetActions
-export function useStoreTestNameGetActions (
-  state: IStoreTestNameState,
+export function useGodTreeGetActions (
+  state: IGodTreeState,
   dispatch: (action: IReducerAction) => void
-): IStoreTestNameActions {
+): IGodTreeActions {
   // useCallBack包装得到了一个: 依赖于状态的函数.
   const getTestAjaxValue = useCallback(async function() {
-    const res = await storeTestNameServer.getTestAjaxResult();
+    const res = await godTreeServer.getTestAjaxResult();
     dispatch({
-      type: storeTestNameReducerTypes.setTestValue,
+      type: godTreeReducerTypes.setTestValue,
       value: res
     });
   }, [dispatch])
@@ -75,16 +75,16 @@ export function useStoreTestNameGetActions (
 }
 
 // reducer action types
-export const storeTestNameReducerTypes = {
+export const godTreeReducerTypes = {
   setTestValue: "setTestValue"
 };
 
 // reducer
-function reducer(state: IStoreTestNameState, action: IReducerAction) {
+function reducer(state: IGodTreeState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
-    case storeTestNameReducerTypes.setTestValue: {
+    case godTreeReducerTypes.setTestValue: {
       newState = {
         ...newState,
         testValue: value

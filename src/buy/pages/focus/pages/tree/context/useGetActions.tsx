@@ -3,28 +3,28 @@ import React, {
   useRef,
 } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
-import {storeTestNameServer} from "../server";
-import {IStoreTestNameState, storeTestNameReducerTypes} from "./index";
+import {godTreeServer} from "../server";
+import {IGodTreeState, godTreeReducerTypes} from "./index";
 
 // @actions
-export interface IStoreTestNameActions {
+export interface IGodTreeActions {
   getTestAjaxValue: () => any;
 }
 
 // useCreateActions
-export function useStoreTestNameGetActions (
-  state: IStoreTestNameState,
+export function useGodTreeGetActions (
+  state: IGodTreeState,
   dispatch: (action: IReducerAction) => void
-): IStoreTestNameActions {
+): IGodTreeActions {
   // 新增promise ref
   const promiseStatus: any = useRef();
   if (!promiseStatus.current) {
     promiseStatus.current = {};
   }
   const getTestAjaxValue = useCallback(async function() {
-    const res = await storeTestNameServer.getTestAjaxResult();
+    const res = await godTreeServer.getTestAjaxResult();
     dispatch({
-      type: storeTestNameReducerTypes.setTestValue,
+      type: godTreeReducerTypes.setTestValue,
       value: res
     });
   }, [dispatch])
