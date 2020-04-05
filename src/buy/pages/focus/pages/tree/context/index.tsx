@@ -16,11 +16,15 @@ export const GodTreeContext = createContext({} as IGodTreeContext);
 export const GodTree = "GodTree";
 // store state
 export interface IGodTreeState {
-  treeList: treeNode[];
+  treeList: ITreeNode[];
 }
 
-interface treeNode {
-
+export interface ITreeNode {
+  child: [],
+  father: [],
+  createTime: string,
+  targetId: string,
+  comments: string,
 }
 
 // interface
