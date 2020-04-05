@@ -4,6 +4,7 @@ import { HistoryPage } from "../pages/history";
 import { WishList } from "../pages/wishList";
 import { TargetInfoPage } from "../pages/targetPage";
 import { TaiTan } from "../pages/taitan";
+import {TreePage} from "../pages/tree";
 
 export const routerConfig = [
   {
@@ -35,6 +36,12 @@ export const routerConfig = [
     exact: true,
     title: "target-info",
     component: TargetInfoPage
+  },
+  {
+    path: "/tree",
+    exact: true,
+    title: "game-taitan",
+    component: TreePage
   },
   {
     path: "/game-taitan",
