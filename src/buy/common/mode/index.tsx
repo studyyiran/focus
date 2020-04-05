@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import "./index.less";
 import { IStoreTestNameContext, StoreTestNameContext } from "./context";
 
-export function StoreTestName() {
+export function TestName() {
   // 引入context
   const storeTestNameContext = useContext(StoreTestNameContext);
   const {

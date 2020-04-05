@@ -4,7 +4,7 @@ import React, {
 } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
 import {storeTestNameServer} from "../server";
-import {IStoreTestNameState, IStoreTestNameReducerTypes} from "./index";
+import {IStoreTestNameState, storeTestNameReducerTypes} from "./index";
 
 // @actions
 export interface IStoreTestNameActions {
@@ -24,7 +24,7 @@ export function useStoreTestNameGetActions (
   const getTestAjaxValue = useCallback(async function() {
     const res = await storeTestNameServer.getTestAjaxResult();
     dispatch({
-      type: IStoreTestNameReducerTypes.setTestValue,
+      type: storeTestNameReducerTypes.setTestValue,
       value: res
     });
   }, [dispatch])
