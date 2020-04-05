@@ -3,7 +3,6 @@ import { IReducerAction } from "buy/common/interface/index.interface";
 import { targetInfoServer } from "../server";
 import { ITargetInfoState, ITargetInfoReducerTypes } from "./index";
 import { MyFocusContext } from "../../../context";
-import { ITargetLevelUpJson } from "../index";
 
 interface IAddNewTargetInfo {
   targetName: string;
@@ -22,6 +21,17 @@ export interface ITargetInfoActions {
   getTargetListHaveFinish: () => any;
   addTargetRelate: (data: IAddTargetRelated) => any;
   targetLevelUp: (data: ITargetLevelUpJson) => any;
+}
+
+export interface ISubTargetLevelUpJson {
+  isPass: boolean;
+  targetId: string;
+  nextTarget: string;
+  nextTree: string;
+}
+
+export interface ITargetLevelUpJson {
+  targetArr: ISubTargetLevelUpJson[];
 }
 
 // useCreateActions

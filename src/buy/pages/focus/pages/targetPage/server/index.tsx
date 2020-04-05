@@ -2,7 +2,7 @@
  * 首页相关
  * */
 import ajax from "../../../../../common/utils/ajax";
-import { ITargetLevelUpJson } from "../index";
+import {ITargetLevelUpJson} from "../context/useGetActions";
 const targetUrl = "/target";
 const targetRelatedTodoUrl = "/targetRelatedTodo"
 export const getTargetRelatedTodoUrl = targetRelatedTodoUrl + "/getList";

@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import "./index.less";
 import { IGodTreeContext, GodTreeContext, ITreeNode } from "./context";
 import { TargetInfoContext } from "../targetPage/context";
+import {RenderTargetLine} from "../targetPage/components/renderTargetLine";
 
 export function TreePage() {
   // 引入context
@@ -44,6 +45,9 @@ export function TreePage() {
           ))}
         </tbody>
       </table>
+      <section>{targetListHaveFinish.map(props => (
+        <RenderTargetLine {...props} />
+      ))}</section>
     </div>
   );
 }
