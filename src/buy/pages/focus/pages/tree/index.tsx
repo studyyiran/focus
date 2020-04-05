@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import "./index.less";
 import { IGodTreeContext, GodTreeContext, ITreeNode } from "./context";
+import { TargetInfoContext } from "../targetPage/context";
 
 export function TreePage() {
   // 引入context
@@ -15,8 +16,18 @@ export function TreePage() {
   useEffect(() => {
     getTreeList();
   }, [getTreeList]);
+
+  const targetInfoContext = useContext(TargetInfoContext);
+  const { getTargetListHaveFinish, targetInfoContextValue } = targetInfoContext;
+
+  const { targetListHaveFinish } = targetInfoContextValue;
+  useEffect(() => {
+    getTargetListHaveFinish();
+  }, [getTargetListHaveFinish]);
+
   // 渲染
   console.log(treeList);
+  console.log(targetListHaveFinish);
   return (
     <div className="tree-page">
       <table>

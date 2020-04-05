@@ -9,6 +9,7 @@ export const getTargetRelatedTodoUrl = targetRelatedTodoUrl + "/getList";
 export const targetRelateUrl = targetUrl + "/targetRelate";
 export const addNewTargetUrl = targetUrl + "/addNewTarget";
 export const getTargetListUrl = targetUrl + "/getTargetList";
+export const getTargetListHaveFinishUrl = targetUrl + "/getTargetListHaveFinish";
 export const levelupUrl = targetUrl + "/levelup";
 
 async function getTargetRelatedTodo() {
@@ -31,6 +32,11 @@ async function getTargetList() {
   return res;
 }
 
+async function getTargetListHaveFinish() {
+  const res: any = await ajax.get(getTargetListHaveFinishUrl);
+  return res;
+}
+
 async function targetLevelUp(data: ITargetLevelUpJson) {
   const res: any = await ajax.post(levelupUrl, data);
   return res;
@@ -42,6 +48,7 @@ export const targetInfoServer = {
   addNewTarget,
   addTargetRelate,
   getTargetList,
+  getTargetListHaveFinish,
   targetLevelUp,
 }
 

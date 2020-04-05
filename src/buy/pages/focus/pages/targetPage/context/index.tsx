@@ -37,6 +37,7 @@ export interface ITarget {
 // store state
 export interface ITargetInfoState {
   targetList: ITarget[]
+  targetListHaveFinish: ITarget[]
 }
 
 // interface
@@ -49,6 +50,7 @@ export interface ITargetInfoContext extends ITargetInfoActions, IContextValue {
 export function TargetInfoContextProvider(props: any) {
   const initState: ITargetInfoState = {
     targetList: [] as ITargetInfoState["targetList"],
+    targetListHaveFinish: [] as ITargetInfoState["targetList"],
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -71,7 +73,8 @@ export function TargetInfoContextProvider(props: any) {
 // action types
 export const ITargetInfoReducerTypes = {
   setTargetWithCountList: "setTargetWithCountList",
-  setTargetList: "setTargetList"
+  setTargetList: "setTargetList",
+  setTargetListHaveFinish: "setTargetListHaveFinish"
 };
 
 // reducer
@@ -83,6 +86,13 @@ function reducer(state: ITargetInfoState, action: IReducerAction) {
       newState = {
         ...newState,
         targetList: value
+      };
+      break;
+    }
+    case ITargetInfoReducerTypes.setTargetListHaveFinish: {
+      newState = {
+        ...newState,
+        targetListHaveFinish: value
       };
       break;
     }

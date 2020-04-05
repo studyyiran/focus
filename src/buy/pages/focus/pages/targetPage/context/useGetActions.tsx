@@ -19,6 +19,7 @@ export interface ITargetInfoActions {
   getTargetRelatedTodo: () => any;
   addNewTarget: (data: IAddNewTargetInfo) => any;
   getTargetList: () => any;
+  getTargetListHaveFinish: () => any;
   addTargetRelate: (data: IAddTargetRelated) => any;
   targetLevelUp: (data: ITargetLevelUpJson) => any;
 }
@@ -93,10 +94,23 @@ export function useTargetInfoGetActions(
     [dispatch, getHistoryByFilter]
   );
 
+  // 关联
+  const getTargetListHaveFinish = useCallback(
+    async function() {
+      const res = await targetInfoServer.getTargetListHaveFinish();
+      dispatch({
+        type: ITargetInfoReducerTypes.setTargetListHaveFinish,
+        value: res
+      });
+    },
+    [dispatch, getHistoryByFilter]
+  );
+
   return {
     getTargetRelatedTodo,
     addNewTarget,
     getTargetList,
+    getTargetListHaveFinish,
     addTargetRelate,
     targetLevelUp
   };
