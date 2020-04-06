@@ -3,6 +3,7 @@ export interface IListItem {
   tag: string;
   _id: string;
   hidden: boolean;
+  haveRelated: boolean;
   createTime: string;
   finishDate: string;
   status: string;

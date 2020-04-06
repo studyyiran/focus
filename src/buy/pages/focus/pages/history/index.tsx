@@ -76,14 +76,14 @@ export function HistoryPage() {
   );
 }
 
-function SettingModal(props: any) {
+function SettingModal(props: {addTodayTodo: any, onCancel: any, currentInfo?: IListItem}) {
   const currentModalRef = useRef(null as any);
   const targetInfoContext = useContext(TargetInfoContext);
   const { targetInfoContextValue, addTargetRelate } = targetInfoContext;
   const { targetList } = targetInfoContextValue;
   const myFocusContext = useContext(MyFocusContext);
   const { deleteItem } = myFocusContext as IMyFocusContext;
-  const { currentInfo = {}, onCancel, addTodayTodo } = props;
+  const { currentInfo = {} as IListItem, onCancel, addTodayTodo } = props;
   const visible = currentInfo && currentInfo._id;
   const { haveRelated } = currentInfo;
 
