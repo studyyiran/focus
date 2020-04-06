@@ -79,12 +79,14 @@ const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
   );
 
   // 虽然说butotn click更加便捷。但我还是先用useEffect
+  // 这个地方，其实并不合适。因为你把他放在一个组件里面了。而他的数据，确是一个跨越组件的数据。
   useEffect(() => {
     if (targetLevelUp) {
       targetLevelUp(targetLevelUpJson);
     }
   }, [targetLevelUp, targetLevelUpJson]);
 
+  // 这个字段的作用暂时未知？
   const targetLevel =
     targetLevelUpJson &&
     targetLevelUpJson.targetArr &&
@@ -169,6 +171,7 @@ const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
   if (!false) {
     return (
       <ul>
+        <li>{renderButtonByFormKey("nextTarget")}</li>
         <li>{renderButtonByFormKey("nextTree")}</li>
       </ul>
     );
