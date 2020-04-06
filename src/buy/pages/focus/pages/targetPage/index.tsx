@@ -32,7 +32,7 @@ export function TargetInfoPage() {
       {/*<div>成神页面status: {targetPageStatus}</div>*/}
       <ul className="ul-line-container">
         {targetList.map(props => (
-          <RenderTargetLine {...props} />
+          <RenderTargetLine {...props} targetLevelUp={targetLevelUp} />
         ))}
       </ul>
       <Button

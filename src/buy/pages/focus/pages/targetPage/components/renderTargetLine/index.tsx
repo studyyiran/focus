@@ -1,14 +1,26 @@
-
-import React, {useReducer, useState} from "react";
-import {IReducerAction} from "../../../../../../common/mode/context/simple";
+import React, { useEffect, useReducer, useState } from "react";
+import { IReducerAction } from "../../../../../../common/mode/context/simple";
 import MyModal from "../../../../../../components/modal";
-import {FormWrapper} from "../../../../components/formWrapper";
-import {ISubTarget, ITarget} from "../../context";
-import {Button, Collapse, Input} from "antd";
-import {ISubTargetLevelUpJson, ITargetLevelUpJson} from "../../context/useGetActions";
+import { FormWrapper } from "../../../../components/formWrapper";
+import { ISubTarget, ITarget } from "../../context";
+import { Button, Collapse, Input } from "antd";
+import {
+  ISubTargetLevelUpJson,
+  ITargetLevelUpJson
+} from "../../context/useGetActions";
 const { Panel } = Collapse;
 
-export function RenderTargetLine({ process, _id: targetId, level, createTime }: any) {
+interface IRenderTargetLine extends ITarget {
+  targetLevelUp?: any;
+}
+
+export const RenderTargetLine: React.FC<IRenderTargetLine> = ({
+  process,
+  _id: targetId,
+  level,
+  createTime,
+  targetLevelUp
+}) => {
   const { targetName, todos } = process[0];
   return (
     <Collapse key={targetId}>
@@ -16,24 +28,27 @@ export function RenderTargetLine({ process, _id: targetId, level, createTime }: 
         header={
           <table>
             <thead>
-            <tr>
-              <th>当前的Target</th>
-              <th>createTime</th>
-              <th>有效success level</th>
-              <th>当前的Target todo count</th>
-              <th>操作</th>
-            </tr>
+              <tr>
+                <th>当前的Target</th>
+                <th>createTime</th>
+                <th>有效success level</th>
+                <th>当前的Target todo count</th>
+                <th>操作</th>
+              </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>{targetName}</td>
-              <td>{createTime}</td>
-              <td>{level}</td>
-              <td>{todos && todos.length}</td>
-              <td>
-                <RenderLevelUpButtons targetId={targetId} />
-              </td>
-            </tr>
+              <tr>
+                <td>{targetName}</td>
+                <td>{createTime}</td>
+                <td>{level}</td>
+                <td>{todos && todos.length}</td>
+                <td>
+                  <RenderLevelUpButtons
+                    targetId={targetId}
+                    targetLevelUp={targetLevelUp}
+                  />
+                </td>
+              </tr>
             </tbody>
           </table>
         }
@@ -43,21 +58,33 @@ export function RenderTargetLine({ process, _id: targetId, level, createTime }: 
       </Panel>
     </Collapse>
   );
-}
+};
 
 interface IRenderLevelUpButtons {
   targetId: string;
+  targetLevelUp: any;
 }
 
 const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
-                                                                 targetId
-                                                               }) => {
-  const initState: ITargetLevelUpJson = { targetArr: [] as ISubTargetLevelUpJson[] };
+  targetId,
+  targetLevelUp
+}) => {
+  const initState: ITargetLevelUpJson = {
+    targetArr: [] as ISubTargetLevelUpJson[]
+  };
   const [showMoreButton, setShowMoreButton] = useState(false);
   const [targetLevelUpJson, dispatchTargetLevelUpJson] = useReducer(
     reducer,
     initState
   );
+
+  // 虽然说butotn click更加便捷。但我还是先用useEffect
+  useEffect(() => {
+    if (targetLevelUp) {
+      targetLevelUp(targetLevelUpJson);
+    }
+  }, [targetLevelUp, targetLevelUpJson]);
+
   const targetLevel =
     targetLevelUpJson &&
     targetLevelUpJson.targetArr &&
@@ -301,22 +328,22 @@ const RenderSubTargetList: React.FC<IRenderSubTargetList> = props => {
           header={
             <table>
               <thead>
-              <tr>
-                <th>targetName</th>
-                <th>createTime</th>
-                <th>levelUpTime</th>
-                <th>status</th>
-                <th>todo count</th>
-              </tr>
+                <tr>
+                  <th>targetName</th>
+                  <th>createTime</th>
+                  <th>levelUpTime</th>
+                  <th>status</th>
+                  <th>todo count</th>
+                </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>{targetName}</td>
-                <td>{createTime}</td>
-                <td>{levelUpTime}</td>
-                <td>{status}</td>
-                <td>{todos && todos.length}</td>
-              </tr>
+                <tr>
+                  <td>{targetName}</td>
+                  <td>{createTime}</td>
+                  <td>{levelUpTime}</td>
+                  <td>{status}</td>
+                  <td>{todos && todos.length}</td>
+                </tr>
               </tbody>
             </table>
           }
