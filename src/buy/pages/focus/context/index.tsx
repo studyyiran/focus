@@ -75,6 +75,7 @@ interface IContextState {
   historyList: IListItem[];
   wishList: IListItem[];
   historyFilter: IHistoryFilter;
+  dailySunny: Number;
 }
 
 // interface
@@ -90,6 +91,7 @@ export function MyFocusContextProvider(props: any) {
     todayDoneList: [],
     historyList: [],
     wishList: [],
+    dailySunny: 0,
     historyFilter: {
       hidden: false,
       tag: "",
@@ -151,6 +153,7 @@ export interface IMyFocusActions {
   // 删除
   deleteItem: (id: string) => void;
   changeHistoryFilter: (value: IHistoryFilter) => any;
+  getDailySunny: () => any;
 }
 
 // useCreateActions
@@ -332,7 +335,23 @@ function useGetAction(
     },
     [dispatch]
   );
+
+  // 修改状态
+  const getDailySunny: IMyFocusActions["getDailySunny"] = useCallback(
+    async function() {
+      const dailySunny = await server.getDailySunny()
+      if (dailySunny) {
+        dispatch({
+          type: myFocusReducerTypes.setDailySunny,
+          value: dailySunny
+        });
+      }
+    },
+    [dispatch]
+  );
+
   return {
+    getDailySunny,
     getTodayTodo,
     getTodayDone,
     getHistoryByFilter,
@@ -356,7 +375,8 @@ export const myFocusReducerTypes = {
   setTodayDoneList: "setTodayDoneList",
   setHistoryList: "setHistoryList",
   setWishList: "setWishList",
-  changeHistoryFilter: "changeHistoryFilter"
+  changeHistoryFilter: "changeHistoryFilter",
+  setDailySunny: "setDailySunny"
 };
 
 // reducer
@@ -400,6 +420,13 @@ function reducer(state: IContextState, action: IReducerAction) {
       newState = {
         ...newState,
         todayTodo: todayPageFilter(value)
+      };
+      break;
+    }
+    case myFocusReducerTypes.setDailySunny: {
+      newState = {
+        ...newState,
+        dailySunny: value
       };
       break;
     }

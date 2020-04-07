@@ -6,6 +6,8 @@ import { IHistoryFilter, ITodoItem } from "../context/interface";
  * 首页相关
  * */
 const serverName = "/studyTodo";
+const testName = "/test";
+const getDailySunnyUrl = serverName + testName + '/getDailySunny'
 
 const getTodayTodoUrl = serverName + "/getTodayList"; // 获取today列表
 const getTodayDoneUrl = serverName + "/getTodayDoneList"; // 获取today列表
@@ -50,6 +52,10 @@ export default {
   },
   getWishList: async () => {
     const res: any = await ajax.get(getWishListUrl);
+    return res;
+  },
+  getDailySunny: async () => {
+    const res: any = await ajax.get(getDailySunnyUrl);
     return res;
   }
 };
