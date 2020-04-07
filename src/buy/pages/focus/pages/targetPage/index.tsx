@@ -4,11 +4,13 @@ import React, {
 } from "react";
 import "./index.less";
 import {
-  TargetInfoContext,
+  ITarget,
+  TargetInfoContext
 } from "./context";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { Button, Input } from "antd";
 import {RenderTargetLine} from "./components/renderTargetLine";
+import moment from "moment-timezone";
 
 export function TargetInfoPage() {
   // 引入context
@@ -20,13 +22,39 @@ export function TargetInfoPage() {
     targetLevelUp
   } = targetInfoContext;
   // 从context中获取值
-  const { targetList } = targetInfoContextValue;
-
+  let { targetList } = targetInfoContextValue;
+  targetList = targetList.sort((a, b) => {
+    if (moment(getPosition(a)).isBefore(moment(getPosition(b)))) {
+      return 1
+    } else {
+      return -1
+    }
+    debugger
+    return 0
+  })
+  function getPosition(target: ITarget) {
+    if (target && target.process && target.process[0]) {
+      const current = target.process[0]
+      if (current && current.todos && current.todos[0]) {
+        return current.todos[0].createTime
+      }
+      return target.process[0].createTime
+    } else {
+      return target.createTime
+    }
+  }
   // local发起请求
   useEffect(() => {
     getTargetList();
   }, [getTargetList]);
 
+  /*
+  1) 最后一个todo的时间。
+
+  方案2）
+  按照total count排序
+  然后是level排序。
+  */
   return (
     <div className="target-page">
       {/*<div>成神页面status: {targetPageStatus}</div>*/}
