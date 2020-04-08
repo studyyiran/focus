@@ -173,6 +173,7 @@ const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
       <ul>
         <li>{renderButtonByFormKey("nextTarget")}</li>
         <li>{renderButtonByFormKey("nextTree")}</li>
+        <li>{renderButtonByFormKey("isPass")}</li>
       </ul>
     );
   } else {

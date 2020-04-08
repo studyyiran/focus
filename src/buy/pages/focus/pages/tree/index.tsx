@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import "./index.less";
 import { IGodTreeContext, GodTreeContext, ITreeNode } from "./context";
 import { TargetInfoContext } from "../targetPage/context";
-import {RenderTargetLine} from "../targetPage/components/renderTargetLine";
+import { RenderTargetLine } from "../targetPage/components/renderTargetLine";
 
 export function TreePage() {
   // 引入context
@@ -27,27 +27,37 @@ export function TreePage() {
   }, [getTargetListHaveFinish]);
 
   // 渲染
-  console.log(treeList);
-  console.log(targetListHaveFinish);
   return (
     <div className="tree-page">
-      <table>
-        <thead>
-          <tr>
-            <th>createTime</th>
-            <th>targetId</th>
-            <th>comments</th>
-          </tr>
-        </thead>
-        <tbody>
-          {treeList.map(props => (
-            <RenderTreeLine {...props} />
-          ))}
-        </tbody>
-      </table>
-      <section>{targetListHaveFinish.map(props => (
-        <RenderTargetLine {...props} />
-      ))}</section>
+      <section>
+        <h2>finish</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>createTime</th>
+              <th>targetId</th>
+              <th>comments</th>
+            </tr>
+          </thead>
+          <tbody>
+            {treeList.map(props => (
+              <RenderTreeLine {...props} />
+            ))}
+          </tbody>
+        </table>
+      </section>
+      <section>
+        <h2>finish detail</h2>
+        {targetListHaveFinish.filter((i) => i.status === 'success').map(props => (
+          <RenderTargetLine {...props} />
+        ))}
+      </section>
+      <section>
+        <h2>fail detail</h2>
+        {targetListHaveFinish.filter((i) => i.status === 'fail').map(props => (
+          <RenderTargetLine {...props} />
+        ))}
+      </section>
     </div>
   );
 }
