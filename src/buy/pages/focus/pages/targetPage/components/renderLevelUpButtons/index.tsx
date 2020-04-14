@@ -14,12 +14,11 @@ interface IRenderLevelUpButtons {
   type?: string;
 }
 
-interface buttonType {
-  isPass: boolean;
-  targetId: string;
-  nextTarget: string;
-  nextTree: string;
-  setTypeRelife: boolean;
+enum ButtonType {
+  setTypeRelife = "setTypeRelife",
+  failToTree = "failToTree",
+  successToTree = "successToTree",
+  levelup = "levelup"
 }
 
 export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
@@ -53,20 +52,20 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
       return levelInfo.targetId === targetId;
     });
 
-  function renderButtonByFormKey(key: keyof buttonType) {
+  function renderButtonByFormKey(key: ButtonType) {
     let dom = null;
     switch (key) {
-      case "nextTarget":
+      case ButtonType.levelup:
         dom = (
           <Button
             onClick={() => {
               // 开启Modal弹框，录入xxx
-              levelupModal(key, (info: any) => {
+              levelupModal("comments", (info: any) => {
                 dispatchTargetLevelUpJson({
-                  type: key,
+                  type: ButtonType.levelup,
                   value: {
                     targetId,
-                    innerValue: info[key]
+                    innerValue: info.comments
                   }
                 });
               });
@@ -75,22 +74,19 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
             LevelUp
           </Button>
         );
-        if (!targetLevel || !targetLevel[key]) {
-          // 如果没有 或者 没有这个字段
-        }
         break;
-      case "nextTree":
+      case ButtonType.successToTree:
         // 如果已经完成任务
         dom = (
           <Button
             onClick={() => {
               // 开启Modal弹框，录入xxx
-              levelupModal(key, (info: any) => {
+              levelupModal("comments", (info: any) => {
                 dispatchTargetLevelUpJson({
-                  type: key,
+                  type: ButtonType.successToTree,
                   value: {
                     targetId,
-                    innerValue: info[key]
+                    innerValue: info.comments
                   }
                 });
               });
@@ -99,16 +95,14 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
             升阶
           </Button>
         );
-        if (targetLevel && targetLevel.nextTarget && !targetLevel[key]) {
-        }
         break;
-      case "isPass":
+      case ButtonType.failToTree:
         // 如果还没有完成 也没任何操作
         dom = (
           <Button
             onClick={() => {
               dispatchTargetLevelUpJson({
-                type: key,
+                type: ButtonType.failToTree,
                 value: {
                   targetId,
                   innerValue: false
@@ -151,7 +145,7 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
       case "relife":
         return (
           <ul>
-            <li>{renderButtonByFormKey("setTypeRelife")}</li>
+            <li>{renderButtonByFormKey(ButtonType.setTypeRelife)}</li>
           </ul>
         );
         break;
@@ -162,43 +156,13 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
       </ul>
     );
   } else {
-    if (!false) {
-      return (
-        <ul>
-          <li>{renderButtonByFormKey("nextTarget")}</li>
-          <li>{renderButtonByFormKey("nextTree")}</li>
-          <li>{renderButtonByFormKey("isPass")}</li>
-        </ul>
-      );
-    } else {
-      // 根据用户已经选的内容，进行按钮内容渲染
-      if (targetLevel) {
-        if (targetLevel.isPass === false) {
-          return null;
-        } else {
-          if (!targetLevel.nextTree) {
-            return (
-              <ul>
-                <li>{renderButtonByFormKey("nextTree")}</li>
-              </ul>
-            );
-          } else {
-            return (
-              <ul>
-                <li>已成神</li>
-              </ul>
-            );
-          }
-        }
-      } else {
-        return (
-          <ul>
-            <li>{renderButtonByFormKey("nextTarget")}</li>
-            <li>{renderButtonByFormKey("isPass")}</li>
-          </ul>
-        );
-      }
-    }
+    return (
+      <ul>
+        <li>{renderButtonByFormKey(ButtonType.levelup)}</li>
+        <li>{renderButtonByFormKey(ButtonType.successToTree)}</li>
+        <li>{renderButtonByFormKey(ButtonType.failToTree)}</li>
+      </ul>
+    );
   }
 };
 
@@ -210,70 +174,58 @@ function reducer(
   if (value) {
     const { targetId, innerValue } = value;
     switch (type) {
-      case "nextTarget": {
+      // 升级
+      case "levelup": {
         return {
           targetArr: [
             ...state.targetArr,
             {
-              isPass: true,
-              nextTree: "",
-              type: "",
               targetId,
-              nextTarget: innerValue
+              type: "levelup",
+              comments: innerValue
             }
           ]
         };
         break;
       }
-      case "nextTree": {
-        // state.targetArr.forEach(item => {
-        //   const { targetId, innerValue } = value;
-        //   if (item.targetId === targetId) {
-        //     item.nextTree = innerValue;
-        //   }
-        // });
-        // return {
-        //   targetArr: [...state.targetArr]
-        // };
+      //  上树
+      case "successToTree": {
         return {
           targetArr: [
             ...state.targetArr,
             {
-              isPass: true,
-              nextTree: innerValue,
               targetId,
-              nextTarget: "",
-              type: ""
+              type: "tree",
+              comments: innerValue
             }
           ]
         };
         break;
       }
-      case "isPass": {
-        return {
-          targetArr: [
-            ...state.targetArr,
-            {
-              isPass: innerValue,
-              nextTree: "",
-              targetId,
-              nextTarget: "",
-              type: ""
-            }
-          ]
-        };
-        break;
-      }
-      case "setTypeRelife": {
+      // 下数
+      case "failToTree": {
         return {
           targetArr: [
             ...state.targetArr,
             {
               isPass: false,
-              nextTree: "",
               targetId,
-              nextTarget: "",
-              type: "relife"
+              type: "tree",
+              comments: innerValue
+            }
+          ]
+        };
+        break;
+      }
+      // 重生
+      case "setTypeRelife": {
+        return {
+          targetArr: [
+            ...state.targetArr,
+            {
+              targetId,
+              type: "relife",
+              comments: ""
             }
           ]
         };

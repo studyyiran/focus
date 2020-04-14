@@ -24,11 +24,10 @@ export interface ITargetInfoActions {
 }
 
 export interface ISubTargetLevelUpJson {
-  isPass: boolean;
+  isPass?: boolean;
   targetId: string;
-  nextTarget: string;
-  nextTree: string;
-  type?: string
+  comments: string;// levelup,tree,finalComments的字段
+  type: string
 }
 
 export interface ITargetLevelUpJson {
