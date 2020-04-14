@@ -55,26 +55,30 @@ export function TargetInfoPage() {
 
   function renderButton(props: ITarget) {
     if (props) {
-      const {lockType, status} = props
-      if (status === 'doing') {
-        return <RenderLevelUpButtons
+      const { lockType, status, finalComments } = props;
+      if (status === "doing") {
+        return (
+          <RenderLevelUpButtons
             targetId={props._id}
             targetLevelUp={targetLevelUp}
-        />
+          />
+        );
       } else {
-        if (lockType) {
-          return <div>
-            {status === 'success' ? 'success' : 'fail'}
-            <RenderLevelUpButtons
+        if (lockType || !finalComments) {
+          return (
+            <div>
+              {status === "success" ? "success" : "fail"}
+              <RenderLevelUpButtons
                 targetId={props._id}
                 targetLevelUp={targetLevelUp}
                 type="setTreeComments"
-            />
-          </div>
+              />
+            </div>
+          );
         }
       }
     } else {
-      return null
+      return null;
     }
   }
 
@@ -91,9 +95,7 @@ export function TargetInfoPage() {
       <div>今日剩余: {dailySunny}</div>
       <ul className="ul-line-container">
         {targetList.map(props => (
-          <RenderTargetLine {...props}>
-            {renderButton(props)}
-          </RenderTargetLine>
+          <RenderTargetLine {...props}>{renderButton(props)}</RenderTargetLine>
         ))}
       </ul>
       <Button

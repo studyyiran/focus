@@ -291,7 +291,6 @@ function levelupModal(type: string, callBack: any) {
               initialValue: "",
               rules: [
                 {
-                  required: true,
                   message: "not empty"
                 }
               ],

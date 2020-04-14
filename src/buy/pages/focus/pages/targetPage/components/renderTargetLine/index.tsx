@@ -3,14 +3,15 @@ import { ISubTarget, ITarget } from "../../context";
 import { Collapse } from "antd";
 const { Panel } = Collapse;
 
-interface IRenderTargetLine extends ITarget {
-}
+interface IRenderTargetLine extends ITarget {}
 
 export const RenderTargetLine: React.FC<IRenderTargetLine> = ({
   process,
   _id: targetId,
   level,
   createTime,
+  finalComments,
+  status,
   children
 }) => {
   const { targetName, todos } = process[0];
@@ -30,13 +31,17 @@ export const RenderTargetLine: React.FC<IRenderTargetLine> = ({
             </thead>
             <tbody>
               <tr>
-                <td>{targetName}</td>
+                <td>
+                  {status === "doing"
+                    ? targetName
+                    : finalComments
+                    ? finalComments
+                    : "描述为空"}
+                </td>
                 <td>{createTime}</td>
                 <td>{level}</td>
                 <td>{todos && todos.length}</td>
-                <td>
-                  {children}
-                </td>
+                <td>{children}</td>
               </tr>
             </tbody>
           </table>
@@ -48,8 +53,6 @@ export const RenderTargetLine: React.FC<IRenderTargetLine> = ({
     </Collapse>
   );
 };
-
-
 
 interface IRenderSubTargetList {
   processArr: ITarget["process"];
