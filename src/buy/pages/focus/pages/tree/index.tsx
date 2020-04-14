@@ -3,6 +3,7 @@ import "./index.less";
 import { IGodTreeContext, GodTreeContext, ITreeNode } from "./context";
 import { TargetInfoContext } from "../targetPage/context";
 import { RenderTargetLine } from "../targetPage/components/renderTargetLine";
+import { RenderLevelUpButtons } from "../targetPage/components/renderLevelUpButtons";
 
 export function TreePage() {
   // 引入context
@@ -19,7 +20,11 @@ export function TreePage() {
   }, [getTreeList]);
 
   const targetInfoContext = useContext(TargetInfoContext);
-  const { getTargetListHaveFinish, targetInfoContextValue } = targetInfoContext;
+  const {
+    getTargetListHaveFinish,
+    targetInfoContextValue,
+    targetLevelUp
+  } = targetInfoContext;
 
   const { targetListHaveFinish } = targetInfoContextValue;
   useEffect(() => {
@@ -48,15 +53,25 @@ export function TreePage() {
       </section>
       <section>
         <h2>finish detail</h2>
-        {targetListHaveFinish.filter((i) => i.status === 'success').map(props => (
-          <RenderTargetLine {...props} />
-        ))}
+        {targetListHaveFinish
+          .filter(i => i.status === "success")
+          .map(props => (
+            <RenderTargetLine {...props}></RenderTargetLine>
+          ))}
       </section>
       <section>
         <h2>fail detail</h2>
-        {targetListHaveFinish.filter((i) => i.status === 'fail').map(props => (
-          <RenderTargetLine {...props} />
-        ))}
+        {targetListHaveFinish
+          .filter(i => i.status === "fail")
+          .map(props => (
+            <RenderTargetLine {...props}>
+              <RenderLevelUpButtons
+                targetId={props._id}
+                targetLevelUp={targetLevelUp}
+                type={'relife'}
+              />
+            </RenderTargetLine>
+          ))}
       </section>
     </div>
   );

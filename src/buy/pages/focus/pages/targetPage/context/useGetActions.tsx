@@ -28,6 +28,7 @@ export interface ISubTargetLevelUpJson {
   targetId: string;
   nextTarget: string;
   nextTree: string;
+  type?: string
 }
 
 export interface ITargetLevelUpJson {

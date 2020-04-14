@@ -33,6 +33,7 @@ const getRootApi = function(urlRoot: string) {
     case "production":
       apiRoot = "http://139.224.2.112";
   }
+  // apiRoot = "http://139.224.2.112";
   return apiRoot + urlRoot;
 };
 

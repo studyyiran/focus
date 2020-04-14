@@ -6,6 +6,7 @@ import { Button, Input } from "antd";
 import { RenderTargetLine } from "./components/renderTargetLine";
 import moment from "moment-timezone";
 import { MyFocusContext } from "../../context";
+import { RenderLevelUpButtons } from "./components/renderLevelUpButtons";
 
 export function TargetInfoPage() {
   // 引入context
@@ -17,7 +18,7 @@ export function TargetInfoPage() {
     getDailySunny();
   }, [getDailySunny]);
 
-  const {dailySunny} = myFocusContextValue
+  const { dailySunny } = myFocusContextValue;
 
   const {
     targetInfoContextValue,
@@ -65,7 +66,12 @@ export function TargetInfoPage() {
       <div>今日剩余: {dailySunny}</div>
       <ul className="ul-line-container">
         {targetList.map(props => (
-          <RenderTargetLine {...props} targetLevelUp={targetLevelUp} />
+          <RenderTargetLine {...props}>
+            <RenderLevelUpButtons
+              targetId={props._id}
+              targetLevelUp={targetLevelUp}
+            />
+          </RenderTargetLine>
         ))}
       </ul>
       <Button
