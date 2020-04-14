@@ -95,11 +95,11 @@ export function FocusToday() {
           : null}
       </TodayPageSection>
 
-      <div>
-        <h2>Tomorrow Plan</h2>
-        <Button onClick={addTomorrowTodoModal}>Add Tomorrow TODO</Button>
-        <ul className="ul-line-container">{renderList(todayTodo.tomorrow)}</ul>
-      </div>
+      {/*<div>*/}
+      {/*  <h2>Tomorrow Plan</h2>*/}
+      {/*  <Button onClick={addTomorrowTodoModal}>Add Tomorrow TODO</Button>*/}
+      {/*  <ul className="ul-line-container">{renderList(todayTodo.tomorrow)}</ul>*/}
+      {/*</div>*/}
     </div>
   );
 }

@@ -65,12 +65,11 @@ export function TodayDone() {
         </Button>
         <ul className="ul-line-container">{renderList(todayDoneList)}</ul>
       </div>
-
-      {/*<div>*/}
-      {/*  <h2>Tomorrow Plan</h2>*/}
-      {/*  <ul className="ul-line-container">{renderList(todayTodo.tomorrow)}</ul>*/}
-      {/*  <Button onClick={addTomorrowTodoModal}>Add Tomorrow TODO</Button>*/}
-      {/*</div>*/}
+      <div>
+        <h2>Tomorrow Plan</h2>
+        <Button onClick={addTomorrowTodoModal}>Add Tomorrow TODO</Button>
+        <ul className="ul-line-container">{renderList(todayTodo.tomorrow)}</ul>
+      </div>
     </div>
   );
 }
