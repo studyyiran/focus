@@ -32,6 +32,8 @@ export interface ITarget {
   process: ISubTarget[],
   level: number,
   createTime: string,
+  lockType: string,
+  finalComments: string,
 };
 
 // store state

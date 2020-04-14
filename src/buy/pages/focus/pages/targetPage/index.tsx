@@ -53,6 +53,31 @@ export function TargetInfoPage() {
     getTargetList();
   }, [getTargetList]);
 
+  function renderButton(props: ITarget) {
+    if (props) {
+      const {lockType, status} = props
+      if (status === 'doing') {
+        return <RenderLevelUpButtons
+            targetId={props._id}
+            targetLevelUp={targetLevelUp}
+        />
+      } else {
+        if (lockType) {
+          return <div>
+            {status === 'success' ? 'success' : 'fail'}
+            <RenderLevelUpButtons
+                targetId={props._id}
+                targetLevelUp={targetLevelUp}
+                type="setTreeComments"
+            />
+          </div>
+        }
+      }
+    } else {
+      return null
+    }
+  }
+
   /*
   1) 最后一个todo的时间。
 
@@ -67,10 +92,7 @@ export function TargetInfoPage() {
       <ul className="ul-line-container">
         {targetList.map(props => (
           <RenderTargetLine {...props}>
-            <RenderLevelUpButtons
-              targetId={props._id}
-              targetLevelUp={targetLevelUp}
-            />
+            {renderButton(props)}
           </RenderTargetLine>
         ))}
       </ul>

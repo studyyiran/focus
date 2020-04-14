@@ -18,6 +18,7 @@ enum ButtonType {
   setTypeRelife = "setTypeRelife",
   failToTree = "failToTree",
   successToTree = "successToTree",
+  setTreeComments = "setTreeComments",
   levelup = "levelup"
 }
 
@@ -101,12 +102,14 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
         dom = (
           <Button
             onClick={() => {
-              dispatchTargetLevelUpJson({
-                type: ButtonType.failToTree,
-                value: {
-                  targetId,
-                  innerValue: false
-                }
+              levelupModal("comments", (info: any) => {
+                dispatchTargetLevelUpJson({
+                  type: ButtonType.failToTree,
+                  value: {
+                    targetId,
+                    innerValue: info.comments
+                  }
+                });
               });
             }}
           >
@@ -117,13 +120,13 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
         // }
         break;
 
-      case "setTypeRelife":
+      case ButtonType.setTypeRelife:
         // 如果还没有完成 也没任何操作
         dom = (
           <Button
             onClick={() => {
               dispatchTargetLevelUpJson({
-                type: key,
+                type: ButtonType.setTypeRelife,
                 value: {
                   targetId,
                   innerValue: "relife"
@@ -134,8 +137,26 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
             Fail
           </Button>
         );
-        // if (targetLevel && targetLevel[key] === "" && !targetLevel.targetId) {
-        // }
+        break;
+      case ButtonType.setTreeComments:
+        // 如果还没有完成 也没任何操作
+        dom = (
+          <Button
+            onClick={() => {
+              levelupModal("comments", (info: any) => {
+                dispatchTargetLevelUpJson({
+                  type: ButtonType.setTreeComments,
+                  value: {
+                    targetId,
+                    innerValue: info.comments
+                  }
+                });
+              });
+            }}
+          >
+            setTreeComments
+          </Button>
+        );
         break;
     }
     return dom;
@@ -146,6 +167,13 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
         return (
           <ul>
             <li>{renderButtonByFormKey(ButtonType.setTypeRelife)}</li>
+          </ul>
+        );
+        break;
+      case "setTreeComments":
+        return (
+          <ul>
+            <li>{renderButtonByFormKey(ButtonType.setTreeComments)}</li>
           </ul>
         );
         break;
@@ -178,7 +206,6 @@ function reducer(
       case "levelup": {
         return {
           targetArr: [
-            ...state.targetArr,
             {
               targetId,
               type: "levelup",
@@ -192,7 +219,6 @@ function reducer(
       case "successToTree": {
         return {
           targetArr: [
-            ...state.targetArr,
             {
               targetId,
               type: "tree",
@@ -206,7 +232,6 @@ function reducer(
       case "failToTree": {
         return {
           targetArr: [
-            ...state.targetArr,
             {
               isPass: false,
               targetId,
@@ -221,11 +246,22 @@ function reducer(
       case "setTypeRelife": {
         return {
           targetArr: [
-            ...state.targetArr,
             {
               targetId,
               type: "relife",
               comments: ""
+            }
+          ]
+        };
+        break;
+      }
+      case "setTreeComments": {
+        return {
+          targetArr: [
+            {
+              targetId,
+              type: "setTreeComments",
+              comments: innerValue
             }
           ]
         };
