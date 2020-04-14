@@ -36,7 +36,7 @@ export const RenderTargetLine: React.FC<IRenderTargetLine> = ({
                     ? targetName
                     : finalComments
                     ? finalComments
-                    : "描述为空"}
+                    : targetName}
                 </td>
                 <td>{createTime}</td>
                 <td>{level}</td>

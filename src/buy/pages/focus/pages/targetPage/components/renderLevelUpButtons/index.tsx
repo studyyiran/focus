@@ -125,16 +125,18 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
         dom = (
           <Button
             onClick={() => {
-              dispatchTargetLevelUpJson({
-                type: ButtonType.setTypeRelife,
-                value: {
-                  targetId,
-                  innerValue: "relife"
-                }
+              levelupModal("comments", (info: any) => {
+                dispatchTargetLevelUpJson({
+                  type: ButtonType.setTypeRelife,
+                  value: {
+                    targetId,
+                    innerValue: info.comments
+                  }
+                });
               });
             }}
           >
-            Fail
+            ReLife
           </Button>
         );
         break;
@@ -249,7 +251,7 @@ function reducer(
             {
               targetId,
               type: "relife",
-              comments: ""
+              comments: innerValue
             }
           ]
         };
