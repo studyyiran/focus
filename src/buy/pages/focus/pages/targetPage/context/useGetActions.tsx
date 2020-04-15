@@ -40,7 +40,7 @@ export function useTargetInfoGetActions(
   dispatch: (action: IReducerAction) => void
 ): ITargetInfoActions {
   const myFocusContext = useContext(MyFocusContext);
-  const { getHistoryByFilter } = myFocusContext;
+  const { getHistoryByFilter, getRelatedTodoList } = myFocusContext;
   const getTargetRelatedTodo = useCallback(
     async function() {
       const res = await targetInfoServer.getTargetRelatedTodo();
@@ -84,7 +84,8 @@ export function useTargetInfoGetActions(
       // 1 发起关联
       const res = await targetInfoServer.addTargetRelate(data);
       // 2 更新history
-      getHistoryByFilter();
+      // getHistoryByFilter();
+      getRelatedTodoList();
     },
     [dispatch, getHistoryByFilter]
   );
