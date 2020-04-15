@@ -17,6 +17,7 @@ export function HistoryPage() {
   const {
     myFocusContextValue,
     getHistoryByFilter,
+    getRelatedTodoList,
     addTodayTodo
   } = storeTestNameContext as IMyFocusContext;
 
@@ -25,6 +26,25 @@ export function HistoryPage() {
   useEffect(() => {
     getHistoryByFilter();
   }, [getHistoryByFilter]);
+
+  return (
+      <div className="history-page">
+        <SettingModal
+            addTodayTodo={addTodayTodo}
+            currentInfo={historyList.find(({ _id }) => {
+              return _id === currentTodoId;
+            })}
+            onCancel={() => {
+              setCurrentTodoId("");
+            }}
+        />
+        <div onClick={() => {
+          getRelatedTodoList();
+        }}>getRelatedTodoList</div>
+        <FilterPart />
+        <ul className="ul-line-container">{renderList(historyList)}</ul>
+      </div>
+  );
 
   // 根据选项来进行筛选（暂时写死hidden）
   // function listFilter(list: IListItem[]) {
@@ -59,21 +79,6 @@ export function HistoryPage() {
       return null;
     }
   }
-  return (
-    <div className="history-page">
-      <SettingModal
-        addTodayTodo={addTodayTodo}
-        currentInfo={historyList.find(({ _id }) => {
-          return _id === currentTodoId;
-        })}
-        onCancel={() => {
-          setCurrentTodoId("");
-        }}
-      />
-      <FilterPart />
-      <ul className="ul-line-container">{renderList(historyList)}</ul>
-    </div>
-  );
 }
 
 function SettingModal(props: {addTodayTodo: any, onCancel: any, currentInfo?: IListItem}) {

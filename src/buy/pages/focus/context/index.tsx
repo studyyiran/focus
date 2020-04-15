@@ -137,6 +137,7 @@ export interface IMyFocusActions {
   getTodayTodo: () => void;
   getTodayDone: () => any;
   getHistoryByFilter: () => any; // 获取历史
+  getRelatedTodoList: () => any; // 一个冗余接口 获取本周的未关联的任务
   getWishList: () => any; // 获取历史
 
   // 增
@@ -172,6 +173,18 @@ function useGetAction(
     },
     [dispatch, state.historyFilter]
   );
+
+  const getRelatedTodoList: IMyFocusActions["getRelatedTodoList"] = useCallback(
+      async function() {
+        const res = await server.getRelatedTodoList();
+        dispatch({
+          type: myFocusReducerTypes.setHistoryList,
+          value: res
+        });
+      },
+      [dispatch, state.historyFilter]
+  );
+
   const getTodayTodo: IMyFocusActions["getTodayTodo"] = useCallback(
     async function() {
       const res = await server.getTodayTodo();
@@ -365,7 +378,8 @@ function useGetAction(
     deleteItem,
     getWishList,
     changeHistoryFilter,
-    addWishList
+    addWishList,
+    getRelatedTodoList
   };
 }
 
