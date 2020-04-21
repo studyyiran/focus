@@ -78,12 +78,36 @@ export function TreePage() {
     ]
   }
 
+  function treeList2DifferentTree(treeList: ITreeNode[]) {
+    let result = [
+        [] as ITreeNode[],[] as ITreeNode[]
+    ]
+    treeList.forEach((treeNode) => {
+      if (treeNode && treeNode.targetNodeId) {
+        result[1].push(treeNode)
+      } else {
+        result[0].push(treeNode)
+      }
+    })
+    return result
+  }
+
+  const [downTree, upTree] = treeList2DifferentTree(treeList)
+  console.log(downTree)
+  console.log(upTree)
   // 渲染
   return (
     <div className="tree-page">
       <section>
         <h2>show tree</h2>
-        <ShowTree treeData={treeData} />
+        <ShowTree treeData={downTree.map((treeNode, index) => {
+          console.log(treeNode._id)
+          return {
+            title: treeNode.createTime,
+            key: treeNode.id,
+            children: []
+          }
+        })} />
         <div onClick={() => {
           changeTreeShape({nextTreeShape: emptyTreeShape})
         }}>add tree shape</div>

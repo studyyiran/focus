@@ -21,7 +21,8 @@ export interface IGodTreeState {
 }
 
 export interface ITreeNode {
-  target: "",
+  _id: "",
+  targetNodeId: "",
   createTime: string,
   targetId: string,
   comments: string,

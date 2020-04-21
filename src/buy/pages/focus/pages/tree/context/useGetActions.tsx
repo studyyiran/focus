@@ -42,7 +42,7 @@ export function useGodTreeGetActions (
   const getTreeShape = useCallback(async function() {
     const res = await godTreeServer.getTreeShape();
     dispatch({
-      type: godTreeReducerTypes.setTreeList,
+      type: godTreeReducerTypes.setTreeShape,
       value: res
     });
   }, [dispatch])
