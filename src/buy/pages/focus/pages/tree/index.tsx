@@ -4,20 +4,25 @@ import { IGodTreeContext, GodTreeContext, ITreeNode } from "./context";
 import { TargetInfoContext } from "../targetPage/context";
 import { RenderTargetLine } from "../targetPage/components/renderTargetLine";
 import { RenderLevelUpButtons } from "../targetPage/components/renderLevelUpButtons";
+import { ShowTree } from "./components/tree";
 
 export function TreePage() {
   // 引入context
   const godTreeContext = useContext(GodTreeContext);
   const {
     godTreeContextValue,
-    getTreeList
+    getTreeList,
+    getTreeShape,
+      changeTreeShape,
+    changeTargetNodePoint
   } = godTreeContext as IGodTreeContext;
   // 从context中获取值
-  const { treeList } = godTreeContextValue;
+  const { treeList, treeShape } = godTreeContextValue;
   // local发起请求
   useEffect(() => {
     getTreeList();
-  }, [getTreeList]);
+    getTreeShape();
+  }, [getTreeList, getTreeShape]);
 
   const targetInfoContext = useContext(TargetInfoContext);
   const {
@@ -31,9 +36,58 @@ export function TreePage() {
     getTargetListHaveFinish();
   }, [getTargetListHaveFinish]);
 
+  const treeData = [
+    {
+      title: "parent 1",
+      key: "0-0",
+      children: [
+        {
+          title: "parent 1-0",
+          key: "0-0-0",
+          disabled: true,
+          children: [
+            {
+              title: "leaf",
+              key: "0-0-0-0",
+              disableCheckbox: true
+            },
+            {
+              title: "leaf",
+              key: "0-0-0-1"
+            }
+          ]
+        },
+        {
+          title: "parent 1-1",
+          key: "0-0-1",
+          children: [
+            {
+              title: <span style={{ color: "#1890ff" }}>sss</span>,
+              key: "0-0-1-0"
+            }
+          ]
+        }
+      ]
+    }
+  ];
+
+  const emptyTreeShape = {
+    title: 'root',
+    children: [
+
+    ]
+  }
+
   // 渲染
   return (
     <div className="tree-page">
+      <section>
+        <h2>show tree</h2>
+        <ShowTree treeData={treeData} />
+        <div onClick={() => {
+          changeTreeShape({nextTreeShape: emptyTreeShape})
+        }}>add tree shape</div>
+      </section>
       <section>
         <h2>finish</h2>
         <table>
@@ -68,7 +122,7 @@ export function TreePage() {
               <RenderLevelUpButtons
                 targetId={props._id}
                 targetLevelUp={targetLevelUp}
-                type={'relife'}
+                type={"relife"}
               />
             </RenderTargetLine>
           ))}

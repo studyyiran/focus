@@ -17,11 +17,11 @@ export const GodTree = "GodTree";
 // store state
 export interface IGodTreeState {
   treeList: ITreeNode[];
+  treeShape: any;
 }
 
 export interface ITreeNode {
-  child: [],
-  father: [],
+  target: "",
   createTime: string,
   targetId: string,
   comments: string,
@@ -38,7 +38,8 @@ export interface IGodTreeContext
 // store provider
 export function GodTreeContextProvider(props: any) {
   const initState: IGodTreeState = {
-    treeList: []
+    treeList: [],
+    treeShape: {},
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -58,7 +59,8 @@ export function GodTreeContextProvider(props: any) {
 
 // action types
 export const godTreeReducerTypes = {
-  setTreeList: "setTreeList"
+  setTreeList: "setTreeList",
+  setTreeShape: "setTreeShape"
 };
 
 // reducer
@@ -70,6 +72,13 @@ function reducer(state: IGodTreeState, action: IReducerAction) {
       newState = {
         ...newState,
         treeList: value
+      };
+      break;
+    }
+    case godTreeReducerTypes.setTreeShape: {
+      newState = {
+        ...newState,
+        treeShape: value
       };
       break;
     }
