@@ -17,7 +17,7 @@ export const GodTree = "GodTree";
 // store state
 export interface IGodTreeState {
   treeList: ITreeNode[];
-  treeShape: any;
+  treeShape: any[];
 }
 
 export interface ITreeNode {
@@ -40,7 +40,7 @@ export interface IGodTreeContext
 export function GodTreeContextProvider(props: any) {
   const initState: IGodTreeState = {
     treeList: [],
-    treeShape: {},
+    treeShape: [],
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),

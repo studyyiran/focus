@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import "./index.less";
-import { IGodTreeContext, GodTreeContext, ITreeNode } from "./context";
+import {IGodTreeContext, GodTreeContext, ITreeNode, godTreeReducerTypes} from "./context";
 import { TargetInfoContext } from "../targetPage/context";
 import { RenderTargetLine } from "../targetPage/components/renderTargetLine";
 import { RenderLevelUpButtons } from "../targetPage/components/renderLevelUpButtons";
@@ -13,8 +13,9 @@ export function TreePage() {
     godTreeContextValue,
     getTreeList,
     getTreeShape,
-      changeTreeShape,
-    changeTargetNodePoint
+    changeTreeShape,
+    changeTargetNodePoint,
+    godTreeContextDispatch
   } = godTreeContext as IGodTreeContext;
   // 从context中获取值
   const { treeList, treeShape } = godTreeContextValue;
@@ -36,81 +37,28 @@ export function TreePage() {
     getTargetListHaveFinish();
   }, [getTargetListHaveFinish]);
 
+  // 最后一个是add功能节点。
   const treeData = [
+    ...treeShape,
     {
-      title: "parent 1",
-      key: "0-0",
-      children: [
-        {
-          title: "parent 1-0",
-          key: "0-0-0",
-          disabled: true,
-          children: [
-            {
-              title: "leaf",
-              key: "0-0-0-0",
-              disableCheckbox: true
-            },
-            {
-              title: "leaf",
-              key: "0-0-0-1"
-            }
-          ]
-        },
-        {
-          title: "parent 1-1",
-          key: "0-0-1",
-          children: [
-            {
-              title: <span style={{ color: "#1890ff" }}>sss</span>,
-              key: "0-0-1-0"
-            }
-          ]
-        }
-      ]
+      title: <InputNode /> as any,
+      key: "inputelement" as any,
+      children: []
     }
   ];
-
-  const emptyTreeShape = {
-    title: 'root',
-    children: [
-
-    ]
-  }
-
-  function treeList2DifferentTree(treeList: ITreeNode[]) {
-    let result = [
-        [] as ITreeNode[],[] as ITreeNode[]
-    ]
-    treeList.forEach((treeNode) => {
-      if (treeNode && treeNode.targetNodeId) {
-        result[1].push(treeNode)
-      } else {
-        result[0].push(treeNode)
-      }
-    })
-    return result
-  }
-
-  const [downTree, upTree] = treeList2DifferentTree(treeList)
-  console.log(downTree)
-  console.log(upTree)
   // 渲染
   return (
     <div className="tree-page">
       <section>
         <h2>show tree</h2>
-        <ShowTree treeData={downTree.map((treeNode, index) => {
-          console.log(treeNode._id)
-          return {
-            title: treeNode.createTime,
-            key: treeNode.id,
-            children: []
-          }
-        })} />
-        <div onClick={() => {
-          changeTreeShape({nextTreeShape: emptyTreeShape})
-        }}>add tree shape</div>
+        <ShowTree treeData={treeData} />
+        <div
+          onClick={() => {
+            // changeTreeShape({ nextTreeShape: emptyTreeShape });
+          }}
+        >
+          add tree shape
+        </div>
       </section>
       <section>
         <h2>finish</h2>
@@ -153,6 +101,17 @@ export function TreePage() {
       </section>
     </div>
   );
+}
+
+const InputNode = () => {
+  const [inputValue, setInputValue] = useState("")
+  return <div>
+    here
+    <input value={inputValue} onChange={(e) => {
+      setInputValue(e.target.value)
+    }}/>
+    here
+  </div>
 }
 
 interface Iehe extends ITreeNode {}
