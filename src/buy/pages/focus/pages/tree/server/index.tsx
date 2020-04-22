@@ -15,11 +15,11 @@ async function getTreeList() {
   return res;
 }
 
-async function changeTargetNodePoint({treeId, targetNodeId} : {
-  treeId: string,
-  targetNodeId: string,
+async function changeTargetNodePoint({containerNodeId, treeNodeId} : {
+  containerNodeId: string,
+  treeNodeId: string,
 }) {
-  const res: any = await ajax.post(changeTargetNodePointUrl, {treeId, targetNodeId});
+  const res: any = await ajax.post(changeTargetNodePointUrl, {containerNodeId, treeNodeId});
   return res;
 }
 

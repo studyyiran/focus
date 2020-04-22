@@ -9,7 +9,7 @@ import {IGodTreeState, godTreeReducerTypes} from "./index";
 // @actions
 export interface IGodTreeActions {
   getTreeList: () => any;
-  changeTargetNodePoint: ({treeId, targetNodeId}: {treeId: string, targetNodeId: string}) => any;
+  changeTargetNodePoint: ({containerNodeId, treeNodeId}: {containerNodeId: string, treeNodeId: string}) => any;
   getTreeShape: () => any;
   changeTreeShape: ({nextTreeShape}: {nextTreeShape: any}) => any;
 }
@@ -31,12 +31,8 @@ export function useGodTreeGetActions (
       value: res
     });
   }, [dispatch])
-  const changeTargetNodePoint = useCallback(async function({treeId, targetNodeId}) {
-    const res = await godTreeServer.changeTargetNodePoint({treeId, targetNodeId});
-    dispatch({
-      type: godTreeReducerTypes.setTreeList,
-      value: res
-    });
+  const changeTargetNodePoint = useCallback(async function({containerNodeId, treeNodeId}) {
+    const res = await godTreeServer.changeTargetNodePoint({containerNodeId, treeNodeId});
   }, [dispatch])
 
   const getTreeShape = useCallback(async function() {
@@ -48,10 +44,6 @@ export function useGodTreeGetActions (
   }, [dispatch])
   const changeTreeShape = useCallback(async function(nextTreeShape) {
     const res = await godTreeServer.changeTreeShape(nextTreeShape);
-    dispatch({
-      type: godTreeReducerTypes.setTreeShape,
-      value: res
-    });
   }, [dispatch])
   return {
     getTreeList,

@@ -13,9 +13,6 @@ export function TreePage() {
     godTreeContextValue,
     getTreeList,
     getTreeShape,
-    changeTreeShape,
-    changeTargetNodePoint,
-    godTreeContextDispatch
   } = godTreeContext as IGodTreeContext;
   // 从context中获取值
   const { treeList, treeShape } = godTreeContextValue;
@@ -37,21 +34,12 @@ export function TreePage() {
     getTargetListHaveFinish();
   }, [getTargetListHaveFinish]);
 
-  // 最后一个是add功能节点。
-  const treeData = [
-    ...treeShape,
-    {
-      title: <InputNode /> as any,
-      key: "inputelement" as any,
-      children: []
-    }
-  ];
   // 渲染
   return (
     <div className="tree-page">
       <section>
         <h2>show tree</h2>
-        <ShowTree treeData={treeData} />
+        <ShowTree treeData={treeShape} />
         <div
           onClick={() => {
             // changeTreeShape({ nextTreeShape: emptyTreeShape });
@@ -101,17 +89,6 @@ export function TreePage() {
       </section>
     </div>
   );
-}
-
-const InputNode = () => {
-  const [inputValue, setInputValue] = useState("")
-  return <div>
-    here
-    <input value={inputValue} onChange={(e) => {
-      setInputValue(e.target.value)
-    }}/>
-    here
-  </div>
 }
 
 interface Iehe extends ITreeNode {}
