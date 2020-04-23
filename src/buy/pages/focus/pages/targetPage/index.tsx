@@ -28,7 +28,7 @@ export function TargetInfoPage() {
   } = targetInfoContext;
   // 从context中获取值
   let { targetList } = targetInfoContextValue;
-  targetList = targetList.sort((a, b) => {
+  targetList = (targetList || []).sort((a, b) => {
     if (moment(getPosition(a)).isBefore(moment(getPosition(b)))) {
       return 1;
     } else {

@@ -39,7 +39,7 @@ export function TreePage() {
     <div className="tree-page">
       <section>
         <h2>show tree</h2>
-        <ShowTree treeData={treeShape} />
+        <ShowTree />
         <div
           onClick={() => {
             // changeTreeShape({ nextTreeShape: emptyTreeShape });

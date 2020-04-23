@@ -4,7 +4,7 @@ import { GodTreeContext, IGodTreeContext } from "../../context";
 import {levelupModal} from "../../../targetPage/components/renderLevelUpButtons";
 
 interface IShowTree {
-  treeData: any;
+
 }
 
 export const ShowTree: React.FC<IShowTree> = props => {
@@ -17,10 +17,11 @@ export const ShowTree: React.FC<IShowTree> = props => {
     changeTreeShape,
     changeTargetNodePoint
   } = godTreeContext as IGodTreeContext;
+  const {treeList, treeShape} = godTreeContextValue
 
   // 最后一个是add功能节点。
   const treeData = [
-    ...props.treeData,
+    ...treeShape,
     {
       title: (<InputNode />) as any,
       key: "buttonNode-inputelement" as any,
@@ -58,7 +59,11 @@ export const ShowTree: React.FC<IShowTree> = props => {
         })
       } else if (dragKey.indexOf("targetNode") !== -1) {
         // 2)拿起来的时候treeNode节点
-        if (info.dragNode.props.title) {
+        const current = treeList.find((treeNode) => {
+          return treeNode._id === dragId
+        })
+        if (current && current.targetNodeId) {
+          // 已完成上树 就不需要了。
           changeTargetNodePoint({
             containerNodeId: dropContainerId,
             treeNodeId: dragId,

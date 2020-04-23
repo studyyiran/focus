@@ -95,12 +95,15 @@ export function useTargetInfoGetActions(
   const targetLevelUp = useCallback(
     async function(data) {
       // 1 发起关联
-      const res = await targetInfoServer.targetLevelUp(data);
-      // 2 更新history
-      dispatch({
-        type: ITargetInfoReducerTypes.setTargetList,
-        value: res
-      });
+      if (data && data.length) {
+        const res = await targetInfoServer.targetLevelUp(data);
+        // 2 更新history
+        dispatch({
+          type: ITargetInfoReducerTypes.setTargetList,
+          value: res
+        });
+      }
+
     },
     [dispatch, getHistoryByFilter]
   );
