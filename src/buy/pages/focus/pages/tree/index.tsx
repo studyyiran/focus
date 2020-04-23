@@ -70,7 +70,11 @@ export function TreePage() {
         {targetListHaveFinish
           .filter(i => i.status === "success")
           .map(props => (
-            <RenderTargetLine {...props}></RenderTargetLine>
+            <RenderTargetLine {...props}><RenderLevelUpButtons
+                targetId={props._id}
+                targetLevelUp={targetLevelUp}
+                type={"relife"}
+            /></RenderTargetLine>
           ))}
       </section>
       <section>
