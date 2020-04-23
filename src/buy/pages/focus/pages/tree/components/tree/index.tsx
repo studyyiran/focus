@@ -1,6 +1,7 @@
 import { Tree } from "antd";
 import React, { useContext, useState } from "react";
 import { GodTreeContext, IGodTreeContext } from "../../context";
+import {levelupModal} from "../../../targetPage/components/renderLevelUpButtons";
 
 interface IShowTree {
   treeData: any;
@@ -62,10 +63,16 @@ export const ShowTree: React.FC<IShowTree> = props => {
                  */
       } else if (dragKey.indexOf("targetNode") !== -1) {
         console.log("targetNode");
-        changeTargetNodePoint({
-          containerNodeId: dropContainerId,
-          treeNodeId: dragId
+        levelupModal("something", (info: any) => {
+          if (info && info.something) {
+            changeTargetNodePoint({
+              containerNodeId: dropContainerId,
+              treeNodeId: dragId,
+              treeNodekeyName: info.something,
+            });
+          }
         });
+
         // 2)拿起来的时候treeNode节点
         /*
                 {
@@ -82,9 +89,10 @@ export const ShowTree: React.FC<IShowTree> = props => {
         //2)新增节点。
         /*
                 {
-                targetContainerNodeId: ,
-                containerNodeName: ,
 
+                containerNodeName: ,
+                moveContainerNodeId: ,
+                containerNodeName: ,
                 }
                  */
       }

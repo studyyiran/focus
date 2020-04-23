@@ -34,7 +34,6 @@ export function TargetInfoPage() {
     } else {
       return -1;
     }
-    debugger;
     return 0;
   });
   function getPosition(target: ITarget) {

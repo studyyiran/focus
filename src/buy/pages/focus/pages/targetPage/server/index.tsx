@@ -38,8 +38,14 @@ async function getTargetListHaveFinish() {
 }
 
 async function targetLevelUp(data: ITargetLevelUpJson) {
-  const res: any = await ajax.post(levelupUrl, data);
-  return res;
+  // 简单屏蔽掉多次ajax
+  if (data && data.targetArr && data.targetArr.length) {
+    const res: any = await ajax.post(levelupUrl, data);
+    return res;
+  } else {
+    return Promise.resolve();
+  }
+
 }
 
 

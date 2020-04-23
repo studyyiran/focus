@@ -276,7 +276,7 @@ function reducer(
   return { ...state };
 }
 
-function levelupModal(type: string, callBack: any) {
+export function levelupModal(type: string, callBack: any) {
   const modal = (MyModal as any).confirm({
     width: "70%",
     closable: true,
