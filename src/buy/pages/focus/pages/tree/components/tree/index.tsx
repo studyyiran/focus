@@ -17,6 +17,7 @@ export const ShowTree: React.FC<IShowTree> = props => {
     changeTreeShape,
     changeTargetNodePoint
   } = godTreeContext as IGodTreeContext;
+
   // 最后一个是add功能节点。
   const treeData = [
     ...props.treeData,
@@ -41,60 +42,50 @@ export const ShowTree: React.FC<IShowTree> = props => {
     const dragKey = info.dragNode.props.eventKey;
     // const dropPos = info.node.props.pos.split('-');
     // const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
-
-    // 放到了节点上才有效
-
+    console.log(info.dragNode)
     if (dropKey.indexOf("containerNode") === -1) {
+      // 放到了节点上才有效
       return;
     } else {
-      console.log(dropKey);
       const dropContainerId = dropKey.split("-")[1];
-      console.log(dragKey);
       const dragId = dragKey.split("-")[1];
       if (dragKey.indexOf("containerNode") !== -1) {
-        console.log("containerNode");
         // 1）拿起来的是个container节点
-
-        /*
-                {
-                targetContainerNodeId: ,
-                containerNodeId: ,
-                }
-                 */
+        changeTreeShape({
+          targetContainerNodeId: dropKey,
+          moveContainerNodeId: dragKey,
+          containerNodeName: '',
+        })
       } else if (dragKey.indexOf("targetNode") !== -1) {
-        console.log("targetNode");
+        // 2)拿起来的时候treeNode节点
+        if (info.dragNode.props.title) {
+          changeTargetNodePoint({
+            containerNodeId: dropContainerId,
+            treeNodeId: dragId,
+            treeNodeKeyName: info.something,
+          });
+        } else {
+          levelupModal("something", (info: any) => {
+            if (info && info.something) {
+              changeTargetNodePoint({
+                containerNodeId: dropContainerId,
+                treeNodeId: dragId,
+                treeNodeKeyName: info.something,
+              });
+            }
+          });
+        }
+      } else if (dragKey.indexOf("buttonNode") !== -1) {
         levelupModal("something", (info: any) => {
+          // 3)拿起来的是个新增按钮
           if (info && info.something) {
-            changeTargetNodePoint({
-              containerNodeId: dropContainerId,
-              treeNodeId: dragId,
-              treeNodekeyName: info.something,
-            });
+            changeTreeShape({
+              targetContainerNodeId: dropKey,
+              moveContainerNodeId: '',
+              containerNodeName: info.something,
+            })
           }
         });
-
-        // 2)拿起来的时候treeNode节点
-        /*
-                {
-                    targetContainerNodeId: ,
-                    treeNodeId: ,
-                }
-                 */
-      } else if (dragKey.indexOf("buttonNode") !== -1) {
-        console.log("buttonNode");
-        // 3)拿起来的是个新增按钮
-
-        //1）需要有值。
-
-        //2)新增节点。
-        /*
-                {
-
-                containerNodeName: ,
-                moveContainerNodeId: ,
-                containerNodeName: ,
-                }
-                 */
       }
     }
 

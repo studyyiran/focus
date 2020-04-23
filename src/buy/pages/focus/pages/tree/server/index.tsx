@@ -25,8 +25,8 @@ async function getTreeShape() {
   return res;
 }
 
-async function changeTreeShape({nextTreeShape} : {nextTreeShape: any}) {
-  const res: any = await ajax.post(changeTreeShapeUrl, {nextTreeShape});
+async function changeTreeShape(data: any) {
+  const res: any = await ajax.post(changeTreeShapeUrl, data);
   return res;
 }
 
