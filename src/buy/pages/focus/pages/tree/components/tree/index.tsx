@@ -62,7 +62,7 @@ export const ShowTree: React.FC<IShowTree> = props => {
         const current = treeList.find((treeNode) => {
           return treeNode._id === dragId
         })
-        if (current && current.targetNodeId) {
+        if (current && current.containerNodeId) {
           // 已完成上树 就不需要了。
           changeTargetNodePoint({
             containerNodeId: dropContainerId,

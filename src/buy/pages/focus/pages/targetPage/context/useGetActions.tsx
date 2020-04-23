@@ -95,7 +95,8 @@ export function useTargetInfoGetActions(
   const targetLevelUp = useCallback(
     async function(data) {
       // 1 发起关联
-      if (data && data.length) {
+      // 简单屏蔽掉多次ajax
+      if (data && data.targetArr && data.targetArr.length) {
         const res = await targetInfoServer.targetLevelUp(data);
         // 2 更新history
         dispatch({
