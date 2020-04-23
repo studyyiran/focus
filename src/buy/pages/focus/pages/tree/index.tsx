@@ -15,7 +15,7 @@ export function TreePage() {
     getTreeShape,
   } = godTreeContext as IGodTreeContext;
   // 从context中获取值
-  const { treeList, treeShape } = godTreeContextValue;
+  // const { treeList, treeShape } = godTreeContextValue;
   // local发起请求
   useEffect(() => {
     getTreeList();
@@ -48,23 +48,24 @@ export function TreePage() {
           add tree shape
         </div>
       </section>
-      <section>
-        <h2>finish</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>createTime</th>
-              <th>targetId</th>
-              <th>comments</th>
-            </tr>
-          </thead>
-          <tbody>
-            {treeList.map(props => (
-              <RenderTreeLine {...props} />
-            ))}
-          </tbody>
-        </table>
-      </section>
+        {/*暂时没有必要列出来waitList*/}
+      {/*<section>*/}
+      {/*  <h2>finish</h2>*/}
+      {/*  <table>*/}
+      {/*    <thead>*/}
+      {/*      <tr>*/}
+      {/*        <th>createTime</th>*/}
+      {/*        <th>targetId</th>*/}
+      {/*        <th>comments</th>*/}
+      {/*      </tr>*/}
+      {/*    </thead>*/}
+      {/*    <tbody>*/}
+      {/*      {treeList.map(props => (*/}
+      {/*        <RenderTreeLine {...props} />*/}
+      {/*      ))}*/}
+      {/*    </tbody>*/}
+      {/*  </table>*/}
+      {/*</section>*/}
       <section>
         <h2>finish detail</h2>
         {targetListHaveFinish
