@@ -171,6 +171,8 @@ export const ShowTree: React.FC<IShowTree> = props => {
     return (
       <div>
         <DirectoryTree
+          showLine
+          switcherIcon={<span></span>}
           onDrop={onDrop}
           draggable
           defaultExpandAll
