@@ -59,18 +59,18 @@ export function TreePage() {
       {/*    </tbody>*/}
       {/*  </table>*/}
       {/*</section>*/}
-      <section>
-        <h2>finish detail</h2>
-        {targetListHaveFinish
-          .filter(i => i.status === "success")
-          .map(props => (
-            <RenderTargetLine {...props}><RenderLevelUpButtons
-                targetId={props._id}
-                targetLevelUp={targetLevelUp}
-                type={"relife"}
-            /></RenderTargetLine>
-          ))}
-      </section>
+      {/*<section>*/}
+      {/*  <h2>finish detail</h2>*/}
+      {/*  {targetListHaveFinish*/}
+      {/*    .filter(i => i.status === "success")*/}
+      {/*    .map(props => (*/}
+      {/*      <RenderTargetLine {...props}><RenderLevelUpButtons*/}
+      {/*          targetId={props._id}*/}
+      {/*          targetLevelUp={targetLevelUp}*/}
+      {/*          type={"relife"}*/}
+      {/*      /></RenderTargetLine>*/}
+      {/*    ))}*/}
+      {/*</section>*/}
       <section>
         <h2>fail detail</h2>
         {targetListHaveFinish

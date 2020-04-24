@@ -44,8 +44,10 @@ export const ShowTree: React.FC<IShowTree> = props => {
       })
       if (current) {
         setCurrentSelectTarget(current.targetId)
+        return
       }
     }
+    setCurrentSelectTarget("")
     console.log("selected", selectedKeys, info);
   };
 
