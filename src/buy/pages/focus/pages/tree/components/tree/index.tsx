@@ -1,11 +1,9 @@
 import { Tree } from "antd";
 import React, { useContext, useState } from "react";
 import { GodTreeContext, IGodTreeContext } from "../../context";
-import {levelupModal} from "../../../targetPage/components/renderLevelUpButtons";
+import { levelupModal } from "../../../targetPage/components/renderLevelUpButtons";
 
-interface IShowTree {
-
-}
+interface IShowTree {}
 
 export const ShowTree: React.FC<IShowTree> = props => {
   // 引入context
@@ -17,7 +15,7 @@ export const ShowTree: React.FC<IShowTree> = props => {
     changeTreeShape,
     changeTargetNodePoint
   } = godTreeContext as IGodTreeContext;
-  const {treeList, treeShape} = godTreeContextValue
+  const { treeList, treeShape } = godTreeContextValue;
 
   // 最后一个是add功能节点。
   const treeData = [
@@ -38,12 +36,10 @@ export const ShowTree: React.FC<IShowTree> = props => {
   };
 
   const onDrop = (info: any) => {
-    console.log(info);
     const dropKey = info.node.props.eventKey;
     const dragKey = info.dragNode.props.eventKey;
     // const dropPos = info.node.props.pos.split('-');
     // const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
-    console.log(info.dragNode)
     if (dropKey.indexOf("containerNode") === -1) {
       // 放到了节点上才有效
       return;
@@ -55,19 +51,19 @@ export const ShowTree: React.FC<IShowTree> = props => {
         changeTreeShape({
           targetContainerNodeId: dropKey,
           moveContainerNodeId: dragKey,
-          containerNodeName: '',
-        })
+          containerNodeName: ""
+        });
       } else if (dragKey.indexOf("targetNode") !== -1) {
         // 2)拿起来的时候treeNode节点
-        const current = treeList.find((treeNode) => {
-          return treeNode._id === dragId
-        })
+        const current = treeList.find(treeNode => {
+          return treeNode._id === dragId;
+        });
         if (current && current.containerNodeId) {
           // 已完成上树 就不需要了。
           changeTargetNodePoint({
             containerNodeId: dropContainerId,
             treeNodeId: dragId,
-            treeNodeKeyName: info.something,
+            treeNodeKeyName: info.something
           });
         } else {
           levelupModal("something", (info: any) => {
@@ -75,7 +71,7 @@ export const ShowTree: React.FC<IShowTree> = props => {
               changeTargetNodePoint({
                 containerNodeId: dropContainerId,
                 treeNodeId: dragId,
-                treeNodeKeyName: info.something,
+                treeNodeKeyName: info.something
               });
             }
           });
@@ -86,24 +82,14 @@ export const ShowTree: React.FC<IShowTree> = props => {
           if (info && info.something) {
             changeTreeShape({
               targetContainerNodeId: dropKey,
-              moveContainerNodeId: '',
-              containerNodeName: info.something,
-            })
+              moveContainerNodeId: "",
+              containerNodeName: info.something
+            });
           }
         });
       }
     }
 
-    const loop = (data: any, key: any, callback: any) => {
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].key === key) {
-          return callback(data[i], i, data);
-        }
-        if (data[i].children) {
-          loop(data[i].children, key, callback);
-        }
-      }
-    };
     const data = [...treeData];
 
     if (!info.dropToGap) {
@@ -127,11 +113,29 @@ export const ShowTree: React.FC<IShowTree> = props => {
     // });
   };
 
+  const loop = (data: any, key: any, callback: any) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].key.indexOf(key) !== -1) {
+        return callback(data[i], i, data);
+      }
+      if (data[i].children) {
+        loop(data[i].children, key, callback);
+      }
+    }
+  };
+  const expandedKeysArr: any[] = [];
+  loop(treeShape, "containerNode", (data: any) => {
+    expandedKeysArr.push(data.key);
+  });
+
   return (
     <Tree
       onDrop={onDrop}
       draggable
+      autoExpandParent
+      defaultExpandParent
       defaultExpandAll
+      expandedKeys={expandedKeysArr}
       onSelect={onSelect}
       onCheck={onCheck}
       treeData={treeData}
