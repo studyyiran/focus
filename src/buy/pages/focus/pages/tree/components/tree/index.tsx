@@ -46,7 +46,7 @@ export const ShowTree: React.FC<IShowTree> = props => {
   const treeData = [
     ... JSON.parse(JSON.stringify(treeShape)),
     {
-      title: (<InputNode />) as any,
+      title: "+new container",
       key: "buttonNode-inputelement" as any,
       children: []
     }
