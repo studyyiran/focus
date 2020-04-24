@@ -1,12 +1,21 @@
 import { Tree } from "antd";
 import React, { useContext, useState } from "react";
 import { GodTreeContext, IGodTreeContext } from "../../context";
-import { levelupModal } from "../../../targetPage/components/renderLevelUpButtons";
+import {
+  levelupModal,
+  RenderLevelUpButtons
+} from "../../../targetPage/components/renderLevelUpButtons";
+import { RenderTargetLine } from "../../../targetPage/components/renderTargetLine";
+import { ITargetInfoState } from "../../../targetPage/context";
 
-interface IShowTree {}
+interface IShowTree {
+  targetListHaveFinish: ITargetInfoState["targetListHaveFinish"];
+}
 
 export const ShowTree: React.FC<IShowTree> = props => {
+  const [currentSelectTarget, setCurrentSelectTarget] = useState('');
   // 引入context
+  const { targetListHaveFinish } = props;
   const godTreeContext = useContext(GodTreeContext);
   const {
     godTreeContextValue,
@@ -28,6 +37,15 @@ export const ShowTree: React.FC<IShowTree> = props => {
   ];
 
   const onSelect = (selectedKeys: any, info: any) => {
+    const currentId = selectedKeys && selectedKeys.length && selectedKeys[0]
+    if (currentId) {
+      const current = treeList.find((treeNode) => {
+        return currentId.indexOf(treeNode._id) !== -1
+      })
+      if (current) {
+        setCurrentSelectTarget(current.targetId)
+      }
+    }
     console.log("selected", selectedKeys, info);
   };
 
@@ -136,19 +154,33 @@ export const ShowTree: React.FC<IShowTree> = props => {
     },
     true
   );
-
   // default只对第一次有效
   if (treeData && treeData.length > 1) {
-    console.log(treeData);
     return (
-      <Tree
-        onDrop={onDrop}
-        draggable
-        defaultExpandAll
-        onSelect={onSelect}
-        onCheck={onCheck}
-        treeData={treeData}
-      />
+      <div>
+        <Tree
+          onDrop={onDrop}
+          draggable
+          defaultExpandAll
+          onSelect={onSelect}
+          onCheck={onCheck}
+          treeData={treeData}
+        />
+        <section>
+          <h2>finish detail</h2>
+          {targetListHaveFinish
+            .filter(i => i.status === "success" && currentSelectTarget.indexOf(i._id) !== -1)
+            .map(props => (
+              <RenderTargetLine {...props}>
+                <RenderLevelUpButtons
+                  targetId={props._id}
+                  targetLevelUp={() => {}}
+                  type={"relife"}
+                />
+              </RenderTargetLine>
+            ))}
+        </section>
+      </div>
     );
   } else {
     return null;

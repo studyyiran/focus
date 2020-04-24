@@ -40,7 +40,7 @@ export const routerConfig = [
   {
     path: "/tree",
     exact: true,
-    title: "game-taitan",
+    title: "growth of tree",
     component: TreePage
   },
   {

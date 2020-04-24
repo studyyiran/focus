@@ -39,14 +39,7 @@ export function TreePage() {
     <div className="tree-page">
       <section>
         <h2>show tree</h2>
-        <ShowTree />
-        <div
-          onClick={() => {
-            // changeTreeShape({ nextTreeShape: emptyTreeShape });
-          }}
-        >
-          add tree shape
-        </div>
+        <ShowTree targetListHaveFinish={targetListHaveFinish} />
       </section>
         {/*暂时没有必要列出来waitList*/}
       {/*<section>*/}
