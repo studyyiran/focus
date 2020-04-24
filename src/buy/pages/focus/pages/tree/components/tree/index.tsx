@@ -113,34 +113,46 @@ export const ShowTree: React.FC<IShowTree> = props => {
     // });
   };
 
-  const loop = (data: any, key: any, callback: any) => {
+  const loop = (data: any, key: any, callback: any, isContinue?: boolean) => {
     for (let i = 0; i < data.length; i++) {
       if (data[i].key.indexOf(key) !== -1) {
-        return callback(data[i], i, data);
+        if (isContinue) {
+          callback(data[i], i, data);
+        } else {
+          return callback(data[i], i, data);
+        }
       }
       if (data[i].children) {
-        loop(data[i].children, key, callback);
+        loop(data[i].children, key, callback, isContinue);
       }
     }
   };
-  const expandedKeysArr: any[] = [];
-  loop(treeShape, "containerNode", (data: any) => {
-    expandedKeysArr.push(data.key);
-  });
-
-  return (
-    <Tree
-      onDrop={onDrop}
-      draggable
-      autoExpandParent
-      defaultExpandParent
-      defaultExpandAll
-      expandedKeys={expandedKeysArr}
-      onSelect={onSelect}
-      onCheck={onCheck}
-      treeData={treeData}
-    />
+  const defaultExpandedKeys: any[] = [];
+  loop(
+    treeShape,
+    "containerNode",
+    (data: any) => {
+      defaultExpandedKeys.push(data.key);
+    },
+    true
   );
+
+  // default只对第一次有效
+  if (treeData && treeData.length > 1) {
+    console.log(treeData);
+    return (
+      <Tree
+        onDrop={onDrop}
+        draggable
+        defaultExpandAll
+        onSelect={onSelect}
+        onCheck={onCheck}
+        treeData={treeData}
+      />
+    );
+  } else {
+    return null;
+  }
 };
 
 const InputNode = () => {
