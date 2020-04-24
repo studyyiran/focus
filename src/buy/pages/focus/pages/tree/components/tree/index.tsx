@@ -12,6 +12,22 @@ interface IShowTree {
   targetListHaveFinish: ITargetInfoState["targetListHaveFinish"];
 }
 
+const { DirectoryTree } = Tree;
+const loop = (data: any, key: any, callback: any, isContinue?: boolean) => {
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].key.indexOf(key) !== -1) {
+      if (isContinue) {
+        callback(data[i], i, data);
+      } else {
+        return callback(data[i], i, data);
+      }
+    }
+    if (data[i].children) {
+      loop(data[i].children, key, callback, isContinue);
+    }
+  }
+};
+
 export const ShowTree: React.FC<IShowTree> = props => {
   const [currentSelectTarget, setCurrentSelectTarget] = useState('');
   // 引入context
@@ -28,13 +44,21 @@ export const ShowTree: React.FC<IShowTree> = props => {
 
   // 最后一个是add功能节点。
   const treeData = [
-    ...treeShape,
+    ... JSON.parse(JSON.stringify(treeShape)),
     {
       title: (<InputNode />) as any,
       key: "buttonNode-inputelement" as any,
       children: []
     }
   ];
+
+  loop(treeData, "containerNode", (current: any) => {
+    current.style={color:'red'}
+  }, true)
+
+  loop(treeData, "targetNode", (current: any) => {
+    current.isLeaf=true
+  }, true)
 
   const onSelect = (selectedKeys: any, info: any) => {
     const currentId = selectedKeys && selectedKeys.length && selectedKeys[0]
@@ -133,23 +157,9 @@ export const ShowTree: React.FC<IShowTree> = props => {
     // });
   };
 
-  const loop = (data: any, key: any, callback: any, isContinue?: boolean) => {
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].key.indexOf(key) !== -1) {
-        if (isContinue) {
-          callback(data[i], i, data);
-        } else {
-          return callback(data[i], i, data);
-        }
-      }
-      if (data[i].children) {
-        loop(data[i].children, key, callback, isContinue);
-      }
-    }
-  };
   const defaultExpandedKeys: any[] = [];
   loop(
-    treeShape,
+    treeData,
     "containerNode",
     (data: any) => {
       defaultExpandedKeys.push(data.key);
@@ -160,7 +170,7 @@ export const ShowTree: React.FC<IShowTree> = props => {
   if (treeData && treeData.length > 1) {
     return (
       <div>
-        <Tree
+        <DirectoryTree
           onDrop={onDrop}
           draggable
           defaultExpandAll
