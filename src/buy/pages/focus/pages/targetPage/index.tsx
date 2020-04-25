@@ -56,12 +56,22 @@ export function TargetInfoPage() {
     if (props) {
       const { lockType, status, finalComments } = props;
       if (status === "doing") {
-        return (
-          <RenderLevelUpButtons
-            targetId={props._id}
-            targetLevelUp={targetLevelUp}
-          />
-        );
+        if (lockType === 'levelUpLockComments') {
+          return (
+              <RenderLevelUpButtons
+                  targetId={props._id}
+                  targetLevelUp={targetLevelUp}
+                  type="levelUpLockComments"
+              />
+          );
+        } else {
+          return (
+              <RenderLevelUpButtons
+                  targetId={props._id}
+                  targetLevelUp={targetLevelUp}
+              />
+          );
+        }
       } else {
         if (lockType || !finalComments) {
           return (

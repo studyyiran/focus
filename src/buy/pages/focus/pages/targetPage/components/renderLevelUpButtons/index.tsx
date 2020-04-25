@@ -19,6 +19,7 @@ enum ButtonType {
   failToTree = "failToTree",
   successToTree = "successToTree",
   setTreeComments = "setTreeComments",
+  levelUpLockComments = "levelUpLockComments",
   levelup = "levelup"
 }
 
@@ -160,6 +161,25 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
           </Button>
         );
         break;
+      case ButtonType.levelUpLockComments:
+        dom = (
+            <Button
+                onClick={() => {
+                  levelupModal("comments", (info: any) => {
+                    dispatchTargetLevelUpJson({
+                      type: ButtonType.levelUpLockComments,
+                      value: {
+                        targetId,
+                        innerValue: info.comments
+                      }
+                    });
+                  });
+                }}
+            >
+              levelUpLockComments
+            </Button>
+        );
+        break;
     }
     return dom;
   }
@@ -177,6 +197,13 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
           <ul>
             <li>{renderButtonByFormKey(ButtonType.setTreeComments)}</li>
           </ul>
+        );
+        break;
+      case "levelUpLockComments":
+        return (
+            <ul>
+              <li>{renderButtonByFormKey(ButtonType.levelUpLockComments)}</li>
+            </ul>
         );
         break;
     }
@@ -263,6 +290,18 @@ function reducer(
             {
               targetId,
               type: "setTreeComments",
+              comments: innerValue
+            }
+          ]
+        };
+        break;
+      }
+      case "levelUpLockComments": {
+        return {
+          targetArr: [
+            {
+              targetId,
+              type: "levelUpLockComments",
               comments: innerValue
             }
           ]
