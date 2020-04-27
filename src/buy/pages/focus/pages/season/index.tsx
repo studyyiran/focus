@@ -10,31 +10,38 @@ export function SeasonPage() {
   const {
     seasonContextValue,
     getSeasonList,
-    startNewSeason
+    startNewSeason,
+    getTodayLearnThing
   } = seasonContext as ISeasonContext;
   // 从context中获取值
-  const { seasonList } = seasonContextValue;
+  const { seasonList, todayLearnThingList } = seasonContextValue;
   // local发起请求
   useEffect(() => {
     getSeasonList();
-  }, [getSeasonList]);
+    getTodayLearnThing();
+  }, [getSeasonList, getTodayLearnThing]);
   // 渲染
-  console.log(seasonList)
+  console.log(seasonList);
+  console.log(todayLearnThingList);
 
   function addNewSeasonHandler() {
-    levelupModal("name", ({name} : any) => {
-      console.log(name)
-      startNewSeason({name})
-    })
+    levelupModal("name", ({ name }: any) => {
+      console.log(name);
+      startNewSeason({ name });
+    });
   }
 
-  return <div className="season-page">
-    <section>
-      <h2>season List</h2>
-      {seasonList.map((props) => <SeasonLine {...props} />)}
-      <div>
-        <button onClick={addNewSeasonHandler}>add new season</button>
-      </div>
-    </section>
-  </div>;
+  return (
+    <div className="season-page">
+      <section>
+        <h2>season List</h2>
+        {seasonList.map(props => (
+          <SeasonLine {...props} />
+        ))}
+        <div>
+          <button onClick={addNewSeasonHandler}>add new season</button>
+        </div>
+      </section>
+    </div>
+  );
 }

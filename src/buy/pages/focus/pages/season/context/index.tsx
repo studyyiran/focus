@@ -18,6 +18,7 @@ export const Season = "Season";
 // store state
 export interface ISeasonState {
   seasonList: [];
+  todayLearnThingList: [];
 }
 
 export interface ISeason {
@@ -48,7 +49,8 @@ export interface ISeasonContext
 // store provider
 export function SeasonContextProvider(props: any) {
   const initState: ISeasonState = {
-    seasonList: []
+    seasonList: [],
+    todayLearnThingList: []
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -75,7 +77,8 @@ export function SeasonContextProvider(props: any) {
 
 // action types
 export const seasonReducerTypes = {
-  setSeasonList: "setSeasonList"
+  setSeasonList: "setSeasonList",
+  setTodayLearnThingList: "setTodayLearnThingList"
 };
 
 // reducer
@@ -87,6 +90,13 @@ function reducer(state: ISeasonState, action: IReducerAction) {
       newState = {
         ...newState,
         seasonList: value
+      };
+      break;
+    }
+    case seasonReducerTypes.setTodayLearnThingList: {
+      newState = {
+        ...newState,
+        todayLearnThingList: value
       };
       break;
     }

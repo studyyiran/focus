@@ -20,7 +20,8 @@ const deleteItemUrl = serverName + "/hideStudyItem"; // 通用删除口
 const getHistoryByFilterUrl = serverName + "/getHistoryList"; // 获取全部的列表信息数据（根据筛选项。）
 
 const getWishListUrl = serverName + "/getWishList"; // 获取心愿单
-const getRelatedTodoListUrl = serverName + "/getRelatedTodoList"; // 获取心愿单
+const getRelatedTodoListUrl = serverName + "/getRelatedTodoList";
+const getTodayLearnThingUrl = serverName + "/getTodayLearnThing";
 
 export default {
   changeStudyItemStatus: async (data: any) => {
@@ -61,6 +62,10 @@ export default {
   },
   getRelatedTodoList: async () => {
     const res: any = await ajax.get(getRelatedTodoListUrl);
+    return res;
+  },
+  getTodayLearnThing: async () => {
+    const res: any = await ajax.get(getTodayLearnThingUrl);
     return res;
   }
 };
