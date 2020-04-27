@@ -10,12 +10,12 @@ export function SeasonPage() {
     getTestAjaxValue
   } = seasonContext as ISeasonContext;
   // 从context中获取值
-  const { testValue } = seasonContextValue;
+  const { seasonList } = seasonContextValue;
   // local发起请求
   useEffect(() => {
     getTestAjaxValue();
   }, [getTestAjaxValue]);
   // 渲染
-  console.log(testValue)
-  return <div className="test-page">{123}</div>;
+  console.log(seasonList)
+  return <div className="season-page">{123}</div>;
 }

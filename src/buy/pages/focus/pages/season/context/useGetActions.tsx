@@ -22,9 +22,9 @@ export function useSeasonGetActions (
     promiseStatus.current = {};
   }
   const getTestAjaxValue = useCallback(async function() {
-    const res = await seasonServer.getTestAjaxResult();
+    const res = await seasonServer.getSeasonList();
     dispatch({
-      type: seasonReducerTypes.setTestValue,
+      type: seasonReducerTypes.setSeasonList,
       value: res
     });
   }, [dispatch])

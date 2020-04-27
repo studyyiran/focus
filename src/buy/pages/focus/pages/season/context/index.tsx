@@ -17,7 +17,23 @@ export const SeasonContext = createContext({} as ISeasonContext);
 export const Season = "Season";
 // store state
 export interface ISeasonState {
-  testValue: number;
+  seasonList: [];
+}
+
+interface ISeason {
+  createTime: String,
+  status: String
+  slots: [
+    {
+      isLock: boolean,
+      children: [
+        {
+          addTime: String,// add time
+          todoId: String,
+        }
+      ]
+    }
+  ]
 }
 
 // interface
@@ -31,7 +47,7 @@ export interface ISeasonContext
 // store provider
 export function SeasonContextProvider(props: any) {
   const initState: ISeasonState = {
-    testValue: 101
+    seasonList: []
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -58,7 +74,7 @@ export function SeasonContextProvider(props: any) {
 
 // action types
 export const seasonReducerTypes = {
-  setTestValue: "setTestValue"
+  setSeasonList: "setSeasonList"
 };
 
 // reducer
@@ -66,10 +82,10 @@ function reducer(state: ISeasonState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
-    case seasonReducerTypes.setTestValue: {
+    case seasonReducerTypes.setSeasonList: {
       newState = {
         ...newState,
-        testValue: value
+        seasonList: value
       };
       break;
     }

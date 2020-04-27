@@ -4,14 +4,13 @@ import { getTestAjaxResultMock } from "./mock";
 /**
  * 首页相关
  * */
-export const TestAjaxUrl = "/reviewPart/getReviewList";
+export const getSeasonListUrl = "/season/getSeasonList";
 
-async function getTestAjaxResult() {
-  const res: any = await ajax.get(TestAjaxUrl);
-  return getTestAjaxResultMock;
+async function getSeasonList() {
+  const res: any = await ajax.get(getSeasonListUrl);
   return res;
 }
 
 export const seasonServer = {
-  getTestAjaxResult
+  getSeasonList
 }
