@@ -8,7 +8,9 @@ import {ISeasonState, seasonReducerTypes} from "./index";
 
 // @actions
 export interface ISeasonActions {
-  getTestAjaxValue: () => any;
+  getSeasonList: () => any;
+  addTodoIntoSeason: (info: any) => any;
+  startNewSeason: (info: any) => any;
 }
 
 // useCreateActions
@@ -21,14 +23,30 @@ export function useSeasonGetActions (
   if (!promiseStatus.current) {
     promiseStatus.current = {};
   }
-  const getTestAjaxValue = useCallback(async function() {
+  const getSeasonList = useCallback(async function() {
     const res = await seasonServer.getSeasonList();
     dispatch({
       type: seasonReducerTypes.setSeasonList,
       value: res
     });
   }, [dispatch])
+  const addTodoIntoSeason = useCallback(async function(info) {
+    const res = await seasonServer.addTodoIntoSeason(info);
+    dispatch({
+      type: seasonReducerTypes.setSeasonList,
+      value: res
+    });
+  }, [dispatch])
+  const startNewSeason = useCallback(async function(info) {
+    const res = await seasonServer.startNewSeason(info);
+    dispatch({
+      type: seasonReducerTypes.setSeasonList,
+      value: res
+    });
+  }, [dispatch])
   return {
-    getTestAjaxValue
+    getSeasonList,
+    addTodoIntoSeason,
+    startNewSeason
   };
 }
