@@ -17,25 +17,34 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
   // const fillSlots : any[] = new Array(4).fill({})
 
   const fillSlotsFunc = () => {
-    let fillSlots: any[] = [];
-    for (let i = 0; i < 4; i++) {
-      if (!slots[i]) {
-        if (i === 0) {
-          fillSlots[i] = {
-            haveStudy: true,
-            haveReview: true
+    const showCount = 4;
+    return new Array(showCount).fill({}).map((item, index) => {
+      const slotInfo = slots[index];
+      if (slotInfo) {
+        const { isLock } = slotInfo;
+        if (isLock) {
+          return {
+            type: "lock"
           };
         } else {
-          fillSlots[i] = {};
+          if (index % 2 === 0) {
+            return {
+              type: "study"
+            };
+          } else {
+            return {
+              type: "review"
+            };
+          }
         }
       } else {
+        return { type: "none" };
       }
-    }
-    return fillSlots;
+    });
   };
 
   const fillSlots = fillSlotsFunc();
-
+  console.log(fillSlots)
   return (
     <div className="season-line-container">
       <button
@@ -49,7 +58,7 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
         add into
       </button>
       <div className="season-line">
-        {fillSlots.map(config => {
+        {fillSlots.map((config: any) => {
           return <Slot {...config} />;
         })}
       </div>
@@ -93,19 +102,28 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
 };
 
 interface ISlot {
-  haveStudy?: Boolean;
-  haveReview?: Boolean;
+  type: String;
 }
 
 const Slot: React.FC<ISlot> = props => {
-  const { haveStudy, haveReview } = props;
-  const haveStudyIcon = require("./res/study.jpg");
-  const haveReviewIcon = require("./res/review.jpg");
-  const noneIcon = require("./res/off.jpg");
+  const { type } = props;
+  const config: any = {
+    none: {
+      src: require("./res/off.jpg")
+    },
+    study: {
+      src: require("./res/study.jpg")
+    },
+    review: {
+      src: require("./res/review.jpg")
+    },
+    lock: {
+      src: require("./res/lock.jpg")
+    }
+  };
   return (
     <div className="season-slot">
-      {haveStudy ? <img src={haveStudyIcon} /> : <img src={noneIcon} />}
-      {haveReview ? <img src={haveReviewIcon} /> : <img src={noneIcon} />}
+      <img src={config[type as any].src} />
     </div>
   );
 };
