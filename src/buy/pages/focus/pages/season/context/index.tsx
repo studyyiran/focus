@@ -20,9 +20,10 @@ export interface ISeasonState {
   seasonList: [];
 }
 
-interface ISeason {
+export interface ISeason {
   createTime: String,
-  status: String
+  status: String,
+  _id: String,
   slots: [
     {
       isLock: boolean,
