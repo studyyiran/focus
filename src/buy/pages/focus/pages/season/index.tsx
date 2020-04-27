@@ -4,6 +4,7 @@ import { ISeasonContext, SeasonContext } from "./context";
 import { levelupModal } from "../targetPage/components/renderLevelUpButtons";
 import { SeasonLine } from "./components/seasonLine";
 
+
 export function SeasonPage() {
   // 引入context
   const seasonContext = useContext(SeasonContext);
@@ -11,7 +12,8 @@ export function SeasonPage() {
     seasonContextValue,
     getSeasonList,
     startNewSeason,
-    getTodayLearnThing
+    getTodayLearnThing,
+    addTodoIntoSeason
   } = seasonContext as ISeasonContext;
   // 从context中获取值
   const { seasonList, todayLearnThingList } = seasonContextValue;
@@ -36,7 +38,7 @@ export function SeasonPage() {
       <section>
         <h2>season List</h2>
         {seasonList.map(props => (
-          <SeasonLine {...props} />
+          <SeasonLine {...props} addTodoIntoSeason={addTodoIntoSeason} todayLearnThingList={todayLearnThingList} />
         ))}
         <div>
           <button onClick={addNewSeasonHandler}>add new season</button>

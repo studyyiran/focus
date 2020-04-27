@@ -315,7 +315,7 @@ function reducer(
   return { ...state };
 }
 
-export function levelupModal(type: string, callBack: any) {
+export function levelupModal(type: string, callBack: any, formConfig?: any) {
   const modal = (MyModal as any).confirm({
     width: "70%",
     closable: true,
@@ -326,7 +326,7 @@ export function levelupModal(type: string, callBack: any) {
     children: (
       <div className="post-item-form">
         <FormWrapper
-          formConfig={[
+          formConfig={formConfig || [
             {
               id: type,
               initialValue: "",
