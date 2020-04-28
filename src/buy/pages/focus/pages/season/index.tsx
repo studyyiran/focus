@@ -37,6 +37,16 @@ export function SeasonPage() {
     <div className="season-page">
       <section>
         <h2>season List</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>seasonName</th>
+              <th>seasonCreateTime</th>
+              <th>seasonSlots</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+        </table>
         {seasonList.map(props => (
           <SeasonLine {...props} addTodoIntoSeason={addTodoIntoSeason} todayLearnThingList={todayLearnThingList} />
         ))}

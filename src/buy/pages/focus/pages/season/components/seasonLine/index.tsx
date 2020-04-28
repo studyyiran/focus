@@ -13,62 +13,88 @@ interface ISeasonLine extends ISeason {
 // addTodoIntoSeason={addTodoIntoSeason} todayLearnThingList={todayLearnThingList}
 export const SeasonLine: React.FC<ISeasonLine> = props => {
   console.log(props);
-  const { _id, slots, todayLearnThingList, addTodoIntoSeason } = props;
+  const {
+    _id,
+    slots,
+    todayLearnThingList,
+    addTodoIntoSeason,
+    name,
+    createTime
+  } = props;
   // const fillSlots : any[] = new Array(4).fill({})
 
   const fillSlotsFunc = () => {
-    const showCount = 4;
-    return new Array(showCount).fill({}).map((item, index) => {
-      const slotInfo = slots[index];
-      if (slotInfo) {
-        const { isLock } = slotInfo;
-        if (isLock) {
-          return {
-            type: "lock"
-          };
-        } else {
-          if (index % 2 === 0) {
+    const maxEmptyCount = 8;
+    const fillSlots = [] as any[];
+    new Array(
+      slots.length > maxEmptyCount ? slots.length : maxEmptyCount
+    )
+      .fill({})
+      .map((item, index) => {
+        const slotInfo = slots[index];
+        if (slotInfo) {
+          const { isLock } = slotInfo;
+          if (isLock) {
             return {
-              type: "study"
+              type: "lock"
             };
           } else {
-            return {
-              type: "review"
-            };
+            if (index % 2 === 0) {
+              return {
+                type: "study"
+              };
+            } else {
+              return {
+                type: "review"
+              };
+            }
           }
+        } else {
+          return { type: "none" };
         }
-      } else {
-        return { type: "none" };
-      }
+      }).forEach((item, index) => {
+        if (index % 2 === 0) {
+          fillSlots.push([item.type])
+        } else {
+          fillSlots[fillSlots.length - 1].push(item.type)
+        }
     });
+    return fillSlots
   };
-
   const fillSlots = fillSlotsFunc();
   return (
-    <div className="season-line-container">
-      <button
-        onClick={() => {
-          // 1 进入这个页面会拉waitList
-          // 2 根据最后一个的类别，筛选出来用户可以选择的范围。
-          // 3 用户选定后，将两个id扔上去。
-          addTodoIntoSeasonHandler(
-            _id,
-            fillSlots.findIndex(
-              item => item.type === "none" || item.type === "lock"
-            ) %
-              2 ===
-              0
-          );
-        }}
-      >
-        add into
-      </button>
-      <div className="season-line">
-        {fillSlots.map((config: any) => {
-          return <Slot {...config} />;
-        })}
-      </div>
-    </div>
+    <tbody className="season-line-container">
+      <tr>
+        <td>{name}</td>
+        <td>{createTime}</td>
+        <td>
+          <div className="season-line">
+            {fillSlots.map((config: any) => {
+              return <Slot configArr={config} />;
+            })}
+          </div>
+        </td>
+        <td>
+          <button
+            onClick={() => {
+              // 1 进入这个页面会拉waitList
+              // 2 根据最后一个的类别，筛选出来用户可以选择的范围。
+              // 3 用户选定后，将两个id扔上去。
+              addTodoIntoSeasonHandler(
+                _id,
+                fillSlots.findIndex(
+                  item => item.type === "none" || item.type === "lock"
+                ) %
+                  2 ===
+                  0
+              );
+            }}
+          >
+            add into
+          </button>
+        </td>
+      </tr>
+    </tbody>
   );
 
   function addTodoIntoSeasonHandler(seasonId: any, isStudy: boolean) {
@@ -112,11 +138,11 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
 };
 
 interface ISlot {
-  type: String;
+  configArr: String[]
 }
 
 const Slot: React.FC<ISlot> = props => {
-  const { type } = props;
+  const { configArr } = props;
   const config: any = {
     none: {
       src: require("./res/off.jpg")
@@ -133,7 +159,9 @@ const Slot: React.FC<ISlot> = props => {
   };
   return (
     <div className="season-slot">
-      <img src={config[type as any].src} />
+      {configArr.map((key, index) => {
+        return <img key={index} src={config[key as any].src} />
+      })}
     </div>
   );
 };

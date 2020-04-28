@@ -26,6 +26,7 @@ export interface ISeason {
   createTime: String,
   status: String,
   _id: String,
+  name: String,
   slots: [
     {
       isLock: boolean,
