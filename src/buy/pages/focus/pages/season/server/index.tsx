@@ -6,6 +6,8 @@ import ajax from "buy/common/utils/ajax";
 export const getSeasonListUrl = "/season/getSeasonList";
 export const startNewSeasonUrl = "/season/startNewSeason";
 export const addTodoIntoSeasonUrl = "/season/addTodoIntoSeason";
+export const addStudyBuffRecordUrl = "/season/addStudyBuffRecord";
+export const getStudyBuffRecordUrl = "/season/getStudyBuffRecord";
 
 async function getSeasonList() {
   const res: any = await ajax.get(getSeasonListUrl);
@@ -22,8 +24,20 @@ async function addTodoIntoSeason(info: any) {
   return res;
 }
 
+async function getStudyBuffRecord() {
+  const res: any = await ajax.get(getStudyBuffRecordUrl);
+  return res;
+}
+
+async function addStudyBuffRecord(info: any) {
+  const res: any = await ajax.post(addStudyBuffRecordUrl, info);
+  return res;
+}
+
 export const seasonServer = {
   startNewSeason,
   addTodoIntoSeason,
+  getStudyBuffRecord,
+  addStudyBuffRecord,
   getSeasonList
 }

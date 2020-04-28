@@ -1,25 +1,48 @@
-import React, { useRef, useState } from "react";
+import React, { useReducer, useRef, useState } from "react";
 import "./index.less";
 import { MyTimer } from "../../../../../../common/utils/timer";
+import {seasonServer} from '../../server'
 
 interface IMagicTimer {}
 
 const TIMERSTATUS = {
   STOP: "stop",
-  DOING: "doing"
+  DOING: "doing",
+  FINISH: "finish",
 };
 
+const reducer = (state: any, action: any) => {
+  const {type, value} = action
+  switch(type) {
+    case 'setStatus':
+      state.status = value
+      break
+    case 'setCurrentTime':
+      state.currentTime = value
+      break
+  }
+  return {...state}
+}
+
 export const MagicTimer: React.FC<IMagicTimer> = props => {
-  const [status, setStatus] = useState(TIMERSTATUS.STOP);
+  const initState = {
+    status: TIMERSTATUS.STOP,
+    currentTime: 25 * 1000 * 60,
+  }
+  const [state, dispatch] = useReducer(reducer, initState)
+  console.log(state)
   let timerRef = useRef({} as any);
   const renderByStatus = () => {
-    switch (status) {
+    switch (state.status) {
       case TIMERSTATUS.STOP:
         return (
           <button
             onClick={() => {
-              newTimer(25 * 1000 * 60);
-              setStatus(TIMERSTATUS.DOING)
+              newTimer(state.currentTime);
+              dispatch({
+                type: 'setStatus',
+                value: TIMERSTATUS.DOING
+              })
             }}
           >
             start!
@@ -31,8 +54,23 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
             onClick={() => {
               if (timerRef && timerRef.current && timerRef.current.stop) {
                 timerRef.current.stop()
-                setStatus(TIMERSTATUS.STOP)
+                dispatch({
+                  type: 'status',
+                  value: TIMERSTATUS.STOP
+                })
               }
+            }}
+          >
+            stop!
+          </button>
+        );
+      case TIMERSTATUS.FINISH:
+        return (
+          <button
+            onClick={() => {
+             // 填入时间。
+              // 填入buff类型。
+              // 进行记录。
 
             }}
           >
@@ -48,8 +86,11 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
     const info = {
       time: time,
       minInterval: -1000,
-      runCallBack: (times: any) => {
-        console.log(times);
+      runCallBack: (times: any, timeSecond: any) => {
+        dispatch({
+          type: 'setCurrentTime',
+          value: timeSecond
+        })
       },
       finishCallBack: () => {
         // that.setState({
@@ -61,8 +102,9 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
     timerRef.current = new MyTimer(info);
     timerRef.current.start();
   };
-
+  console.log(MyTimer.prototype.format(state.currentTime))
   return <div className="magic-timer">
+    {timerRef && timerRef.current && timerRef.current.format && timerRef.current.format(state.currentTime).join(':')}
     {renderByStatus()}
   </div>;
 };

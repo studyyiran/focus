@@ -95,30 +95,35 @@ export function isServer() {
   }
 }
 
-export function saveToCache(key: string, storeState: any, needKey: any[]) {
+export function saveToCache(key: string, storeState: any, needKey: any[], isLocalStorage?: boolean) {
   const cache: any = {};
   needKey.forEach(item => {
     cache[item] = storeState[item];
   });
-  setSession(key, cache);
+  setSession(key, cache, isLocalStorage);
 }
 
-export function getFromCacheStore(key: string) {
+export function getFromCacheStore(key: string, isLocalStorage?: boolean) {
   let cacheStore = {};
   // 1 先从ssr缓存拉取
   // 2 从session拉取
   // TODO 当这两个出现矛盾的时候 如何解决.
-  cacheStore = { ...getFromSession(key) };
+  cacheStore = { ...getFromSession(key, isLocalStorage) };
   return cacheStore;
 }
 
 // 检测
-export function getFromSession(key: string) {
+export function getFromSession(key: string, isLocalStorage?: boolean) {
   try {
     if (isServer()) {
       return null;
     } else {
-      const data = window.sessionStorage.getItem(key);
+      let data;
+      if (isLocalStorage) {
+        data = window.localStorage.getItem(key);
+      } else {
+        data = window.sessionStorage.getItem(key);
+      }
       if (data) {
         return JSON.parse(data);
       } else {
@@ -130,10 +135,14 @@ export function getFromSession(key: string) {
   }
 }
 
-export function setSession(key: string, obj: any) {
+export function setSession(key: string, obj: any, isLocalStorage?: boolean) {
   try {
     if (!isServer()) {
-      window.sessionStorage.setItem(key, JSON.stringify(obj));
+      if (isLocalStorage) {
+        window.localStorage.setItem(key, JSON.stringify(obj));
+      } else {
+        window.sessionStorage.setItem(key, JSON.stringify(obj));
+      }
       return true;
     } else {
       return false;
@@ -209,12 +218,12 @@ export async function callBackWhenPassAllFunc(arr: any[], callBack: any) {
   }
 }
 
-export function getUrlAllParams() {
+export function getUrlAllParams(urlHref?: string) {
   if (!isServer()) {
-    let url = decodeURI(window.location.href);
+    let url = decodeURI(urlHref || window.location.href);
     let res = {} as any;
     let url_data = url.split("?").length > 1 ? url.split("?")[1] : null;
-    if (!url_data) return null;
+    if (!url_data) return {};
     let params_arr = url_data.split("&");
     params_arr.forEach(function(item) {
       let key = item.split("=")[0];
@@ -223,7 +232,7 @@ export function getUrlAllParams() {
     });
     return res;
   } else {
-    return null;
+    return {};
   }
 }
 

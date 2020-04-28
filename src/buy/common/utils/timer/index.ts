@@ -46,7 +46,7 @@ MyTimer.prototype.perSecondCall = function(firstCall: any) {
     this.stopTime === true
   ) {
     this.currentTime = this.currentTime + this.minInterval;
-    this.runCallBack && this.runCallBack(this.format(this.currentTime));
+    this.runCallBack && this.runCallBack(this.format(this.currentTime), this.currentTime);
   } else {
     if (this.timeIntervalId) {
       this.stop();
