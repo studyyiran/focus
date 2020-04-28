@@ -10,6 +10,7 @@ import useReducerMiddleware from "buy/common/useHook/useReducerMiddleware";
 import { IContextValue } from "buy/common/type";
 
 import {ISeasonActions, useSeasonGetActions} from "./useGetActions";
+import { IListItem } from "../../../context/interface";
 
 export const SeasonContext = createContext({} as ISeasonContext);
 
@@ -18,7 +19,7 @@ export const Season = "Season";
 // store state
 export interface ISeasonState {
   seasonList: [];
-  todayLearnThingList: [];
+  todayLearnThingList: IListItem[];
 }
 
 export interface ISeason {

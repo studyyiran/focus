@@ -44,7 +44,6 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
   };
 
   const fillSlots = fillSlotsFunc();
-  console.log(fillSlots)
   return (
     <div className="season-line-container">
       <button
@@ -52,7 +51,14 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
           // 1 进入这个页面会拉waitList
           // 2 根据最后一个的类别，筛选出来用户可以选择的范围。
           // 3 用户选定后，将两个id扔上去。
-          addTodoIntoSeasonHandler(_id);
+          addTodoIntoSeasonHandler(
+            _id,
+            fillSlots.findIndex(
+              item => item.type === "none" || item.type === "lock"
+            ) %
+              2 ===
+              0
+          );
         }}
       >
         add into
@@ -65,7 +71,7 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
     </div>
   );
 
-  function addTodoIntoSeasonHandler(seasonId: any) {
+  function addTodoIntoSeasonHandler(seasonId: any, isStudy: boolean) {
     levelupModal(
       "useless",
       (info: any) => {
@@ -83,13 +89,17 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
           ],
           renderFormEle: () => (
             <Select>
-              {todayLearnThingList.map(({ content, _id }) => {
-                return (
-                  <Option value={_id} key={_id}>
-                    {content}
-                  </Option>
-                );
-              })}
+              {todayLearnThingList
+                .filter(todoInfo =>
+                  isStudy ? todoInfo.tag === "study" : todoInfo.tag === "review"
+                )
+                .map(({ content, _id }) => {
+                  return (
+                    <Option value={_id} key={_id}>
+                      {content}
+                    </Option>
+                  );
+                })}
             </Select>
           )
         },
