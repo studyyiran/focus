@@ -4,7 +4,6 @@ import "./index.less";
 import { levelupModal } from "../../../targetPage/components/renderLevelUpButtons";
 import { Button, Select } from "antd";
 import { ISeasonActions } from "../../context/useGetActions";
-import { MagicTimer } from "../magicTimer";
 const { Option } = Select;
 
 interface ISeasonLine extends ISeason {
@@ -93,7 +92,6 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
           >
             add into
           </button>
-          <MagicTimer />
         </td>
       </tr>
     </tbody>

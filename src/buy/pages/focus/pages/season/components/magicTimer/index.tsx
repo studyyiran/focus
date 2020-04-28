@@ -2,6 +2,7 @@ import React, { useReducer, useRef, useState } from "react";
 import "./index.less";
 import { MyTimer } from "../../../../../../common/utils/timer";
 import {seasonServer} from '../../server'
+import { levelupModal } from "../../../targetPage/components/renderLevelUpButtons";
 
 interface IMagicTimer {}
 
@@ -32,8 +33,8 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
   const [state, dispatch] = useReducer(reducer, initState)
   console.log(state)
   let timerRef = useRef({} as any);
-  const renderByStatus = () => {
-    switch (state.status) {
+  const renderByStatus = (currentStatus: string) => {
+    switch (currentStatus) {
       case TIMERSTATUS.STOP:
         return (
           <button
@@ -71,7 +72,12 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
              // 填入时间。
               // 填入buff类型。
               // 进行记录。
-
+              levelupModal("buffName", (info: any) => {
+                seasonServer.addStudyBuffRecord({
+                  buffName: info.buffName,
+                  continueTime: 25 * 1000,
+                })
+              });
             }}
           >
             stop!
@@ -105,6 +111,7 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
   console.log(MyTimer.prototype.format(state.currentTime))
   return <div className="magic-timer">
     {timerRef && timerRef.current && timerRef.current.format && timerRef.current.format(state.currentTime).join(':')}
-    {renderByStatus()}
+    {renderByStatus(state.status)}
+    {renderByStatus(TIMERSTATUS.FINISH)}
   </div>;
 };

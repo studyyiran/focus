@@ -3,6 +3,7 @@ import "./index.less";
 import { ISeasonContext, SeasonContext } from "./context";
 import { levelupModal } from "../targetPage/components/renderLevelUpButtons";
 import { SeasonLine } from "./components/seasonLine";
+import { MagicTimer } from "./components/magicTimer";
 
 
 export function SeasonPage() {
@@ -53,6 +54,7 @@ export function SeasonPage() {
         <div>
           <button onClick={addNewSeasonHandler}>add new season</button>
         </div>
+        <MagicTimer />
       </section>
     </div>
   );
