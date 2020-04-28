@@ -74,8 +74,8 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
               // 进行记录。
               levelupModal("buffName", (info: any) => {
                 seasonServer.addStudyBuffRecord({
-                  buffName: info.buffName,
-                  continueTime: 25 * 1000,
+                  type: info.buffName,
+                  continueTime: 25 * 1000 * 60,
                 })
               });
             }}
