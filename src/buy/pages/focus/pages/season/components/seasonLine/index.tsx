@@ -25,9 +25,7 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
   const fillSlotsFunc = () => {
     const maxEmptyCount = 8;
     const fillSlots = [] as any[];
-    new Array(
-      slots.length > maxEmptyCount ? slots.length : maxEmptyCount
-    )
+    new Array(slots.length > maxEmptyCount ? slots.length : maxEmptyCount)
       .fill({})
       .map((item, index) => {
         const slotInfo = slots[index];
@@ -51,16 +49,18 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
         } else {
           return { type: "none" };
         }
-      }).forEach((item, index) => {
+      })
+      .forEach((item, index) => {
         if (index % 2 === 0) {
-          fillSlots.push([item.type])
+          fillSlots.push([item.type]);
         } else {
-          fillSlots[fillSlots.length - 1].push(item.type)
+          fillSlots[fillSlots.length - 1].push(item.type);
         }
-    });
-    return fillSlots
+      });
+    return fillSlots;
   };
   const fillSlots = fillSlotsFunc();
+  console.log(slots);
   return (
     <tbody className="season-line-container">
       <tr>
@@ -81,11 +81,15 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
               // 3 用户选定后，将两个id扔上去。
               addTodoIntoSeasonHandler(
                 _id,
-                fillSlots.findIndex(
-                  item => item.type === "none" || item.type === "lock"
-                ) %
-                  2 ===
-                  0
+                (() => {
+                  const targetIndex = slots.findIndex(item => item.isLock);
+                  if (slots && slots.length) {
+                    let current = targetIndex === -1 ? slots.length : targetIndex
+                    return current % 2 === 0;
+                  } else {
+                    return false;
+                  }
+                })()
               );
             }}
           >
@@ -137,7 +141,7 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
 };
 
 interface ISlot {
-  configArr: String[]
+  configArr: String[];
 }
 
 const Slot: React.FC<ISlot> = props => {
@@ -159,7 +163,7 @@ const Slot: React.FC<ISlot> = props => {
   return (
     <div className="season-slot">
       {configArr.map((key, index) => {
-        return <img key={index} src={config[key as any].src} />
+        return <img key={index} src={config[key as any].src} />;
       })}
     </div>
   );
