@@ -7,6 +7,7 @@ import { RenderTargetLine } from "./components/renderTargetLine";
 import moment from "moment-timezone";
 import { MyFocusContext } from "../../context";
 import { RenderLevelUpButtons } from "./components/renderLevelUpButtons";
+import { sunnyType } from "../../config/tagArrConfig";
 
 export function TargetInfoPage() {
   // 引入context
@@ -116,7 +117,7 @@ export function TargetInfoPage() {
           }
         })}
       >
-        add 新的target
+        add 新的target({sunnyType.newTarget})
       </Button>
       {/*{renderLevelUpButton()}*/}
     </div>

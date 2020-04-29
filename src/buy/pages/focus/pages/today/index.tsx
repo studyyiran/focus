@@ -8,6 +8,7 @@ import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { TodoLine } from "../../components/ToDoLine";
 import { callBackWhenPassAllFunc } from "../../../../common/utils/util";
 import { IListItem } from "../../context/interface";
+import { sunnyType } from "../../config/tagArrConfig";
 
 export function FocusToday() {
   const myFocusContext = useContext(MyFocusContext);
@@ -48,7 +49,7 @@ export function FocusToday() {
       <TodayPageSection title="Plane">
         <Button onClick={testFunc}>
           <Svg icon="jia" />
-          Add Into Today Todo
+          Add Into Today Todo({sunnyType.todo})
         </Button>
         {todayTodo && todayTodo.plane && todayTodo.plane.length
           ? todayTodo.plane.map(item => {

@@ -7,6 +7,7 @@ import { Button, Input } from "antd";
 import { IReducerAction } from "../../../../../../common/mode/context/simple";
 import MyModal from "../../../../../../components/modal";
 import { FormWrapper } from "../../../../components/formWrapper";
+import { sunnyType } from "../../../../config/tagArrConfig";
 
 interface IRenderLevelUpButtons {
   targetId: string;
@@ -73,7 +74,7 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
               });
             }}
           >
-            LevelUp
+            LevelUp({sunnyType.levelup})
           </Button>
         );
         break;
@@ -94,7 +95,7 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
               });
             }}
           >
-            升阶
+            升阶({sunnyType.uptree})
           </Button>
         );
         break;

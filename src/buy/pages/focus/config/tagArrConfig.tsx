@@ -135,3 +135,11 @@ export const timeRangeDateArr = [
     name: "11"
   }
 ];
+
+export const sunnyType = {
+  'todo': -10,//当日新增任务
+  'levelup': -20,// 升级
+  'newTarget': -30,// 新增目标
+  'uptree': -40,// 成功上树
+  'relife': -50,// 复活
+}
