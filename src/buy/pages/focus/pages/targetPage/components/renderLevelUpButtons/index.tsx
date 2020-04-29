@@ -137,7 +137,7 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
               });
             }}
           >
-            ReLife
+            ReLife(-50)
           </Button>
         );
         break;

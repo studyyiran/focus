@@ -3,6 +3,7 @@ import { IReducerAction } from "buy/common/interface/index.interface";
 import { targetInfoServer } from "../server";
 import { ITargetInfoState, ITargetInfoReducerTypes } from "./index";
 import { MyFocusContext } from "../../../context";
+import { UserSunnyContext } from "../../../context/sunny";
 
 interface IAddNewTargetInfo {
   targetName: string;
@@ -41,6 +42,9 @@ export function useTargetInfoGetActions(
 ): ITargetInfoActions {
   const myFocusContext = useContext(MyFocusContext);
   const { getHistoryByFilter, getRelatedTodoList } = myFocusContext;
+
+  const userSunnyContext = useContext(UserSunnyContext);
+  const { getUserSunny } = userSunnyContext;
   const getTargetRelatedTodo = useCallback(
     async function() {
       const res = await targetInfoServer.getTargetRelatedTodo();
@@ -70,6 +74,7 @@ export function useTargetInfoGetActions(
       const res = await targetInfoServer.addNewTarget(data);
       // 更新下xxx
       getTargetList();
+      getUserSunny();
       dispatch({
         type: ITargetInfoReducerTypes.setTargetWithCountList,
         value: res
@@ -98,6 +103,7 @@ export function useTargetInfoGetActions(
       // 简单屏蔽掉多次ajax
       if (data && data.targetArr && data.targetArr.length) {
         const res = await targetInfoServer.targetLevelUp(data);
+        getUserSunny();
         // 2 更新history
         dispatch({
           type: ITargetInfoReducerTypes.setTargetList,
