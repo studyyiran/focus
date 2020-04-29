@@ -8,7 +8,7 @@ interface IUserSunny {}
 
 export const UserSunny: React.FC<IUserSunny> = props => {
   const userSunnyContext = useContext(UserSunnyContext);
-  const { UserSunnyContextValue, getUserSunny } = userSunnyContext;
+  const { UserSunnyContextValue, getUserSunny, loginSunny } = userSunnyContext;
   const { userSunny } = UserSunnyContextValue;
 
   useEffect(() => {
@@ -26,7 +26,9 @@ export const UserSunny: React.FC<IUserSunny> = props => {
         } else {
           // @ts-ignore
           const nextLevel = (level + 1) * 10
-          return <button>get {nextLevel} today！</button>;
+          return <button onClick={() => {
+            loginSunny()
+          }}>get {nextLevel} today！</button>;
         }
       } else {
         return null
