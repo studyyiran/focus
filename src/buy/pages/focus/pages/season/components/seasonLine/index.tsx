@@ -12,7 +12,6 @@ interface ISeasonLine extends ISeason {
 }
 // addTodoIntoSeason={addTodoIntoSeason} todayLearnThingList={todayLearnThingList}
 export const SeasonLine: React.FC<ISeasonLine> = props => {
-  console.log(props);
   const {
     _id,
     slots,

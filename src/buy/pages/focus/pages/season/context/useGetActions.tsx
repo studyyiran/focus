@@ -13,6 +13,7 @@ export interface ISeasonActions {
   addTodoIntoSeason: (info: any) => any;
   startNewSeason: (info: any) => any;
   getTodayLearnThing: () => any;
+  getStudyBuffRecord: () => any;
 }
 
 // useCreateActions
@@ -56,8 +57,17 @@ export function useSeasonGetActions (
     });
   }, [dispatch])
 
+  const getStudyBuffRecord = useCallback(async function() {
+    const res = await seasonServer.getStudyBuffRecord();
+    dispatch({
+      type: seasonReducerTypes.setBuffRecord,
+      value: res
+    });
+  }, [dispatch])
+
   return {
     getSeasonList,
+    getStudyBuffRecord,
     addTodoIntoSeason,
     getTodayLearnThing,
     startNewSeason

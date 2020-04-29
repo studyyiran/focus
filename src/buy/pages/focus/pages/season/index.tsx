@@ -14,22 +14,22 @@ export function SeasonPage() {
     getSeasonList,
     startNewSeason,
     getTodayLearnThing,
-    addTodoIntoSeason
+    addTodoIntoSeason,
+    getStudyBuffRecord
   } = seasonContext as ISeasonContext;
   // 从context中获取值
-  const { seasonList, todayLearnThingList } = seasonContextValue;
+  const { seasonList, todayLearnThingList, buffRecord } = seasonContextValue;
   // local发起请求
   useEffect(() => {
     getSeasonList();
     getTodayLearnThing();
+    getStudyBuffRecord();
   }, [getSeasonList, getTodayLearnThing]);
   // 渲染
-  console.log(seasonList);
-  console.log(todayLearnThingList);
+  console.log(buffRecord);
 
   function addNewSeasonHandler() {
     levelupModal("name", ({ name }: any) => {
-      console.log(name);
       startNewSeason({ name });
     });
   }

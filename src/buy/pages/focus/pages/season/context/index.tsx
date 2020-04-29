@@ -20,6 +20,7 @@ export const Season = "Season";
 export interface ISeasonState {
   seasonList: [];
   todayLearnThingList: IListItem[];
+  buffRecord: [];
 }
 
 export interface ISeason {
@@ -52,7 +53,8 @@ export interface ISeasonContext
 export function SeasonContextProvider(props: any) {
   const initState: ISeasonState = {
     seasonList: [],
-    todayLearnThingList: []
+    todayLearnThingList: [],
+    buffRecord: []
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -80,7 +82,8 @@ export function SeasonContextProvider(props: any) {
 // action types
 export const seasonReducerTypes = {
   setSeasonList: "setSeasonList",
-  setTodayLearnThingList: "setTodayLearnThingList"
+  setTodayLearnThingList: "setTodayLearnThingList",
+  setBuffRecord: "setBuffRecord"
 };
 
 // reducer
@@ -99,6 +102,13 @@ function reducer(state: ISeasonState, action: IReducerAction) {
       newState = {
         ...newState,
         todayLearnThingList: value
+      };
+      break;
+    }
+    case seasonReducerTypes.setBuffRecord: {
+      newState = {
+        ...newState,
+        buffRecord: value
       };
       break;
     }

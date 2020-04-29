@@ -33,7 +33,6 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
     currentTime: 25 * 1000 * 60,
   }
   const [state, dispatch] = useReducer(reducer, initState)
-  console.log(state)
   let timerRef = useRef({} as any);
   const renderByStatus = (currentStatus: string) => {
     switch (currentStatus) {
@@ -166,7 +165,6 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
     timerRef.current = new MyTimer(info);
     timerRef.current.start();
   };
-  console.log(MyTimer.prototype.format(state.currentTime))
   return <div className="magic-timer">
     {timerRef && timerRef.current && timerRef.current.format && timerRef.current.format(state.currentTime).join(':')}
     {renderByStatus(state.status)}

@@ -132,7 +132,6 @@ function SettingModal(props: {addTodayTodo: any, onCancel: any, currentInfo?: IL
     ],
     prevent: true,
     onSubmit: (values: any) => {
-      console.log(values);
       const { targetId } = values;
       const todoId = currentInfo._id;
       addTargetRelate({
