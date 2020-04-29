@@ -1,10 +1,15 @@
 import React, { useContext, useEffect } from "react";
 import "./index.less";
-import { ISeasonContext, SeasonContext } from "./context";
+import {
+  IBuffRecord,
+  ISeasonContext,
+  ISeasonState,
+  SeasonContext
+} from "./context";
 import { levelupModal } from "../targetPage/components/renderLevelUpButtons";
 import { SeasonLine } from "./components/seasonLine";
 import { MagicTimer } from "./components/magicTimer";
-
+import moment from "moment";
 
 export function SeasonPage() {
   // 引入context
@@ -49,13 +54,51 @@ export function SeasonPage() {
           </thead>
         </table>
         {seasonList.map(props => (
-          <SeasonLine {...props} addTodoIntoSeason={addTodoIntoSeason} todayLearnThingList={todayLearnThingList} />
+          <SeasonLine
+            {...props}
+            addTodoIntoSeason={addTodoIntoSeason}
+            todayLearnThingList={todayLearnThingList}
+          />
         ))}
         <div>
           <button onClick={addNewSeasonHandler}>add new season</button>
         </div>
         <MagicTimer />
+        <RenderBuffRecord buffRecordList={buffRecord} />
       </section>
     </div>
   );
 }
+
+interface IRenderBuffRecord {
+  buffRecordList: IBuffRecord[];
+}
+
+const RenderBuffRecord: React.FC<IRenderBuffRecord> = props => {
+  const { buffRecordList } = props;
+  return (
+    <section className="buff-record">
+      <table>
+        <thead>
+          <tr>
+            <th>createTime</th>
+            <th>type</th>
+            <th>continueTime</th>
+          </tr>
+        </thead>
+        <tbody>
+          {buffRecordList.map(item => {
+            const { type, continueTime, createTime } = item;
+            return (
+              <tr>
+                <td>{moment(createTime as any).format('YYYY-MM-DD HH:mm:ss')}</td>
+                <td>{type}</td>
+                <td>{continueTime}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </section>
+  );
+};

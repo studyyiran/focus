@@ -16,11 +16,17 @@ export const SeasonContext = createContext({} as ISeasonContext);
 
 // store name
 export const Season = "Season";
+
+export interface IBuffRecord {
+  continueTime: String,
+  createTime: String,
+  type: String,
+}
 // store state
 export interface ISeasonState {
   seasonList: [];
   todayLearnThingList: IListItem[];
-  buffRecord: [];
+  buffRecord: IBuffRecord[];
 }
 
 export interface ISeason {
@@ -54,7 +60,7 @@ export function SeasonContextProvider(props: any) {
   const initState: ISeasonState = {
     seasonList: [],
     todayLearnThingList: [],
-    buffRecord: []
+    buffRecord: [] as any[]
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),

@@ -2,7 +2,11 @@ import React, { useContext, useEffect } from "react";
 import "./index.less";
 import { IStoreTestNameContext, StoreTestNameContext } from "./context";
 
-export function TestName() {
+interface ITestName {
+
+}
+
+export const TestName: React.FC<ITestName> = props => {
   // 修改testValue
   // 修改StoreTestName
   // 引入context
