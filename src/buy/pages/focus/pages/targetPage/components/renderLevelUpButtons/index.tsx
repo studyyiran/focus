@@ -21,6 +21,7 @@ enum ButtonType {
   successToTree = "successToTree",
   setTreeComments = "setTreeComments",
   levelUpLockComments = "levelUpLockComments",
+  rename = "rename",
   levelup = "levelup"
 }
 
@@ -181,6 +182,26 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
             </Button>
         );
         break;
+      case ButtonType.rename:
+        dom = (
+          <Button
+            onClick={() => {
+              levelupModal("comments", (info: any) => {
+                dispatchTargetLevelUpJson({
+                  type: ButtonType.rename,
+                  value: {
+                    targetId,
+                    innerValue: info.comments
+                  }
+                });
+              });
+            }}
+          >
+            rename
+          </Button>
+        );
+        break;
+
     }
     return dom;
   }
@@ -206,6 +227,12 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
               <li>{renderButtonByFormKey(ButtonType.levelUpLockComments)}</li>
             </ul>
         );
+      case "rename":
+        return (
+          <ul>
+            <li>{renderButtonByFormKey(ButtonType.rename)}</li>
+          </ul>
+        );
         break;
     }
     return (
@@ -218,6 +245,7 @@ export const RenderLevelUpButtons: React.FC<IRenderLevelUpButtons> = ({
       <ul>
         <li>{renderButtonByFormKey(ButtonType.levelup)}</li>
         <li>{renderButtonByFormKey(ButtonType.successToTree)}</li>
+        <li>{renderButtonByFormKey(ButtonType.rename)}</li>
         <li>{renderButtonByFormKey(ButtonType.failToTree)}</li>
       </ul>
     );
@@ -308,6 +336,17 @@ function reducer(
           ]
         };
         break;
+      }
+      case "rename": {
+        return {
+          targetArr: [
+            {
+              targetId,
+              type: "rename",
+              comments: innerValue
+            }
+          ]
+        };
       }
       default:
         break;
