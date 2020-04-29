@@ -3,6 +3,8 @@ import "./index.less";
 import { MyTimer } from "../../../../../../common/utils/timer";
 import {seasonServer} from '../../server'
 import { levelupModal } from "../../../targetPage/components/renderLevelUpButtons";
+import { Button, Select } from "antd";
+const {Option} = Select
 
 interface IMagicTimer {}
 
@@ -66,6 +68,36 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
           </button>
         );
       case TIMERSTATUS.FINISH:
+        const buffConfigArr = [
+          {
+            buffName: '回想',
+            content: '通过提取训练，让组块深化'
+          },
+          {
+            buffName: '课后习题',
+            content: '课后习题'
+          },
+          {
+            buffName: '大师级死灵书',
+            content: '通过阅读主书籍，来强化理解。扩宽理解。'
+          },
+          {
+            buffName: '聚沙成塔',
+            content: '通过将零散的内容进行整理，来在转录笔记。笔记是复习的基础'
+          },
+          {
+            buffName: '食人魔',
+            content: '在吃饭的时候，去学习中文mooc'
+          },
+          {
+            buffName: '骑行大法',
+            content: '在路上，收听得到课程'
+          },
+          {
+            buffName: '镜像大法',
+            content: '一心两用'
+          },
+        ]
         return (
           <button
             onClick={() => {
@@ -77,7 +109,33 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
                   type: info.buffName,
                   continueTime: 25 * 1000 * 60,
                 })
-              });
+              },[
+                {
+                  id: "buffName",
+                  initialValue: "",
+                  rules: [
+                    {
+                      required: true,
+                      message: "not empty"
+                    }
+                  ],
+                  renderFormEle: () => (
+                    <Select>
+                      {buffConfigArr
+                        .map(({ buffName, content }) => {
+                          return (
+                            <Option value={buffName} key={buffName}>
+                              {buffName}:{content}
+                            </Option>
+                          );
+                        })}
+                    </Select>
+                  )
+                },
+                {
+                  renderFormEle: () => <Button htmlType="submit">submit</Button>
+                }
+              ]);
             }}
           >
             stop!
