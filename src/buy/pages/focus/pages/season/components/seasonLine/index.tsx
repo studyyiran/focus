@@ -83,12 +83,8 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
                 _id,
                 (() => {
                   const targetIndex = slots.findIndex(item => item.isLock);
-                  if (slots && slots.length) {
-                    let current = targetIndex === -1 ? slots.length : targetIndex
-                    return current % 2 === 0;
-                  } else {
-                    return false;
-                  }
+                  let current = targetIndex === -1 ? slots.length : targetIndex
+                  return current % 2 === 0;
                 })()
               );
             }}
