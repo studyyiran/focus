@@ -12,11 +12,8 @@ export function TargetInfoPage() {
   // 引入context
   const targetInfoContext = useContext(TargetInfoContext);
   const myFocusContext = useContext(MyFocusContext);
-  const { myFocusContextValue, getDailySunny } = myFocusContext;
 
-  useEffect(() => {
-    getDailySunny();
-  }, [getDailySunny]);
+  const { myFocusContextValue } = myFocusContext;
 
   const { dailySunny } = myFocusContextValue;
 
