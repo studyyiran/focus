@@ -13,9 +13,18 @@ export const UserSunnyContext = createContext({} as IUserSunnyContext);
 
 // store name
 export const UserSunny = "UserSunny";
+
+interface IUserSunny {
+  sunnyCount: Number,
+  continueLoginInfo: {
+    isLoginToday: Boolean,
+    lastOneLoginDate: String,
+    level: Number,
+  }
+}
 // store state
 export interface IUserSunnyState {
-  userSunny: number;
+  userSunny: IUserSunny;
 }
 
 // interface
@@ -29,7 +38,7 @@ export interface IUserSunnyContext
 // store provider
 export function UserSunnyContextProvider(props: any) {
   const initState: IUserSunnyState = {
-    userSunny: undefined as any
+    userSunny: {} as any
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
