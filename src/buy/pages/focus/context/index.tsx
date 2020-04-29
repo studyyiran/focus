@@ -3,7 +3,7 @@ import React, {
   useReducer,
   useCallback,
   useRef,
-  useEffect
+  useEffect, useContext
 } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
 import { callBackWhenPassAllFunc, promisify } from "buy/common/utils/util";
@@ -20,6 +20,7 @@ import {
 } from "../util";
 
 import server from "../server";
+import { UserSunnyContext } from "./sunny";
 
 export const MyFocusContext = createContext({} as IMyFocusContext);
 // store name
@@ -161,6 +162,8 @@ function useGetAction(
   state: IContextState,
   dispatch: (action: IReducerAction) => void
 ): IMyFocusActions {
+  const userSunnyContext = useContext(UserSunnyContext)
+  const {getUserSunny} = userSunnyContext
   // 获取类
   const getHistoryByFilter: IMyFocusActions["getHistoryByFilter"] = useCallback(
     async function() {
@@ -232,6 +235,7 @@ function useGetAction(
       getTodayDone();
       getHistoryByFilter();
       getWishList();
+      getUserSunny();
       return res;
     },
     [dispatch, getHistoryByFilter, getTodayDone, getWishList]
