@@ -21,6 +21,7 @@ export function SeasonPage() {
     getTodayLearnThing,
     addTodoIntoSeason,
     getStudyBuffRecord,
+    getSeasonNotDoingList,
     finishSeason
   } = seasonContext as ISeasonContext;
   // 从context中获取值
@@ -28,6 +29,7 @@ export function SeasonPage() {
   // local发起请求
   useEffect(() => {
     getSeasonList();
+    getSeasonNotDoingList();
     getTodayLearnThing();
     getStudyBuffRecord();
   }, [getSeasonList, getTodayLearnThing]);

@@ -10,8 +10,8 @@ export const addStudyBuffRecordUrl = "/season/addStudyBuffRecord";
 export const getStudyBuffRecordUrl = "/season/getStudyBuffRecord";
 export const finishSeasonUrl = "/season/finishSeason";
 
-async function getSeasonList() {
-  const res: any = await ajax.get(getSeasonListUrl);
+async function getSeasonList(params: any) {
+  const res: any = await ajax.get(getSeasonListUrl, params);
   return res;
 }
 

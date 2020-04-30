@@ -24,7 +24,8 @@ export interface IBuffRecord {
 }
 // store state
 export interface ISeasonState {
-  seasonList: [];
+  seasonList: ISeason[];
+  seasonNotDoingList: ISeason[];
   todayLearnThingList: IListItem[];
   buffRecord: IBuffRecord[];
 }
@@ -59,6 +60,7 @@ export interface ISeasonContext
 export function SeasonContextProvider(props: any) {
   const initState: ISeasonState = {
     seasonList: [],
+    seasonNotDoingList: [],
     todayLearnThingList: [],
     buffRecord: [] as any[]
   };
