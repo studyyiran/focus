@@ -10,7 +10,7 @@ import studyToServer from "../../../server";
 // @actions
 export interface ISeasonActions {
   getSeasonList: () => any;
-  getSeasonNotDoingList: () => any;
+  // getSeasonNotDoingList: () => any;
   addTodoIntoSeason: (info: any) => any;
   startNewSeason: (info: any) => any;
   getTodayLearnThing: () => any;
@@ -28,29 +28,40 @@ export function useSeasonGetActions (
   if (!promiseStatus.current) {
     promiseStatus.current = {};
   }
+
+  function splitSeasonByStatus (res: any) {
+    let arr1 : any[] = [];
+    let arr2 : any[] = []
+    res.forEach((item: any) => {
+      if (item.status === 'doing') {
+        arr1.push(item)
+      } else {
+        arr2.push(item)
+      }
+    })
+    dispatch({
+      type: seasonReducerTypes.setSeasonList,
+      value: arr1
+    });
+    dispatch({
+      type: seasonReducerTypes.setSeasonNotDoingList,
+      value: arr2
+    });
+  }
+
   const addTodoIntoSeason = useCallback(async function(info) {
     const res = await seasonServer.addTodoIntoSeason(info);
-    dispatch({
-      type: seasonReducerTypes.setSeasonList,
-      value: res
-    });
+    splitSeasonByStatus(res)
+    // 更新today列表
+    seasonActionsObj.getTodayLearnThing()
   }, [dispatch])
+
   const startNewSeason = useCallback(async function(info) {
     const res = await seasonServer.startNewSeason(info);
-    dispatch({
-      type: seasonReducerTypes.setSeasonList,
-      value: res
-    });
+    splitSeasonByStatus(res)
   }, [dispatch])
 
 
-  const getTodayLearnThing = useCallback(async function() {
-    const res = await studyToServer.getTodayLearnThing();
-    dispatch({
-      type: seasonReducerTypes.setTodayLearnThingList,
-      value: res
-    });
-  }, [dispatch])
 
   const getStudyBuffRecord = useCallback(async function() {
     const res = await seasonServer.getStudyBuffRecord();
@@ -59,32 +70,32 @@ export function useSeasonGetActions (
       value: res
     });
   }, [dispatch])
-
-  return {
+  const seasonActionsObj = {
+    getTodayLearnThing: useCallback(async function() {
+      const res = await studyToServer.getTodayLearnThing();
+      dispatch({
+        type: seasonReducerTypes.setTodayLearnThingList,
+        value: res
+      });
+    }, [dispatch]),
     getSeasonList: useCallback(async function() {
-      const res = await seasonServer.getSeasonList({status: "doing"});
-      dispatch({
-        type: seasonReducerTypes.setSeasonList,
-        value: res
-      });
+      const res = await seasonServer.getSeasonList({});
+      splitSeasonByStatus(res)
     }, [dispatch]),
-    getSeasonNotDoingList: useCallback(async function() {
-      const res = await seasonServer.getSeasonList({status: "finish"});
-      dispatch({
-        type: seasonReducerTypes.setSeasonList,
-        value: res
-      });
-    }, [dispatch]),
+    // getSeasonNotDoingList: useCallback(async function() {
+      // const res = await seasonServer.getSeasonList({status: "finish"});
+      // dispatch({
+      //   type: seasonReducerTypes.setSeasonList,
+      //   value: res
+      // });
+    // }, [dispatch]),
     getStudyBuffRecord,
     addTodoIntoSeason,
-    getTodayLearnThing,
     startNewSeason,
     finishSeason: useCallback(async function(info) {
       const res = await seasonServer.finishSeason(info);
-      dispatch({
-        type: seasonReducerTypes.setSeasonList,
-        value: res
-      });
+      splitSeasonByStatus(res)
     }, [dispatch]),
   };
+  return seasonActionsObj
 }

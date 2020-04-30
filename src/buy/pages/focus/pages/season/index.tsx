@@ -21,15 +21,13 @@ export function SeasonPage() {
     getTodayLearnThing,
     addTodoIntoSeason,
     getStudyBuffRecord,
-    getSeasonNotDoingList,
     finishSeason
   } = seasonContext as ISeasonContext;
   // 从context中获取值
-  const { seasonList, todayLearnThingList, buffRecord } = seasonContextValue;
+  const { seasonList, todayLearnThingList, buffRecord, seasonNotDoingList } = seasonContextValue;
   // local发起请求
   useEffect(() => {
     getSeasonList();
-    getSeasonNotDoingList();
     getTodayLearnThing();
     getStudyBuffRecord();
   }, [getSeasonList, getTodayLearnThing]);
@@ -67,8 +65,36 @@ export function SeasonPage() {
         <div>
           <button onClick={addNewSeasonHandler}>add new season</button>
         </div>
+      </section>
+      <section>
+        <h2>Buff</h2>
         <MagicTimer />
         <RenderBuffRecord buffRecordList={buffRecord} />
+      </section>
+      <section>
+        <h2>seasonNotDoingList</h2>
+        {seasonNotDoingList.map((item) => {
+          return <table>
+            <thead>
+              <tr>
+                <th>创建时间</th>
+                <th>名称</th>
+                <th>连击天数</th>
+                <th>总计次数</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{item.createTime}</td>
+                <td>{item.name}</td>
+                <td>{item.slots.length}</td>
+                <td>{item.slots.reduce((sum, slot) => {
+                  return sum + slot.children.length
+                }, 0)}</td>
+              </tr>
+            </tbody>
+          </table>
+        })}
       </section>
     </div>
   );

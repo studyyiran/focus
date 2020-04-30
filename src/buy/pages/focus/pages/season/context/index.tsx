@@ -90,6 +90,7 @@ export function SeasonContextProvider(props: any) {
 // action types
 export const seasonReducerTypes = {
   setSeasonList: "setSeasonList",
+  setSeasonNotDoingList: "setSeasonNotDoingList",
   setTodayLearnThingList: "setTodayLearnThingList",
   setBuffRecord: "setBuffRecord"
 };
@@ -103,6 +104,13 @@ function reducer(state: ISeasonState, action: IReducerAction) {
       newState = {
         ...newState,
         seasonList: value
+      };
+      break;
+    }
+    case seasonReducerTypes.setSeasonNotDoingList: {
+      newState = {
+        ...newState,
+        seasonNotDoingList: value
       };
       break;
     }
