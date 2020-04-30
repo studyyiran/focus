@@ -20,7 +20,8 @@ export function SeasonPage() {
     startNewSeason,
     getTodayLearnThing,
     addTodoIntoSeason,
-    getStudyBuffRecord
+    getStudyBuffRecord,
+    finishSeason
   } = seasonContext as ISeasonContext;
   // 从context中获取值
   const { seasonList, todayLearnThingList, buffRecord } = seasonContextValue;
@@ -56,6 +57,7 @@ export function SeasonPage() {
         {seasonList.map(props => (
           <SeasonLine
             {...props}
+            finishSeason={finishSeason}
             addTodoIntoSeason={addTodoIntoSeason}
             todayLearnThingList={todayLearnThingList}
           />

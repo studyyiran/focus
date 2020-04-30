@@ -14,6 +14,7 @@ export interface ISeasonActions {
   startNewSeason: (info: any) => any;
   getTodayLearnThing: () => any;
   getStudyBuffRecord: () => any;
+  finishSeason: (info: any) => any;
 }
 
 // useCreateActions
@@ -70,6 +71,13 @@ export function useSeasonGetActions (
     getStudyBuffRecord,
     addTodoIntoSeason,
     getTodayLearnThing,
-    startNewSeason
+    startNewSeason,
+    finishSeason: useCallback(async function(info) {
+      const res = await seasonServer.finishSeason(info);
+      dispatch({
+        type: seasonReducerTypes.setSeasonList,
+        value: res
+      });
+    }, [dispatch])
   };
 }

@@ -9,6 +9,7 @@ const { Option } = Select;
 interface ISeasonLine extends ISeason {
   todayLearnThingList: ISeasonState["todayLearnThingList"];
   addTodoIntoSeason: ISeasonActions["addTodoIntoSeason"];
+  finishSeason: ISeasonActions["finishSeason"];
 }
 // addTodoIntoSeason={addTodoIntoSeason} todayLearnThingList={todayLearnThingList}
 export const SeasonLine: React.FC<ISeasonLine> = props => {
@@ -17,6 +18,7 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
     slots,
     todayLearnThingList,
     addTodoIntoSeason,
+    finishSeason,
     name,
     createTime
   } = props;
@@ -60,39 +62,58 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
     return fillSlots;
   };
   const fillSlots = fillSlotsFunc();
-  console.log(slots);
+  console.log(fillSlots);
   return (
     <tbody className="season-line-container">
-      <tr>
-        <td>{name}</td>
-        <td>{createTime}</td>
-        <td>
-          <div className="season-line">
-            {fillSlots.map((config: any) => {
-              return <Slot configArr={config} />;
-            })}
-          </div>
-        </td>
-        <td>
+    <tr>
+      <td>{name}</td>
+      <td>{createTime}</td>
+      <td>
+        <div className="season-line">
+          {fillSlots.map((config: any) => {
+            return <Slot configArr={config} />;
+          })}
+        </div>
+      </td>
+      <td>
+        <button
+          onClick={() => {
+            // 1 进入这个页面会拉waitList
+            // 2 根据最后一个的类别，筛选出来用户可以选择的范围。
+            // 3 用户选定后，将两个id扔上去。
+            addTodoIntoSeasonHandler(
+              _id,
+              (() => {
+                const targetIndex = slots.findIndex(item => item.isLock);
+                let current = targetIndex === -1 ? slots.length : targetIndex;
+                return current % 2 === 0;
+              })()
+            );
+          }}
+        >
+          add into
+        </button>
+        {fillSlots.reduce((sum, arr) => {
+          if (
+            arr.find((item: any) => {
+              return item === "review";
+            })
+          ) {
+            return sum = sum + 1;
+          } else {
+            return sum;
+          }
+        }, 0) > 3 && (
           <button
             onClick={() => {
-              // 1 进入这个页面会拉waitList
-              // 2 根据最后一个的类别，筛选出来用户可以选择的范围。
-              // 3 用户选定后，将两个id扔上去。
-              addTodoIntoSeasonHandler(
-                _id,
-                (() => {
-                  const targetIndex = slots.findIndex(item => item.isLock);
-                  let current = targetIndex === -1 ? slots.length : targetIndex
-                  return current % 2 === 0;
-                })()
-              );
+              finishSeason({ seasonId: _id });
             }}
           >
-            add into
+            finish season and get {slots.length * slots.length}
           </button>
-        </td>
-      </tr>
+        )}
+      </td>
+    </tr>
     </tbody>
   );
 

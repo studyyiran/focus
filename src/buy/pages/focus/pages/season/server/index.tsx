@@ -8,6 +8,7 @@ export const startNewSeasonUrl = "/season/startNewSeason";
 export const addTodoIntoSeasonUrl = "/season/addTodoIntoSeason";
 export const addStudyBuffRecordUrl = "/season/addStudyBuffRecord";
 export const getStudyBuffRecordUrl = "/season/getStudyBuffRecord";
+export const finishSeasonUrl = "/season/finishSeason";
 
 async function getSeasonList() {
   const res: any = await ajax.get(getSeasonListUrl);
@@ -18,6 +19,7 @@ async function startNewSeason(info: any) {
   const res: any = await ajax.post(startNewSeasonUrl, info);
   return res;
 }
+
 
 async function addTodoIntoSeason(info: any) {
   const res: any = await ajax.post(addTodoIntoSeasonUrl, info);
@@ -39,5 +41,9 @@ export const seasonServer = {
   addTodoIntoSeason,
   getStudyBuffRecord,
   addStudyBuffRecord,
-  getSeasonList
+  getSeasonList,
+  finishSeason: async (info: any) => {
+  const res: any = await ajax.post(finishSeasonUrl, info);
+  return res;
+}
 }
