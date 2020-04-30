@@ -5,6 +5,7 @@ import { TargetInfoContext } from "../targetPage/context";
 import { RenderTargetLine } from "../targetPage/components/renderTargetLine";
 import { RenderLevelUpButtons } from "../targetPage/components/renderLevelUpButtons";
 import { ShowTree } from "./components/tree";
+import { PlayerGrowthInfo } from "./components/playerGrowthInfo";
 
 export function TreePage() {
   // 引入context
@@ -15,7 +16,7 @@ export function TreePage() {
     getTreeShape,
   } = godTreeContext as IGodTreeContext;
   // 从context中获取值
-  // const { treeList, treeShape } = godTreeContextValue;
+  const { treeShape } = godTreeContextValue;
   // local发起请求
   useEffect(() => {
     getTreeList();
@@ -37,6 +38,7 @@ export function TreePage() {
   // 渲染
   return (
     <div className="tree-page">
+      <PlayerGrowthInfo score={treeShape && treeShape[0] && treeShape[0].score} />
       <section>
         <h2>show tree</h2>
         <ShowTree targetListHaveFinish={targetListHaveFinish} />
@@ -101,3 +103,5 @@ const RenderTreeLine: React.FC<Iehe> = props => {
     </tr>
   );
 };
+
+

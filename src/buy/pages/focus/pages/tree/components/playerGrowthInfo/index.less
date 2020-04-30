@@ -1,0 +1,25 @@
+@import (reference) "~buy/common/styles/index.less";
+
+@p1: {
+  .player-growth-info {
+    .pokemon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pokemon-info {
+      display: flex;
+      img {
+        width: 60 *@px;
+      }
+      .info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+      }
+    }
+  }
+};
+
+.hello(@p1);
