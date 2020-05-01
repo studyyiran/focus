@@ -13,7 +13,7 @@ export const PlayerGrowthInfo: React.FC<IRenderPlayerGrowthInfo> =  ({score}) =>
       name: '绿毛虫',
       attr: '草',
       content: '《食欲》上到tree奖励提升20%',
-      icon: require('./res/badahu.png')
+      icon: require('./res/lvmaochong.png')
     },
     {
       min: 20,
