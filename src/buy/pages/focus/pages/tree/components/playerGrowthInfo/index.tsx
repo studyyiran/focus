@@ -9,14 +9,14 @@ export const PlayerGrowthInfo: React.FC<IRenderPlayerGrowthInfo> =  ({score}) =>
   const config = [
     {
       min: 0,
-      max: 20,
+      max: 5,
       name: '绿毛虫',
       attr: '草',
       content: '《食欲》上到tree奖励提升20%',
       icon: require('./res/lvmaochong.png')
     },
     {
-      min: 20,
+      min: 5,
       max: 100,
       attr: '草',
       content: '《化蛹成蝶》每次连续完成学习+5点score',
