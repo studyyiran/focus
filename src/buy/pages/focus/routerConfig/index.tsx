@@ -26,12 +26,12 @@ export const routerConfig = [
     title: "History",
     component: HistoryPage
   },
-  {
-    path: "/wish-list",
-    exact: true,
-    title: "wishList",
-    component: WishList
-  },
+  // {
+  //   path: "/wish-list",
+  //   exact: true,
+  //   title: "wishList",
+  //   component: WishList
+  // },
   {
     path: "/target-info",
     exact: true,
@@ -50,12 +50,12 @@ export const routerConfig = [
     title: "season is flow of knowledge",
     component: SeasonPage
   },
-  {
-    path: "/game-taitan",
-    exact: true,
-    title: "game-taitan",
-    component: TaiTan
-  }
+  // {
+  //   path: "/game-taitan",
+  //   exact: true,
+  //   title: "game-taitan",
+  //   component: TaiTan
+  // }
   // {
   //   title: "404 | UpTradeit.com",
   //   Component: () => <div>404</div>

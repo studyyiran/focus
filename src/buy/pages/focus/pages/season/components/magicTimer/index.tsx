@@ -69,24 +69,24 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
       case TIMERSTATUS.FINISH:
         const buffConfigArr = [
           {
-            buffName: "回想",
-            content: "通过提取训练，让组块深化"
+            buffName: "时光神碑雕刻术",
+            content: "你正在通过复习过去一周大量的知识，来进行输出。"
           },
           {
-            buffName: "课后习题",
-            content: "课后习题"
+            buffName: "清晨智慧术",
+            content: "早上学习的效率，尤其是复习昨晚知识的效率，是非常高的。"
           },
           {
-            buffName: "大师级死灵书",
-            content: "通过阅读主书籍，来强化理解。扩宽理解。"
+            buffName: "食人魔",
+            content: "在吃饭的时候，去学习中文mooc"
           },
           {
             buffName: "聚沙成塔",
             content: "通过将零散的内容进行整理，来在转录笔记。笔记是复习的基础"
           },
           {
-            buffName: "食人魔",
-            content: "在吃饭的时候，去学习中文mooc"
+            buffName: "大师级死灵书",
+            content: "通过阅读主书籍，来强化理解。扩宽理解。"
           },
           {
             buffName: "朝花夕拾",
@@ -94,12 +94,24 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
               "项目里面遇到的问题，全部都是你提升的根本，钻石的前身，不掌握他们，你无法有任何的技术提升"
           },
           {
+            buffName: "课后习题",
+            content: "课后习题"
+          },
+          {
+            buffName: "章节测试",
+            content: "秋"
+          },
+          {
+            buffName: "回想",
+            content: "通过提取训练，让组块深化"
+          },
+          {
             buffName: "骑行大法",
             content: "在路上，收听得到课程"
           },
           {
-            buffName: "镜像大法",
-            content: "一心两用"
+            buffName: "暗度陈仓",
+            content: "同时做两件事，穿插，刺激。"
           }
         ];
         return (
