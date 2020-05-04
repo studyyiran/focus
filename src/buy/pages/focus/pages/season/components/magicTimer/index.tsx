@@ -73,8 +73,12 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
             content: "你正在通过复习过去一周大量的知识，来进行输出。"
           },
           {
-            buffName: "清晨智慧术",
+            buffName: "晨曦智慧",
             content: "早上学习的效率，尤其是复习昨晚知识的效率，是非常高的。"
+          },
+          {
+            buffName: "晨曦幻梦",
+            content: "通过记录伊瑟拉的幻境游记，获得来自潜意识王国的启事。"
           },
           {
             buffName: "食人魔",
@@ -170,6 +174,7 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
   const newTimer = (time: Number, finishCallBack?: any) => {
     const info = {
       time: time,
+      onlyStartTime: time,
       minInterval: -1000,
       runCallBack: (times: any, timeSecond: any) => {
         dispatch({

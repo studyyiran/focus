@@ -3,6 +3,7 @@ export function MyTimer({
   stopTime,
   runCallBack,
   finishCallBack,
+  onlyStartTime,
   minInterval
 }: any) {
   // @ts-ignore
@@ -14,7 +15,9 @@ export function MyTimer({
   } else if (that.minInterval < 0) {
     that.stopTime = stopTime || 0;
   }
+  that.startTime = Date.now();
   that.currentTime = time;
+  that.onlyStartTime = onlyStartTime;
   that.timeIntervalId = undefined;
   that.finishCallBack = finishCallBack;
   that.runCallBack = runCallBack;
@@ -45,7 +48,11 @@ MyTimer.prototype.perSecondCall = function(firstCall: any) {
       Math.abs(this.minInterval) ||
     this.stopTime === true
   ) {
-    this.currentTime = this.currentTime + this.minInterval;
+    if (this.onlyStartTime) {
+      this.currentTime = this.onlyStartTime + (this.minInterval / Math.abs(this.minInterval) * ( Date.now() - this.startTime));
+    } else {
+      this.currentTime = this.currentTime + this.minInterval;
+    }
     this.runCallBack && this.runCallBack(this.format(this.currentTime), this.currentTime);
   } else {
     if (this.timeIntervalId) {
