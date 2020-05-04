@@ -7,7 +7,7 @@ export function MyTimer({
   minInterval
 }: any) {
   // @ts-ignore
-  const that : any = this as any
+  const that: any = this as any;
   that.minInterval = minInterval || 1000;
   that.status = "stop";
   if (that.minInterval > 0) {
@@ -40,8 +40,10 @@ MyTimer.prototype.stop = function() {
 };
 
 MyTimer.prototype.perSecondCall = function(firstCall: any) {
-  if (firstCall) {
-    this.runCallBack && this.runCallBack(this.format(this.currentTime));
+  // 这行代码感觉多余
+  if (false) {
+    this.runCallBack &&
+      this.runCallBack(this.format(this.currentTime), this.currentTime);
   } else if (
     // 如果还有剩余
     Math.abs(Math.abs(this.currentTime) - Math.abs(this.stopTime)) >=
@@ -49,11 +51,23 @@ MyTimer.prototype.perSecondCall = function(firstCall: any) {
     this.stopTime === true
   ) {
     if (this.onlyStartTime) {
-      this.currentTime = this.onlyStartTime + (this.minInterval / Math.abs(this.minInterval) * ( Date.now() - this.startTime));
+      // 四舍五入是为了确保计算的误差不会有影响
+      // 使用Date计算是为了避免timer被kill影响计时结果
+      this.currentTime =
+        this.onlyStartTime +
+        Number(
+          (
+            ((this.minInterval / Math.abs(this.minInterval)) *
+              (Date.now() - this.startTime)) /
+            1000
+          ).toFixed(0)
+        ) *
+          1000;
     } else {
       this.currentTime = this.currentTime + this.minInterval;
     }
-    this.runCallBack && this.runCallBack(this.format(this.currentTime), this.currentTime);
+    this.runCallBack &&
+      this.runCallBack(this.format(this.currentTime), this.currentTime);
   } else {
     if (this.timeIntervalId) {
       this.stop();
@@ -76,12 +90,13 @@ MyTimer.prototype.format = function(second: any) {
     } else if (result > 0) {
       return "0" + result;
     } else {
-      return "0";
+      // 补位用两个
+      return "00";
     }
   });
-  let newArr = []
+  let newArr = [];
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === "0") {
+    if (arr[i] === "00") {
       // 如果上一位也是空的话
       if (i === 0 || newArr[i - 1] === "") {
         newArr.push("");
