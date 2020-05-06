@@ -144,7 +144,6 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
   }
 
   function newTimer(time: Number, finishCallBack?: any) {
-    time = 1000;
     const info = {
       time: time,
       onlyStartTime: time,
