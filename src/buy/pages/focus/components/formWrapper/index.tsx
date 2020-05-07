@@ -8,24 +8,45 @@ interface IFormConfig {
   renderFormEle: any;
 }
 
-class FormWrapperComponent extends React.Component<any, any> {
-  render() {
-    const {
-      form,
-      formConfig,
-      onSubmit,
-      setValueJson,
-    } = this.props;
-    const { getFieldDecorator, validateFields, setFields } = form;
+/*
+1）变为命令式
+2）其实应该写一些最基本的测试。
+3）去写接口的ts定义。
+ */
 
-    function onSubmitHandler(e: any) {
-      e.preventDefault();
-      validateFields((error: any, values: any) => {
-        if (!error) {
-          onSubmit && onSubmit(values);
-        }
-      });
-    }
+interface IFormWrapperComponent {
+  form: any,
+  formConfig: any,
+  onSubmit: any,
+  setValueJson: any,
+}
+
+export const FormWrapperComponent: React.FC<IFormWrapperComponent> = props => {
+  const {
+    form,
+    formConfig,
+    onSubmit,
+    setValueJson,
+  } = props;
+  const { getFieldDecorator, validateFields, setFields } = form;
+
+  return (
+    <Form onSubmit={onSubmitHandler} layout={"vertical"}>
+      {getInner()}
+    </Form>
+  );
+
+  function onSubmitHandler(e: any) {
+    // 为什么要做这部？
+    // e.preventDefault();
+    validateFields((error: any, values: any) => {
+      if (!error) {
+        onSubmit && onSubmit(values);
+      }
+    });
+  }
+
+  function getInner() {
     const inner = formConfig.map((formConfig: IFormConfig, index: number) => {
       const { id, renderFormEle, label, ...otherConfig } = formConfig;
       if (id) {
@@ -43,13 +64,10 @@ class FormWrapperComponent extends React.Component<any, any> {
       }
       return null;
     });
-    return (
-      <Form onSubmit={onSubmitHandler} layout={"vertical"}>
-        {inner}
-      </Form>
-    );
+    return inner
   }
 }
+
 
 export const FormWrapper: any = Form.create({
   onFieldsChange: (...arg: any[]) => {

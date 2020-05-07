@@ -175,6 +175,10 @@ const TIMERSTATUS = {
 
 const buffConfigArr = [
   {
+    buffName: "真刀真枪",
+    content: "直接拿着timer，把昨天的编程作业再重新写一遍的硬实战"
+  },
+  {
     buffName: "时光神碑雕刻术",
     content: "你正在通过复习过去一周大量的知识，来进行输出。"
   },
@@ -185,6 +189,10 @@ const buffConfigArr = [
   {
     buffName: "晨曦幻梦",
     content: "通过记录伊瑟拉的幻境游记，获得来自潜意识王国的启事。"
+  },
+  {
+    buffName: "一日一次",
+    content: "去做一些背景知识阅读，完成组块的背景理解部分，是非常好的。"
   },
   {
     buffName: "食人魔",
