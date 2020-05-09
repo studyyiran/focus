@@ -155,14 +155,11 @@ export function useShowNewTodoModal(props: any) {
         </Select>
       )
     },
-    {
-      renderFormEle: () => <Button htmlType="submit">submit</Button>
-    }
   ];
   return () => {
     const modalObj = {
       width: "70%",
-      closable: true,
+      closable: false,
       maskClosable: false,
       title: null,
       onOk: () => {
@@ -176,7 +173,7 @@ export function useShowNewTodoModal(props: any) {
         // formRef.current.props.form.submit(());
       },
       cancelText: "Cancel",
-      okText: "ok123",
+      okText: "submit",
       children: (
         <div className="post-item-form">
           <FormWrapper
