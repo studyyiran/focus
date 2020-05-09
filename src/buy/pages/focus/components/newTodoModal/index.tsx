@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useState } from "react";
+import React, { useContext, useReducer, useRef, useState } from "react";
 import MyModal from "../../../../components/modal";
 import { locationHref } from "../../../../common/utils/routerHistory";
 import { getLocationUrl } from "../../../../common/utils/util";
@@ -84,6 +84,8 @@ interface INewTodoState {
 }
 
 export function useShowNewTodoModal(props: any) {
+  const formRef : any = useRef();
+
   const initState = {} as INewTodoState;
   // 保存用户缓存.
   const [state, dispatch] = useReducer(reducer, initState);
@@ -164,14 +166,22 @@ export function useShowNewTodoModal(props: any) {
       closable: true,
       maskClosable: false,
       title: null,
-      footer: "single",
-      cancelText: "Got it",
+      onOk: () => {
+        formRef && formRef.current && formRef.current.submit && formRef.current.props.form.submit();
+      },
+      cancelText: "Got it123",
       children: (
         <div className="post-item-form">
           <FormWrapper
+            wrappedComponentRef={(inst: any) => {
+              console.log('get it')
+              formRef.current = inst
+            }}
             formConfig={props.formConfig || formConfig}
             onSubmit={onSubmitHandler}
             onValuesChange={(value: any) => {
+              console.log('get onValuesChange')
+              console.log(value)
               dispatch({
                 type: "set",
                 value: value
