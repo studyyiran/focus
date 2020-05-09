@@ -84,7 +84,7 @@ interface INewTodoState {
 }
 
 export function useShowNewTodoModal(props: any) {
-  const formRef : any = useRef();
+  const formRef: any = useRef();
 
   const initState = {} as INewTodoState;
   // 保存用户缓存.
@@ -112,9 +112,9 @@ export function useShowNewTodoModal(props: any) {
       onSubmit && onSubmit(values);
       // 清空本地的缓存
       dispatch({
-        type: 'set',
+        type: "set",
         value: {}
-      })
+      });
     }
   }
 
@@ -160,28 +160,35 @@ export function useShowNewTodoModal(props: any) {
     }
   ];
   return () => {
-    // 日后制作修改弹框,需要传入id来实现
-    return (MyModal as any).confirm({
+    const modalObj = {
       width: "70%",
       closable: true,
       maskClosable: false,
       title: null,
       onOk: () => {
-        formRef && formRef.current && formRef.current.submit && formRef.current.props.form.submit();
+        // 这是modal按钮hack form的正确打开方式。他并没有提供submit方法。而是通过获取值，然后自己调用回调这种奇怪的方式实现的。
+        // 而使用form自带的，无非就是，默认帮助我们提交而已。
+        formRef.current.props.form.validateFields((error: any, values: any) => {
+          if (!error) {
+            onSubmitHandler(values);
+          }
+        });
+        // formRef.current.props.form.submit(());
       },
-      cancelText: "Got it123",
+      cancelText: "Cancel",
+      okText: "ok123",
       children: (
         <div className="post-item-form">
           <FormWrapper
             wrappedComponentRef={(inst: any) => {
-              console.log('get it')
-              formRef.current = inst
+              console.log("get it");
+              formRef.current = inst;
             }}
             formConfig={props.formConfig || formConfig}
             onSubmit={onSubmitHandler}
             onValuesChange={(value: any) => {
-              console.log('get onValuesChange')
-              console.log(value)
+              console.log("get onValuesChange");
+              console.log(value);
               dispatch({
                 type: "set",
                 value: value
@@ -190,7 +197,9 @@ export function useShowNewTodoModal(props: any) {
           />
         </div>
       )
-    });
+    };
+    // 日后制作修改弹框,需要传入id来实现
+    return (MyModal as any).confirm(modalObj);
   };
 }
 
