@@ -175,6 +175,10 @@ const TIMERSTATUS = {
 
 const buffConfigArr = [
   {
+    buffName: "音乐process",
+    content: "通过聆听音乐，达到迅速的环境作用"
+  },
+  {
     buffName: "真刀真枪",
     content: "直接拿着timer，把昨天的编程作业再重新写一遍的硬实战"
   },
