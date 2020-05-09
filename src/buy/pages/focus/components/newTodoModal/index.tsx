@@ -165,11 +165,17 @@ export function useShowNewTodoModal(props: any) {
       onOk: () => {
         // 这是modal按钮hack form的正确打开方式。他并没有提供submit方法。而是通过获取值，然后自己调用回调这种奇怪的方式实现的。
         // 而使用form自带的，无非就是，默认帮助我们提交而已。
-        formRef.current.props.form.validateFields((error: any, values: any) => {
-          if (!error) {
-            onSubmitHandler(values);
-          }
-        });
+        return new Promise((resolve, reject) => {
+          formRef.current.props.form.validateFields((error: any, values: any) => {
+            if (!error) {
+              onSubmitHandler(values);
+              resolve()
+            } else {
+              reject()
+            }
+          });
+        })
+
         // formRef.current.props.form.submit(());
       },
       cancelText: "Cancel",
