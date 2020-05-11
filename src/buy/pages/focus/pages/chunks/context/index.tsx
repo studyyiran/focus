@@ -15,10 +15,33 @@ export const StoreChunksContext = createContext({} as IStoreChunksContext);
 
 // store name
 export const StoreChunks = "StoreChunks";
+
+interface ILearnRecord {
+  createTime: String,// add time
+  startTime: String,
+  lastingTime: String,
+  finishTime: String,
+  status: String,
+  tag: String,
+  buffId: String,
+  content: String,
+}
+
+
+export interface IChunks {
+  createTime: String,
+  name: String,
+  status: String
+  learnLine: [{
+    learnRecord: ILearnRecord[]
+  }]
+}
+
 // store state
 export interface IStoreChunksState {
-  testValue: number;
+  chunksList: IChunks[];
 }
+
 
 // interface
 export interface IStoreChunksContext
@@ -31,7 +54,7 @@ export interface IStoreChunksContext
 // store provider
 export function StoreChunksContextProvider(props: any) {
   const initState: IStoreChunksState = {
-    testValue: 101
+    chunksList: []
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -58,7 +81,7 @@ export function StoreChunksContextProvider(props: any) {
 
 // action types
 export const storeChunksReducerTypes = {
-  setTestValue: "setTestValue"
+  setChunksList: "setChunksList"
 };
 
 // reducer
@@ -66,10 +89,10 @@ function reducer(state: IStoreChunksState, action: IReducerAction) {
   const { type, value } = action;
   let newState = { ...state };
   switch (type) {
-    case storeChunksReducerTypes.setTestValue: {
+    case storeChunksReducerTypes.setChunksList: {
       newState = {
         ...newState,
-        testValue: value
+        chunksList: value
       };
       break;
     }

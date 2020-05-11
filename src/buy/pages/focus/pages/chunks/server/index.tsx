@@ -4,12 +4,15 @@ import { getTestAjaxResultMock } from "./mock";
 /**
  * 首页相关
  * */
-export const TestAjaxUrl = "/reviewPart/getReviewList";
+const serverName = '/chunks'
+export const getAllChunksUrl = serverName + "/getAllChunks";
+export const addLearnRecordUrl = serverName + "/addLearnRecord";
+export const changeOneRecordUrl = serverName + "/changeOneRecord";
+export const startNewChunksUrl = serverName + "/startNewChunks";
 
 export const storeChunksServer = {
-  getTestAjaxResult: async () => {
-    const res: any = await ajax.get(TestAjaxUrl);
-    return getTestAjaxResultMock;
+  getAllChunks: async () => {
+    const res: any = await ajax.get(getAllChunksUrl);
     return res;
   }
 };

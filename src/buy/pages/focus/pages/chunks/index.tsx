@@ -16,11 +16,11 @@ export const ChunksPage: React.FC<IChunks> = props => {
     getTestAjaxValue
   } = storeChunksContext as IStoreChunksContext;
   // 从context中获取值
-  const { testValue } = storeChunksContextValue;
+  const { chunksList } = storeChunksContextValue;
   // local发起请求
   useEffect(() => {
     getTestAjaxValue();
   }, [getTestAjaxValue]);
   // 渲染
-  return <div className="test-page">{testValue}</div>;
+  return <div className="test-page">{chunksList.length}</div>;
 }

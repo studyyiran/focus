@@ -21,9 +21,9 @@ export function useStoreChunksGetActions(
   return {
     getTestAjaxValue: useCallback(
       async function() {
-        const res = await storeChunksServer.getTestAjaxResult();
+        const res = await storeChunksServer.getAllChunks();
         dispatch({
-          type: storeChunksReducerTypes.setTestValue,
+          type: storeChunksReducerTypes.setChunksList,
           value: res
         });
       },
