@@ -6,6 +6,7 @@ import { TargetInfoPage } from "../pages/targetPage";
 import { TaiTan } from "../pages/taitan";
 import {TreePage} from "../pages/tree";
 import { SeasonPage } from "../pages/season";
+import { ChunksPage } from "../pages/chunks";
 
 export const routerConfig = [
   {
@@ -49,6 +50,12 @@ export const routerConfig = [
     exact: true,
     title: "season is flow of knowledge",
     component: SeasonPage
+  },
+  {
+    path: "/chunks",
+    exact: true,
+    title: "chunks is 魔法大全 of learn",
+    component: ChunksPage
   },
   // {
   //   path: "/game-taitan",

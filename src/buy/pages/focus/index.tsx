@@ -6,6 +6,7 @@ import { FocusLayout } from "./components/layout";
 export function FocusRouter(props: any) {
   const { path } = props.match;
   const dom = routerConfig.map(({ path: relativePath, ...others }) => {
+    // @ts-ignore
     return <Route key={relativePath} path={path + relativePath} {...others} />;
   });
   return (
