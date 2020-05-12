@@ -8,9 +8,14 @@ const { Option } = Select;
 interface IChunk {
   chunkInfo: IChunks;
   addLearnRecord: any;
+  changeOneRecord: any;
 }
 
-export const Chunk: React.FC<IChunk> = ({ chunkInfo, addLearnRecord }) => {
+export const Chunk: React.FC<IChunk> = ({
+  chunkInfo,
+  addLearnRecord,
+  changeOneRecord
+}) => {
   const { name, _id, learnLine } = chunkInfo;
   function addHandler(info: any) {
     const a = {
@@ -32,7 +37,10 @@ export const Chunk: React.FC<IChunk> = ({ chunkInfo, addLearnRecord }) => {
               {learnRecord.map((learnRecord, index) => {
                 return (
                   <li>
-                    <LearnRecordBlock {...learnRecord} />
+                    <LearnRecordBlock
+                      {...learnRecord}
+                      changeOneRecord={changeOneRecord}
+                    />
                   </li>
                 );
               })}
@@ -48,13 +56,52 @@ export const Chunk: React.FC<IChunk> = ({ chunkInfo, addLearnRecord }) => {
   );
 };
 
-interface ILittleBlock extends ILearnRecord{
-
+interface ILittleBlock extends ILearnRecord {
+  changeOneRecord: any;
 }
 
-const LearnRecordBlock: React.FC<ILittleBlock> = (learnRecord) => {
-  const {content} = learnRecord
-  return <div className={'learn-record-block'}>{content}</div>
+const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
+  let { content, status, startTime, changeOneRecord, _id } = learnRecord;
+  if (startTime) {
+    status = "DOING";
+  }
+  function renderStartTimer() {
+    return (
+      <div
+        onClick={() => {
+          changeOneRecord({
+            recordId: _id,
+            status: "START"
+          });
+        }}
+      >
+        △
+      </div>
+    );
+  }
+  function renderInner() {
+    switch (status) {
+      case "TODO":
+        return renderStartTimer();
+        break;
+      case "PLAN":
+        return renderStartTimer();
+        break;
+      case "DOING":
+        // 显示计时器
+        break;
+      case "DONE":
+        break;
+      default:
+        return renderStartTimer();
+    }
+  }
+  return (
+    <div className={"learn-record-block"}>
+      {renderInner()}
+      <div>{content}</div>
+    </div>
+  );
 };
 
 interface IAddButton {
@@ -92,7 +139,7 @@ const AddButton: React.FC<IAddButton> = props => {
         renderFormEle: () => <Input />
       },
       {
-        id: "tag",
+        id: "status",
         initialValue: "PLAN",
         rules: [
           {

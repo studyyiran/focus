@@ -24,7 +24,7 @@ export const storeChunksServer = {
     const res: any = await ajax.post(addLearnRecordUrl, info);
     return res;
   },
-  changeOneRecordUrl: async (info: any) => {
+  changeOneRecord: async (info: any) => {
     const res: any = await ajax.put(changeOneRecordUrl, info);
     return res;
   }

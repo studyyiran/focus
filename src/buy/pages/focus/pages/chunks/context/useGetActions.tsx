@@ -8,6 +8,7 @@ export interface IStoreChunksActions {
   getAllChunks: () => any;
   startNewChunks: (info: any) => any;
   addLearnRecord: (info: any) => any;
+  changeOneRecord: (info: any) => any;
 }
 
 // useCreateActions
@@ -44,6 +45,16 @@ export function useStoreChunksGetActions(
     addLearnRecord: useCallback(
       async function(info) {
         const res = await storeChunksServer.addLearnRecord(info);
+        dispatch({
+          type: storeChunksReducerTypes.setChunksList,
+          value: res
+        });
+      },
+      [dispatch]
+    ),
+    changeOneRecord: useCallback(
+      async function(info) {
+        const res = await storeChunksServer.changeOneRecord(info);
         dispatch({
           type: storeChunksReducerTypes.setChunksList,
           value: res

@@ -17,6 +17,7 @@ export const StoreChunksContext = createContext({} as IStoreChunksContext);
 export const StoreChunks = "StoreChunks";
 
 export interface ILearnRecord {
+  _id: string,
   createTime: string,// add time
   startTime: string,
   lastingTime: string,
