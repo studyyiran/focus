@@ -50,7 +50,7 @@ function hocWithLayout(Component: any, otherConfig: any) {
     }, [routerProps.match.url]);
     return (
       <div className="layout">
-        from v12-25 to 3-31 to 4-31（sunny）
+        from v12-25 to 3-31 to 4-31 to 512（sunny）
         <UserSunny />
         <main>
           <Component {...routerProps} />
