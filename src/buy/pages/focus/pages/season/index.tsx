@@ -20,7 +20,7 @@ export function SeasonPage() {
     startNewSeason,
     getTodayLearnThing,
     addTodoIntoSeason,
-    getStudyBuffRecord,
+    // getStudyBuffRecord,
     finishSeason
   } = seasonContext as ISeasonContext;
   // 从context中获取值
@@ -29,7 +29,7 @@ export function SeasonPage() {
   useEffect(() => {
     getSeasonList();
     getTodayLearnThing();
-    getStudyBuffRecord();
+    // getStudyBuffRecord();
   }, [getSeasonList, getTodayLearnThing]);
   // 渲染
   console.log(buffRecord);
