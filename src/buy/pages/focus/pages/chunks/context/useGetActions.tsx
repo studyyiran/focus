@@ -5,23 +5,45 @@ import { IStoreChunksState, storeChunksReducerTypes } from "./index";
 
 // @actions
 export interface IStoreChunksActions {
-  getTestAjaxValue: () => any;
+  getAllChunks: () => any;
+  startNewChunks: (info: any) => any;
+  addLearnRecord: (info: any) => any;
 }
 
 // useCreateActions
 export function useStoreChunksGetActions(
   state: IStoreChunksState,
   dispatch: (action: IReducerAction) => void
-) : IStoreChunksActions {
+): IStoreChunksActions {
   // 新增promise ref
   const promiseStatus: any = useRef();
   if (!promiseStatus.current) {
     promiseStatus.current = {};
   }
   return {
-    getTestAjaxValue: useCallback(
+    getAllChunks: useCallback(
       async function() {
         const res = await storeChunksServer.getAllChunks();
+        dispatch({
+          type: storeChunksReducerTypes.setChunksList,
+          value: res
+        });
+      },
+      [dispatch]
+    ),
+    startNewChunks: useCallback(
+      async function(info) {
+        const res = await storeChunksServer.startNewChunks(info);
+        dispatch({
+          type: storeChunksReducerTypes.setChunksList,
+          value: res
+        });
+      },
+      [dispatch]
+    ),
+    addLearnRecord: useCallback(
+      async function(info) {
+        const res = await storeChunksServer.addLearnRecord(info);
         dispatch({
           type: storeChunksReducerTypes.setChunksList,
           value: res

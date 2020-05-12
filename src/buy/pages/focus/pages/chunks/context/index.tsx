@@ -17,21 +17,22 @@ export const StoreChunksContext = createContext({} as IStoreChunksContext);
 export const StoreChunks = "StoreChunks";
 
 interface ILearnRecord {
-  createTime: String,// add time
-  startTime: String,
-  lastingTime: String,
-  finishTime: String,
-  status: String,
-  tag: String,
-  buffId: String,
-  content: String,
+  createTime: string,// add time
+  startTime: string,
+  lastingTime: string,
+  finishTime: string,
+  status: string,
+  tag: string,
+  buffId: string,
+  content: string,
 }
 
 
 export interface IChunks {
-  createTime: String,
-  name: String,
-  status: String
+  createTime: string,
+  name: string,
+  _id: string,
+  status: string
   learnLine: [{
     learnRecord: ILearnRecord[]
   }]
@@ -73,8 +74,8 @@ export function StoreChunksContextProvider(props: any) {
   // @useEffect
   // useEffect(() => {
   //   // 1 当前页面
-  //   callBackWhenPassAllFunc([() => isPage], action.getTestAjaxValue);
-  // }, [action.getTestAjaxValue, isPage]);
+  //   callBackWhenPassAllFunc([() => isPage], action.getAllChunks);
+  // }, [action.getAllChunks, isPage]);
 }
 
 
