@@ -160,7 +160,7 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
       },
       {
         id: "buffId",
-        initialValue: buffId || studyBuffList && studyBuffList[0] && studyBuffList[0]._id,
+        initialValue: buffId._id || studyBuffList && studyBuffList[0] && studyBuffList[0]._id,
         rules: [
           {
             required: true,

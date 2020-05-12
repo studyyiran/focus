@@ -22,7 +22,11 @@ export interface ILearnRecord {
   finishTime: string;
   status: string;
   tag: string;
-  buffId: string;
+  buffId: {
+    buffName: string,
+    content: string,
+    _id: string,
+  };
   content: string;
 }
 
