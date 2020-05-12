@@ -14,6 +14,21 @@ interface IChunk {
   serverCurrentTime: String;
 }
 
+const blockTypeArr = [
+  {
+    value: "PLAN",
+    name: "PLAN"
+  },
+  {
+    value: "TODO",
+    name: "TODO"
+  },
+  {
+    value: "DONE",
+    name: "DONE"
+  }
+];
+
 export const Chunk: React.FC<IChunk> = ({
   chunkInfo,
   addLearnRecord,
@@ -81,18 +96,73 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
     _id,
     timePassValue
   } = learnRecord;
-  console.log(timePassValue)
+  console.log(timePassValue);
   useEffect(() => {}, []);
-  if (startTime) {
-    status = "DOING";
-  }
+
+  const finishRecordModal = useModalForm({
+    formConfig: [
+      {
+        id: "content",
+        initialValue: content,
+        rules: [
+          {
+            required: true,
+            message: "not empty"
+          }
+        ],
+        renderFormEle: () => <Input />
+      },
+      {
+        id: "lastingTime",
+        initialValue: Math.floor(moment().diff(moment(startTime)) / 1000 / 60),
+        rules: [
+          {
+            required: true,
+            message: "not empty"
+          }
+        ],
+        renderFormEle: () => <Input />
+      },
+      {
+        id: "status",
+        initialValue: status,
+        rules: [
+          {
+            required: true,
+            message: "not empty"
+          }
+        ],
+        renderFormEle: () => (
+          <Select>
+            {blockTypeArr.map(item => {
+              return (
+                <Option value={item.value} key={item.value}>
+                  {item.name}
+                </Option>
+              );
+            })}
+          </Select>
+        )
+      }
+    ],
+    onSubmitHandler: (v: any) => {
+      console.log(v);
+      changeOneRecord({
+        ...v,
+        lastingTime: v.lastingTime * 60 * 1000,
+        status: "DONE",
+        recordId: _id
+      });
+    }
+  });
+
   function renderStartTimer() {
     return (
       <div
         onClick={() => {
           changeOneRecord({
             recordId: _id,
-            status: "START"
+            type: "START"
           });
         }}
       >
@@ -100,31 +170,43 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
       </div>
     );
   }
-  function renderInner() {
-    switch (status) {
-      case "TODO":
-        return renderStartTimer();
-        break;
-      case "PLAN":
-        return renderStartTimer();
-        break;
-      case "DOING":
-        // 显示计时器
-        return <MagicTimer2 currentTime={timePassValue} />;
-        break;
-      case "DONE":
-        // 显示icon
-        break;
-      default:
-        return renderStartTimer();
+  function renderInner(content: string) {
+    // 如果已经开始，并且
+    // 显示计时器
+    if (startTime && status !== "DONE" && status !== "DELAY") {
+      return (
+        <>
+          <MagicTimer2 currentTime={timePassValue} />
+          <div
+            onClick={() => {
+              changeOneRecord({
+                recordId: _id,
+                type: "STOP"
+              });
+            }}
+          >
+            停止
+          </div>
+          <div onClick={finishRecordModal}>完成</div>
+        </>
+      );
+    } else {
+      switch (status) {
+        case "TODO":
+          return renderStartTimer();
+          break;
+        case "PLAN":
+          return renderStartTimer();
+          break;
+        case "DONE":
+          // 显示icon
+          break;
+        default:
+          return renderStartTimer();
+      }
     }
   }
-  return (
-    <div className={"learn-record-block"}>
-      {renderInner()}
-      <div>{content}</div>
-    </div>
-  );
+  return <div className={"learn-record-block"}>{renderInner(content)}</div>;
 };
 
 interface IAddButton {
@@ -134,20 +216,7 @@ interface IAddButton {
 
 const AddButton: React.FC<IAddButton> = props => {
   const { addHandler, lineIndex } = props;
-  const blockTypeArr = [
-    {
-      value: "PLAN",
-      name: "PLAN"
-    },
-    {
-      value: "TODO",
-      name: "TODO"
-    },
-    {
-      value: "DONE",
-      name: "DONE"
-    }
-  ];
+
   const addLittleBlockModal = useModalForm({
     formConfig: [
       {
