@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.less";
 import { IChunks, ILearnRecord, IStoreChunksState } from "../../context";
 import { useModalForm } from "../../../../components/useModalForm";
@@ -37,6 +37,7 @@ export const Chunk: React.FC<IChunk> = ({
   serverCurrentTime,
   studyBuffList
 }) => {
+  const [currentRecordId, setCurrentRecordId] = useState("");
   const { name, _id, learnLine } = chunkInfo;
   function addHandler(info: any) {
     const a = {
@@ -49,9 +50,49 @@ export const Chunk: React.FC<IChunk> = ({
     });
   }
 
+  function renderCurrent() {
+    let target;
+    learnLine.find(({ learnRecord }) => {
+      return learnRecord.find(item => {
+        if (item._id === currentRecordId) {
+          target = item;
+          return true;
+        } else {
+          return false;
+        }
+      });
+    });
+    if (target) {
+      const { createTime, startTime, lastingTime, content, buffId } = target;
+      return (
+        <table>
+          <thead>
+            <tr>
+              <th>startTime</th>
+              <th>lastingTime</th>
+              <th>content</th>
+              <th>buffId</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{startTime}</td>
+              <td>{lastingTime}</td>
+              <td>{content}</td>
+              <td>{buffId && (buffId as any).buffName}</td>
+            </tr>
+          </tbody>
+        </table>
+      );
+    } else {
+      return null;
+    }
+  }
+
   return (
     <div className="chunk-style">
       <h2>chunkName: {name}</h2>
+      <div className="info-container">{renderCurrent()}</div>
       <div className="record-container">
         {learnLine.map(({ learnRecord }, lineIndex) => {
           return (
@@ -60,6 +101,7 @@ export const Chunk: React.FC<IChunk> = ({
                 return (
                   <li>
                     <LearnRecordBlock
+                      setCurrentRecordId={setCurrentRecordId}
                       studyBuffList={studyBuffList}
                       timePassValue={
                         25 * 60 * 1000 -
@@ -96,6 +138,7 @@ export const Chunk: React.FC<IChunk> = ({
 interface ILittleBlock extends ILearnRecord {
   changeOneRecord: any;
   timePassValue: any;
+  setCurrentRecordId: any;
   studyBuffList: IStoreChunksState["studyBuffList"];
 }
 
@@ -108,7 +151,8 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
     _id,
     timePassValue,
     buffId,
-    studyBuffList
+    studyBuffList,
+    setCurrentRecordId
   } = learnRecord;
   console.log(timePassValue);
   useEffect(() => {}, []);
@@ -160,7 +204,9 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
       },
       {
         id: "buffId",
-        initialValue: buffId._id || studyBuffList && studyBuffList[0] && studyBuffList[0]._id,
+        initialValue:
+          buffId._id ||
+          (studyBuffList && studyBuffList[0] && studyBuffList[0]._id),
         rules: [
           {
             required: true,
@@ -241,7 +287,19 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
       }
     }
   }
-  return <div className={"learn-record-block"}>{renderInner(content)}</div>;
+  return (
+    <div
+      className={"learn-record-block"}
+      onClick={() => {
+        setCurrentRecordId(_id);
+      }}
+      onMouseEnter={() => {
+        setCurrentRecordId(_id);
+      }}
+    >
+      {renderInner(content)}
+    </div>
+  );
 };
 
 interface IAddButton {
