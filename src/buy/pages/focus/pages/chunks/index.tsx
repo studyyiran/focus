@@ -47,8 +47,10 @@ const RenderList: React.FC<IRenderList> = props => {
   const storeChunksContext = useContext(StoreChunksContext);
   const {
     changeOneRecord,
-    addLearnRecord
+    addLearnRecord,
+    storeChunksContextValue
   } = storeChunksContext as IStoreChunksContext;
+  const { serverCurrentTime } = storeChunksContextValue;
   return (
     <ul>
       {props.chunksList.map((item, index) => {
@@ -56,7 +58,7 @@ const RenderList: React.FC<IRenderList> = props => {
           <li
             key={item._id}
           >
-            <Chunk chunkInfo={item} addLearnRecord={addLearnRecord} changeOneRecord={changeOneRecord}/>
+            <Chunk chunkInfo={item} addLearnRecord={addLearnRecord} changeOneRecord={changeOneRecord} serverCurrentTime={serverCurrentTime}/>
           </li>
         );
       })}

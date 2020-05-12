@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./index.less";
 import { IChunks, ILearnRecord } from "../../context";
 import { useModalForm } from "../../../../components/useModalForm";
 import { Input, Select } from "antd";
+import { MagicTimer2 } from "../../../season/components/magicTimer/index2";
+import moment from "moment";
 const { Option } = Select;
 
 interface IChunk {
   chunkInfo: IChunks;
   addLearnRecord: any;
   changeOneRecord: any;
+  serverCurrentTime: String;
 }
 
 export const Chunk: React.FC<IChunk> = ({
   chunkInfo,
   addLearnRecord,
-  changeOneRecord
+  changeOneRecord,
+  serverCurrentTime
 }) => {
   const { name, _id, learnLine } = chunkInfo;
   function addHandler(info: any) {
@@ -27,6 +31,7 @@ export const Chunk: React.FC<IChunk> = ({
       ...a
     });
   }
+
   return (
     <div className="chunk-style">
       <h2>chunkName: {name}</h2>
@@ -38,6 +43,12 @@ export const Chunk: React.FC<IChunk> = ({
                 return (
                   <li>
                     <LearnRecordBlock
+                      timePassValue={
+                        25 * 60 * 1000 -
+                        moment(serverCurrentTime as any).diff(
+                          moment(learnRecord.startTime)
+                        )
+                      }
                       {...learnRecord}
                       changeOneRecord={changeOneRecord}
                     />
@@ -58,10 +69,20 @@ export const Chunk: React.FC<IChunk> = ({
 
 interface ILittleBlock extends ILearnRecord {
   changeOneRecord: any;
+  timePassValue: any;
 }
 
 const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
-  let { content, status, startTime, changeOneRecord, _id } = learnRecord;
+  let {
+    content,
+    status,
+    startTime,
+    changeOneRecord,
+    _id,
+    timePassValue
+  } = learnRecord;
+  console.log(timePassValue)
+  useEffect(() => {}, []);
   if (startTime) {
     status = "DOING";
   }
@@ -89,8 +110,10 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
         break;
       case "DOING":
         // 显示计时器
+        return <MagicTimer2 currentTime={timePassValue} />;
         break;
       case "DONE":
+        // 显示icon
         break;
       default:
         return renderStartTimer();

@@ -42,6 +42,7 @@ export interface IChunks {
 // store state
 export interface IStoreChunksState {
   chunksList: IChunks[];
+  serverCurrentTime: String;
 }
 
 
@@ -56,7 +57,8 @@ export interface IStoreChunksContext
 // store provider
 export function StoreChunksContextProvider(props: any) {
   const initState: IStoreChunksState = {
-    chunksList: []
+    chunksList: [],
+    serverCurrentTime: '',
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -94,7 +96,8 @@ function reducer(state: IStoreChunksState, action: IReducerAction) {
     case storeChunksReducerTypes.setChunksList: {
       newState = {
         ...newState,
-        chunksList: value
+        chunksList: value.chunksList,
+        serverCurrentTime: value.serverCurrentTime
       };
       break;
     }
