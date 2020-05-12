@@ -9,6 +9,7 @@ export interface IStoreChunksActions {
   startNewChunks: (info: any) => any;
   addLearnRecord: (info: any) => any;
   changeOneRecord: (info: any) => any;
+  getStudyBuffList: (info: any) => any;
 }
 
 // useCreateActions
@@ -57,6 +58,16 @@ export function useStoreChunksGetActions(
         const res = await storeChunksServer.changeOneRecord(info);
         dispatch({
           type: storeChunksReducerTypes.setChunksList,
+          value: res
+        });
+      },
+      [dispatch]
+    ),
+    getStudyBuffList: useCallback(
+      async function() {
+        const res = await storeChunksServer.getStudyBuffList();
+        dispatch({
+          type: storeChunksReducerTypes.setStudyBuffList,
           value: res
         });
       },

@@ -9,6 +9,7 @@ export const getAllChunksUrl = serverName + "/getAllChunks";
 export const startNewChunksUrl = serverName + "/startNewChunks";
 export const addLearnRecordUrl = serverName + "/addLearnRecord";
 export const changeOneRecordUrl = serverName + "/changeOneRecord";
+export const getStudyBuffListUrl = serverName + "/getStudyBuffList";
 
 
 export const storeChunksServer = {
@@ -26,6 +27,10 @@ export const storeChunksServer = {
   },
   changeOneRecord: async (info: any) => {
     const res: any = await ajax.put(changeOneRecordUrl, info);
+    return res;
+  },
+  getStudyBuffList: async () => {
+    const res: any = await ajax.get(getStudyBuffListUrl);
     return res;
   }
 };

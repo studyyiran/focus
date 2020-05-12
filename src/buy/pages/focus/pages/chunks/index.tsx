@@ -14,7 +14,7 @@ export const ChunksPage: React.FC<IChunksPage> = props => {
   const {
     storeChunksContextValue,
     getAllChunks,
-    startNewChunks,
+    startNewChunks
   } = storeChunksContext as IStoreChunksContext;
   // 从context中获取值
   const { chunksList } = storeChunksContextValue;
@@ -50,15 +50,19 @@ const RenderList: React.FC<IRenderList> = props => {
     addLearnRecord,
     storeChunksContextValue
   } = storeChunksContext as IStoreChunksContext;
-  const { serverCurrentTime } = storeChunksContextValue;
+  const { serverCurrentTime, studyBuffList } = storeChunksContextValue;
   return (
     <ul>
       {props.chunksList.map((item, index) => {
         return (
-          <li
-            key={item._id}
-          >
-            <Chunk chunkInfo={item} addLearnRecord={addLearnRecord} changeOneRecord={changeOneRecord} serverCurrentTime={serverCurrentTime}/>
+          <li key={item._id}>
+            <Chunk
+              chunkInfo={item}
+              addLearnRecord={addLearnRecord}
+              changeOneRecord={changeOneRecord}
+              serverCurrentTime={serverCurrentTime}
+              studyBuffList={studyBuffList}
+            />
           </li>
         );
       })}

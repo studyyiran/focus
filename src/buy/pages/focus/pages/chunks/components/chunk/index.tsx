@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./index.less";
-import { IChunks, ILearnRecord } from "../../context";
+import { IChunks, ILearnRecord, IStoreChunksState } from "../../context";
 import { useModalForm } from "../../../../components/useModalForm";
 import { Input, Select } from "antd";
 import { MagicTimer2 } from "../../../season/components/magicTimer/index2";
@@ -12,6 +12,7 @@ interface IChunk {
   addLearnRecord: any;
   changeOneRecord: any;
   serverCurrentTime: String;
+  studyBuffList: IStoreChunksState["studyBuffList"];
 }
 
 const blockTypeArr = [
@@ -33,7 +34,8 @@ export const Chunk: React.FC<IChunk> = ({
   chunkInfo,
   addLearnRecord,
   changeOneRecord,
-  serverCurrentTime
+  serverCurrentTime,
+  studyBuffList
 }) => {
   const { name, _id, learnLine } = chunkInfo;
   function addHandler(info: any) {
@@ -58,6 +60,7 @@ export const Chunk: React.FC<IChunk> = ({
                 return (
                   <li>
                     <LearnRecordBlock
+                      studyBuffList={studyBuffList}
                       timePassValue={
                         25 * 60 * 1000 -
                         moment(serverCurrentTime as any).diff(
@@ -71,13 +74,21 @@ export const Chunk: React.FC<IChunk> = ({
                 );
               })}
               <li>
-                <AddButton addHandler={addHandler} lineIndex={lineIndex} />
+                <AddButton
+                  addHandler={addHandler}
+                  lineIndex={lineIndex}
+                  studyBuffList={studyBuffList}
+                />
               </li>
             </ul>
           );
         })}
       </div>
-      <AddButton addHandler={addHandler} lineIndex={learnLine.length} />
+      <AddButton
+        addHandler={addHandler}
+        lineIndex={learnLine.length}
+        studyBuffList={studyBuffList}
+      />
     </div>
   );
 };
@@ -85,6 +96,7 @@ export const Chunk: React.FC<IChunk> = ({
 interface ILittleBlock extends ILearnRecord {
   changeOneRecord: any;
   timePassValue: any;
+  studyBuffList: IStoreChunksState["studyBuffList"];
 }
 
 const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
@@ -94,7 +106,9 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
     startTime,
     changeOneRecord,
     _id,
-    timePassValue
+    timePassValue,
+    buffId,
+    studyBuffList
   } = learnRecord;
   console.log(timePassValue);
   useEffect(() => {}, []);
@@ -138,6 +152,27 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
               return (
                 <Option value={item.value} key={item.value}>
                   {item.name}
+                </Option>
+              );
+            })}
+          </Select>
+        )
+      },
+      {
+        id: "buffId",
+        initialValue: buffId || studyBuffList && studyBuffList[0] && studyBuffList[0]._id,
+        rules: [
+          {
+            required: true,
+            message: "not empty"
+          }
+        ],
+        renderFormEle: () => (
+          <Select>
+            {studyBuffList.map(item => {
+              return (
+                <Option value={item._id as any} key={item._id as any}>
+                  {item.buffName}:{item.content}
                 </Option>
               );
             })}
@@ -212,10 +247,11 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
 interface IAddButton {
   addHandler: any;
   lineIndex: Number;
+  studyBuffList: IStoreChunksState["studyBuffList"];
 }
 
 const AddButton: React.FC<IAddButton> = props => {
-  const { addHandler, lineIndex } = props;
+  const { addHandler, lineIndex, studyBuffList } = props;
 
   const addLittleBlockModal = useModalForm({
     formConfig: [
@@ -245,6 +281,27 @@ const AddButton: React.FC<IAddButton> = props => {
               return (
                 <Option value={item.value} key={item.value}>
                   {item.name}
+                </Option>
+              );
+            })}
+          </Select>
+        )
+      },
+      {
+        id: "buffId",
+        initialValue: studyBuffList && studyBuffList[0] && studyBuffList[0]._id,
+        rules: [
+          {
+            required: true,
+            message: "not empty"
+          }
+        ],
+        renderFormEle: () => (
+          <Select>
+            {studyBuffList.map(item => {
+              return (
+                <Option value={item._id as any} key={item._id as any}>
+                  {item.buffName}:{item.content}
                 </Option>
               );
             })}
