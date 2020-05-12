@@ -281,6 +281,8 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
           break;
         case "DONE":
           // 显示icon
+          //   return <img src="https://bkimg.cdn.bcebos.com/pic/b17eca8065380cd78942d910a244ad34588281ea?x-bce-process=image/resize,m_lfit,w_220,h_220,limit_1" />
+            return <img src={require('./res/icon1.png')} />
           break;
         default:
           return renderStartTimer();
