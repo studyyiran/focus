@@ -16,7 +16,7 @@ export const StoreChunksContext = createContext({} as IStoreChunksContext);
 // store name
 export const StoreChunks = "StoreChunks";
 
-interface ILearnRecord {
+export interface ILearnRecord {
   createTime: string,// add time
   startTime: string,
   lastingTime: string,

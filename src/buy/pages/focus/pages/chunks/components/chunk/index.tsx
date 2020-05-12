@@ -1,68 +1,85 @@
 import React from "react";
-import './index.less';
-import { IChunks } from "../../context";
+import "./index.less";
+import { IChunks, ILearnRecord } from "../../context";
 import { useModalForm } from "../../../../components/useModalForm";
 import { Input, Select } from "antd";
-const {Option} = Select
+const { Option } = Select;
 
-interface IChunk  {
-  chunkInfo: IChunks,
-  addLearnRecord: any
+interface IChunk {
+  chunkInfo: IChunks;
+  addLearnRecord: any;
 }
 
-export const Chunk: React.FC<IChunk> = ({chunkInfo, addLearnRecord}) => {
-  const {name, _id, learnLine} = chunkInfo
+export const Chunk: React.FC<IChunk> = ({ chunkInfo, addLearnRecord }) => {
+  const { name, _id, learnLine } = chunkInfo;
   function addHandler(info: any) {
     const a = {
       chunkId: _id,
       ...info
-    }
+    };
     addLearnRecord({
       buffId: "buffId",
-      ...a,
+      ...a
     });
   }
-  return <div className="chunk-style">
-    <h2>{name}</h2>
-    {learnLine.map(({learnRecord}) => {
-      return <ul>
-        {learnRecord.map(({content}) => {
-          return <li>{content}</li>
+  return (
+    <div className="chunk-style">
+      <h2>chunkName: {name}</h2>
+      <div className="record-container">
+        {learnLine.map(({ learnRecord }, lineIndex) => {
+          return (
+            <ul className="learn-line">
+              {learnRecord.map((learnRecord, index) => {
+                return (
+                  <li>
+                    <LearnRecordBlock {...learnRecord} />
+                  </li>
+                );
+              })}
+              <li>
+                <AddButton addHandler={addHandler} lineIndex={lineIndex} />
+              </li>
+            </ul>
+          );
         })}
-      </ul>
-    })}
-    <AddButton addHandler={addHandler} nextLine={learnLine.length}/>
-  </div>
+      </div>
+      <AddButton addHandler={addHandler} lineIndex={learnLine.length} />
+    </div>
+  );
+};
+
+interface ILittleBlock extends ILearnRecord{
+
 }
 
-
-const LittleBlock: React.FC<IChunk> = ({chunkInfo}) => {
-  return <div></div>
-}
+const LearnRecordBlock: React.FC<ILittleBlock> = (learnRecord) => {
+  const {content} = learnRecord
+  return <div className={'learn-record-block'}>{content}</div>
+};
 
 interface IAddButton {
-  addHandler: any,
-  nextLine: Number
+  addHandler: any;
+  lineIndex: Number;
 }
 
-const AddButton: React.FC<IAddButton> = (props) => {
-  const {addHandler, nextLine} = props
+const AddButton: React.FC<IAddButton> = props => {
+  const { addHandler, lineIndex } = props;
   const blockTypeArr = [
     {
-      value: 'PLAN',
-      name: 'PLAN',
+      value: "PLAN",
+      name: "PLAN"
     },
     {
-      value: 'TODO',
-      name: 'TODO',
+      value: "TODO",
+      name: "TODO"
     },
     {
-      value: 'DONE',
-      name: 'DONE',
-    },
-  ]
+      value: "DONE",
+      name: "DONE"
+    }
+  ];
   const addLittleBlockModal = useModalForm({
-    formConfig:[
+    formConfig: [
       {
         id: "content",
         initialValue: "",
@@ -87,22 +104,23 @@ const AddButton: React.FC<IAddButton> = (props) => {
           <Select>
             {blockTypeArr.map(item => {
               return (
-                <Option
-                  value={item.value}
-                  key={item.value}
-                >
+                <Option value={item.value} key={item.value}>
                   {item.name}
                 </Option>
               );
             })}
           </Select>
         )
-      },
+      }
     ],
     onSubmitHandler: (v: any) => {
-      console.log(v)
-      addHandler({...v, nextLine})
+      console.log(v);
+      addHandler({ ...v, lineIndex });
     }
-  })
-  return <div onClick={addLittleBlockModal}>add</div>
-}
+  });
+  return (
+    <div className="add-button" onClick={addLittleBlockModal}>
+      add+
+    </div>
+  );
+};
