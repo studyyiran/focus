@@ -43,15 +43,17 @@ export const MagicTimer2: React.FC<IMagicTimer> = props => {
     const info = {
       time: time,
       onlyStartTime: time,
-      // @ts-ignore
-      minInterval: (time / Math.abs(time) * -1000),
+      minInterval: time > 0 ? -1000 : 1000,
       runCallBack: (times: any, timeSecond: any) => {
         dispatch({
           type: "setCurrentTime",
           value: timeSecond
         });
       },
-      finishCallBack: () => {}
+      finishCallBack: () => {
+        timerRef.current.stop();
+        newTimer(0)
+      }
     };
     // @ts-ignore
     timerRef.current = new MyTimer(info);

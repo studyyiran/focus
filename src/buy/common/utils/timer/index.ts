@@ -16,8 +16,8 @@ export function MyTimer({
     that.stopTime = stopTime || 0;
   }
   that.startTime = Date.now();
-  that.currentTime = time;
-  that.onlyStartTime = onlyStartTime;
+  that.currentTime = Math.abs(time);
+  that.onlyStartTime = onlyStartTime ? Math.abs(onlyStartTime) : null;
   that.timeIntervalId = undefined;
   that.finishCallBack = finishCallBack;
   that.runCallBack = runCallBack;
