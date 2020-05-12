@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import "./index.less";
 import { IStoreChunksContext, StoreChunksContext, IChunks } from "./context";
 import { useModalForm } from "../../components/useModalForm";
+import { Chunk } from "./components/chunk";
 
 interface IChunksPage {}
 
@@ -57,17 +58,8 @@ const RenderList: React.FC<IRenderList> = props => {
         return (
           <li
             key={item._id}
-            onClick={() => {
-              addLearnRecord({
-                chunkId: item._id,
-                nextLine: item.learnLine.length,
-                tag: "123",
-                content: "content",
-                buffId: "buffId"
-              });
-            }}
           >
-            {item._id}
+            <Chunk chunkInfo={item} addLearnRecord={addLearnRecord} />
           </li>
         );
       })}
