@@ -6,6 +6,7 @@ import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { IListItem } from "../../context/interface";
 import { Button } from "antd";
 import { TodoLine } from "../../components/ToDoLine";
+import { TodayPageSection } from "../today/components/todayPageSection";
 
 export function TodayDone() {
   const myFocusContext = useContext(MyFocusContext);
@@ -40,16 +41,16 @@ export function TodayDone() {
       return list.map(item => {
         const { content, tag, _id } = item;
         return (
-          <li key={_id} className="line">
+          <li key={_id}>
             <TodoLine {...item} />
-            <Button
-              onClick={() => {
-                addTomorrowReview(content);
-              }}
-            >
-              <Svg icon="jia" />
-              Add Into Tomorrow Review
-            </Button>
+            {/*<Button*/}
+            {/*  onClick={() => {*/}
+            {/*    addTomorrowReview(content);*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  <Svg icon="jia" />*/}
+            {/*  Add Into Tomorrow Review*/}
+            {/*</Button>*/}
           </li>
         );
       });
@@ -57,19 +58,17 @@ export function TodayDone() {
   }
   return (
     <div className="today-done">
-      <div>
-        <h2>Today Done</h2>
-        <Button onClick={quickFinishModal}>
-          <Svg icon="jia" />
-          Quick Finish
-        </Button>
-        <ul className="ul-line-container">{renderList(todayDoneList)}</ul>
-      </div>
-      <div>
-        <h2>Tomorrow Plan</h2>
-        <Button onClick={addTomorrowTodoModal}>Add Tomorrow TODO</Button>
-        <ul className="ul-line-container">{renderList(todayTodo.tomorrow)}</ul>
-      </div>
+      <Button onClick={addTomorrowTodoModal}>Add Tomorrow TODO</Button>
+      {todayDoneList && todayDoneList.length ? (
+        <TodayPageSection title="Today Done">
+          {renderList(todayDoneList)}
+        </TodayPageSection>
+      ) : null}
+      {todayTodo && todayTodo.tomorrow && todayTodo.tomorrow.length ? (
+        <TodayPageSection title="Tomorrow Plan">
+          {renderList(todayTodo.tomorrow)}
+        </TodayPageSection>
+      ) : null}
     </div>
   );
 }

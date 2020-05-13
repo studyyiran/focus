@@ -5,7 +5,7 @@ import { IListItem } from "../../context/interface";
 import moment from "moment";
 
 interface ITodoLine extends IListItem {
-  changeStudyItemStatus?: any;
+  onClickButton1?: any;
   haveDone?: boolean;
 }
 
@@ -13,7 +13,7 @@ export function TodoLine(props: ITodoLine) {
   const {
     tag,
     content,
-    changeStudyItemStatus,
+    onClickButton1,
     _id,
     planStartTime,
     haveDone
@@ -49,7 +49,7 @@ export function TodoLine(props: ITodoLine) {
           className="checkbox-button"
           type="checkbox"
           onChange={() => {
-            changeStudyItemStatus(_id);
+            onClickButton1(_id);
           }}
         />
         <p>{moreContent(content)}</p>

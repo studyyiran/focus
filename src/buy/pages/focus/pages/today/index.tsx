@@ -39,7 +39,7 @@ export function FocusToday() {
         const { content, tag, _id } = item;
         return (
           <li key={_id} className="line">
-            <TodoLine {...item} changeStudyItemStatus={changeStudyItemStatus} />
+            <TodoLine {...item} onClickButton1={changeStudyItemStatus} />
           </li>
         );
       });
@@ -60,7 +60,7 @@ export function FocusToday() {
                 <li key={_id}>
                   <TodoLine
                     {...item}
-                    changeStudyItemStatus={changeStudyItemStatus}
+                    onClickButton1={changeStudyItemStatus}
                   />
                 </li>
               );
@@ -75,7 +75,7 @@ export function FocusToday() {
               <li key={_id}>
                 <TodoLine
                   {...item}
-                  changeStudyItemStatus={changeStudyItemStatus}
+                  onClickButton1={changeStudyItemStatus}
                 />
               </li>
             );
@@ -91,7 +91,7 @@ export function FocusToday() {
               <li key={_id}>
                 <TodoLine
                   {...item}
-                  changeStudyItemStatus={changeStudyItemStatus}
+                  onClickButton1={changeStudyItemStatus}
                 />
               </li>
             );
@@ -106,7 +106,7 @@ export function FocusToday() {
                 <TodoLine
                   haveDone={true}
                   {...item}
-                  changeStudyItemStatus={changeStudyItemStatus}
+                  onClickButton1={changeStudyItemStatus}
                 />
               </li>
             );
