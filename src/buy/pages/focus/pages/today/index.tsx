@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./index.less";
 import { Button, Select } from "antd";
-import { TodayPageSection } from "../../components/todayPageSection";
+import { TodayPageSection } from "./components/todayPageSection";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import Svg from "../../../../components/svg";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
@@ -22,9 +22,9 @@ export function FocusToday() {
   const { todayTodo, todayDoneList } = myFocusContextValue;
 
   useEffect(() => {
-    getTodayDone()
-    getTodayTodo()
-  }, [getTodayTodo]);
+    getTodayDone();
+    getTodayTodo();
+  }, [getTodayDone, getTodayTodo]);
 
   const testFunc = useShowNewTodoModal({});
 
@@ -48,11 +48,11 @@ export function FocusToday() {
 
   return (
     <div className="test-page">
+      <Button onClick={testFunc}>
+        <Svg icon="jia" />
+        Add Into Today Todo({sunnyType.todo})
+      </Button>
       <TodayPageSection title="Plane">
-        <Button onClick={testFunc}>
-          <Svg icon="jia" />
-          Add Into Today Todo({sunnyType.todo})
-        </Button>
         {todayTodo && todayTodo.plane && todayTodo.plane.length
           ? todayTodo.plane.map(item => {
               const { _id } = item;
@@ -67,49 +67,52 @@ export function FocusToday() {
             })
           : null}
       </TodayPageSection>
-      <TodayPageSection title="Review">
-        {todayTodo && todayTodo.review && todayTodo.review.length
-          ? todayTodo.review.map(item => {
-              const { content, _id, tag } = item;
-              return (
-                <li key={_id}>
-                  <TodoLine
-                    {...item}
-                    changeStudyItemStatus={changeStudyItemStatus}
-                  />
-                </li>
-              );
-            })
-          : null}
-      </TodayPageSection>
-      <TodayPageSection title="Delay">
-        {todayTodo && todayTodo.delay && todayTodo.delay.length
-          ? todayTodo.delay.map(item => {
-              const { content, _id } = item;
-              return (
-                <li key={_id}>
-                  <TodoLine
-                    {...item}
-                    changeStudyItemStatus={changeStudyItemStatus}
-                  />
-                </li>
-              );
-            })
-          : null}
-      </TodayPageSection>
-      <TodayPageSection title="Done" haveDone={true}>
-        {todayDoneList.map(item => {
-          return (
-            <li key={item._id}>
-              <TodoLine
-                haveDone={true}
-                {...item}
-                changeStudyItemStatus={changeStudyItemStatus}
-              />
-            </li>
-          );
-        })}
-      </TodayPageSection>
+      {todayTodo && todayTodo.review && todayTodo.review.length ? (
+        <TodayPageSection title="Review">
+          {todayTodo.review.map(item => {
+            const { content, _id, tag } = item;
+            return (
+              <li key={_id}>
+                <TodoLine
+                  {...item}
+                  changeStudyItemStatus={changeStudyItemStatus}
+                />
+              </li>
+            );
+          })}
+        </TodayPageSection>
+      ) : null}
+
+      {todayTodo && todayTodo.delay && todayTodo.delay.length ? (
+        <TodayPageSection title="Delay">
+          {todayTodo.delay.map(item => {
+            const { content, _id } = item;
+            return (
+              <li key={_id}>
+                <TodoLine
+                  {...item}
+                  changeStudyItemStatus={changeStudyItemStatus}
+                />
+              </li>
+            );
+          })}
+        </TodayPageSection>
+      ) : null}
+      {todayDoneList && todayDoneList.length ? (
+        <TodayPageSection title="Done" haveDone={true}>
+          {todayDoneList.map(item => {
+            return (
+              <li key={item._id}>
+                <TodoLine
+                  haveDone={true}
+                  {...item}
+                  changeStudyItemStatus={changeStudyItemStatus}
+                />
+              </li>
+            );
+          })}
+        </TodayPageSection>
+      ) : null}
     </div>
   );
 }
