@@ -95,11 +95,7 @@ export function FocusToday() {
           {todayDoneList.map(item => {
             return (
               <li key={item._id}>
-                <TodoLine
-                  haveDone={true}
-                  {...item}
-                  onClickButton1={changeStudyItemStatus}
-                />
+                <TodoLine haveDone={true} {...item} />
               </li>
             );
           })}

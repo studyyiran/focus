@@ -49,7 +49,7 @@ export function TodoLine(props: ITodoLine) {
           className="checkbox-button"
           type="checkbox"
           onChange={() => {
-            onClickButton1(_id);
+            onClickButton1 && onClickButton1(_id);
           }}
         />
         <p>{moreContent(content)}</p>
