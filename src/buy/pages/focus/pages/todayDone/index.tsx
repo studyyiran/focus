@@ -60,12 +60,12 @@ export function TodayDone() {
     <div className="today-done">
       <Button onClick={addTomorrowTodoModal}>Add Tomorrow TODO</Button>
       {todayDoneList && todayDoneList.length ? (
-        <TodayPageSection title="Today Done">
+        <TodayPageSection title="已完成">
           {renderList(todayDoneList)}
         </TodayPageSection>
       ) : null}
       {todayTodo && todayTodo.tomorrow && todayTodo.tomorrow.length ? (
-        <TodayPageSection title="Tomorrow Plan">
+        <TodayPageSection title="明天">
           {renderList(todayTodo.tomorrow)}
         </TodayPageSection>
       ) : null}

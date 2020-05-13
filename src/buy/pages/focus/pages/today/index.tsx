@@ -52,31 +52,26 @@ export function FocusToday() {
         <Svg icon="jia" />
         Add Into Today Todo({sunnyType.todo})
       </Button>
-      <TodayPageSection title="Plane">
-        {todayTodo && todayTodo.plane && todayTodo.plane.length
-          ? todayTodo.plane.map(item => {
-              const { _id } = item;
-              return (
-                <li key={_id}>
-                  <TodoLine
-                    {...item}
-                    onClickButton1={changeStudyItemStatus}
-                  />
-                </li>
-              );
-            })
-          : null}
-      </TodayPageSection>
+      {todayTodo && todayTodo.plane && todayTodo.plane.length ? (
+        <TodayPageSection title="今天">
+          {todayTodo.plane.map(item => {
+            const { _id } = item;
+            return (
+              <li key={_id}>
+                <TodoLine {...item} onClickButton1={changeStudyItemStatus} />
+              </li>
+            );
+          })}
+        </TodayPageSection>
+      ) : null}
+
       {todayTodo && todayTodo.review && todayTodo.review.length ? (
-        <TodayPageSection title="Review">
+        <TodayPageSection title="复习">
           {todayTodo.review.map(item => {
             const { content, _id, tag } = item;
             return (
               <li key={_id}>
-                <TodoLine
-                  {...item}
-                  onClickButton1={changeStudyItemStatus}
-                />
+                <TodoLine {...item} onClickButton1={changeStudyItemStatus} />
               </li>
             );
           })}
@@ -84,22 +79,19 @@ export function FocusToday() {
       ) : null}
 
       {todayTodo && todayTodo.delay && todayTodo.delay.length ? (
-        <TodayPageSection title="Delay">
+        <TodayPageSection title="已过期">
           {todayTodo.delay.map(item => {
             const { content, _id } = item;
             return (
               <li key={_id}>
-                <TodoLine
-                  {...item}
-                  onClickButton1={changeStudyItemStatus}
-                />
+                <TodoLine {...item} onClickButton1={changeStudyItemStatus} />
               </li>
             );
           })}
         </TodayPageSection>
       ) : null}
       {todayDoneList && todayDoneList.length ? (
-        <TodayPageSection title="Done" haveDone={true}>
+        <TodayPageSection title="完成" haveDone={true}>
           {todayDoneList.map(item => {
             return (
               <li key={item._id}>
