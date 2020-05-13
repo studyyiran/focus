@@ -41,7 +41,7 @@
 }
 
 .font(@size, @weight, @color) {
-  font-size: @size;
+  font-size: @size * @f;
   font-weight: @weight;
   color: @color;
 }
@@ -211,7 +211,7 @@
       line-height: @close-size;
     }
     .yr-modal-title {
-      .font(16 * @px, 500, #222222);
+      .font(16, 500, #222222);
     }
   }
 };

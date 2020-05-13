@@ -16,12 +16,14 @@ export function FocusToday() {
     myFocusContextValue,
     getTodayTodo,
     changeStudyItemStatus,
-    addTomorrowTodo
+    addTomorrowTodo,
+    getTodayDone
   } = myFocusContext as IMyFocusContext;
-  const { todayTodo } = myFocusContextValue;
+  const { todayTodo, todayDoneList } = myFocusContextValue;
 
   useEffect(() => {
-    callBackWhenPassAllFunc([], getTodayTodo);
+    getTodayDone()
+    getTodayTodo()
   }, [getTodayTodo]);
 
   const testFunc = useShowNewTodoModal({});
@@ -37,7 +39,7 @@ export function FocusToday() {
         const { content, tag, _id } = item;
         return (
           <li key={_id} className="line">
-            <TodoLine {...item} />
+            <TodoLine {...item} changeStudyItemStatus={changeStudyItemStatus} />
           </li>
         );
       });
@@ -56,10 +58,10 @@ export function FocusToday() {
               const { _id } = item;
               return (
                 <li key={_id}>
-                  <TodoLine {...item} />
-                  <Button onClick={changeStudyItemStatus.bind({}, _id)}>
-                    finish
-                  </Button>
+                  <TodoLine
+                    {...item}
+                    changeStudyItemStatus={changeStudyItemStatus}
+                  />
                 </li>
               );
             })
@@ -71,10 +73,10 @@ export function FocusToday() {
               const { content, _id, tag } = item;
               return (
                 <li key={_id}>
-                  <TodoLine {...item} />
-                  <Button onClick={changeStudyItemStatus.bind({}, _id)}>
-                    finish
-                  </Button>
+                  <TodoLine
+                    {...item}
+                    changeStudyItemStatus={changeStudyItemStatus}
+                  />
                 </li>
               );
             })
@@ -86,21 +88,28 @@ export function FocusToday() {
               const { content, _id } = item;
               return (
                 <li key={_id}>
-                  <TodoLine {...item} />
-                  <Button onClick={changeStudyItemStatus.bind({}, _id)}>
-                    finish
-                  </Button>
+                  <TodoLine
+                    {...item}
+                    changeStudyItemStatus={changeStudyItemStatus}
+                  />
                 </li>
               );
             })
           : null}
       </TodayPageSection>
-
-      {/*<div>*/}
-      {/*  <h2>Tomorrow Plan</h2>*/}
-      {/*  <Button onClick={addTomorrowTodoModal}>Add Tomorrow TODO</Button>*/}
-      {/*  <ul className="ul-line-container">{renderList(todayTodo.tomorrow)}</ul>*/}
-      {/*</div>*/}
+      <TodayPageSection title="Done" haveDone={true}>
+        {todayDoneList.map(item => {
+          return (
+            <li key={item._id}>
+              <TodoLine
+                haveDone={true}
+                {...item}
+                changeStudyItemStatus={changeStudyItemStatus}
+              />
+            </li>
+          );
+        })}
+      </TodayPageSection>
     </div>
   );
 }

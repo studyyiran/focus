@@ -8,12 +8,13 @@ import "./index.less";
 export function TodayPageSection(props: {
   title: string; // 所属的模块类别
   children: any; // 具体的列表内容
+  haveDone?: boolean;
 }) {
-  const { title, children } = props;
+  const { title, children, haveDone } = props;
   return (
     <div>
       <h3>{title}</h3>
-      <ul className="ul-line-container">{children}</ul>
+      <ul className={`ul-line-container-d`}>{children}</ul>
     </div>
   );
 }

@@ -27,12 +27,12 @@ export const routerConfig = [
     title: "History",
     component: HistoryPage
   },
-  // {
-  //   path: "/wish-list",
-  //   exact: true,
-  //   title: "wishList",
-  //   component: WishList
-  // },
+  {
+    path: "/wish-list",
+    exact: true,
+    title: "wishList",
+    component: WishList
+  },
   {
     path: "/target-info",
     exact: true,
