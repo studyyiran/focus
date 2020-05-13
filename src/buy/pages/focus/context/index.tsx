@@ -294,7 +294,7 @@ function useGetAction(
         id: id,
         status: "finish"
       });
-      getTodayDone();
+      await getTodayDone();
       // 使用心的状态
       dispatch({
         type: myFocusReducerTypes.setList,
