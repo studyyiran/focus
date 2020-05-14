@@ -9,6 +9,7 @@ import { TodoLine } from "../../components/ToDoLine";
 import { callBackWhenPassAllFunc } from "../../../../common/utils/util";
 import { IListItem } from "../../context/interface";
 import { sunnyType } from "../../config/tagArrConfig";
+import {PostForm} from "./components/postForm";
 
 export function FocusToday() {
   const myFocusContext = useContext(MyFocusContext);
@@ -48,10 +49,8 @@ export function FocusToday() {
 
   return (
     <div className="test-page">
-      <Button onClick={testFunc}>
-        <Svg icon="jia" />
-        Add Into Today Todo({sunnyType.todo})
-      </Button>
+      <PostForm />
+      <div>Add Into Today Todo({sunnyType.todo})</div>
       {todayTodo && todayTodo.plane && todayTodo.plane.length ? (
         <TodayPageSection title="今天">
           {todayTodo.plane.map(item => {
