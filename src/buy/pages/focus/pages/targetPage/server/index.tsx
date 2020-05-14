@@ -5,17 +5,17 @@ import ajax from "../../../../../common/utils/ajax";
 import {ITargetLevelUpJson} from "../context/useGetActions";
 const targetUrl = "/target";
 const targetRelatedTodoUrl = "/targetRelatedTodo"
-export const getTargetRelatedTodoUrl = targetRelatedTodoUrl + "/getList";
+// export const getTargetRelatedTodoUrl = targetRelatedTodoUrl + "/getList";
 export const targetRelateUrl = targetUrl + "/targetRelate";
 export const addNewTargetUrl = targetUrl + "/addNewTarget";
 export const getTargetListUrl = targetUrl + "/getTargetList";
 export const getTargetListHaveFinishUrl = targetUrl + "/getTargetListHaveFinish";
 export const levelupUrl = targetUrl + "/levelup";
 
-async function getTargetRelatedTodo() {
-  const res: any = await ajax.get(getTargetRelatedTodoUrl);
-  return res;
-}
+// async function getTargetRelatedTodo() {
+//   const res: any = await ajax.get(getTargetRelatedTodoUrl);
+//   return res;
+// }
 
 async function addNewTarget(data: any) {
   const res: any = await ajax.post(addNewTargetUrl, data);
@@ -44,7 +44,7 @@ async function targetLevelUp(data: ITargetLevelUpJson) {
 
 
 export const targetInfoServer = {
-  getTargetRelatedTodo,
+  // getTargetRelatedTodo,
   addNewTarget,
   addTargetRelate,
   getTargetList,

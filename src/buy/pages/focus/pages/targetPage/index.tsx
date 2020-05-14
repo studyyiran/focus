@@ -94,11 +94,11 @@ export function TargetInfoPage() {
     <div className="target-page">
       {/*<div>成神页面status: {targetPageStatus}</div>*/}
       {/*<div>今日剩余: {dailySunny}</div>*/}
-      <ul className="ul-line-container">
-        {targetList.map(props => (
-          <RenderTargetLine {...props}>{renderButton(props)}</RenderTargetLine>
-        ))}
-      </ul>
+      {/*<ul className="ul-line-container">*/}
+      {/*  {targetList.map(props => (*/}
+      {/*    <RenderTargetLine {...props}>{renderButton(props)}</RenderTargetLine>*/}
+      {/*  ))}*/}
+      {/*</ul>*/}
       <Button
         onClick={useShowNewTodoModal({
           prevent: true,

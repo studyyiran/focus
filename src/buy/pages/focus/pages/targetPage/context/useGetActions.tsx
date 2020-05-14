@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useRef } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
 import { targetInfoServer } from "../server";
-import { ITargetInfoState, ITargetInfoReducerTypes } from "./index";
+import { ITargetInfoState, ITargetInfoReducerTypes, ITarget } from "./index";
 import { MyFocusContext } from "../../../context";
 import { UserSunnyContext } from "../../../context/sunny";
 
@@ -16,19 +16,20 @@ interface IAddTargetRelated {
 
 // @actions
 export interface ITargetInfoActions {
-  getTargetRelatedTodo: () => any;
+  // getTargetRelatedTodo: () => any;
   addNewTarget: (data: IAddNewTargetInfo) => any;
   getTargetList: () => any;
   getTargetListHaveFinish: () => any;
   addTargetRelate: (data: IAddTargetRelated) => any;
   targetLevelUp: (data: ITargetLevelUpJson) => any;
+  setCurrentTargetInfo: (_id: String) => ITarget;
 }
 
 export interface ISubTargetLevelUpJson {
   isPass?: boolean;
   targetId: string;
-  comments: string;// levelup,tree,finalComments的字段
-  type: string
+  comments: string; // levelup,tree,finalComments的字段
+  type: string;
 }
 
 export interface ITargetLevelUpJson {
@@ -45,16 +46,12 @@ export function useTargetInfoGetActions(
 
   const userSunnyContext = useContext(UserSunnyContext);
   const { getUserSunny } = userSunnyContext;
-  const getTargetRelatedTodo = useCallback(
-    async function() {
-      const res = await targetInfoServer.getTargetRelatedTodo();
-      dispatch({
-        type: ITargetInfoReducerTypes.setTargetWithCountList,
-        value: res
-      });
-    },
-    [dispatch]
-  );
+  // const getTargetRelatedTodo = useCallback(
+  //   async function() {
+  //     const res = await targetInfoServer.getTargetRelatedTodo();
+  //   },
+  //   [dispatch]
+  // );
 
   // 更新基础列表。（这个口，还有相关字段，是否可以用count来代替？）
   const getTargetList = useCallback(
@@ -75,12 +72,8 @@ export function useTargetInfoGetActions(
       // 更新下xxx
       getTargetList();
       getUserSunny();
-      dispatch({
-        type: ITargetInfoReducerTypes.setTargetWithCountList,
-        value: res
-      });
     },
-    [dispatch]
+    [getTargetList, getUserSunny]
   );
 
   // 关联
@@ -92,9 +85,8 @@ export function useTargetInfoGetActions(
       // getHistoryByFilter();
       getRelatedTodoList();
     },
-    [dispatch, getHistoryByFilter]
+    [getRelatedTodoList]
   );
-
 
   // 关联
   const targetLevelUp = useCallback(
@@ -110,9 +102,8 @@ export function useTargetInfoGetActions(
           value: res
         });
       }
-
     },
-    [dispatch, getHistoryByFilter]
+    [dispatch, getUserSunny]
   );
 
   // 关联
@@ -124,15 +115,20 @@ export function useTargetInfoGetActions(
         value: res
       });
     },
-    [dispatch, getHistoryByFilter]
+    [dispatch]
   );
 
   return {
-    getTargetRelatedTodo,
+    // getTargetRelatedTodo,
     addNewTarget,
     getTargetList,
     getTargetListHaveFinish,
     addTargetRelate,
-    targetLevelUp
+    targetLevelUp,
+    setCurrentTargetInfo: targetId => {
+      return state.targetList.find(({ _id }) => {
+        return _id === targetId;
+      }) as any;
+    }
   };
 }

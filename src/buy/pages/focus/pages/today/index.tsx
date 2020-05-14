@@ -9,7 +9,7 @@ import { TodoLine } from "../../components/ToDoLine";
 import { callBackWhenPassAllFunc } from "../../../../common/utils/util";
 import { IListItem } from "../../context/interface";
 import { sunnyType } from "../../config/tagArrConfig";
-import {PostForm} from "./components/postForm";
+import { PostForm } from "./components/postForm";
 
 export function FocusToday() {
   const myFocusContext = useContext(MyFocusContext);
@@ -51,55 +51,22 @@ export function FocusToday() {
     <div className="test-page">
       <PostForm />
       <div>Add Into Today Todo({sunnyType.todo})</div>
-      {todayTodo && todayTodo.plane && todayTodo.plane.length ? (
-        <TodayPageSection title="今天">
-          {todayTodo.plane.map(item => {
-            const { _id } = item;
-            return (
-              <li key={_id}>
-                <TodoLine {...item} onClickButton1={changeStudyItemStatus} />
-              </li>
-            );
-          })}
-        </TodayPageSection>
-      ) : null}
-
-      {todayTodo && todayTodo.review && todayTodo.review.length ? (
-        <TodayPageSection title="复习">
-          {todayTodo.review.map(item => {
-            const { content, _id, tag } = item;
-            return (
-              <li key={_id}>
-                <TodoLine {...item} onClickButton1={changeStudyItemStatus} />
-              </li>
-            );
-          })}
-        </TodayPageSection>
-      ) : null}
-
-      {todayTodo && todayTodo.delay && todayTodo.delay.length ? (
-        <TodayPageSection title="已过期">
-          {todayTodo.delay.map(item => {
-            const { content, _id } = item;
-            return (
-              <li key={_id}>
-                <TodoLine {...item} onClickButton1={changeStudyItemStatus} />
-              </li>
-            );
-          })}
-        </TodayPageSection>
-      ) : null}
-      {todayDoneList && todayDoneList.length ? (
-        <TodayPageSection title="完成" haveDone={true}>
-          {todayDoneList.map(item => {
-            return (
-              <li key={item._id}>
-                <TodoLine haveDone={true} {...item} />
-              </li>
-            );
-          })}
-        </TodayPageSection>
-      ) : null}
+      <TodayPageSection
+        title="今天"
+        onClickButton1={changeStudyItemStatus}
+        arr={todayTodo.plane}
+      />
+      <TodayPageSection
+        title="复习"
+        onClickButton1={changeStudyItemStatus}
+        arr={todayTodo.review}
+      />
+      <TodayPageSection
+        title="已过期"
+        onClickButton1={changeStudyItemStatus}
+        arr={todayTodo.delay}
+      />
+      <TodayPageSection haveDone={true} title="完成" arr={todayDoneList} />
     </div>
   );
 }

@@ -42,17 +42,12 @@ export function TodayDone() {
         const { content, tag, _id } = item;
         return (
           <li key={_id}>
-            <TodoLine {...item} onClickButton1={() => {
-              addTomorrowReview(content)
-            }}/>
-            {/*<Button*/}
-            {/*  onClick={() => {*/}
-            {/*    addTomorrowReview(content);*/}
-            {/*  }}*/}
-            {/*>*/}
-            {/*  <Svg icon="jia" />*/}
-            {/*  Add Into Tomorrow Review*/}
-            {/*</Button>*/}
+            <TodoLine
+              {...item}
+              onClickButton1={() => {
+                addTomorrowReview(content);
+              }}
+            />
           </li>
         );
       });

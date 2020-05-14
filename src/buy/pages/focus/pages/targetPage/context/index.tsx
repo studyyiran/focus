@@ -41,6 +41,7 @@ export interface ITarget {
 export interface ITargetInfoState {
   targetList: ITarget[];
   targetListHaveFinish: ITarget[];
+  currentTargetInfo: ITarget;
 }
 
 // interface
@@ -53,7 +54,8 @@ export interface ITargetInfoContext extends ITargetInfoActions, IContextValue {
 export function TargetInfoContextProvider(props: any) {
   const initState: ITargetInfoState = {
     targetList: [] as ITargetInfoState["targetList"],
-    targetListHaveFinish: [] as ITargetInfoState["targetList"]
+    targetListHaveFinish: [] as ITargetInfoState["targetList"],
+    currentTargetInfo: {} as any
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -77,9 +79,9 @@ export function TargetInfoContextProvider(props: any) {
 
 // action types
 export const ITargetInfoReducerTypes = {
-  setTargetWithCountList: "setTargetWithCountList",
   setTargetList: "setTargetList",
-  setTargetListHaveFinish: "setTargetListHaveFinish"
+  setTargetListHaveFinish: "setTargetListHaveFinish",
+  setCurrentTargetInfo: "setCurrentTargetInfo",
 };
 
 // 获取target列表
@@ -138,6 +140,13 @@ function reducer(state: ITargetInfoState, action: IReducerAction) {
         ...newState,
         targetListHaveFinish: value
       };
+      break;
+    }
+    case ITargetInfoReducerTypes.setCurrentTargetInfo: {
+      newState = {
+        ...newState,
+        currentTargetInfo: value,
+      }
       break;
     }
     default:
