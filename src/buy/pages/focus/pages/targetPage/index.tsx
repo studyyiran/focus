@@ -14,6 +14,7 @@ import { sunnyType } from "../../config/tagArrConfig";
 import { TodayPageSection } from "../today/components/todayPageSection";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import { TodoLine } from "../../components/ToDoLine";
+import {PostForm} from "../today/components/postForm";
 
 export function TargetInfoPage() {
   // 引入context
@@ -121,6 +122,7 @@ export function TargetInfoPage() {
       {/*    <RenderTargetLine {...props}>{renderButton(props)}</RenderTargetLine>*/}
       {/*  ))}*/}
       {/*</ul>*/}
+      <PostForm defaultTargetId={currentTargetInfo && currentTargetInfo._id} />
       <TodayPageSection title={"plan"}>
         {currentPlane && currentPlane.length
           ? currentPlane.map(item => {

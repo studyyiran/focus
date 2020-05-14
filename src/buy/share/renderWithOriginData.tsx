@@ -11,15 +11,15 @@ export function RenderWithOriginData(props: any) {
   return (
     // ssr
     <UserSunnyContextProvider>
-      <MyFocusContextProvider>
-        <TargetInfoContextProvider>
+      <TargetInfoContextProvider>
+        <MyFocusContextProvider>
           <StoreChunksContextProvider>
             <SeasonContextProvider>
               <GodTreeContextProvider>{props.children}</GodTreeContextProvider>
             </SeasonContextProvider>
           </StoreChunksContextProvider>
-        </TargetInfoContextProvider>
-      </MyFocusContextProvider>
+        </MyFocusContextProvider>
+      </TargetInfoContextProvider>
     </UserSunnyContextProvider>
   );
 }

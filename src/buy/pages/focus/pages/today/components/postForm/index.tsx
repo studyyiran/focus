@@ -10,9 +10,11 @@ const { Option } = Select;
 interface IPostForm {
   onPostHandler?: any;
   formConfig?: any;
+  defaultTargetId?: any;
 }
 
 export const PostForm: React.FC<IPostForm> = props => {
+  const { onPostHandler, formConfig, defaultTargetId } = props;
   const targetInfoContext = useContext(TargetInfoContext);
   const { targetInfoContextValue, getTargetList } = targetInfoContext;
   const { targetList } = targetInfoContextValue;
@@ -61,7 +63,7 @@ export const PostForm: React.FC<IPostForm> = props => {
     },
     {
       id: "targetId",
-      initialValue: "",
+      initialValue: defaultTargetId || "",
       rules: [
         {
           required: true,
@@ -85,7 +87,7 @@ export const PostForm: React.FC<IPostForm> = props => {
 
   const defaultPostHandler = usePostNewItemHandler();
   // 渲染
-  const { onPostHandler, formConfig } = props;
+
   return (
     <div className="post-form">
       <FormWrapper

@@ -41,8 +41,8 @@ export function useTargetInfoGetActions(
   state: ITargetInfoState,
   dispatch: (action: IReducerAction) => void
 ): ITargetInfoActions {
-  const myFocusContext = useContext(MyFocusContext);
-  const { getHistoryByFilter, getRelatedTodoList } = myFocusContext;
+  // const myFocusContext = useContext(MyFocusContext);
+  // const { getHistoryByFilter, getRelatedTodoList } = myFocusContext;
 
   const userSunnyContext = useContext(UserSunnyContext);
   const { getUserSunny } = userSunnyContext;
@@ -77,16 +77,13 @@ export function useTargetInfoGetActions(
   );
 
   // 关联
-  const addTargetRelate = useCallback(
-    async function(data) {
-      // 1 发起关联
-      const res = await targetInfoServer.addTargetRelate(data);
-      // 2 更新history
-      // getHistoryByFilter();
-      getRelatedTodoList();
-    },
-    [getRelatedTodoList]
-  );
+  const addTargetRelate = useCallback(async function(data) {
+    // 1 发起关联
+    const res = await targetInfoServer.addTargetRelate(data);
+    // 2 更新history
+    // getHistoryByFilter();
+    // getRelatedTodoList();
+  }, []);
 
   // 关联
   const targetLevelUp = useCallback(

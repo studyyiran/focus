@@ -21,6 +21,7 @@ import {
 
 import server from "../server";
 import { UserSunnyContext } from "./sunny";
+import {TargetInfoContext} from "../pages/targetPage/context";
 
 export const MyFocusContext = createContext({} as IMyFocusContext);
 // store name
@@ -163,7 +164,9 @@ function useGetAction(
   dispatch: (action: IReducerAction) => void
 ): IMyFocusActions {
   const userSunnyContext = useContext(UserSunnyContext)
+  const targetInfoContext = useContext(TargetInfoContext)
   const {getUserSunny} = userSunnyContext
+  const {getTargetList} = targetInfoContext
   // 获取类
   const getHistoryByFilter: IMyFocusActions["getHistoryByFilter"] = useCallback(
     async function() {
@@ -236,6 +239,7 @@ function useGetAction(
       getHistoryByFilter();
       getWishList();
       getUserSunny();
+      getTargetList();
       return res;
     },
     [dispatch, getHistoryByFilter, getTodayDone, getWishList]
@@ -295,6 +299,7 @@ function useGetAction(
         status: "finish"
       });
       await getTodayDone();
+      getTargetList();
       // 使用心的状态
       dispatch({
         type: myFocusReducerTypes.setList,
