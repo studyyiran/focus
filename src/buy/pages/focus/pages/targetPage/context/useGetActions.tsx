@@ -22,7 +22,7 @@ export interface ITargetInfoActions {
   getTargetListHaveFinish: () => any;
   addTargetRelate: (data: IAddTargetRelated) => any;
   targetLevelUp: (data: ITargetLevelUpJson) => any;
-  setCurrentTargetInfo: (_id: String) => any;
+  setCurrentTargetInfo: (_id?: String) => any;
 }
 
 export interface ISubTargetLevelUpJson {
@@ -126,14 +126,26 @@ export function useTargetInfoGetActions(
     addTargetRelate,
     targetLevelUp,
     setCurrentTargetInfo: targetId => {
-      const target = state.targetList.find(({ _id }) => {
-        return _id === targetId;
-      })
-      if (target) {
+      if (targetId) {
+        const target = state.targetList.find(({ _id }) => {
+          return _id === targetId;
+        });
+        if (target) {
+          dispatch({
+            type: ITargetInfoReducerTypes.setCurrentTargetInfo,
+            value: target
+          });
+        } else {
+          dispatch({
+            type: ITargetInfoReducerTypes.setCurrentTargetInfo,
+            value: {}
+          });
+        }
+      } else {
         dispatch({
           type: ITargetInfoReducerTypes.setCurrentTargetInfo,
-          value: target
-        })
+          value: {}
+        });
       }
     }
   };

@@ -10,19 +10,21 @@ export const TargetInfoContext = createContext({} as ITargetInfoContext);
 // store name
 export const TargetInfo = "TargetInfo";
 
-export interface TargetTodoInfo {
+export interface ITargetTodoInfo {
   _id: string;
   todoId: string;
   content: string;
   tag: string;
-  createTime: string;
+  todoRelateTargetTime: string;
+  todoCreateTime: string;
+  todoFinishDate: string;
 }
 
 export interface ISubTarget {
   _id: string;
   targetName: string;
   status: string;
-  todos: TargetTodoInfo[];
+  todos: ITargetTodoInfo[];
   createTime: string;
   levelUpTime: string;
 }
@@ -69,6 +71,23 @@ export function TargetInfoContextProvider(props: any) {
     getTargetList();
   }, [getTargetList]);
 
+  const { setCurrentTargetInfo } = action;
+  useEffect(() => {
+    // 当list变化的时候，重新。。。
+    if (state.currentTargetInfo) {
+      const current = state.targetList.find((target: any) => {
+        return target._id === state.currentTargetInfo._id;
+      });
+      if (!current) {
+        if (state.currentTargetInfo._id) {
+          setCurrentTargetInfo();
+        }
+      } else if (state.currentTargetInfo !== current) {
+        setCurrentTargetInfo(current._id);
+      }
+    }
+  }, [setCurrentTargetInfo, state.currentTargetInfo, state.targetList]);
+
   const propsValue: ITargetInfoContext = {
     ...action,
     targetInfoContextValue: state,
@@ -81,7 +100,7 @@ export function TargetInfoContextProvider(props: any) {
 export const ITargetInfoReducerTypes = {
   setTargetList: "setTargetList",
   setTargetListHaveFinish: "setTargetListHaveFinish",
-  setCurrentTargetInfo: "setCurrentTargetInfo",
+  setCurrentTargetInfo: "setCurrentTargetInfo"
 };
 
 // 获取target列表
@@ -89,7 +108,7 @@ function getLastUpdateTime(target: ITarget) {
   if (target && target.process && target.process[0]) {
     const current = target.process[0];
     if (current && current.todos && current.todos[0]) {
-      return current.todos[0].createTime;
+      return current.todos[0].todoRelateTargetTime;
     }
     return target.process[0].createTime;
   } else {
@@ -99,7 +118,7 @@ function getLastUpdateTime(target: ITarget) {
 export function getCurrentTargetName(targetInfo: ITarget) {
   if (targetInfo) {
     const { status, finalComments, process } = targetInfo;
-    const {targetName} = process[0];
+    const { targetName } = process[0];
     if (status === "doing") {
       return targetName;
     } else {
@@ -124,7 +143,7 @@ function reducer(state: ITargetInfoState, action: IReducerAction) {
         ...newState,
         targetList: (value as ITarget[]).sort((a, b) => {
           if (
-              moment(getLastUpdateTime(a)).isBefore(moment(getLastUpdateTime(b)))
+            moment(getLastUpdateTime(a)).isBefore(moment(getLastUpdateTime(b)))
           ) {
             return 1;
           } else {
@@ -145,8 +164,8 @@ function reducer(state: ITargetInfoState, action: IReducerAction) {
     case ITargetInfoReducerTypes.setCurrentTargetInfo: {
       newState = {
         ...newState,
-        currentTargetInfo: value,
-      }
+        currentTargetInfo: value
+      };
       break;
     }
     default:

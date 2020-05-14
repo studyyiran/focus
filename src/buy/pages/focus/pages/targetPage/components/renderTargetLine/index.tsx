@@ -111,13 +111,13 @@ const RenderTodoList: React.FC<IRenderTodoList> = props => {
   return (
     <ul className="ul-line-container">
       {todos.map((todo, index) => {
-        const { _id, todoId, content, createTime, tag } = todo;
+        const { _id, todoId, content, todoCreateTime, tag } = todo;
         return (
           <li key={_id}>
             <span>No：{index}</span>
             <span>{content}</span>
             <span>{tag}</span>
-            <span>{createTime}</span>
+            <span>{todoCreateTime}</span>
           </li>
         );
       })}
