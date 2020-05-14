@@ -16,7 +16,8 @@ export function TodoLine(props: ITodoLine) {
     onClickButton1,
     _id,
     planStartTime,
-    haveDone
+    haveDone,
+    relatedTargetName
   } = props;
   const findTarget = (tagArr as any).find((tagItem: any) => {
     return tagItem.value === tag;
@@ -42,7 +43,7 @@ export function TodoLine(props: ITodoLine) {
     return string;
   }
   return (
-    <div className={`l-task-bg todo-line ${haveDone ? 'task-checked' : ''}`}>
+    <div className={`l-task-bg todo-line ${haveDone ? "task-checked" : ""}`}>
       <div className="left">
         <input
           checked={haveDone ? true : false}
@@ -56,6 +57,7 @@ export function TodoLine(props: ITodoLine) {
       </div>
       <div className="right">
         <div className="tag-container">{tagName}</div>
+        <div className="target-container">{relatedTargetName}</div>
         <div className="date">{returnFormatTime(planStartTime)}</div>
       </div>
     </div>
