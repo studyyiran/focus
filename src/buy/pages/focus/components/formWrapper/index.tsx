@@ -8,7 +8,14 @@ interface IFormConfig {
   renderFormEle: any;
 }
 
-class FormWrapperComponent extends React.Component<any, any> {
+interface IFormWrapper {
+  form: any,
+  formConfig: any,
+  onSubmit: any,
+  setValueJson?: any,
+}
+
+class FormWrapperComponent extends React.Component<IFormWrapper, any> {
   render() {
     const {
       form,
@@ -51,6 +58,7 @@ class FormWrapperComponent extends React.Component<any, any> {
   }
 }
 
+// 这个如何用ts定义
 export const FormWrapper: any = Form.create({
   onFieldsChange: (...arg: any[]) => {
     // console.log('onFieldsChange')
