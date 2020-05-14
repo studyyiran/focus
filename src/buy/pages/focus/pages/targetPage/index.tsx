@@ -1,6 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import "./index.less";
-import { ITarget, ITargetTodoInfo, TargetInfoContext } from "./context";
+import {
+  ISubTarget,
+  ITarget,
+  ITargetTodoInfo,
+  TargetInfoContext
+} from "./context";
 import { useShowNewTodoModal } from "../../components/newTodoModal";
 import { Button, Input } from "antd";
 import moment from "moment-timezone";
@@ -77,7 +82,7 @@ export function TargetInfoPage() {
 
   let currentPlane: ITargetTodoInfo[] = [];
   let currentTodoFinish: ITargetTodoInfo[] = [];
-  let theOthersProcess = [];
+  let theOthersProcess: ISubTarget[] = [];
   if (currentTargetInfo) {
     const { process } = currentTargetInfo;
     if (process && process.length) {
@@ -92,22 +97,21 @@ export function TargetInfoPage() {
           }
         });
       }
-      theOthersProcess = process.slice(1).map(({ todos }) => {
-        return todos;
-      });
+      theOthersProcess = process.slice(1);
     }
+    console.log(theOthersProcess);
+    currentPlane = currentPlane.sort((a, b) => {
+      // 先建立的todo 先显示
+      return moment(a.todoCreateTime).isBefore(b.todoCreateTime) ? -1 : 1;
+    });
+
+    currentTodoFinish = currentTodoFinish.sort((a, b) => {
+      // 先完成的项目 后显示
+      return moment(a.todoFinishDate).isBefore(b.todoFinishDate) ? 1 : -1;
+    });
   }
 
-  currentPlane = currentPlane.sort((a, b) => {
-    // 先建立的todo 先显示
-    return moment(a.todoCreateTime).isBefore(b.todoCreateTime) ? -1 : 1;
-  });
-
-  currentTodoFinish = currentTodoFinish.sort((a, b) => {
-    // 先完成的项目 后显示
-    return moment(a.todoFinishDate).isBefore(b.todoFinishDate) ? 1 : -1;
-  });
-
+  // TODO 下面这两个 ts都不对
   return (
     <div className="target-page">
       {/*<div>成神页面status: {targetPageStatus}</div>*/}
@@ -137,6 +141,9 @@ export function TargetInfoPage() {
           : null}
       </TodayPageSection>
       <TodayPageSection title={"已完成"} arr={currentTodoFinish} />
+      {theOthersProcess.map(({ targetName, todos }) => {
+        return <TodayPageSection title={targetName} arr={todos} />;
+      })}
       <Button
         onClick={useShowNewTodoModal({
           prevent: true,
