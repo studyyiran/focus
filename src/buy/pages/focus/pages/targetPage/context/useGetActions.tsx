@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useRef } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
 import { targetInfoServer } from "../server";
-import { ITargetInfoState, ITargetInfoReducerTypes, ITarget } from "./index";
+import { ITargetInfoState, ITargetInfoReducerTypes } from "./index";
 import { MyFocusContext } from "../../../context";
 import { UserSunnyContext } from "../../../context/sunny";
 
@@ -22,7 +22,7 @@ export interface ITargetInfoActions {
   getTargetListHaveFinish: () => any;
   addTargetRelate: (data: IAddTargetRelated) => any;
   targetLevelUp: (data: ITargetLevelUpJson) => any;
-  setCurrentTargetInfo: (_id: String) => ITarget;
+  setCurrentTargetInfo: (_id: String) => any;
 }
 
 export interface ISubTargetLevelUpJson {
@@ -126,9 +126,15 @@ export function useTargetInfoGetActions(
     addTargetRelate,
     targetLevelUp,
     setCurrentTargetInfo: targetId => {
-      return state.targetList.find(({ _id }) => {
+      const target = state.targetList.find(({ _id }) => {
         return _id === targetId;
-      }) as any;
+      })
+      if (target) {
+        dispatch({
+          type: ITargetInfoReducerTypes.setCurrentTargetInfo,
+          value: target
+        })
+      }
     }
   };
 }

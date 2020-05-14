@@ -8,6 +8,7 @@ import moment from "moment-timezone";
 import { MyFocusContext } from "../../context";
 import { RenderLevelUpButtons } from "./components/renderLevelUpButtons";
 import { sunnyType } from "../../config/tagArrConfig";
+import {TodayPageSection} from "../today/components/todayPageSection";
 
 export function TargetInfoPage() {
   // 引入context
@@ -19,7 +20,7 @@ export function TargetInfoPage() {
     targetLevelUp
   } = targetInfoContext;
   // 从context中获取值
-  let { targetList } = targetInfoContextValue;
+  let { targetList, currentTargetInfo } = targetInfoContextValue;
   targetList = (targetList || []).sort((a, b) => {
     if (moment(getPosition(a)).isBefore(moment(getPosition(b)))) {
       return 1;
@@ -90,6 +91,7 @@ export function TargetInfoPage() {
   按照total count排序
   然后是level排序。
   */
+  console.log(currentTargetInfo)
   return (
     <div className="target-page">
       {/*<div>成神页面status: {targetPageStatus}</div>*/}
@@ -99,6 +101,8 @@ export function TargetInfoPage() {
       {/*    <RenderTargetLine {...props}>{renderButton(props)}</RenderTargetLine>*/}
       {/*  ))}*/}
       {/*</ul>*/}
+      {/*<TodayPageSection title={"plan"} />*/}
+      {/*<TodayPageSection title={"已完成"} />*/}
       <Button
         onClick={useShowNewTodoModal({
           prevent: true,
