@@ -7,6 +7,8 @@ import moment from "moment-timezone";
 import { RenderLevelUpButtons } from "./components/renderLevelUpButtons";
 import { sunnyType } from "../../config/tagArrConfig";
 import { TodayPageSection } from "../today/components/todayPageSection";
+import { IMyFocusContext, MyFocusContext } from "../../context";
+import { TodoLine } from "../../components/ToDoLine";
 
 export function TargetInfoPage() {
   // 引入context
@@ -19,7 +21,8 @@ export function TargetInfoPage() {
   } = targetInfoContext;
   // 从context中获取值
   let { targetList, currentTargetInfo } = targetInfoContextValue;
-
+  const myFocusContext = useContext(MyFocusContext);
+  const { changeStudyItemStatus } = myFocusContext as IMyFocusContext;
   // local发起请求
   useEffect(() => {
     getTargetList();
@@ -114,7 +117,25 @@ export function TargetInfoPage() {
       {/*    <RenderTargetLine {...props}>{renderButton(props)}</RenderTargetLine>*/}
       {/*  ))}*/}
       {/*</ul>*/}
-      <TodayPageSection title={"plan"} arr={currentPlane} />
+      <TodayPageSection title={"plan"}>
+        {currentPlane && currentPlane.length
+          ? currentPlane.map(item => {
+              const { _id, todoId } = item;
+              return (
+                <li key={_id}>
+                  // @ts-ignore
+                  <TodoLine
+                    key={todoId}
+                    {...item}
+                    onClickButton1={() => {
+                      changeStudyItemStatus(todoId);
+                    }}
+                  />
+                </li>
+              );
+            })
+          : null}
+      </TodayPageSection>
       <TodayPageSection title={"已完成"} arr={currentTodoFinish} />
       <Button
         onClick={useShowNewTodoModal({
