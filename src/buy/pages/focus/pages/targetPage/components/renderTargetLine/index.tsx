@@ -1,19 +1,18 @@
 import React from "react";
-import { ISubTarget, ITarget } from "../../context";
+import {getCurrentTargetName, ISubTarget, ITarget} from "../../context";
 import { Collapse } from "antd";
 const { Panel } = Collapse;
 
 interface IRenderTargetLine extends ITarget {}
 
-export const RenderTargetLine: React.FC<IRenderTargetLine> = ({
-  process,
-  _id: targetId,
-  level,
-  createTime,
-  finalComments,
-  status,
-  children
-}) => {
+export const RenderTargetLine: React.FC<IRenderTargetLine> = targetInfo => {
+  const {
+    process,
+    _id: targetId,
+    level,
+    createTime,
+    children
+  } = targetInfo;
   const { targetName, todos } = process[0];
   return (
     <Collapse key={targetId}>
@@ -31,13 +30,7 @@ export const RenderTargetLine: React.FC<IRenderTargetLine> = ({
             </thead>
             <tbody>
               <tr>
-                <td>
-                  {status === "doing"
-                    ? targetName
-                    : finalComments
-                    ? finalComments
-                    : targetName}
-                </td>
+                <td>{getCurrentTargetName(targetInfo)}</td>
                 <td>{createTime}</td>
                 <td>{level}</td>
                 <td>{todos && todos.length}</td>
