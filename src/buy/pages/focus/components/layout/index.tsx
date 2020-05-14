@@ -4,6 +4,7 @@ import { routerConfig } from "../../routerConfig";
 import RouterLink from "../../../../common-modules/components/routerLink";
 import { useRouteMatch } from "react-router";
 import "../../common.less";
+import {TargetSlidePart} from "../../pages/targetPage/components/targetSlidePart";
 
 export function FocusLayout(props: any) {
   const { children, computedMatch, location } = props;
@@ -36,6 +37,7 @@ export function FocusLayout(props: any) {
           <RenderTitle key={path} {...routerInfo} fatherPath={fatherPath} />
         );
       })}
+      <TargetSlidePart/>
       <main>{children}</main>
     </div>
   );

@@ -12,12 +12,6 @@ import { sunnyType } from "../../config/tagArrConfig";
 export function TargetInfoPage() {
   // 引入context
   const targetInfoContext = useContext(TargetInfoContext);
-  const myFocusContext = useContext(MyFocusContext);
-
-  const { myFocusContextValue } = myFocusContext;
-
-  const { dailySunny } = myFocusContextValue;
-
   const {
     targetInfoContextValue,
     addNewTarget,
@@ -99,7 +93,7 @@ export function TargetInfoPage() {
   return (
     <div className="target-page">
       {/*<div>成神页面status: {targetPageStatus}</div>*/}
-      <div>今日剩余: {dailySunny}</div>
+      {/*<div>今日剩余: {dailySunny}</div>*/}
       <ul className="ul-line-container">
         {targetList.map(props => (
           <RenderTargetLine {...props}>{renderButton(props)}</RenderTargetLine>
