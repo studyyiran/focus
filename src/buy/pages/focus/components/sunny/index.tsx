@@ -38,7 +38,7 @@ export const UserSunny: React.FC<IUserSunny> = props => {
 
     return (
       <div className="user-sunny">
-        <Progress current={userSunny && userSunny.sunnyCount} max={1000}/>
+
         <span>{RenderLoginButton()}</span>
       </div>
     );

@@ -16,6 +16,8 @@
     }
 
     .pokemon-info {
+      display: flex;
+      align-items: flex-start;
       .player-img-container {
         background-image: url("https://habitica.com/static/img/spritesmith-main-1.1c2fb2d6.png");
         background-position: -994px -1184px;
@@ -24,15 +26,40 @@
         img {
           width: 100%;
         }
+        margin-right: 15 *@px;
       }
-      display: flex;
-      align-items: center;
-
       .info {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
+        > div {
+          &.user-info-container:first-child {
+            img {
+              margin-left: 0;
+              margin-right: 20*@px;
+            }
+            align-items: flex-start;
+            .user-info {
+              //display: flex;
+              flex-wrap: wrap;
+              > * {
+                display: block;
+              }
+            }
+          }
+          display: flex;
+          align-items: center;
+          margin-bottom: 5 *@px;
+          > img {
+            @value: 40*@px;
+            margin-left: 10 *@px;
+            margin-right: 20 *@px;
+            //flex: 0 0 @value;
+            //height: @value;
+            //min-width: 0;
+          }
+        }
       }
     }
   }

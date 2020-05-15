@@ -14,12 +14,10 @@ export const Progress: React.FC<IProgress> = props => {
     <div className="progress-container">
       <div className="progress-out">
         <div className="inner" style={style} />
-        <div>
-          <span>
-            {current}/{max}
-          </span>
-        </div>
       </div>
+      <span>
+          {current} / {max}
+        </span>
     </div>
   );
 };
