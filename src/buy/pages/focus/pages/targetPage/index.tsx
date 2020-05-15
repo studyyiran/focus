@@ -146,20 +146,7 @@ export function TargetInfoPage() {
       {theOthersProcess.map(({ targetName, todos }) => {
         return <TodayPageSection title={targetName} arr={todos} />;
       })}
-      <Button
-        onClick={useShowNewTodoModal({
-          prevent: true,
-          onSubmit: (values: any) => {
-            const { content } = values;
-            // 提交content
-            addNewTarget({
-              targetName: content
-            });
-          }
-        })}
-      >
-        add 新的target({sunnyType.newTarget})
-      </Button>
+
       {/*{renderLevelUpButton()}*/}
     </div>
   );

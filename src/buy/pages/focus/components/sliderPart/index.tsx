@@ -7,6 +7,9 @@ import {
 import { locationHref } from "../../../../common/utils/routerHistory";
 import { Tabs } from "../../components/tabs";
 import { useLocation } from "react-router";
+import { useShowNewTodoModal } from "../newTodoModal";
+import { sunnyType } from "../../config/tagArrConfig";
+import { Button } from "antd";
 const { TabPane } = Tabs;
 
 interface ISliderPart {
@@ -15,7 +18,11 @@ interface ISliderPart {
 
 export const SliderPart: React.FC<ISliderPart> = props => {
   const targetInfoContext = useContext(TargetInfoContext);
-  const { targetInfoContextValue, setCurrentTargetInfo } = targetInfoContext;
+  const {
+    targetInfoContextValue,
+    setCurrentTargetInfo,
+    addNewTarget
+  } = targetInfoContext;
   // 从context中获取值
   let { targetList, currentTargetInfo } = targetInfoContextValue;
   let location = useLocation();
@@ -24,19 +31,37 @@ export const SliderPart: React.FC<ISliderPart> = props => {
       title: "target",
       url: "",
       key: "/focus/target-info",
-      children: targetList.map(target => {
-        return (
+      children: targetList
+        .map(target => {
+          return (
+            <li
+              data-select={currentTargetInfo._id === target._id ? "active" : ""}
+              onClick={() => {
+                setCurrentTargetInfo(target._id);
+                locationHref("/focus/target-info");
+              }}
+            >
+              <span className="title">{getCurrentTargetName(target)}</span>
+            </li>
+          );
+        })
+        .concat([
           <li
-            data-select={currentTargetInfo._id === target._id ? "active" : ""}
-            onClick={() => {
-              setCurrentTargetInfo(target._id);
-              locationHref("/focus/target-info");
-            }}
+            key="submit-target"
+            onClick={useShowNewTodoModal({
+              prevent: true,
+              onSubmit: (values: any) => {
+                const { content } = values;
+                // 提交content
+                addNewTarget({
+                  targetName: content
+                });
+              }
+            })}
           >
-            <span className="title">{getCurrentTargetName(target)}</span>
+            <span className="title"> + 新的target({sunnyType.newTarget})</span>
           </li>
-        );
-      })
+        ])
     },
     {
       title: "tree",
