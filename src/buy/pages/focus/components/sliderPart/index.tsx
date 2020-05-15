@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, {useContext, useState} from "react";
 import "./index.less";
 import {
   getCurrentTargetName,
@@ -25,12 +25,14 @@ export const SliderPart: React.FC<ISliderPart> = props => {
   } = targetInfoContext;
   // 从context中获取值
   let { targetList, currentTargetInfo } = targetInfoContextValue;
+  const [currentKey, setCurrentKey] = useState("tab-0")
+  console.log(targetList)
   let location = useLocation();
   const config = [
     {
       title: "target",
-      url: "",
-      key: "/focus/target-info",
+      url: "/focus/target-info",
+      key: "0",
       children: targetList
         .map(target => {
           return (
@@ -65,20 +67,20 @@ export const SliderPart: React.FC<ISliderPart> = props => {
     },
     {
       title: "tree",
-      url: "",
-      key: "/focus/tree",
+      url: "/focus/tree",
+      key: "1",
       children: () => null
     },
     {
       title: "season",
-      url: "",
-      key: "/focus/season",
+      url: "/focus/season",
+      key: "2",
       children: () => null
     },
     {
       title: "chunks",
-      url: "",
-      key: "/focus/chunks",
+      url: "/focus/chunks",
+      key: "3",
       children: () => null
     }
   ];
@@ -86,9 +88,10 @@ export const SliderPart: React.FC<ISliderPart> = props => {
   return (
     <div className="slider-part">
       <Tabs
-        activeKey={location ? location.pathname : ""}
+        activeKey={currentKey}
         onChange={key => {
-          locationHref(key);
+          locationHref(config[key as any].url);
+          setCurrentKey(key)
         }}
       >
         {config.map(({ key, title, children }) => {

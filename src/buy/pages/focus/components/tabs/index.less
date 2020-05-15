@@ -6,6 +6,9 @@
   width: 100%;
   height: 100%;
   align-items: center;
+  font-size: 14px;
+  color: rgba(0,0,0,.36);
+
   > .yr-tabs-tab {
     height: 100%;
     line-height: 100%;
@@ -14,9 +17,15 @@
     > span {
       cursor: pointer;
     }
+
+  }
+  .yr-tabs-tab[aria-selected="false"] {
+    &:hover {
+      color: rgba(0,0,0,.5);
+    }
   }
   .yr-tabs-tab[aria-selected="true"] {
-    color: red;
+    color: rgba(0,0,0,.85);
   }
   .yr-tabs-tab[aria-disabled="true"] {
     display: none;
