@@ -109,7 +109,7 @@ function getLastUpdateTime(target: ITarget) {
   if (target && target.process && target.process[0]) {
     const current = target.process[0];
     if (current && current.todos && current.todos[0]) {
-      return current.todos[0].todoFinishDate || current.todos[0].createTime || current.todos[0].todoRelateTargetTime;
+      return current.todos[0].todoFinishDate || current.todos[0].todoRelateTargetTime;
     }
     return target.process[0].createTime;
   } else {

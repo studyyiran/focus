@@ -142,7 +142,7 @@ export function TargetInfoPage() {
             })
           : null}
       </TodayPageSection>
-      <TodayPageSection title={"已完成"} arr={currentTodoFinish} />
+      <TodayPageSection title={"已完成"} arr={currentTodoFinish} haveDone={true} />
       {theOthersProcess.map(({ targetName, todos }) => {
         return <TodayPageSection title={targetName} arr={todos} />;
       })}
