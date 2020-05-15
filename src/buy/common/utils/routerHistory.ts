@@ -8,13 +8,13 @@ export const routerHistory = isServer()
 
 export const locationHref = (url: string, params?: string) => {
   // 没有路由就跳转出去
-  const findInBuyRouter = [].find((route: any) => {
-    return !!matchPath(url, route);
-  });
-  if (!findInBuyRouter) {
-    window.location.href = url;
-    return;
-  }
+  // const findInBuyRouter = [].find((route: any) => {
+  //   return !!matchPath(url, route);
+  // });
+  // if (!findInBuyRouter) {
+  //   window.location.href = url;
+  //   return;
+  // }
   switch (params) {
     case "back":
       routerHistory.goBack();

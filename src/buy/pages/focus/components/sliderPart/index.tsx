@@ -29,7 +29,7 @@ export const SliderPart: React.FC<ISliderPart> = props => {
           <li
             onClick={() => {
               setCurrentTargetInfo(target._id);
-              locationHref("");
+              locationHref("/focus/target-info");
             }}
           >
             {getCurrentTargetName(target)}
