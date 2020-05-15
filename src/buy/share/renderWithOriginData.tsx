@@ -6,20 +6,25 @@ import { GodTreeContextProvider } from "../pages/focus/pages/tree/context";
 import { SeasonContextProvider } from "../pages/focus/pages/season/context";
 import { UserSunnyContextProvider } from "../pages/focus/context/sunny";
 import { StoreChunksContextProvider } from "../pages/focus/pages/chunks/context";
+import { GlobalSettingContextProvider } from "../context";
 
 export function RenderWithOriginData(props: any) {
   return (
     // ssr
-    <UserSunnyContextProvider>
-      <TargetInfoContextProvider>
-        <MyFocusContextProvider>
-          <StoreChunksContextProvider>
-            <SeasonContextProvider>
-              <GodTreeContextProvider>{props.children}</GodTreeContextProvider>
-            </SeasonContextProvider>
-          </StoreChunksContextProvider>
-        </MyFocusContextProvider>
-      </TargetInfoContextProvider>
-    </UserSunnyContextProvider>
+    <GlobalSettingContextProvider>
+      <UserSunnyContextProvider>
+        <TargetInfoContextProvider>
+          <MyFocusContextProvider>
+            <StoreChunksContextProvider>
+              <SeasonContextProvider>
+                <GodTreeContextProvider>
+                  {props.children}
+                </GodTreeContextProvider>
+              </SeasonContextProvider>
+            </StoreChunksContextProvider>
+          </MyFocusContextProvider>
+        </TargetInfoContextProvider>
+      </UserSunnyContextProvider>
+    </GlobalSettingContextProvider>
   );
 }

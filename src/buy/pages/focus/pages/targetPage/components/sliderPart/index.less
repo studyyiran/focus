@@ -1,0 +1,20 @@
+@import (reference) "~buy/common/styles/index.less";
+
+@p1: {
+  .slider-part {
+    .yr-tabs-tab {
+      .canclick();
+      //margin: 0 50*@px;
+      font-size: 18 * @f;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 10 * @px;
+      &[aria-selected="true"] {
+        border-bottom: 1px solid #040e3f;
+        color: inherit;
+      }
+    }
+  }
+
+};
+
+.hello(@p1);

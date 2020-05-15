@@ -4,6 +4,25 @@
   .focus-layout {
     padding: 0 10 * @px;
   }
+
+  .slider-layout-part {
+    background-color: rgba(44,66,118,.06);
+    border-right: 1px solid rgba(0,0,0,.07);
+  }
+  .yr-modal.product-list-filter-mb {
+    top: 0;
+    .yr-modal-content {
+      padding: 0;
+    }
+    .filter-list {
+      border: none;
+    }
+    position: fixed;
+    left: -300px;
+    transition: all 0.3s;
+    height: 100vh;
+    max-height: 100vh;
+  }
 };
 
 .hello(@p1);

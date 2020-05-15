@@ -1,44 +1,117 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./index.less";
 import { routerConfig } from "../../routerConfig";
 import RouterLink from "../../../../common-modules/components/routerLink";
 import { useRouteMatch } from "react-router";
 import "../../common.less";
-import {TargetSlidePart} from "../../pages/targetPage/components/targetSlidePart";
+import { SliderPart } from "../../pages/targetPage/components/sliderPart";
+import { RenderByCondition } from "../../../../components/RenderByCondition";
+import MyModal from "../../../../components/modal";
+
+interface ISliderLayoutPart {
+  onCancelHandler?: any;
+}
+
+export const SliderLayoutPart: React.FC<ISliderLayoutPart> = ({
+  onCancelHandler
+}) => {
+  return (
+    <div className="slider-layout-part" onClick={onCancelHandler}>
+      <ul>
+        <li>
+          <RouterLink to={"/focus/today"}>今天</RouterLink>
+        </li>
+        <li>
+          <RouterLink to={"/focus/done"}>最近7天</RouterLink>
+        </li>
+        <li>
+          <RouterLink to={"/focus/history"}>历史</RouterLink>
+        </li>
+      </ul>
+      <SliderPart />
+    </div>
+  );
+};
 
 export function FocusLayout(props: any) {
   const { children, computedMatch, location } = props;
   const { path: fatherPath } = computedMatch;
   const { pathname } = location;
+  const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
+
+  function onCancelHandler() {
+    setShowModal2(false);
+    setTimeout(() => {
+      setShowModal(false);
+    }, 250);
+  }
 
   // 进行匹配，同台渲染标题
   // 获取当前的url
   return (
     <div className="focus-layout focus-page-common">
-      <header>
-        <ul>
+      {/*<header>*/}
+      {/*  <ul>*/}
+      {/*    {routerConfig.map(routerInfo => {*/}
+      {/*      const { path } = routerInfo;*/}
+      {/*      return (*/}
+      {/*        <div key={path}>*/}
+      {/*          <li*/}
+      {/*            style={pathname === fatherPath + path ? { color: "red" } : {}}*/}
+      {/*          >*/}
+      {/*            <RouterLink to={`${fatherPath}${path}`}>{path}</RouterLink>*/}
+      {/*          </li>*/}
+      {/*        </div>*/}
+      {/*      );*/}
+      {/*    })}*/}
+      {/*  </ul>*/}
+      {/*</header>*/}
+      <RenderByCondition
+        ComponentMb={
+          <MyModal
+            width={"6rem"}
+            style={showModal2 ? { left: "0" } : {}}
+            visible={showModal}
+            title={""}
+            className="product-list-filter-mb"
+            maskClosable={true}
+            footer={false}
+            needDefaultScroll={true}
+            closable={false}
+            onCancel={onCancelHandler}
+          >
+            <SliderLayoutPart onCancelHandler={onCancelHandler} />
+          </MyModal>
+        }
+        ComponentPc={<SliderLayoutPart />}
+      />
+      <main>
+        <RenderByCondition
+          ComponentPc={null}
+          ComponentMb={
+            <div
+              onClick={() => {
+                setShowModal(true);
+                setTimeout(() => {
+                  setShowModal2(true);
+                }, 50);
+              }}
+            >
+              open
+            </div>
+          }
+        />
+        <h1>
           {routerConfig.map(routerInfo => {
             const { path } = routerInfo;
             return (
-              <div key={path}>
-                <li
-                  style={pathname === fatherPath + path ? { color: "red" } : {}}
-                >
-                  <RouterLink to={`${fatherPath}${path}`}>{path}</RouterLink>
-                </li>
-              </div>
+              <RenderTitle key={path} {...routerInfo} fatherPath={fatherPath} />
             );
           })}
-        </ul>
-      </header>
-      {routerConfig.map(routerInfo => {
-        const { path } = routerInfo;
-        return (
-          <RenderTitle key={path} {...routerInfo} fatherPath={fatherPath} />
-        );
-      })}
-      <TargetSlidePart/>
-      <main>{children}</main>
+        </h1>
+        {children}
+      </main>
     </div>
   );
 }
