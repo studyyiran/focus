@@ -4,7 +4,7 @@ import { FocusRouter } from "../pages/focus";
 export const routerConfig = [
   {
     path: "/focus",
-    title: "Buy Used Cell Phones | UpTradeit.com",
+    title: "Focus",
     Component: FocusRouter
   },
   // {

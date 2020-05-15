@@ -7,6 +7,8 @@ import { routerConfig } from "./share/routerConfig";
 import { RenderWithOriginData } from "./share/renderWithOriginData";
 import { IOriginData } from "./context/originData";
 import { UserSunny } from "./components/sunny";
+import { PlayerGrowthInfo } from "./pages/focus/pages/tree/components/playerGrowthInfo";
+import { PlayerGrowthInfoContainer } from "./pages/focus/components/playerStatusHeaderContainer";
 
 export default function ContextProviderWrapper() {
   // 这段脚本只在浏览器运行 从window中获取.进行脱水
@@ -51,8 +53,9 @@ function hocWithLayout(Component: any, otherConfig: any) {
     return (
       <div className="layout">
         <header>
-          from v12-25 to 3-31 to 4-31 to 512（sunny）
-          <UserSunny />
+          {/*  from v12-25 to 3-31 to 4-31 to 512（sunny）*/}
+          {/*  <UserSunny />*/}
+          <PlayerGrowthInfoContainer />
         </header>
         <main>
           <Component {...routerProps} />
