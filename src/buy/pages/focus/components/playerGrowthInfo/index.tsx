@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import './index.less';
 import {Progress} from '../progress'
 import {UserSunnyContext} from "../../context/sunny";
+import {UserSunny} from "../sunny";
 
 interface IRenderPlayerGrowthInfo {
   score: Number
@@ -60,7 +61,7 @@ export const PlayerGrowthInfo: React.FC<IRenderPlayerGrowthInfo> =  ({score}) =>
           <div>
             <img src={require("./res/icon_2.png")}/>
             <Progress current={userSunny && userSunny.sunnyCount} max={1000}/>
-            {/*<UserSunny />*/}
+            <UserSunny />
           </div>
           <div>
             <img src={require("./res/icon_3.png")}/>

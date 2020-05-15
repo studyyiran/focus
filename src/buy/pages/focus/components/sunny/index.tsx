@@ -9,21 +9,17 @@ interface IUserSunny {}
 
 export const UserSunny: React.FC<IUserSunny> = props => {
   const userSunnyContext = useContext(UserSunnyContext);
-  const { UserSunnyContextValue, getUserSunny, loginSunny } = userSunnyContext;
+  const { UserSunnyContextValue, loginSunny } = userSunnyContext;
   const { userSunny } = UserSunnyContextValue;
-
-  useEffect(() => {
-    getUserSunny();
-  }, [getUserSunny]);
-
-  if (userSunny) {
-    const { continueLoginInfo } = userSunny;
+  const { continueLoginInfo } = userSunny;
+  if (continueLoginInfo) {
+    const {isLoginToday, level} = continueLoginInfo
     const RenderLoginButton = () => {
       if (continueLoginInfo) {
-        const {isLoginToday, level} = continueLoginInfo
         if (isLoginToday) {
           // @ts-ignore
-          return <button>have got{level * 10} today!</button>;
+          // return <button>have got{level * 10} today!</button>;
+          return null
         } else {
           // @ts-ignore
           const nextLevel = (level + 1) * 10
@@ -38,8 +34,8 @@ export const UserSunny: React.FC<IUserSunny> = props => {
 
     return (
       <div className="user-sunny">
-
-        <span>{RenderLoginButton()}</span>
+        {RenderLoginButton()}
+        {isLoginToday ? <img src={require('./res/icon_4.png')} /> : null}
       </div>
     );
   } else {
