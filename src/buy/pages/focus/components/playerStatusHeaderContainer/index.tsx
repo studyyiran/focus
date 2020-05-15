@@ -11,8 +11,6 @@ export const PlayerGrowthInfoContainer: React.FC<IPlayerGrowthInfoContainer> = p
   const godTreeContext = useContext(GodTreeContext);
   const {
     godTreeContextValue,
-    getTreeList,
-    getTreeShape,
   } = godTreeContext as IGodTreeContext;
   // 从context中获取值
   const { treeShape } = godTreeContextValue;

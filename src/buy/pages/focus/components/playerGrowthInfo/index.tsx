@@ -71,7 +71,7 @@ export const PlayerGrowthInfo: React.FC<IRenderPlayerGrowthInfo> =  ({score}) =>
         </div>
       </div>
     } else {
-      return <div>level ? 1 : 0</div>
+      return null
     }
   }
 

@@ -1,14 +1,10 @@
-import React, {
-  createContext,
-  useReducer,
-  useEffect
-} from "react";
+import React, { createContext, useReducer, useEffect } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
 import { callBackWhenPassAllFunc } from "buy/common/utils/util";
 import useReducerMiddleware from "buy/common/useHook/useReducerMiddleware";
 import { IContextValue } from "buy/common/type";
 import { useIsCurrentPage } from "buy/common/useHook";
-import {IGodTreeActions, useGodTreeGetActions} from "./useGetActions";
+import { IGodTreeActions, useGodTreeGetActions } from "./useGetActions";
 
 export const GodTreeContext = createContext({} as IGodTreeContext);
 
@@ -21,17 +17,15 @@ export interface IGodTreeState {
 }
 
 export interface ITreeNode {
-  _id: "",
-  containerNodeId: "",
-  createTime: string,
-  targetId: string,
-  comments: string,
+  _id: "";
+  containerNodeId: "";
+  createTime: string;
+  targetId: string;
+  comments: string;
 }
 
 // interface
-export interface IGodTreeContext
-  extends IGodTreeActions,
-    IContextValue {
+export interface IGodTreeContext extends IGodTreeActions, IContextValue {
   godTreeContextValue: IGodTreeState;
   godTreeContextDispatch: (action: IReducerAction) => void;
 }
@@ -40,7 +34,7 @@ export interface IGodTreeContext
 export function GodTreeContextProvider(props: any) {
   const initState: IGodTreeState = {
     treeList: [],
-    treeShape: [],
+    treeShape: []
   };
   const [state, dispatch] = useReducer(
     useReducerMiddleware(reducer),
@@ -53,10 +47,14 @@ export function GodTreeContextProvider(props: any) {
     godTreeContextValue: state,
     godTreeContextDispatch: dispatch
   };
+
+  const { getTreeShape } = action;
+  useEffect(() => {
+    getTreeShape();
+  }, [getTreeShape]);
+
   return <GodTreeContext.Provider value={propsValue} {...props} />;
 }
-
-
 
 // action types
 export const godTreeReducerTypes = {

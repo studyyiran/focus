@@ -1,13 +1,9 @@
-import React, {
-  createContext,
-  useReducer,
-  useEffect
-} from "react";
+import React, { createContext, useReducer, useEffect } from "react";
 import { IReducerAction } from "buy/common/interface/index.interface";
 import useReducerMiddleware from "buy/common/useHook/useReducerMiddleware";
 import { IContextValue } from "buy/common/type";
 
-import {IUserSunnyActions, useUserSunnyGetActions} from "./useGetActions";
+import { IUserSunnyActions, useUserSunnyGetActions } from "./useGetActions";
 
 export const UserSunnyContext = createContext({} as IUserSunnyContext);
 
@@ -15,12 +11,12 @@ export const UserSunnyContext = createContext({} as IUserSunnyContext);
 export const UserSunny = "UserSunny";
 
 interface IUserSunny {
-  sunnyCount: Number,
+  sunnyCount: Number;
   continueLoginInfo: {
-    isLoginToday: Boolean,
-    lastOneLoginDate: String,
-    level: Number,
-  }
+    isLoginToday: Boolean;
+    lastOneLoginDate: String;
+    level: Number;
+  };
 }
 // store state
 export interface IUserSunnyState {
@@ -28,9 +24,7 @@ export interface IUserSunnyState {
 }
 
 // interface
-export interface IUserSunnyContext
-  extends IUserSunnyActions,
-    IContextValue {
+export interface IUserSunnyContext extends IUserSunnyActions, IContextValue {
   UserSunnyContextValue: IUserSunnyState;
   UserSunnyContextDispatch: (action: IReducerAction) => void;
 }
@@ -51,7 +45,13 @@ export function UserSunnyContextProvider(props: any) {
     UserSunnyContextValue: state,
     UserSunnyContextDispatch: dispatch
   };
+  const { getUserSunny } = action;
+  useEffect(() => {
+    getUserSunny();
+  }, [getUserSunny]);
+
   return <UserSunnyContext.Provider value={propsValue} {...props} />;
+
 
   // const isPage = useIsCurrentPage("/test");
   // @useEffect
@@ -60,8 +60,6 @@ export function UserSunnyContextProvider(props: any) {
   //   callBackWhenPassAllFunc([() => isPage], action.getUserSunny);
   // }, [action.getUserSunny, isPage]);
 }
-
-
 
 // action types
 export const UserSunnyReducerTypes = {
