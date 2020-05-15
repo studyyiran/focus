@@ -1,0 +1,43 @@
+@import (reference) "~buy/common/styles/index.less";
+
+@p1: {
+  .slider-layout-part {
+    background-color: rgba(44, 66, 118, 0.06);
+
+    border-right: 1px solid rgba(0, 0, 0, 0.07);
+    padding: 0 12px;
+    ul {
+      li {
+        font-size: 0;
+        display: flex;
+        height: 36px;
+        line-height: 36px;
+        align-items: center;
+        border-radius: 4px;
+        padding: 0 8px;
+        position: relative;
+        &:hover {
+          background: #eaedf5;
+        }
+        &[data-select="active"] {
+          background: #dee4f5;
+          .title {
+            font-weight: 700;
+          }
+        }
+        .title {
+          max-width: 100%;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          display: inline-block;
+          .font(14, 400, rgba(0,0,0,.85));
+          flex: auto;
+          flex-basis: 0;
+        }
+      }
+    }
+  }
+};
+
+.hello(@p1);

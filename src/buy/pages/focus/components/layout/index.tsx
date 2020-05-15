@@ -7,31 +7,8 @@ import "../../common.less";
 import { SliderPart } from "../sliderPart";
 import { RenderByCondition } from "../../../../components/RenderByCondition";
 import MyModal from "../../../../components/modal";
+import {SliderLayoutPart} from "../sliderLayoutPart";
 
-interface ISliderLayoutPart {
-  onCancelHandler?: any;
-}
-
-export const SliderLayoutPart: React.FC<ISliderLayoutPart> = ({
-  onCancelHandler
-}) => {
-  return (
-    <div className="slider-layout-part" onClick={onCancelHandler}>
-      <ul>
-        <li>
-          <RouterLink to={"/focus/today"}>今天</RouterLink>
-        </li>
-        <li>
-          <RouterLink to={"/focus/done"}>最近7天</RouterLink>
-        </li>
-        <li>
-          <RouterLink to={"/focus/history"}>历史</RouterLink>
-        </li>
-      </ul>
-      <SliderPart />
-    </div>
-  );
-};
 
 export function FocusLayout(props: any) {
   const { children, computedMatch, location } = props;

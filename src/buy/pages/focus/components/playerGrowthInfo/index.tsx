@@ -1,7 +1,6 @@
 import React, {useContext} from "react";
 import './index.less';
 import {Progress} from '../progress'
-import {UserSunny} from "../sunny";
 import {UserSunnyContext} from "../../context/sunny";
 
 interface IRenderPlayerGrowthInfo {

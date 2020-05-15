@@ -17,8 +17,8 @@ export const SliderPart: React.FC<ISliderPart> = props => {
   const targetInfoContext = useContext(TargetInfoContext);
   const { targetInfoContextValue, setCurrentTargetInfo } = targetInfoContext;
   // 从context中获取值
-  let { targetList } = targetInfoContextValue;
-
+  let { targetList, currentTargetInfo } = targetInfoContextValue;
+  let location = useLocation();
   const config = [
     {
       title: "target",
@@ -27,12 +27,13 @@ export const SliderPart: React.FC<ISliderPart> = props => {
       children: targetList.map(target => {
         return (
           <li
+            data-select={currentTargetInfo._id === target._id ? "active" : ""}
             onClick={() => {
               setCurrentTargetInfo(target._id);
               locationHref("/focus/target-info");
             }}
           >
-            {getCurrentTargetName(target)}
+            <span className="title">{getCurrentTargetName(target)}</span>
           </li>
         );
       })
@@ -57,8 +58,6 @@ export const SliderPart: React.FC<ISliderPart> = props => {
     }
   ];
 
-  let location = useLocation();
-  console.log(location);
   return (
     <div className="slider-part">
       <Tabs
@@ -70,7 +69,7 @@ export const SliderPart: React.FC<ISliderPart> = props => {
         {config.map(({ key, title, children }) => {
           return (
             <TabPane key={key} tab={title}>
-              {children}
+              <ul>{children}</ul>
             </TabPane>
           );
         })}

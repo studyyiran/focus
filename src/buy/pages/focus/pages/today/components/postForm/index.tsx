@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from "react";
 import "./index.less";
-import { Input, Select } from "antd";
+import {Button, Input, Select} from "antd";
 
 import { usePostNewItemHandler } from "../usePostNewItemHandler";
-import { tagArr } from "../../../../config/tagArrConfig";
+import {sunnyType, tagArr} from "../../../../config/tagArrConfig";
 import { FormWrapper } from "../../../../components/formWrapper";
 import { TargetInfoContext } from "../../../targetPage/context";
 const { Option } = Select;
@@ -81,7 +81,10 @@ export const PostForm: React.FC<IPostForm> = props => {
             );
           })}
         </Select>
-      )
+      ),
+    },
+    {
+      renderFormEle: () => <Button htmlType="submit">Add Into Today Todo({sunnyType.todo})</Button>
     }
   ];
 

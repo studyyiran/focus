@@ -50,7 +50,6 @@ export function FocusToday() {
   return (
     <div className="test-page">
       <PostForm />
-      <div>Add Into Today Todo({sunnyType.todo})</div>
       <TodayPageSection
         title="今天"
         onClickButton1={changeStudyItemStatus}

@@ -24,3 +24,7 @@ export function useIsCurrentPage(pagePath: string) {
   }
   return false;
 }
+
+export function heh() {
+
+}
