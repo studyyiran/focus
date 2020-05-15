@@ -1,8 +1,12 @@
 import React, { useContext } from "react";
 import "./index.less";
-import { getCurrentTargetName, TargetInfoContext } from "../../context";
-import { locationHref } from "../../../../../../common/utils/routerHistory";
-import { Tabs } from "../../../../components/tabs";
+import {
+  getCurrentTargetName,
+  TargetInfoContext
+} from "../../pages/targetPage/context";
+import { locationHref } from "../../../../common/utils/routerHistory";
+import { Tabs } from "../../components/tabs";
+import { useLocation } from "react-router";
 const { TabPane } = Tabs;
 
 interface ISliderPart {
@@ -17,7 +21,7 @@ export const SliderPart: React.FC<ISliderPart> = props => {
 
   const config = [
     {
-      title: "梦想清单",
+      title: "target",
       url: "",
       key: "/focus/target-info",
       children: targetList.map(target => {
@@ -34,12 +38,6 @@ export const SliderPart: React.FC<ISliderPart> = props => {
       })
     },
     {
-      title: "chunks",
-      url: "",
-      key: "/focus/chunks",
-      children: () => null
-    },
-    {
       title: "tree",
       url: "",
       key: "/focus/tree",
@@ -50,12 +48,21 @@ export const SliderPart: React.FC<ISliderPart> = props => {
       url: "",
       key: "/focus/season",
       children: () => null
+    },
+    {
+      title: "chunks",
+      url: "",
+      key: "/focus/chunks",
+      children: () => null
     }
   ];
 
+  let location = useLocation();
+  console.log(location);
   return (
     <div className="slider-part">
       <Tabs
+        activeKey={location ? location.pathname : ""}
         onChange={key => {
           locationHref(key);
         }}

@@ -4,7 +4,7 @@ import { routerConfig } from "../../routerConfig";
 import RouterLink from "../../../../common-modules/components/routerLink";
 import { useRouteMatch } from "react-router";
 import "../../common.less";
-import { SliderPart } from "../../pages/targetPage/components/sliderPart";
+import { SliderPart } from "../sliderPart";
 import { RenderByCondition } from "../../../../components/RenderByCondition";
 import MyModal from "../../../../components/modal";
 
@@ -67,6 +67,7 @@ export function FocusLayout(props: any) {
       {/*    })}*/}
       {/*  </ul>*/}
       {/*</header>*/}
+
       <RenderByCondition
         ComponentMb={
           <MyModal
@@ -84,9 +85,14 @@ export function FocusLayout(props: any) {
             <SliderLayoutPart onCancelHandler={onCancelHandler} />
           </MyModal>
         }
-        ComponentPc={<SliderLayoutPart />}
+        ComponentPc={
+          <section className="slider-layout-container">
+            <SliderLayoutPart />
+          </section>
+        }
       />
-      <main>
+
+      <section className="main-part">
         <RenderByCondition
           ComponentPc={null}
           ComponentMb={
@@ -111,7 +117,7 @@ export function FocusLayout(props: any) {
           })}
         </h1>
         {children}
-      </main>
+      </section>
     </div>
   );
 }
