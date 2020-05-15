@@ -6,7 +6,7 @@ import { scrollTop } from "./common/utils/util";
 import { routerConfig } from "./share/routerConfig";
 import { RenderWithOriginData } from "./share/renderWithOriginData";
 import { IOriginData } from "./context/originData";
-import { UserSunny } from "./components/sunny";
+import { UserSunny } from "./pages/focus/components/sunny";
 import { PlayerGrowthInfo } from "./pages/focus/components/playerGrowthInfo";
 import { PlayerGrowthInfoContainer } from "./pages/focus/components/playerStatusHeaderContainer";
 

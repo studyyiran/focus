@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import "./index.less";
 
 import { useEffect } from "react";
-import { UserSunnyContext } from "../../pages/focus/context/sunny";
+import { UserSunnyContext } from "../../context/sunny";
+import { Progress } from "../progress";
 
 interface IUserSunny {}
 
@@ -37,7 +38,7 @@ export const UserSunny: React.FC<IUserSunny> = props => {
 
     return (
       <div className="user-sunny">
-        <span> userSunny: {userSunny && userSunny.sunnyCount}</span>
+        <Progress current={userSunny && userSunny.sunnyCount} max={1000}/>
         <span>{RenderLoginButton()}</span>
       </div>
     );

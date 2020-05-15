@@ -1,6 +1,7 @@
 import React from "react";
 import './index.less';
-import {Progress} from './component/progress'
+import {Progress} from '../progress'
+import {UserSunny} from "../sunny";
 
 interface IRenderPlayerGrowthInfo {
   score: Number
@@ -37,13 +38,19 @@ export const PlayerGrowthInfo: React.FC<IRenderPlayerGrowthInfo> =  ({score}) =>
   const PokemonInfo = ({level, hide}: any) => {
     if (config[level]) {
       const {icon, name, max, attr, content} = config[level]
+      const zhiye = '学习者'
       return <div className="pokemon-info">
         <img src={icon} />
         <div className="info">
-          <span>名称:{hide ? '???' : name}</span>
-          <span>属性:{hide ? '???' : attr}</span>
-          <span>技能:{content}</span>
-          <span>距离下一进化Exp:{hide ? '???' : max - Number(score)}</span>
+          <div>
+            <img />
+            <div>
+              <span>studyyiran · {zhiye}</span>
+              <span>{level + 1}级{name} · {hide ? '???' : attr} </span>
+              <span>技能:{content}</span>
+            </div>
+          </div>
+          <UserSunny />
           <Progress current={Number(score)} max={max} />
         </div>
       </div>
@@ -61,13 +68,8 @@ export const PlayerGrowthInfo: React.FC<IRenderPlayerGrowthInfo> =  ({score}) =>
 
   const currentLevelIndex = findCurrent();
   return <section className={"player-growth-info"}>
-    <h2>人物状态</h2>
-    <span>Exp: {score}</span>
-    <br />
-    <span>用户职业: 学习者</span>
     <div className="pokemon-container">
-      <PokemonInfo level={currentLevelIndex}></PokemonInfo>
-
+      <PokemonInfo level={currentLevelIndex} />
       {/*<span>=></span>*/}
       {/*<PokemonInfo level={currentLevelIndex+1} hide={true}></PokemonInfo>*/}
     </div>
