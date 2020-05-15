@@ -40,18 +40,27 @@ export const PlayerGrowthInfo: React.FC<IRenderPlayerGrowthInfo> =  ({score}) =>
       const {icon, name, max, attr, content} = config[level]
       const zhiye = '学习者'
       return <div className="pokemon-info">
-        <img src={icon} />
+        <div className="player-img-container">
+          <img src={icon} />
+        </div>
         <div className="info">
           <div>
-            <img />
+            <img src={require('./res/icon_1.png')}/>
             <div>
               <span>studyyiran · {zhiye}</span>
               <span>{level + 1}级{name} · {hide ? '???' : attr} </span>
               <span>技能:{content}</span>
             </div>
           </div>
-          <UserSunny />
-          <Progress current={Number(score)} max={max} />
+          <div>
+            <img src={require("./res/icon_2.png")}/>
+            <UserSunny />
+          </div>
+          <div>
+            <img src={require("./res/icon_3.png")}/>
+            <Progress current={Number(score)} max={max} />
+          </div>
+
         </div>
       </div>
     } else {
