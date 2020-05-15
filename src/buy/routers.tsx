@@ -7,7 +7,7 @@ import { routerConfig } from "./share/routerConfig";
 import { RenderWithOriginData } from "./share/renderWithOriginData";
 import { IOriginData } from "./context/originData";
 import { UserSunny } from "./components/sunny";
-import { PlayerGrowthInfo } from "./pages/focus/pages/tree/components/playerGrowthInfo";
+import { PlayerGrowthInfo } from "./pages/focus/components/playerGrowthInfo";
 import { PlayerGrowthInfoContainer } from "./pages/focus/components/playerStatusHeaderContainer";
 
 export default function ContextProviderWrapper() {

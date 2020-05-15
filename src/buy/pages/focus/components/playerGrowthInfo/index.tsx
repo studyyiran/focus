@@ -1,5 +1,6 @@
 import React from "react";
 import './index.less';
+import {Progress} from './component/progress'
 
 interface IRenderPlayerGrowthInfo {
   score: Number
@@ -43,6 +44,7 @@ export const PlayerGrowthInfo: React.FC<IRenderPlayerGrowthInfo> =  ({score}) =>
           <span>属性:{hide ? '???' : attr}</span>
           <span>技能:{content}</span>
           <span>距离下一进化Exp:{hide ? '???' : max - Number(score)}</span>
+          <Progress current={Number(score)} max={max} />
         </div>
       </div>
     } else {
@@ -65,8 +67,9 @@ export const PlayerGrowthInfo: React.FC<IRenderPlayerGrowthInfo> =  ({score}) =>
     <span>用户职业: 学习者</span>
     <div className="pokemon-container">
       <PokemonInfo level={currentLevelIndex}></PokemonInfo>
-      <span>=></span>
-      <PokemonInfo level={currentLevelIndex+1} hide={true}></PokemonInfo>
+
+      {/*<span>=></span>*/}
+      {/*<PokemonInfo level={currentLevelIndex+1} hide={true}></PokemonInfo>*/}
     </div>
 
   </section>

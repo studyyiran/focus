@@ -5,7 +5,7 @@ import { TargetInfoContext } from "../targetPage/context";
 import { RenderTargetLine } from "../targetPage/components/renderTargetLine";
 import { RenderLevelUpButtons } from "../targetPage/components/renderLevelUpButtons";
 import { ShowTree } from "./components/tree";
-import { PlayerGrowthInfo } from "./components/playerGrowthInfo";
+import { PlayerGrowthInfo } from "../../components/playerGrowthInfo";
 
 export function TreePage() {
   // 引入context

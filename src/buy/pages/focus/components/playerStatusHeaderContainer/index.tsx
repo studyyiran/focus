@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import "./index.less";
-import {PlayerGrowthInfo} from "../../pages/tree/components/playerGrowthInfo";
+import {PlayerGrowthInfo} from "../playerGrowthInfo";
 import {GodTreeContext, IGodTreeContext} from "../../pages/tree/context";
 
 interface IPlayerGrowthInfoContainer {
