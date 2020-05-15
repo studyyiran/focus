@@ -64,10 +64,6 @@ export const PostForm: React.FC<IPostForm> = props => {
       id: "targetId",
       initialValue: defaultTargetId || "",
       rules: [
-        {
-          required: true,
-          message: "not empty"
-        }
       ],
       renderFormEle: () => (
         <Select>
