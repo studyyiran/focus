@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import "./index.less";
 import {
   getCurrentTargetName,
@@ -25,8 +25,8 @@ export const SliderPart: React.FC<ISliderPart> = props => {
   } = targetInfoContext;
   // 从context中获取值
   let { targetList, currentTargetInfo } = targetInfoContextValue;
-  const [currentKey, setCurrentKey] = useState("tab-0")
-  console.log(targetList)
+  const [currentKey, setCurrentKey] = useState("0");
+  console.log(targetList);
   let location = useLocation();
   const config = [
     {
@@ -37,7 +37,12 @@ export const SliderPart: React.FC<ISliderPart> = props => {
         .map(target => {
           return (
             <li
-              data-select={currentTargetInfo._id === target._id ? "active" : ""}
+              data-select={
+                location.pathname === "/focus/target-info" &&
+                currentTargetInfo._id === target._id
+                  ? "active"
+                  : ""
+              }
               onClick={() => {
                 setCurrentTargetInfo(target._id);
                 locationHref("/focus/target-info");
@@ -91,7 +96,7 @@ export const SliderPart: React.FC<ISliderPart> = props => {
         activeKey={currentKey}
         onChange={key => {
           locationHref(config[key as any].url);
-          setCurrentKey(key)
+          setCurrentKey(key);
         }}
       >
         {config.map(({ key, title, children }) => {

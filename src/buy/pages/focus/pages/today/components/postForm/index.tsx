@@ -47,7 +47,6 @@ export const PostForm: React.FC<IPostForm> = props => {
       renderFormEle: () => (
         <Select>
           {tagArr.map(item => {
-            console.log(item);
             return (
               <Option
                 className={item.className}
