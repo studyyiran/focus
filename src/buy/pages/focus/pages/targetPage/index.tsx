@@ -146,7 +146,7 @@ export function TargetInfoPage() {
       </TodayPageSection>
       <TodayPageSection title={"已完成"} arr={currentTodoFinish} haveDone={true} />
       {theOthersProcess.map(({ targetName, todos }) => {
-        return <TodayPageSection title={targetName} arr={todos} />;
+        return <TodayPageSection title={targetName} arr={todos} haveDone={true} />;
       })}
 
       {/*{renderLevelUpButton()}*/}
