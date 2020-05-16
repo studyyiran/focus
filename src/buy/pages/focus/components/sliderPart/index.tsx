@@ -10,6 +10,7 @@ import { useLocation } from "react-router";
 import { useShowNewTodoModal } from "../newTodoModal";
 import { sunnyType } from "../../config/tagArrConfig";
 import { Button, Popover } from "antd";
+import { RenderTargetLevelUpButton } from "../../pages/targetPage/components/renderLevel";
 const { TabPane } = Tabs;
 
 interface ISliderPart {
@@ -57,8 +58,9 @@ export const SliderPart: React.FC<ISliderPart> = props => {
               <Popover
                 content={
                   <ul>
-                    <li>1</li>
-                    <li>2</li>
+                    <li>
+                      <RenderTargetLevelUpButton {...currentTargetInfo} />
+                    </li>
                   </ul>
                 }
                 trigger="click"
