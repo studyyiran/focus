@@ -65,7 +65,7 @@ export function FocusToday() {
         onClickButton1={changeStudyItemStatus}
         arr={todayTodo.delay}
       />
-      <TodayPageSection haveDone={true} title="完成" arr={todayDoneList} />
+      {/*<TodayPageSection haveDone={true} title="完成" arr={todayDoneList} />*/}
     </div>
   );
 }

@@ -36,13 +36,14 @@ export function TodayDone() {
     onSubmit: addTomorrowTodo
   });
 
-  function renderList(list: IListItem[]) {
+  function renderList(list: IListItem[], haveDone?: boolean) {
     if (list && list.length) {
       return list.map(item => {
         const { content, tag, _id } = item;
         return (
           <li key={_id}>
             <TodoLine
+              haveDone={haveDone}
               {...item}
               onClickButton1={() => {
                 addTomorrowReview(content);
@@ -57,8 +58,8 @@ export function TodayDone() {
     <div className="today-done">
       <Button onClick={addTomorrowTodoModal}>Add Tomorrow TODO</Button>
       {todayDoneList && todayDoneList.length ? (
-        <TodayPageSection title="已完成" haveDone={true}>
-          {renderList(todayDoneList)}
+        <TodayPageSection title="已完成123">
+          {renderList(todayDoneList, true)}
         </TodayPageSection>
       ) : null}
       {todayTodo && todayTodo.tomorrow && todayTodo.tomorrow.length ? (
