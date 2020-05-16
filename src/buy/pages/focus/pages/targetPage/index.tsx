@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import "./index.less";
 import {
+  getCurrentTargetName,
   ISubTarget,
   ITarget,
   ITargetTodoInfo,
@@ -115,6 +116,7 @@ export function TargetInfoPage() {
   // TODO 下面这两个 ts都不对
   return (
     <div className="target-page">
+      {currentTargetInfo && currentTargetInfo._id ? <h1>{getCurrentTargetName(currentTargetInfo)}</h1> : null}
       {/*<div>成神页面status: {targetPageStatus}</div>*/}
       {/*<div>今日剩余: {dailySunny}</div>*/}
       {/*<ul className="ul-line-container">*/}

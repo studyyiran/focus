@@ -36,7 +36,7 @@ export const routerConfig = [
   {
     path: "/target-info",
     exact: true,
-    title: "目标",
+    title: "",
     component: TargetInfoPage
   },
   {

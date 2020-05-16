@@ -74,6 +74,7 @@ export function FocusLayout(props: any) {
           ComponentPc={null}
           ComponentMb={
             <div
+                className="mb-open-button"
               onClick={() => {
                 setShowModal(true);
                 setTimeout(() => {
@@ -81,18 +82,16 @@ export function FocusLayout(props: any) {
                 }, 50);
               }}
             >
-              open
+              +
             </div>
           }
         />
-        <h1>
           {routerConfig.map(routerInfo => {
-            const { path } = routerInfo;
-            return (
-              <RenderTitle key={path} {...routerInfo} fatherPath={fatherPath} />
-            );
+              const { path } = routerInfo;
+              return (
+                  <RenderTitle key={path} {...routerInfo} fatherPath={fatherPath} />
+              );
           })}
-        </h1>
         {children}
       </section>
     </div>
@@ -102,8 +101,8 @@ export function FocusLayout(props: any) {
 function RenderTitle(props: any) {
   const { path, title, fatherPath } = props;
   const matched = !!useRouteMatch(`${fatherPath}${path}`);
-  if (matched) {
-    return <h1>{title}</h1>;
+  if (matched && title) {
+    return <h1 className="focus-page-title">{title}</h1>;
   } else {
     return null;
   }

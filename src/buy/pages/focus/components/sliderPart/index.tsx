@@ -9,7 +9,7 @@ import { Tabs } from "../../components/tabs";
 import { useLocation } from "react-router";
 import { useShowNewTodoModal } from "../newTodoModal";
 import { sunnyType } from "../../config/tagArrConfig";
-import { Button } from "antd";
+import { Button, Popover } from "antd";
 const { TabPane } = Tabs;
 
 interface ISliderPart {
@@ -37,18 +37,35 @@ export const SliderPart: React.FC<ISliderPart> = props => {
         .map(target => {
           return (
             <li
+              className="line-with-edit"
               data-select={
                 location.pathname === "/focus/target-info" &&
                 currentTargetInfo._id === target._id
                   ? "active"
                   : ""
               }
-              onClick={() => {
-                setCurrentTargetInfo(target._id);
-                locationHref("/focus/target-info");
-              }}
             >
-              <span className="title">{getCurrentTargetName(target)}</span>
+              <span
+                className="title"
+                onClick={() => {
+                  setCurrentTargetInfo(target._id);
+                  locationHref("/focus/target-info");
+                }}
+              >
+                {getCurrentTargetName(target)}
+              </span>
+              <Popover
+                content={
+                  <ul>
+                    <li>1</li>
+                    <li>2</li>
+                  </ul>
+                }
+                trigger="click"
+                className="edit"
+              >
+                <span>+</span>
+              </Popover>
             </li>
           );
         })
