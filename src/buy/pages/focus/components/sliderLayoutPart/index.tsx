@@ -29,8 +29,9 @@ export const SliderLayoutPart: React.FC<ISliderLayoutPart> = ({
   ];
 
   return (
-    <div className="slider-layout-part" onClick={onCancelHandler}>
-      <ul>
+    <div className="slider-layout-part" >
+      <ul onClick={onCancelHandler}>
+      {/*<ul>*/}
         {configArr.map(({ title, url }) => {
           return (
             <li data-select={url === location.pathname ? "active" : ""}>

@@ -59,7 +59,7 @@ export const SliderPart: React.FC<ISliderPart> = props => {
                 content={
                   <ul>
                     <li>
-                      <RenderTargetLevelUpButton {...currentTargetInfo} />
+                      <RenderTargetLevelUpButton {...target} />
                     </li>
                   </ul>
                 }
