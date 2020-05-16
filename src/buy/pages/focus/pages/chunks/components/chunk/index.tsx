@@ -226,7 +226,7 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
       {
         id: "buffId",
         initialValue:
-          buffId._id ||
+          (buffId && buffId._id) ||
           (studyBuffList && studyBuffList[0] && studyBuffList[0]._id),
         rules: [
           {
@@ -357,14 +357,14 @@ const AddButton: React.FC<IAddButton> = props => {
           }
         ],
         renderFormEle: () => (
-            <Select>
-              <Option value={"study"} key={"study"}>
-                study
-              </Option>
-              <Option value={"review"} key={"review"}>
-                review
-              </Option>
-            </Select>
+          <Select>
+            <Option value={"study"} key={"study"}>
+              study
+            </Option>
+            <Option value={"review"} key={"review"}>
+              review
+            </Option>
+          </Select>
         )
       },
       {
