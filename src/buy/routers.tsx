@@ -57,6 +57,9 @@ function hocWithLayout(Component: any, otherConfig: any) {
           {/*  <UserSunny />*/}
           <PlayerGrowthInfoContainer />
         </header>
+          <div className="testtest">
+              <p>中国 清单 hehe score 123</p>
+          </div>
         <main>
           <Component {...routerProps} />
         </main>

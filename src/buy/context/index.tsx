@@ -98,7 +98,7 @@ function useGetAction(
   const actions: IContextActions = {
     setIsMobile: promisify(async function(a: any, b: any) {
       const clientWidth = document.body.clientWidth;
-      if (clientWidth <= 700) {
+      if (clientWidth <= 750) {
         dispatch({ type: reducerActionTypes.setIsMobile, value: true });
         document.body.classList.add("ismobile");
         (document.querySelector("body") as any).setAttribute("id", "ismobile");

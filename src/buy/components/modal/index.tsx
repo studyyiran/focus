@@ -216,7 +216,7 @@ export default class Modal extends React.Component<any, any> {
       width,
       title
     } = this.props;
-    if (width) {
+    if (width && style) {
       style.width = width;
     }
     /* icon-close可能没有。 */
