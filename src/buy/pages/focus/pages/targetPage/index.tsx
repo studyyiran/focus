@@ -131,10 +131,9 @@ export function TargetInfoPage() {
               const { _id, todoId } = item;
               return (
                 <li key={_id}>
-                  // @ts-ignore
                   <TodoLine
                     key={todoId}
-                    {...item}
+                    {...item as any}
                     onClickButton1={() => {
                       changeStudyItemStatus(todoId);
                     }}

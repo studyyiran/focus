@@ -109,7 +109,7 @@ export function TodoLine(props: ITodoLine) {
       // lastWeek: "[上个] dddd",
       lastWeek: "dddd",
       // lastWeek: "MM/DD",
-      sameElse: "DD/MM/YYYY"
+      sameElse: "MM/DD"
     });
   }
   function moreContent(content: string) {
