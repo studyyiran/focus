@@ -145,6 +145,7 @@ interface ILittleBlock extends ILearnRecord {
 const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
   let {
     content,
+    tag,
     status,
     startTime,
     changeOneRecord,
@@ -169,6 +170,26 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
           }
         ],
         renderFormEle: () => <Input />
+      },
+      {
+        id: "tag",
+        initialValue: tag,
+        rules: [
+          {
+            required: true,
+            message: "not empty"
+          }
+        ],
+        renderFormEle: () => (
+          <Select>
+            <Option value={"study"} key={"study"}>
+              study
+            </Option>
+            <Option value={"review"} key={"review"}>
+              review
+            </Option>
+          </Select>
+        )
       },
       {
         id: "lastingTime",
@@ -282,7 +303,7 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
         case "DONE":
           // 显示icon
           //   return <img src="https://bkimg.cdn.bcebos.com/pic/b17eca8065380cd78942d910a244ad34588281ea?x-bce-process=image/resize,m_lfit,w_220,h_220,limit_1" />
-            return <img src={require('./res/icon1.png')} />
+          return <img src={require("./res/icon1.png")} />;
           break;
         default:
           return renderStartTimer();
@@ -325,6 +346,26 @@ const AddButton: React.FC<IAddButton> = props => {
           }
         ],
         renderFormEle: () => <Input />
+      },
+      {
+        id: "tag",
+        initialValue: "study",
+        rules: [
+          {
+            required: true,
+            message: "not empty"
+          }
+        ],
+        renderFormEle: () => (
+            <Select>
+              <Option value={"study"} key={"study"}>
+                study
+              </Option>
+              <Option value={"review"} key={"review"}>
+                review
+              </Option>
+            </Select>
+        )
       },
       {
         id: "status",
