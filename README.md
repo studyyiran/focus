@@ -46,6 +46,11 @@ iconfont
     2）globalSettingContext中，监听window大小，设置isMobile变量，作为js mobile端操作的环境变量。
     3）main.less中，有.hello()mixin 来做响应式的样式计算。
     4）700px以下，添加isMobile的样式。main.less 和 globalSetting都会用到700这个数值
+    5) 目前有个问题妨碍了pc和mb一套样式。就是我们不喜欢根据样式稿，去重写mb的样式。我们应该用一个比例。
+    例如，100px的间距，到了m端，往往就变成了150的间距（这是我瞎说的，其实我也不知道）所以我们将m端的比例
+    也做一个衰减，就ok了。
+    但是字体比较特殊。字体无论在哪里，14px就是14px，这个似乎不会改变。（虽然也有14变12）
+    6) f就是，pc端永远保持正直的px。移动端，除了进行字体还有统一的比例之外，不会响应式改变
     
 Axios
     通过ajax.get 发起请求.参数和Axios保持一致.

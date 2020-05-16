@@ -6,6 +6,8 @@
  */
 
 // 方正图片
+@mbvalue: 1.5;
+
 .innerdiv-imgsize(@imageWidth) {
   background-position: center;
   background-size: cover;
@@ -41,9 +43,18 @@
 }
 
 .font(@size, @weight, @color) {
-  font-size: @size * @f;
+  font-size: 1 * @size * @px;
+  .mb({
+    font-size: @mbvalue * @size * @px * 12 / 14;
+  });
   font-weight: @weight;
   color: @color;
+}
+.fontsize(@size){
+  font-size: 1 * @size * @px;
+  .mb({
+    font-size: @mbvalue * @size * @px * 12 / 14;
+  });
 }
 
 .page-padding() {
@@ -139,7 +150,7 @@
       background: @color-blue-liner;
       color: @white;
       //transition: background 0.5s;
-      font-size: 18 * @f;
+      .fontsize(18);
 
       > a {
         display: block;
@@ -199,7 +210,7 @@
     }
     .ant-input {
       // 16 高度有误 还原
-      font-size: 14 * @f;
+      .fontsize(18);
     }
     .ant-modal-close {
       padding: 15px;

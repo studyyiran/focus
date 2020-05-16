@@ -1,3 +1,5 @@
+@mbvalue: 1.5;
+
 .hello(@rules) {
   @media (min-width: 1600px) {
     @f: 1px;
@@ -29,9 +31,11 @@
     @px: 1rem / 37.5 / 2;
     @rules();
   }
-  @media (max-width: 375px) {
-    @f: 1rem / 37.5;
-    @px: 1rem / 37.5;
+  // 选择420是因为，手机大部分会在420px一下。
+  // 但是所谓的1px 1px 并不理想。而且我现在也没有设计 图 因此我先使用100px 会做成50px的感觉的方案
+  @media (max-width: 420px) {
+    @f: 1px / @mbvalue;
+    @px: 1rem / 37.5 / @mbvalue;
     @rules();
   }
   @media (min-width: 10px) {
