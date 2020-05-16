@@ -35,7 +35,7 @@
       }
     }
     .right {
-      flex:0 0 200 *@px;
+      flex:0 0 240 *@px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
@@ -45,7 +45,6 @@
       .tag-container {
         .text-overflow();
         @height: 18*@px;
-        min-width: 50 *@px;
         max-width: 50 *@px;
         line-height: @height;
         height: @height;
@@ -55,10 +54,14 @@
         border-radius: 2px;
       }
       .target-container {
+        .word-can-wrap();
+        max-width: 100*@px;
         .font(10, 400, rgba(51, 47, 41, 0.85));
       }
 
       .date {
+        max-width: 50 *@px;
+        white-space: nowrap;
         .font(12, 400, rgba(51, 47, 41, 0.85));
       }
     }
