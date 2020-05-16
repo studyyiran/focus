@@ -30,7 +30,7 @@ export const SliderPart: React.FC<ISliderPart> = props => {
   let location = useLocation();
   const config = [
     {
-      title: "target",
+      title: "目标",
       url: "/focus/target-info",
       key: "0",
       children: targetList
@@ -71,19 +71,19 @@ export const SliderPart: React.FC<ISliderPart> = props => {
         ])
     },
     {
-      title: "tree",
+      title: "成长树",
       url: "/focus/tree",
       key: "1",
       children: () => null
     },
     {
-      title: "season",
+      title: "四季",
       url: "/focus/season",
       key: "2",
       children: () => null
     },
     {
-      title: "chunks",
+      title: "记忆",
       url: "/focus/chunks",
       key: "3",
       children: () => null

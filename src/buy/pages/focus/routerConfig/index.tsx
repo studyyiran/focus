@@ -12,19 +12,19 @@ export const routerConfig = [
   {
     path: "/today",
     exact: true,
-    title: "Focus Today",
+    title: "今天",
     component: FocusToday
   },
   {
     path: "/done",
     exact: true,
-    title: "Done",
+    title: "最近",
     component: TodayDone
   },
   {
     path: "/history",
     exact: true,
-    title: "History",
+    title: "历史",
     component: HistoryPage
   },
   {
@@ -36,7 +36,7 @@ export const routerConfig = [
   {
     path: "/target-info",
     exact: true,
-    title: "target-info",
+    title: "目标",
     component: TargetInfoPage
   },
   {

@@ -42,10 +42,14 @@
   margin-right: auto;
 }
 
+.fontfont(@size) {
+  font-size: @mbvalue * @size * @px * 12 / 15;
+}
+
 .font(@size, @weight, @color) {
   font-size: 1 * @size * @px;
   .mb({
-    font-size: @mbvalue * @size * @px * 12 / 14;
+    .fontfont(@size);
   });
   font-weight: @weight;
   color: @color;
@@ -53,7 +57,7 @@
 .fontsize(@size){
   font-size: 1 * @size * @px;
   .mb({
-    font-size: @mbvalue * @size * @px * 12 / 14;
+    .fontfont(@size);
   });
 }
 

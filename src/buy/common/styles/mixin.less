@@ -27,8 +27,8 @@
     @rules();
   }
   @media (max-width: 750px) {
-    @f: 1rem / 37.5 / 2;
-    @px: 1rem / 37.5 / 2;
+    @f: 1px / @mbvalue / 2;
+    @px: 1rem / 37.5 / @mbvalue / 2;
     @rules();
   }
   // 选择420是因为，手机大部分会在420px一下。

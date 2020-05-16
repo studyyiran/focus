@@ -3,8 +3,11 @@
 @p1: {
   .player-growth-info {
     padding-left: 24*@px;
-    padding-top: 9@px;
-    padding-bottom: 8@px;
+    padding-top: 9 *@px;
+    padding-bottom: 8 *@px;
+    .mb({
+      padding: 0;
+    });
     background: #36205d;
     color: #d5c8ff;
     -ms-flex-wrap: nowrap;
@@ -21,12 +24,16 @@
       .player-img-container {
         background-image: url("https://habitica.com/static/img/spritesmith-main-1.1c2fb2d6.png");
         background-position: -994px -1184px;
-        width: 141@px;
-        height: 147@px;
+        width: 141 *@px;
+        height: 150 * @px;
         img {
           width: 100%;
+
         }
-        margin-right: 15 *@px;
+        //margin-right: 15 *@px;
+        //.mb({
+        //  margin-right: 5*@px;
+        //});
       }
       .info {
         display: flex;
@@ -35,10 +42,7 @@
         align-items: flex-start;
         > div {
           &.user-info-container:first-child {
-            img {
-              margin-left: 0;
-              margin-right: 20*@px;
-            }
+            //
             align-items: flex-start;
             .user-info {
               //display: flex;
@@ -51,13 +55,17 @@
           display: flex;
           align-items: center;
           margin-bottom: 5 *@px;
+          .mb({
+            margin-bottom: 0;
+          });
           > img {
             @value: 40*@px;
-            margin-left: 10 *@px;
-            margin-right: 20 *@px;
-            //flex: 0 0 @value;
+            margin-left: 15 *@px;
+            margin-right: 15 *@px;
+            flex: 0 0 auto;
+            width: @value;
             //height: @value;
-            //min-width: 0;
+            min-width: 0;
           }
         }
       }
