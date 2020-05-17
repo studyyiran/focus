@@ -11,11 +11,11 @@ export const UserSunnyContext = createContext({} as IUserSunnyContext);
 export const UserSunny = "UserSunny";
 
 interface IUserSunny {
-  sunnyCount: Number;
+  sunnyCount: number;
   continueLoginInfo: {
-    isLoginToday: Boolean;
-    lastOneLoginDate: String;
-    level: Number;
+    isLoginToday: boolean;
+    lastOneLoginDate: string;
+    level: number;
   };
 }
 // store state

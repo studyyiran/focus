@@ -3,7 +3,7 @@ import "./index.less";
 import { MyTimer } from "../../../../../../common/utils/timer";
 
 interface IMagicTimer {
-  currentTime: Number;
+  currentTime: number;
 }
 
 const reducer = (state: any, action: any) => {
@@ -39,7 +39,7 @@ export const MagicTimer2: React.FC<IMagicTimer> = props => {
     };
   }, [currentTime]);
 
-  function newTimer(time: Number, finishCallBack?: any) {
+  function newTimer(time: number, finishCallBack?: any) {
     const info = {
       time: time,
       onlyStartTime: time,

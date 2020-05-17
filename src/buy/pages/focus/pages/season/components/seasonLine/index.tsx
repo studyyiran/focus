@@ -158,7 +158,7 @@ export const SeasonLine: React.FC<ISeasonLine> = props => {
 };
 
 interface ISlot {
-  configArr: String[];
+  configArr: string[];
 }
 
 const Slot: React.FC<ISlot> = props => {

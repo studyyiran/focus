@@ -43,15 +43,15 @@ export interface IChunks {
 }
 
 interface IBuffInfo {
-  buffName: String,
-  content: String,
-  _id: String,
+  buffName: string,
+  content: string,
+  _id: string,
 }
 
 // store state
 export interface IStoreChunksState {
   chunksList: IChunks[];
-  serverCurrentTime: String;
+  serverCurrentTime: string;
   studyBuffList: IBuffInfo[];
 }
 

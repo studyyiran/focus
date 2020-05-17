@@ -11,7 +11,7 @@ interface IChunk {
   chunkInfo: IChunks;
   addLearnRecord: any;
   changeOneRecord: any;
-  serverCurrentTime: String;
+  serverCurrentTime: string;
   studyBuffList: IStoreChunksState["studyBuffList"];
 }
 
@@ -327,7 +327,7 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
 
 interface IAddButton {
   addHandler: any;
-  lineIndex: Number;
+  lineIndex: number;
   studyBuffList: IStoreChunksState["studyBuffList"];
 }
 

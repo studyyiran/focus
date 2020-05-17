@@ -18,9 +18,9 @@ export const SeasonContext = createContext({} as ISeasonContext);
 export const Season = "Season";
 
 export interface IBuffRecord {
-  continueTime: String,
-  createTime: String,
-  type: String,
+  continueTime: string,
+  createTime: string,
+  type: string,
 }
 // store state
 export interface ISeasonState {
@@ -31,17 +31,17 @@ export interface ISeasonState {
 }
 
 export interface ISeason {
-  createTime: String,
-  status: String,
-  _id: String,
-  name: String,
+  createTime: string,
+  status: string,
+  _id: string,
+  name: string,
   slots: [
     {
       isLock: boolean,
       children: [
         {
-          addTime: String,// add time
-          todoId: String,
+          addTime: string,// add time
+          todoId: string,
         }
       ]
     }

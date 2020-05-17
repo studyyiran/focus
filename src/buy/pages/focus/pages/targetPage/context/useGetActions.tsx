@@ -22,7 +22,7 @@ export interface ITargetInfoActions {
   getTargetListHaveFinish: () => any;
   addTargetRelate: (data: IAddTargetRelated) => any;
   targetLevelUp: (data: ITargetLevelUpJson) => any;
-  setCurrentTargetInfo: (_id?: String) => any;
+  setCurrentTargetInfo: (_id?: string) => any;
 }
 
 export interface ISubTargetLevelUpJson {

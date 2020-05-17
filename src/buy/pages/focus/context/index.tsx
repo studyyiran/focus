@@ -77,7 +77,7 @@ interface IContextState {
   historyList: IListItem[];
   wishList: IListItem[];
   historyFilter: IHistoryFilter;
-  dailySunny: Number;
+  dailySunny: number;
 }
 
 // interface

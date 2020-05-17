@@ -5,7 +5,7 @@ import { UserSunnyContext } from "../../context/sunny";
 import { UserSunny } from "../sunny";
 
 interface IRenderPlayerGrowthInfo {
-  score: Number;
+  score: number;
 }
 
 export const PlayerGrowthInfo: React.FC<IRenderPlayerGrowthInfo> = ({

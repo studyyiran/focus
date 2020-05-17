@@ -143,7 +143,7 @@ export const MagicTimer: React.FC<IMagicTimer> = props => {
     }
   }
 
-  function newTimer(time: Number, finishCallBack?: any) {
+  function newTimer(time: number, finishCallBack?: any) {
     const info = {
       time: time,
       onlyStartTime: time,
