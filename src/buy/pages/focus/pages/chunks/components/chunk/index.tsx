@@ -277,7 +277,7 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
     return <div style={{ backgroundColor: `${color}` }}>{moment.duration(diff).hours()}</div>;
   }
 
-  function renderStartTimer() {
+  function renderStartTimer(children?: any) {
     return (
       <div
         onClick={() => {
@@ -287,7 +287,7 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
           });
         }}
       >
-        △
+        {children ? children : `△`}
       </div>
     );
   }
@@ -314,7 +314,7 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
     } else {
       switch (status) {
         case "TODO":
-          return renderTodo();
+          return renderStartTimer(renderTodo());
           break;
         case "PLAN":
           return renderStartTimer();
