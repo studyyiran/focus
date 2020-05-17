@@ -2,18 +2,17 @@ import React from "react";
 import "./index.less";
 
 interface IProgress {
-  max: Number;
-  current: Number;
+  max: any;
+  current: any;
 }
 
 export const Progress: React.FC<IProgress> = props => {
   const { max, current } = props;
   // @ts-ignore
-  const style = { width: `${(100 * current) / max}%` };
   return (
     <div className="progress-container">
       <div className="progress-out">
-        <div className="inner" style={style} />
+        <div className="inner" style={{ width: `${(100 * current) / max}%` }} />
       </div>
       <span>
           {current} / {max}
