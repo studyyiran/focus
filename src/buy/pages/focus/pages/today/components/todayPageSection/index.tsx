@@ -15,16 +15,31 @@ export function TodayPageSection(props: {
   arr?: any[];
   onClickButton1?: any;
   haveDone?: boolean;
+  onTargetChangeClick?: any;
 }) {
-  const { title, arr, haveDone, onClickButton1, children } = props;
+  const {
+    title,
+    arr,
+    haveDone,
+    onClickButton1,
+    children,
+    onTargetChangeClick
+  } = props;
 
   function renderList(list: IListItem[]) {
     if (list && list.length) {
       return list.map(item => {
         const { content, tag, _id } = item;
+        console.log(item)
+        console.log('get')
         return (
           <li key={_id}>
-            <TodoLine {...item} onClickButton1={onClickButton1} haveDone={haveDone} />
+            <TodoLine
+              {...item}
+              onClickButton1={onClickButton1}
+              haveDone={haveDone}
+              onTargetChangeClick={onTargetChangeClick}
+            />
           </li>
         );
       });

@@ -15,7 +15,7 @@ import { sunnyType } from "../../config/tagArrConfig";
 import { TodayPageSection } from "../today/components/todayPageSection";
 import { IMyFocusContext, MyFocusContext } from "../../context";
 import { TodoLine } from "../../components/ToDoLine";
-import {PostForm} from "../today/components/postForm";
+import { PostForm } from "../today/components/postForm";
 
 export function TargetInfoPage() {
   // 引入context
@@ -24,7 +24,8 @@ export function TargetInfoPage() {
     targetInfoContextValue,
     addNewTarget,
     getTargetList,
-    targetLevelUp
+    targetLevelUp,
+    addTargetRelate
   } = targetInfoContext;
   // 从context中获取值
   let { targetList, currentTargetInfo } = targetInfoContextValue;
@@ -116,7 +117,9 @@ export function TargetInfoPage() {
   // TODO 下面这两个 ts都不对
   return (
     <div className="target-page">
-      {currentTargetInfo && currentTargetInfo._id ? <h1>{getCurrentTargetName(currentTargetInfo)}</h1> : null}
+      {currentTargetInfo && currentTargetInfo._id ? (
+        <h1>{getCurrentTargetName(currentTargetInfo)}</h1>
+      ) : null}
       {/*<div>成神页面status: {targetPageStatus}</div>*/}
       {/*<div>今日剩余: {dailySunny}</div>*/}
       {/*<ul className="ul-line-container">*/}
@@ -133,7 +136,7 @@ export function TargetInfoPage() {
                 <li key={_id}>
                   <TodoLine
                     key={todoId}
-                    {...item as any}
+                    {...(item as any)}
                     onClickButton1={() => {
                       changeStudyItemStatus(todoId);
                     }}
@@ -143,9 +146,21 @@ export function TargetInfoPage() {
             })
           : null}
       </TodayPageSection>
-      <TodayPageSection title={"已完成"} arr={currentTodoFinish} haveDone={true} />
-      {theOthersProcess.map(({ targetName, todos }) => {
-        return <TodayPageSection title={targetName} arr={todos} haveDone={true} />;
+      <TodayPageSection
+        title={"已完成"}
+        arr={currentTodoFinish}
+        haveDone={true}
+        // 他并没有用。强
+        onTargetChangeClick={true}
+      />
+      {theOthersProcess.map(({ targetName, todos,_id }) => {
+        return (
+          <TodayPageSection
+            title={targetName}
+            arr={todos}
+            haveDone={true}
+          />
+        );
       })}
 
       {/*{renderLevelUpButton()}*/}

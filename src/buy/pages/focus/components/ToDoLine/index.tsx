@@ -3,12 +3,12 @@ import "./index.less";
 import { tagArr } from "../../config/tagArrConfig";
 import { IListItem } from "../../context/interface";
 import { returnFormatTime } from "./util";
-import {useGetOpenAddIntoTargetModal} from "../../pages/history/components/useGetOpenAddIntoTargetModal";
-
+import { useGetOpenAddIntoTargetModal } from "../../pages/history/components/useGetOpenAddIntoTargetModal";
 
 interface ITodoLine extends IListItem {
   onClickButton1?: any;
   haveDone?: boolean;
+  onTargetChangeClick?: any; // 修改target指向
 
   todoFinishDate?: string;
   todoPlanStartTime?: string;
@@ -27,6 +27,7 @@ export function TodoLine(props: ITodoLine) {
     planStartTime,
     haveDone,
     relatedTargetName,
+    onTargetChangeClick,
 
     todoFinishDate,
     todoPlanStartTime,
@@ -59,10 +60,11 @@ export function TodoLine(props: ITodoLine) {
       return returnFormatTime(finishDate || planStartTime || createTime);
     }
   }
-
-  const openAddIntoTargetModal = useGetOpenAddIntoTargetModal(_id, () => {
-
-  });
+  // 这是很硬的硬编码。因为我把自己坑了。
+  const openAddIntoTargetModal = useGetOpenAddIntoTargetModal(
+    onTargetChangeClick ? (props as any).todoId : _id,
+    () => {}
+  );
 
   return (
     <div className={`l-task-bg todo-line ${haveDone ? "task-checked" : ""}`}>
@@ -81,7 +83,7 @@ export function TodoLine(props: ITodoLine) {
         <div className="tag-container">{tagName}</div>
         <div className="target-container">
           {relatedTargetName ? (
-            relatedTargetName
+            <span>{relatedTargetName}</span>
           ) : (
             <span className="tag-container" onClick={openAddIntoTargetModal}>
               + target
@@ -93,4 +95,3 @@ export function TodoLine(props: ITodoLine) {
     </div>
   );
 }
-
