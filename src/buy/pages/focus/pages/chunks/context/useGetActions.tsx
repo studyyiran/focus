@@ -44,8 +44,17 @@ export function useStoreChunksGetActions(
       [dispatch]
     ),
     addLearnRecord: useCallback(
-      async function(info) {
-        const res = await storeChunksServer.addLearnRecord(info);
+      async function(info: any) {
+          function getTime() {
+              if (info && info.planDeadLineTime) {
+                  return info.planDeadLineTime
+              } else {
+                if (info.status === 'TODO') {
+                    return 'today'
+                }
+              }
+          }
+        const res = await storeChunksServer.addLearnRecord({...info, planDeadLineTime: getTime()});
         dispatch({
           type: storeChunksReducerTypes.setChunksList,
           value: res

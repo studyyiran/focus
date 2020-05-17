@@ -20,6 +20,7 @@ export interface ILearnRecord {
   startTime: string;
   lastingTime: string;
   finishTime: string;
+  planDeadLineTime: string;
   status: string;
   tag: string;
   buffId: {

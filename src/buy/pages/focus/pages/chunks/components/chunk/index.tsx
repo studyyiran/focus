@@ -153,7 +153,8 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
     timePassValue,
     buffId,
     studyBuffList,
-    setCurrentRecordId
+    setCurrentRecordId,
+    planDeadLineTime
   } = learnRecord;
   console.log(timePassValue);
   useEffect(() => {}, []);
@@ -258,6 +259,24 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
     }
   });
 
+  function renderTodo() {
+    const oneDay = Number(moment.duration(1, "days"));
+    const diff = Number(moment(planDeadLineTime).diff(moment()));
+    let color;
+    if (diff >= oneDay) {
+      color = `rgba(0, 188, 37, 1)`;
+    } else if (diff >= 0 && diff < oneDay) {
+      let percent = diff / oneDay;
+      color = `rgba(0, 188, 37, ${percent})`;
+    } else if (diff >= -1 * oneDay && diff < 0) {
+      let percent = Math.abs(diff / oneDay);
+      color = `rgba(0, 0, 0, ${percent})`;
+    } else if (diff < -1 * oneDay) {
+      color = `rgba(0, 0, 0, 1)`;
+    }
+    return <div style={{ backgroundColor: `${color}` }}>{moment.duration(diff).hours()}</div>;
+  }
+
   function renderStartTimer() {
     return (
       <div
@@ -295,7 +314,7 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
     } else {
       switch (status) {
         case "TODO":
-          return renderStartTimer();
+          return renderTodo();
           break;
         case "PLAN":
           return renderStartTimer();
