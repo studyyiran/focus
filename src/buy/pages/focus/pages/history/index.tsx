@@ -9,6 +9,7 @@ import { IListItem } from "../../context/interface";
 import moment from "moment";
 import { FilterPart } from "./components/filterPart";
 import { TargetInfoContext } from "../targetPage/context";
+import {TodayPageSection} from "../today/components/todayPageSection";
 const { Option } = Select;
 
 export function HistoryPage() {
@@ -42,7 +43,11 @@ export function HistoryPage() {
           getRelatedTodoList();
         }}>getRelatedTodoList</div>
         <FilterPart />
-        <ul className="ul-line-container">{renderList(historyList)}</ul>
+        <TodayPageSection
+            title="历史"
+            // onClickButton1={changeStudyItemStatus}
+            // arr={todayTodo.delay}
+        >{renderList(historyList)}</TodayPageSection>
       </div>
   );
 
@@ -57,21 +62,23 @@ export function HistoryPage() {
       return list.map(info => {
         return (
           <li
-            className={"todo-line-wrapper"}
+              className="li-todo-line"
             key={info._id}
             data-finish={!(info.planStartTime && !info.finishDate)}
           >
-            <TodoLine {...info} />
-            {info.finishDate
-              ? moment(info.finishDate).format("LLLL")
-              : moment(info.createTime).format("LLLL")}
-            <Button
-              onClick={() => {
-                setCurrentTodoId(info._id);
-              }}
-            >
-              Action
-            </Button>
+            <TodoLine {...info}>
+              <Button
+                  onClick={() => {
+                    setCurrentTodoId(info._id);
+                  }}
+              >
+                Action
+              </Button>
+            </TodoLine>
+            {/*{info.finishDate*/}
+            {/*  ? moment(info.finishDate).format("LLLL")*/}
+            {/*  : moment(info.createTime).format("LLLL")}*/}
+
           </li>
         );
       });

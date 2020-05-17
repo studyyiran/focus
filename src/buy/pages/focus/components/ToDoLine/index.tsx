@@ -14,6 +14,8 @@ interface ITodoLine extends IListItem {
   todoPlanStartTime?: string;
   todoRelateTargetTime?: string;
   todoCreateTime?: string;
+
+  children?: any;
 }
 
 export function TodoLine(props: ITodoLine) {
@@ -28,6 +30,7 @@ export function TodoLine(props: ITodoLine) {
     haveDone,
     relatedTargetName,
     onTargetChangeClick,
+    children,
 
     todoFinishDate,
     todoPlanStartTime,
@@ -92,6 +95,7 @@ export function TodoLine(props: ITodoLine) {
         </div>
         <div className="date">{calcTime()}</div>
       </div>
+      {children && children}
     </div>
   );
 }
