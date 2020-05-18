@@ -266,18 +266,18 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
     let content
     if (diff >= oneDay) {
       color = `rgba(0, 188, 37, 1)`;
-      content = moment.duration(diff).days();
+      content = moment.duration(diff).days() + '天后';
     } else if (diff >= 0 && diff < oneDay) {
       let percent = diff / oneDay;
       color = `rgba(0, 188, 37, ${percent})`;
-      content = moment.duration(diff).hours();
+      content = '还剩' + moment.duration(diff).hours() + '小时';
     } else if (diff >= -1 * oneDay && diff < 0) {
       let percent = Math.abs(diff / oneDay);
       color = `rgba(0, 0, 0, ${percent})`;
-      content = moment.duration(diff).hours()
+      content = '已过期' + moment.duration(diff).hours() + '小时';
     } else if (diff < -1 * oneDay) {
       color = `rgba(0, 0, 0, 1)`;
-      content = moment.duration(diff).days();
+      content = '已过期' + moment.duration(diff).days();
     }
     return <div style={{ backgroundColor: `${color}` }}>{content}</div>;
   }
