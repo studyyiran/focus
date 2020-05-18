@@ -263,18 +263,23 @@ const LearnRecordBlock: React.FC<ILittleBlock> = learnRecord => {
     const oneDay = Number(moment.duration(1, "days"));
     const diff = Number(moment(planDeadLineTime).diff(moment()));
     let color;
+    let content
     if (diff >= oneDay) {
       color = `rgba(0, 188, 37, 1)`;
+      content = moment.duration(diff).days();
     } else if (diff >= 0 && diff < oneDay) {
       let percent = diff / oneDay;
       color = `rgba(0, 188, 37, ${percent})`;
+      content = moment.duration(diff).hours();
     } else if (diff >= -1 * oneDay && diff < 0) {
       let percent = Math.abs(diff / oneDay);
       color = `rgba(0, 0, 0, ${percent})`;
+      content = moment.duration(diff).hours()
     } else if (diff < -1 * oneDay) {
       color = `rgba(0, 0, 0, 1)`;
+      content = moment.duration(diff).days();
     }
-    return <div style={{ backgroundColor: `${color}` }}>{moment.duration(diff).hours()}</div>;
+    return <div style={{ backgroundColor: `${color}` }}>{content}</div>;
   }
 
   function renderStartTimer(children?: any) {
