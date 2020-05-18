@@ -109,7 +109,9 @@ function getLastUpdateTime(target: ITarget) {
   if (target && target.process && target.process[0]) {
     const current = target.process[0];
     if (current && current.todos && current.todos[0]) {
-      return current.todos[0].todoFinishDate || current.todos[0].todoRelateTargetTime;
+      return (
+        current.todos[0].todoFinishDate || current.todos[0].todoRelateTargetTime
+      );
     }
     return target.process[0].createTime;
   } else {
@@ -119,7 +121,14 @@ function getLastUpdateTime(target: ITarget) {
 export function getCurrentTargetName(targetInfo: ITarget) {
   if (targetInfo) {
     const { status, finalComments, process } = targetInfo;
-    const { targetName } = process[0];
+    console.log(targetInfo);
+    const targetName = process.find(item => {
+      return item.targetName;
+    })
+      ? (process.find(item => {
+          return item.targetName;
+        }) as any).targetName
+      : "";
     if (status === "doing") {
       return targetName;
     } else {
@@ -153,10 +162,10 @@ function reducer(state: ITargetInfoState, action: IReducerAction) {
           return 0;
         })
       };
-      newState.targetList.forEach((t) => {
-        console.log(t._id)
-        console.log(getLastUpdateTime(t))
-      })
+      newState.targetList.forEach(t => {
+        console.log(t._id);
+        console.log(getLastUpdateTime(t));
+      });
       break;
     }
     case ITargetInfoReducerTypes.setTargetListHaveFinish: {
