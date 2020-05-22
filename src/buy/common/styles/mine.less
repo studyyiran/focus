@@ -42,10 +42,11 @@
   margin-right: auto;
 }
 
+
 .font(@size, @weight: unset, @color: unset) {
   font-size: 1 * @size * @px;
   .mb({
-    .fontfont(@size);
+    font-size: @mbvalue * @size * @px * 12 / 15;
   });
   font-weight: @weight;
   color: @color;
