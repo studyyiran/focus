@@ -4,7 +4,8 @@ import "./index.less";
 import "buy/common/styles/index.less";
 import Routers from "./routers";
 import {isServer} from "./common/utils/util";
-
+const vcode = 'v1'
+console.log(vcode)
 if (!isServer()) {
   (window as any).LOCATIONENV = 'buy';
 }

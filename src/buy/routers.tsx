@@ -53,7 +53,7 @@ function hocWithLayout(Component: any, otherConfig: any) {
     return (
       <div className="layout">
         <header>
-            from v12-25 to 3-31 to 4-31 to 512（sunny）
+            {/*from v12-25 to 3-31 to 4-31 to 512（sunny）*/}
           {/*  <UserSunny />*/}
           <PlayerGrowthInfoContainer />
         </header>
